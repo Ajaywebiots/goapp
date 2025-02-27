@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../config.dart';
 
 class LanguageDropDownLayout extends StatelessWidget {
@@ -17,78 +19,35 @@ class LanguageDropDownLayout extends StatelessWidget {
       //             .name
       //         : null;
 
+      log("asssadasdnasjkdfds ${onBoardingCtrl.langModel?.supportedLanguages}");
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        // SizedBox(
-        //   width: Sizes.s100,
-        //   child: DropdownButtonHideUnderline(
-        //     child: ButtonTheme(
-        //       child: DropdownButton(
-        //         value: currentLanguage,
-        //         borderRadius:
-        //             const BorderRadius.all(Radius.circular(AppRadius.r8)),
-        //         style: appCss.dmDenseMedium16
-        //             .textColor(appColor(context).lightText),
-        //         icon: SvgPicture.asset(eSvgAssets.dropDown,
-        //             colorFilter: ColorFilter.mode(
-        //                 appColor(context).darkText, BlendMode.srcIn)),
-        //         isDense: true,
-        //         isExpanded: true,
-        //         hint: Text(langProvider.sharedPreferences
-        //                 .getString("selectedLocale")
-        //                 .toString() /* ??
-        //             "Select Language" */
-        //             ),
-        //         items: langProvider.languageList.map((e) {
-        //           return DropdownMenuItem(
-        //             value: e.name, // Use the 'title' as value
-        //             child: Text(e.name.toString()),
-        //           );
-        //         }).toList(),
-        //         onChanged: (val) async {
-        //           int index = langProvider.languageList
-        //               .indexWhere((element) => element.name == val);
-        //           if (index != -1) {
-        //             // Only proceed if a matching language is found
-        //             SystemLanguage systemLanguage =
-        //                 langProvider.languageList[index];
-        //             langProvider.currentLanguage = val.toString();
-        //             langProvider.changeLocale(systemLanguage);
-        //             langProvider.setIndex(index);
-        //             log("langProvider.currentLanguage: ${langProvider.currentLanguage}");
-        //           } else {
-        //             log("Error: Selected value '$val' not found in languageList.");
-        //             // Optionally, handle this case (e.g., reset the dropdown)
-        //           }
-        //         },
-        //       ),
-        //     ),
-        //   ).paddingAll(Insets.i7).decorated(
-        //         color: appColor(context).whiteBg,
-        //         borderRadius: BorderRadius.circular(AppRadius.r6),
-        //         boxShadow: isDark(context)
-        //             ? []
-        //             : [
-        //                 BoxShadow(
-        //                   color: appColor(context).fieldCardBg,
-        //                   blurRadius: AppRadius.r10,
-        //                   spreadRadius: AppRadius.r5,
-        //                 )
-        //               ],
-        //         border: Border.all(color: appColor(context).fieldCardBg),
-        //       ),
-        // ),
-        Container(
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: appColor(context).fieldCardBg,
-                  blurRadius: AppRadius.r10,
-                  spreadRadius: AppRadius.r5)
-            ], border: Border.all(color: appColor(context).fieldCardBg)),
-            child: Row(children: [
-              SvgPicture.asset(eSvgAssets.usCurrency),
-              Text("EN"),
-              SvgPicture.asset(eSvgAssets.arrowDown)
-            ])),
+        SizedBox(
+            width: Sizes.s100,
+            child: DropdownButtonHideUnderline(
+                child: ButtonTheme(
+              child: DropdownButton<String>(
+                  value: onBoardingCtrl.selectedLanguage,
+                  items: onBoardingCtrl.langModel?.supportedLanguages!
+                      .map((String lang) {
+                    return DropdownMenuItem<String>(
+                      value: lang,
+                      child: Text(lang),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) =>
+                      onBoardingCtrl.onChanged(newValue)),
+            )).paddingAll(Insets.i7).decorated(
+                color: appColor(context).whiteBg,
+                borderRadius: BorderRadius.circular(AppRadius.r6),
+                boxShadow: isDark(context)
+                    ? []
+                    : [
+                        BoxShadow(
+                            color: appColor(context).fieldCardBg,
+                            blurRadius: AppRadius.r10,
+                            spreadRadius: AppRadius.r5)
+                      ],
+                border: Border.all(color: appColor(context).fieldCardBg))),
         if (onBoardingCtrl.selectIndex != appArray.onBoardingList.length - 1)
           Text(language(context, appFonts.skip),
                   style: appCss.dmDenseMedium14

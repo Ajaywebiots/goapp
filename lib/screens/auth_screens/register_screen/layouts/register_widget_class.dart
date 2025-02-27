@@ -1,5 +1,5 @@
-import 'package:goapp/config.dart';
 import 'package:flutter/gestures.dart';
+import 'package:goapp/config.dart';
 
 class RegisterWidgetClass {
   //not member
@@ -23,8 +23,7 @@ class RegisterWidgetClass {
           ValueChanged<String>? onFieldSubmitted,
           double? hPadding,
           dialCode}) =>
-      Consumer<RegisterProvider>(
-          builder: (context1, register, child) {
+      Consumer<RegisterProvider>(builder: (context1, register, child) {
         return IntrinsicHeight(
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             CountryListLayout(
@@ -41,8 +40,7 @@ class RegisterWidgetClass {
                     onFieldSubmitted: onFieldSubmitted,
                     focusNode: focus,
                     isNumber: true,
-                    hintText:
-                        language(context, appFonts.enterPhoneNumber)))
+                    hintText: language(context, appFonts.enterPhoneNumber)))
           ]).paddingSymmetric(horizontal: hPadding ?? Insets.i20),
         );
       });

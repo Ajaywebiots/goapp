@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:goapp/config.dart';
+
+import '../../services/api_service.dart';
 
 class LoginWithPhoneProvider with ChangeNotifier {
   TextEditingController numberController = TextEditingController();
@@ -18,8 +22,8 @@ class LoginWithPhoneProvider with ChangeNotifier {
         "dialCode": dialCode,
         "verificationCode": verificationCode
       });
-      // notifyListeners();
-      // sendOtp(context);
+      notifyListeners();
+      sendOtp(context);
     }
   }
 
@@ -28,40 +32,14 @@ class LoginWithPhoneProvider with ChangeNotifier {
     showLoading(context);
     notifyListeners();
 
-    /* try {
-      dynamic mimeTypeData;
+    var body = {"phoneNumber": numberController.text};
 
-      var body = {
-        "dial_code": dialCode.replaceAll("+", ""),
-        "phone": numberController.text
-      };
-      dio.FormData formData = dio.FormData.fromMap(body);
-
-      log("BODU :$body");
-
-      await apiServices
-          .postApi(api.sendOtp, formData, isToken: true)
-          .then((value) async {
+    apiServices.commonApi(api.otp, body, ApiType.post).then((value) {
+      if (value.isSuccess!) {
         hideLoading(context);
-        notifyListeners();
-        if (value.isSuccess!) {
-          route.pushNamed(context, routeName.verifyOtp, arg: {
-            "phone": numberController.text,
-            "dialCode": dialCode,
-            "verificationCode": verificationCode
-          });
-
-          notifyListeners();
-        } else {
-          snackBarMessengers(context, message: value.message);
-        }
-      });
-    } catch (e) {
-      hideLoading(context);
-      notifyListeners();
-
-      log("EEEE sendOTP : $e");
-    }*/
+        log("ssss ${value.data}");
+      }
+    });
   }
 
   changeDialCode(CountryCodeCustom country) {

@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:goapp/config.dart';
 
+import '../../services/api_service.dart';
+
 class VerifyOtpProvider with ChangeNotifier {
   TextEditingController otpController = TextEditingController();
   GlobalKey<FormState> otpKey = GlobalKey<FormState>();
@@ -56,29 +58,13 @@ class VerifyOtpProvider with ChangeNotifier {
 
   //verify phone otp
   verifyPhoneOtp(context) async {
-    /*showLoading(context);
-    notifyListeners();
-
-    var body = {"otp": otpController.text, "phone": phone};
-    log("body : $body");
-    dio.FormData formData = dio.FormData.fromMap(body);
-
-
-    try {
-      await apiServices.postApi(api.verifySendOtp, formData).then((value) {
-
-        if (value.isSuccess!) {
-          login(context);
-        } else {
-          snackBarMessengers(context,
-              message: value.message, color: appColor(context).red);
-        }
-      });
-    } catch (e) {
-      hideLoading(context);
-      notifyListeners();
-      log("CATCH verifyOtp: $e");
-    }*/
+    final ssss = "${api.otpVerify}/${otpController.text}/verify";
+    apiServices.commonApi(ssss, [], ApiType.post, isToken: false).then((value) {
+      if (value.isSuccess!) {
+        log("ssss ${value.data}");
+        route.pushReplacementNamed(context, routeName.homeScreen);
+      }
+    });
   }
 
   defaultTheme(context) {

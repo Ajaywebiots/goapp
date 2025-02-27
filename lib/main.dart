@@ -1,8 +1,7 @@
-import 'dart:developer';
-import 'package:goapp/services/environment.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:upgrader/upgrader.dart';
+
 import 'common/theme/app_theme.dart';
 import 'config.dart';
 
@@ -12,12 +11,12 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await initializeAppSettings();
+/*  await initializeAppSettings();
 
   String? jsonString = sharedPreferences.getString("apiJsonData");
   log("selectedLocale:::$jsonString");
   sharedPreferences.getString("selectedLocale");
-  log("=-=-=-=-=-=-=-=-=- ${sharedPreferences.getString("selectedLocale")}");
+  log("=-=-=-=-=-=-=-=-=- ${sharedPreferences.getString("selectedLocale")}");*/
   runApp(const MyApp());
 }
 
@@ -56,8 +55,10 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
                   ChangeNotifierProvider(create: (_) => NoInternetProvider()),
-                  ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
-                  ChangeNotifierProvider(create: (_) => CommonPermissionProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => ChangePasswordProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => CommonPermissionProvider()),
                 ],
                 child: UpgradeAlert(
                     dialogStyle: UpgradeDialogStyle.cupertino,
@@ -66,10 +67,8 @@ class _MyAppState extends State<MyApp> {
                     barrierDismissible: false,
                     child: const RouteToPage(),
                     upgrader: Upgrader(
-                      storeController: UpgraderStoreController(
-                        onAndroid: () => UpgraderPlayStore(),
-                      ),
-                    )));
+                        storeController: UpgraderStoreController(
+                            onAndroid: () => UpgraderPlayStore()))));
           } else {
             return MaterialApp(
                 theme: AppTheme.fromType(ThemeType.light).themeData,
@@ -83,19 +82,15 @@ class _MyAppState extends State<MyApp> {
                     dialogStyle: UpgradeDialogStyle.cupertino,
                     child: const SplashLayout(),
                     upgrader: Upgrader(
-                      storeController: UpgraderStoreController(
-                        onAndroid: () => UpgraderPlayStore(),
-                      ),
-                    )));
+                        storeController: UpgraderStoreController(
+                            onAndroid: () => UpgraderPlayStore()))));
           }
         });
   }
 
   lockScreenPortrait() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
 }
 
@@ -120,33 +115,31 @@ class _RouteToPageState extends State<RouteToPage> {
     return Consumer<ThemeService>(builder: (context, theme, child) {
       return Consumer<LanguageProvider>(builder: (context, lang, child) {
         return MaterialApp(
-          title: 'Go App',
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.fromType(ThemeType.light).themeData,
-          darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
-          // locale: provider.locale,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            AppLocalizationDelagate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
-          ],
-          // Add the supported locales if needed
-          themeMode: theme.theme,
-          initialRoute: "/",
-          routes: appRoute.route,
-          // Wrap MaterialApp with Directionality
-          builder: (context, child) {
-            return Directionality(
-              textDirection: lang.locale?.languageCode == 'ar'
-                  ? TextDirection.rtl
-                  : TextDirection.ltr,
-              child: child!,
-            );
-          },
-        );
+            title: 'Go App',
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.fromType(ThemeType.light).themeData,
+            darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
+            // locale: provider.locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              AppLocalizationDelagate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate
+            ],
+            // Add the supported locales if needed
+            themeMode: theme.theme,
+            initialRoute: "/",
+            routes: appRoute.route,
+            // Wrap MaterialApp with Directionality
+            builder: (context, child) {
+              return Directionality(
+                  textDirection: lang.locale?.languageCode == 'ar'
+                      ? TextDirection.rtl
+                      : TextDirection.ltr,
+                  child: child!);
+            });
       });
     });
   }

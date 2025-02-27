@@ -13,21 +13,46 @@ class RegisterFieldLayout extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ContainerWithTextLayout(title: appFonts.userName),
+            ContainerWithTextLayout(title: appFonts.firstName),
             const VSpace(Sizes.s8),
             TextFieldCommon(
-                    controller: register.txtName,
-                    hintText: appFonts.enterName,
-                    focusNode: register.nameFocus,
+                    controller: register.enterFName,
+                    hintText: appFonts.enterFName,
+                    focusNode: register.fNameFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
-                        context, register.nameFocus, register.emailFocus),
+                        context, register.fNameFocus, register.emailFocus),
                     prefixIcon: eSvgAssets.user,
                     validator: (value) =>
                         validation.nameValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
-            ContainerWithTextLayout(
-                title: language(context, appFonts.email)),
+            ContainerWithTextLayout(title: appFonts.lastName),
+            const VSpace(Sizes.s8),
+            TextFieldCommon(
+                    controller: register.enterLName,
+                    hintText: appFonts.enterLName,
+                    focusNode: register.lNameFocus,
+                    onFieldSubmitted: (value) => validation.fieldFocusChange(
+                        context, register.lNameFocus, register.emailFocus),
+                    prefixIcon: eSvgAssets.user,
+                    validator: (value) =>
+                        validation.nameValidation(context, value))
+                .paddingSymmetric(horizontal: Insets.i20),
+            const VSpace(Sizes.s15),
+            ContainerWithTextLayout(title: appFonts.username),
+            const VSpace(Sizes.s8),
+            TextFieldCommon(
+                    controller: register.userNameCtrl,
+                    hintText: appFonts.chooseUsername,
+                    focusNode: register.usernameFocus,
+                    onFieldSubmitted: (value) => validation.fieldFocusChange(
+                        context, register.usernameFocus, register.emailFocus),
+                    prefixIcon: eSvgAssets.user,
+                    validator: (value) =>
+                        validation.nameValidation(context, value))
+                .paddingSymmetric(horizontal: Insets.i20),
+            const VSpace(Sizes.s15),
+            ContainerWithTextLayout(title: language(context, appFonts.email)),
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     controller: register.txtEmail,
@@ -40,8 +65,7 @@ class RegisterFieldLayout extends StatelessWidget {
                         validation.emailValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
-            ContainerWithTextLayout(
-                title: language(context, appFonts.phoneNo)),
+            ContainerWithTextLayout(title: language(context, appFonts.phoneNo)),
             const VSpace(Sizes.s10),
             RegisterWidgetClass().phoneTextBox(
                 context, register.txtPhone, register.phoneFocus,

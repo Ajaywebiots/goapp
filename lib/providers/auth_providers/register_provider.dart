@@ -1,22 +1,28 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:goapp/config.dart';
-import 'package:goapp/widgets/alert_message_common.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:goapp/config.dart';
+import 'package:goapp/services/api_service.dart';
+
+import '../../widgets/alert_message_common.dart';
 
 class RegisterProvider extends ChangeNotifier {
   bool isNewPassword = true, isConfirmPassword = true, isCheck = false;
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   String dialCode = "+91";
-  TextEditingController txtName = TextEditingController();
+
+  TextEditingController enterFName = TextEditingController();
+  TextEditingController enterLName = TextEditingController();
+  TextEditingController userNameCtrl = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPhone = TextEditingController();
   TextEditingController txtPass = TextEditingController();
   TextEditingController txtConfirmPass = TextEditingController();
 
-  final FocusNode nameFocus = FocusNode();
+  final FocusNode usernameFocus = FocusNode();
+  final FocusNode fNameFocus = FocusNode();
+  final FocusNode lNameFocus = FocusNode();
   final FocusNode emailFocus = FocusNode();
   final FocusNode phoneFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
@@ -37,25 +43,39 @@ class RegisterProvider extends ChangeNotifier {
   signUp(context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (isCheck == false) {
-      Fluttertoast.showToast(
-          msg: language(context, appFonts.pleaseCheckTerms));
-      /*snackBarMessengers(context, message: appFonts.pleaseCheckTerms);*/
+      Fluttertoast.showToast(msg: language(context, appFonts.pleaseCheckTerms));
     } else if (registerFormKey.currentState!.validate() && isCheck == true) {
-      showLoading(context);
+      // showLoading(context);
       notifyListeners();
-      // String token = await getFcmToken();
       var body = {
-        "name": txtName.text,
+        "username": userNameCtrl.text,
+        "firstName": enterFName.text,
+        "lastName": enterLName.text,
         "email": txtEmail.text,
-        "phone": txtPhone.text,
+        "phoneNumber": txtPhone.text,
         "code": dialCode,
         "password": txtPass.text,
-        "password_confirmation": txtPass.text,
-        // "fcm_token": token
+        "confirmPassword": txtConfirmPass.text
       };
-
       log("body : $body");
-
+      apiServices
+          .commonApi(api.register, body, ApiType.post, isToken: false)
+          .then((value) {
+        if (value.isSuccess!) {
+          userNameCtrl.text = "";
+          enterFName.text = "";
+          enterLName.text = "";
+          txtEmail.text = "";
+          txtPhone.text = "";
+          dialCode = "+91";
+          txtPass.text = "";
+          txtConfirmPass.text = "";
+          log("ssss ${value.data}");
+        } else {
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
+        }
+      });
     }
   }
 
@@ -65,7 +85,9 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   onBack() {
-    txtName.text = "";
+    enterFName.text = "";
+    enterLName.text = "";
+    userNameCtrl.text = "";
     txtEmail.text = "";
     txtPhone.text = "";
     dialCode = "+91";

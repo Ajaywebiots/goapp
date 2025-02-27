@@ -6,9 +6,6 @@ class ContinueWithContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 1,
-        width: Sizes.s22,
-        color: appColor(context).lightText
-    );
+        height: 1, width: Sizes.s22, color: appColor(context).lightText);
   }
 }

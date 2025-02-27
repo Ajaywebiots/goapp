@@ -9,6 +9,7 @@ import 'package:goapp/common/theme/app_theme.dart';
 import 'package:goapp/helper/navigation_class.dart';
 import 'package:goapp/services/api_methods.dart';
 import 'package:goapp/services/api_service.dart';
+import 'package:goapp/services/environment.dart';
 import 'package:goapp/utils/fonts.dart';
 import 'common/app_fonts.dart';
 import 'config.dart';
@@ -89,6 +90,7 @@ ApiServices apiServices = ApiServices();
 ApiMethods api = ApiMethods();
 TextCommon textCommon = TextCommon();
 CollectionName collectionName = CollectionName();
+ApiClass apiClass = ApiClass();
 
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

@@ -1,6 +1,10 @@
 import 'dart:developer';
 
 import 'package:goapp/config.dart';
+import 'package:goapp/models/support_lang_model.dart';
+
+import '../../models/on_boarding_model.dart';
+import '../../services/api_service.dart';
 
 class OnBoardingProvider with ChangeNotifier {
   int selectIndex = 0;
@@ -9,6 +13,15 @@ class OnBoardingProvider with ChangeNotifier {
   AnimationController? animationController;
   Animation<double>? animation1, cloud, cloud1, animation2;
   bool isOpacity = false;
+
+  List langList = [];
+  String? selectedValue;
+
+  onChanged(newValue) {
+    notifyListeners();
+    selectedLanguage = newValue;
+    notifyListeners();
+  }
 
   AnimationController? animationController1,
       cloudController,
@@ -94,7 +107,11 @@ class OnBoardingProvider with ChangeNotifier {
   }
 
   List onBoardingList = [];
+
   onReady(TickerProvider hello) async {
+    notifyListeners();
+    onBoardingDetails();
+    languageSupport();
     onBoardingList = appArray.onBoardingList;
     // log("translations?.welcomeToJust:::${appFonts.welcomeToJust}");
     notifyListeners();
@@ -264,5 +281,35 @@ class OnBoardingProvider with ChangeNotifier {
   widthMQ(context) {
     double width = MediaQuery.of(context).size.width;
     return width;
+  }
+
+  SupportedLangModel? langModel;
+  String? selectedLanguage;
+
+  languageSupport() {
+    apiServices
+        .commonApi(api.supportLang, [], ApiType.get, isToken: false)
+        .then((value) {
+      if (value.isSuccess!) {
+        langModel = SupportedLangModel.fromJson(value.data);
+        if (langModel?.supportedLanguages != null &&
+            langModel!.supportedLanguages!.isNotEmpty) {
+          selectedLanguage = langModel!.supportedLanguages!.first;
+        }
+      }
+    });
+  }
+
+  onBoardingDetails() {
+    apiServices
+        .commonApi(api.splashScreen, [], ApiType.get, isToken: false)
+        .then((value) {
+      log("api.splashScreen ${api.splashScreen}");
+      if (value.isSuccess!) {
+        final sss = OnboardingModel.fromJson(value.data);
+
+        log("ddddd ${sss.splashScreens![0].items![0].description}");
+      }
+    });
   }
 }

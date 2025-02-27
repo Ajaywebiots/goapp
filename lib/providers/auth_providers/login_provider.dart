@@ -43,4 +43,12 @@ class LoginProvider with ChangeNotifier {
     log("CCC");
     // route.pushReplacementNamed(context, routeName.dashboard);
   }
+
+  googleLogin() {
+    /*apiServices.commonApi(api.googleLogin, [], ApiType.get).then((value) {
+      if (value.isSuccess!) {
+        log("ssss ${value.data}");
+      }
+    });*/
+  }
 }
