@@ -26,39 +26,22 @@ class _SplashScreenState extends State<SplashScreen>
           onInit: () => Timer(
               const Duration(milliseconds: 150), () => splash.onChangeSize()),
           child: Scaffold(
-              body: Center(
-                  child: Column(children: [
-            Stack(alignment: Alignment.center, children: [
-              if (splash.animation2 != null)
-                CircularRevealAnimation(
-                    animation: splash.animation2!,
-                    centerAlignment: Alignment.center,
-                    minRadius: 12,
-                    maxRadius: 600,
-                    child: Container(
-                        color: appColor(context).primary.withOpacity(0.7),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        child: Opacity(
-                            opacity: 0.15,
-                          ))),
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                // Use RotationAnimationLayout here
-                if (splash.controller != null) const RotationAnimationLayout(),
-                const VSpace(Sizes.s15),
-                // if (splash.controller != null)
-                  // if (splash.controller!.isCompleted)
-                  //   SlideTransition(
-                  //       position: Tween<Offset>(
-                  //               begin: const Offset(0, 2),
-                  //               end: const Offset(0, -0.1))
-                  //           .animate(splash.popUpAnimationController!),
-                  //       child: Text(appFonts.fixit,
-                  //           style: appCss.outfitSemiBold45
-                  //               .textColor(appColor(context).whiteColor)))
-              ])
-            ])
-          ]))));
+              body: AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.easeInOut,
+                  color: splash.backgroundColor,
+                  child: Center(
+                      child: AnimatedContainer(
+                          duration: const Duration(seconds: 2),
+                          // Logo animation duration
+                          curve: Curves.easeInOut,
+                          height: splash.logoSize,
+                          width: splash.logoSize,
+                          child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              // Smooth logo switch
+                              child: Image.asset(splash.logo,
+                                  key: ValueKey(splash.logo))))))));
     });
   }
 }

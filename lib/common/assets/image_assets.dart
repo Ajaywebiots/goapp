@@ -9,6 +9,7 @@ class ImageAssets {
 
   ////////
   final onBoardBox = "assets/images/onBoardBox.png";
+  final appLogoWhite = "assets/images/appLogoWhite.png";
   final appLogo = "assets/images/appLogo.png";
   final google = "assets/images/google.png";
   final fbLogo = "assets/images/FbLogo.png";

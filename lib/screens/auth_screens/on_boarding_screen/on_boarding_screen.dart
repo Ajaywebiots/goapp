@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../../../config.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -12,11 +13,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return Consumer< OnBoardingProvider>(
-        builder: (context,  onBoardPro, child) {
+    return Consumer<OnBoardingProvider>(builder: (context, onBoardPro, child) {
       return StatefulWrapper(
-          onInit: () => Timer(const Duration(milliseconds: 150),
-              () => onBoardPro.onReady(this)),
+          onInit: () => Timer(
+              const Duration(milliseconds: 150), () => onBoardPro.onReady()),
           onDispose: () => onBoardPro.onDispose(),
           child: Scaffold(
               body: SafeArea(
@@ -61,9 +61,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
                   ])
                 ]).paddingDirectional(
                     horizontal: Insets.i20,
-                    top: onBoardPro.selectIndex == 0
-                        ? Insets.i110
-                        :Insets.i55)
+                    top: onBoardPro.selectIndex == 0 ? Insets.i110 : Insets.i55)
               ])))));
     });
   }

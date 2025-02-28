@@ -63,7 +63,7 @@ class AppFonts {
   final enterYourRegisterPhone = "Enter Your Register Phone";
   final phoneNo = "PhoneNo";
   final enterPhoneNumber = "Enter phone no.";
-  final skip = "Skip";
+  final skip = "SKIP";
   final firstName = "First Name";
   final lastName = "Last Name";
   final username = "Username";
