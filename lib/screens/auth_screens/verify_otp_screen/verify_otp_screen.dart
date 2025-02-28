@@ -37,38 +37,35 @@ class VerifyOtpScreen extends StatelessWidget {
                             ? otpCtrl.email
                             : "${otpCtrl.dialCode} ${otpCtrl.phone}"))
               ]),
-              SizedBox(
-                  child: Stack(children: [
+              Stack(children: [
                 const FieldsBackground(),
                 Form(
-                    key: otpCtrl.isEmail ? otpCtrl.otpKey : otpCtrl.otpKey1,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ContainerWithTextLayout(
-                              title: language(context, appFonts.enterOtp)),
-                          const VSpace(Sizes.s8),
-                          const CommonOtpLayout(),
-                          const VSpace(Sizes.s20),
-                          ButtonCommon(
-                              title: appFonts.verifyProceed,
-                              margin: Insets.i20,
-                              onTap: () => otpCtrl.onTapVerify(context)),
-                          const VSpace(Sizes.s15),
-                          otpCtrl.isCountDown
-                              ? Text("${otpCtrl.min} : ${otpCtrl.sec}",
-                                      style: appCss.dmDenseMedium14
-                                          .textColor(appColor(context).primary))
-                                  .alignment(Alignment.center)
-                              : Text(language(context, appFonts.resendCode),
-                                      style: appCss.dmDenseMedium14
-                                          .textColor(appColor(context).primary))
-                                  .inkWell(
-                                      onTap: () => otpCtrl.resendOtp(context))
-                                  .alignment(Alignment.center)
-                        ]).paddingSymmetric(vertical: Insets.i20))
-              ]).paddingSymmetric(horizontal: Insets.i20))
+                      ContainerWithTextLayout(
+                          title: language(context, appFonts.enterOtp)),
+                      const VSpace(Sizes.s8),
+                      const CommonOtpLayout(),
+                      const VSpace(Sizes.s20),
+                      ButtonCommon(
+                          title: appFonts.verifyProceed,
+                          margin: Insets.i20,
+                          onTap: () => otpCtrl.onTapVerify(context)),
+                      const VSpace(Sizes.s15),
+                      otpCtrl.isCountDown
+                          ? Text("${otpCtrl.min} : ${otpCtrl.sec}",
+                                  style: appCss.dmDenseMedium14
+                                      .textColor(appColor(context).primary))
+                              .alignment(Alignment.center)
+                          : Text(language(context, appFonts.resendCode),
+                                  style: appCss.dmDenseMedium14
+                                      .textColor(appColor(context).primary))
+                              .inkWell(onTap: () => otpCtrl.resendOtp(context))
+                              .alignment(Alignment.center)
+                    ]).paddingSymmetric(vertical: Insets.i20))
+              ]).paddingSymmetric(horizontal: Insets.i20)
             ])))),
       ));
     });

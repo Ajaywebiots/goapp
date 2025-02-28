@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
 
+import '../../services/api_service.dart';
+
 class LoginProvider with ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -36,7 +38,22 @@ class LoginProvider with ChangeNotifier {
 
   //login
   login(context) async {
-    log("aaa success login");
+    showLoading(context);
+    try {
+      var body = {
+        "username": emailController.text,
+        "password": passwordController.text
+      };
+      apiServices.commonApi(api.authenticate, body, ApiType.post).then((value) {
+        if (value.isSuccess!) {
+          hideLoading(context);
+          route.pushNamed(context, routeName.homeScreen);
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("EEEE : login $e");
+    }
   }
 
   continueAsGuestTap(context) async {

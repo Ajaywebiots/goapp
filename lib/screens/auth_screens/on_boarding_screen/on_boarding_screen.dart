@@ -16,8 +16,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
   Widget build(BuildContext context) {
     return Consumer<OnBoardingProvider>(builder: (context, onBoardPro, child) {
       return StatefulWrapper(
-          onInit: () => Timer(
-              const Duration(milliseconds: 150), () => onBoardPro.onReady()),
+          onInit: () => Timer(const Duration(milliseconds: 150),
+              () => onBoardPro.onReady(context)),
           onDispose: () => onBoardPro.onDispose(),
           child: Scaffold(
               body: SafeArea(

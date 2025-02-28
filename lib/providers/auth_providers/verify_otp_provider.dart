@@ -16,14 +16,14 @@ class VerifyOtpProvider with ChangeNotifier {
   Duration myDuration = const Duration(seconds: 60);
 
   onTapVerify(context) {
-    if (isEmail) {
-      if (otpKey.currentState!.validate()) {
-        verifyOtp(context);
-      }
-    } else {
-      if (otpKey1.currentState!.validate()) {
-        verifyPhoneOtp(context);
-      }
+    if (otpKey.currentState!.validate()) {
+      verifyOtp(context);
+    }
+  }
+
+  onTapVerification(context) {
+    if (otpKey1.currentState!.validate()) {
+      verifyPhoneOtp(context);
     }
   }
 

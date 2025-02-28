@@ -29,8 +29,6 @@ class AnimationLayoutSecond extends StatelessWidget {
                       height: 300,
                       width: 400)))
         ]),
-
-        // ROUND CONTAINER OUT OF CONTAINERS
         Stack(alignment: Alignment.center, children: [
           Container(
               height: 330,
@@ -49,7 +47,6 @@ class AnimationLayoutSecond extends StatelessWidget {
                       border: Border.all(
                           width: 4, color: appColor(context).whiteBg))))
         ]),
-
         Positioned(
             top: 20, child: Image.asset(height: 307, eImageAssets.onImage1))
       ]).paddingOnly(bottom: Insets.i50);

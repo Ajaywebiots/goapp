@@ -43,14 +43,10 @@ class OnBoardingProvider with ChangeNotifier {
 
   List<Items> onBoardingList = [];
 
-  onReady() async {
-    languageSupport();
+  onReady(context) async {
+    languageSupport(context);
     notifyListeners();
     onBoardingDetails();
-    notifyListeners();
-
-    notifyListeners();
-    // onBoardingList = appArray.onBoardingList;
     notifyListeners();
 
     pageController = PageController(initialPage: 0);
@@ -62,7 +58,7 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  onPageSlide(context, TickerProvider hello) async {
+  onPageSlide(context) async {
     if (selectIndex == 3) {
       selectIndex = -1;
     }
@@ -73,13 +69,10 @@ class OnBoardingProvider with ChangeNotifier {
 
     isDisplay = false;
     notifyListeners();
-    log("KJGF $selectIndex");
     if (selectIndex == 1) {
       notifyListeners();
     } else if (selectIndex == 2) {
       isDisplay = false;
-      log("KJGF");
-
       notifyListeners();
     } else if (selectIndex == 3) {
       notifyListeners();
@@ -90,21 +83,6 @@ class OnBoardingProvider with ChangeNotifier {
       route.pushReplacementNamed(context, routeName.login);
       pref.setBool(session.isIntro, true);
     }
-  }
-
-  onAnimate(TickerProvider sync) {
-    notifyListeners();
-    changeSize();
-    isDisplay = true;
-    notifyListeners();
-  }
-
-  changeSize() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    height = 20;
-    width = 24;
-
-    notifyListeners();
   }
 
   onPageBack() {
@@ -123,67 +101,61 @@ class OnBoardingProvider with ChangeNotifier {
     if (selectIndex != 3) {
       height = 0;
       width = 0;
-
       notifyListeners();
     }
   }
 
   onDispose() {
     pageController!.dispose();
+    notifyListeners();
   }
 
   onPageChange(index) {
     selectIndex = index;
-
     notifyListeners();
-    log("dfjgh : $selectIndex");
-  }
-
-  heightMQ(context) {
-    double height = MediaQuery.of(context).size.height;
-    return height;
-  }
-
-  widthMQ(context) {
-    double width = MediaQuery.of(context).size.width;
-    return width;
   }
 
   SupportedLangModel? langModel;
   String? selectedLanguage;
 
-  languageSupport() {
-    apiServices
-        .commonApi(api.supportLang, [], ApiType.get, isToken: false)
-        .then((value) {
-      if (value.isSuccess!) {
-        notifyListeners();
-        langModel = SupportedLangModel.fromJson(value.data);
-        if (langModel?.supportedLanguages != null &&
-            langModel!.supportedLanguages!.isNotEmpty) {
+  languageSupport(context) {
+    try {
+      apiServices
+          .commonApi(api.supportLang, [], ApiType.get, isToken: false)
+          .then((value) {
+        if (value.isSuccess!) {
+          hideLoading(context);
           notifyListeners();
-          selectedLanguage = langModel!.supportedLanguages!.first;
-          notifyListeners();
+          langModel = SupportedLangModel.fromJson(value.data);
+          if (langModel?.supportedLanguages != null &&
+              langModel!.supportedLanguages!.isNotEmpty) {
+            notifyListeners();
+            selectedLanguage = langModel!.supportedLanguages!.first;
+            notifyListeners();
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      log("EEEE : languageSupport $e");
+    }
   }
 
   onBoardingDetails() {
-    apiServices
-        .commonApi(api.splashScreen, [], ApiType.get, isToken: false)
-        .then((value) {
-      log("api.splashScreen ${api.splashScreen}");
-      if (value.isSuccess!) {
-        final sss = OnboardingModel.fromJson(value.data);
-        // log("sss:::${sss.splashScreens![0].items![0].description}///${value.data}");
-        for (var i in sss.splashScreens![0].items!) {
-          log("sss:::${i.description}");
-          onBoardingList.add(i);
+    try {
+      apiServices
+          .commonApi(api.splashScreen, [], ApiType.get, isToken: false)
+          .then((value) {
+        if (value.isSuccess!) {
+          final sss = OnboardingModel.fromJson(value.data);
+          for (var data in sss.splashScreens![0].items!) {
+            log("sss:::${data.description}");
+            onBoardingList.add(data);
+          }
+          notifyListeners();
         }
-        notifyListeners();
-        // onBoardingList.add(sss);
-      }
-    });
+      });
+    } catch (e) {
+      log("EEEE : onBoardingDetails $e");
+    }
   }
 }
