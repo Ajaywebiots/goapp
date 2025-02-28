@@ -57,7 +57,8 @@ class LoginScreen extends StatelessWidget {
                         .decorated(
                             shape: BoxShape.circle,
                             color: appColor(context).fieldCardBg,
-                            border: Border.all(color: Color(0xffE5E8EA))),
+                            border: Border.all(color: Color(0xffE5E8EA)))
+                        .inkWell(onTap: () => value.loginWithFacebook()),
                     const HSpace(Sizes.s15),
                     Image.asset(eImageAssets.mobile,
                             height: Sizes.s35, width: Sizes.s35)

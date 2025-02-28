@@ -19,13 +19,13 @@ class VerifyOtpScreen extends StatelessWidget {
                         children: [
               Stack(children: [
                 Align(
-                  alignment: Alignment.topLeft,
-                  child: CommonArrow(
-                      arrow: rtl(context)
-                          ? eSvgAssets.arrowRight
-                          : eSvgAssets.arrowLeft1,
-                      onTap: () => route.pop(context)).paddingAll(Insets.i20),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: CommonArrow(
+                            arrow: rtl(context)
+                                ? eSvgAssets.arrowRight
+                                : eSvgAssets.arrowLeft1,
+                            onTap: () => route.pop(context))
+                        .paddingAll(Insets.i20)),
                 Align(
                     alignment: Alignment.center,
                     child: AuthTopLayout(
@@ -37,10 +37,11 @@ class VerifyOtpScreen extends StatelessWidget {
                             ? otpCtrl.email
                             : "${otpCtrl.dialCode} ${otpCtrl.phone}"))
               ]),
-              Stack(children: [
+              SizedBox(
+                  child: Stack(children: [
                 const FieldsBackground(),
                 Form(
-                    key: otpCtrl.otpKey,
+                    key: otpCtrl.isEmail ? otpCtrl.otpKey : otpCtrl.otpKey1,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +68,7 @@ class VerifyOtpScreen extends StatelessWidget {
                                       onTap: () => otpCtrl.resendOtp(context))
                                   .alignment(Alignment.center)
                         ]).paddingSymmetric(vertical: Insets.i20))
-              ]).paddingSymmetric(horizontal: Insets.i20)
+              ]).paddingSymmetric(horizontal: Insets.i20))
             ])))),
       ));
     });

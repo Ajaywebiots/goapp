@@ -1,9 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="goapp">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="1354302585585380"/>
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="db847b2314a4b0cd9c426e15169c5c74"/>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

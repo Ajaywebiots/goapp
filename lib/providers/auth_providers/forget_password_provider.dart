@@ -10,6 +10,8 @@ class ForgetPasswordProvider with ChangeNotifier {
   final FocusNode emailFocus = FocusNode();
 
   onTapSendOtp(context) {
+    final aaa = Provider.of<VerifyOtpProvider>(context, listen: false);
+    aaa.otpController.text = "";
     FocusManager.instance.primaryFocus?.unfocus();
     if (forgetKey.currentState!.validate()) {
       forgetPassword(context);
@@ -18,8 +20,11 @@ class ForgetPasswordProvider with ChangeNotifier {
 
   //forget password api
   forgetPassword(context) async {
-    route.pushNamed(context, routeName.verifyOtp,arg: {"email":forgetController.text});
-   /* showLoading(context);
+    route.pushNamed(context, routeName.verifyOtp, arg: {
+      "email": forgetController.text
+    }).then((_) => forgetKey.currentState!.reset());
+
+    /* showLoading(context);
     var body = {
       "email": forgetController.text,
     };

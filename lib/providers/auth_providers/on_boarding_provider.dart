@@ -41,7 +41,7 @@ class OnBoardingProvider with ChangeNotifier {
     });
   }
 
-  List onBoardingList = [];
+  List<Items> onBoardingList = [];
 
   onReady() async {
     languageSupport();
@@ -50,7 +50,7 @@ class OnBoardingProvider with ChangeNotifier {
     notifyListeners();
 
     notifyListeners();
-    onBoardingList = appArray.onBoardingList;
+    // onBoardingList = appArray.onBoardingList;
     notifyListeners();
 
     pageController = PageController(initialPage: 0);
@@ -176,8 +176,13 @@ class OnBoardingProvider with ChangeNotifier {
       log("api.splashScreen ${api.splashScreen}");
       if (value.isSuccess!) {
         final sss = OnboardingModel.fromJson(value.data);
-
-        log("ddddd ${sss.splashScreens![0].items![0].description}");
+        // log("sss:::${sss.splashScreens![0].items![0].description}///${value.data}");
+        for (var i in sss.splashScreens![0].items!) {
+          log("sss:::${i.description}");
+          onBoardingList.add(i);
+        }
+        notifyListeners();
+        // onBoardingList.add(sss);
       }
     });
   }

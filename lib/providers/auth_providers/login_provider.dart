@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -50,5 +53,37 @@ class LoginProvider with ChangeNotifier {
         log("ssss ${value.data}");
       }
     });*/
+  }
+
+  final Dio dio = Dio();
+  Map<String, dynamic>? userData;
+
+  Future<void> loginWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance
+        .login(permissions: ['email', 'public_profile']);
+
+    if (result.status == LoginStatus.success) {
+      final AccessToken accessToken = result.accessToken!;
+
+      try {
+        Response response = await dio.post(
+          "https://go-1-api.azurewebsites.net/api/authentication/facebook",
+          data: jsonEncode({"access_token": accessToken.tokenString}),
+          options: Options(headers: {"Content-Type": "application/json"}),
+        );
+
+        if (response.statusCode == 200) {
+          notifyListeners();
+          userData = response.data;
+          notifyListeners();
+        } else {
+          log("Backend authentication failed: ${response.data}");
+        }
+      } catch (e) {
+        print("API Error: $e");
+      }
+    } else {
+      print("Facebook Login Failed: ${result.status}");
+    }
   }
 }

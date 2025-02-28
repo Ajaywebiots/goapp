@@ -105,7 +105,6 @@ class _RouteToPageState extends State<RouteToPage> {
   @override
   void initState() {
     // TODO: implement initState
-
     setState(() {});
     super.initState();
   }

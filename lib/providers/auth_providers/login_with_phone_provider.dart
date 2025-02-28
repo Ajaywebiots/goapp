@@ -7,23 +7,36 @@ import '../../services/api_service.dart';
 class LoginWithPhoneProvider with ChangeNotifier {
   TextEditingController numberController = TextEditingController();
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+  GlobalKey<FormState> globalKey1 = GlobalKey<FormState>();
   bool isCodeSent = false;
   String dialCode = "+91";
   final FocusNode phoneFocus = FocusNode();
   String? verificationCode;
 
   onTapOtp(context) async {
+    final aaa = Provider.of<VerifyOtpProvider>(context, listen: false);
+    aaa.otpController.text = "";
     FocusManager.instance.primaryFocus?.unfocus();
     if (globalKey.currentState!.validate()) {
-      showLoading(context);
-      hideLoading(context);
+      // showLoading(context);
+      // hideLoading(context);
       route.pushNamed(context, routeName.verifyOtp, arg: {
         "phone": numberController.text,
         "dialCode": dialCode,
         "verificationCode": verificationCode
       });
       notifyListeners();
-      sendOtp(context);
+      // sendOtp(context);
+    } else if (globalKey1.currentState!.validate()) {
+      // showLoading(context);
+      // hideLoading(context);
+      route.pushNamed(context, routeName.verifyOtp, arg: {
+        "phone": numberController.text,
+        "dialCode": dialCode,
+        "verificationCode": verificationCode
+      });
+      notifyListeners();
+      // sendOtp(context);
     }
   }
 

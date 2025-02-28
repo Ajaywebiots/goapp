@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import '../../../config.dart';
 
@@ -48,13 +49,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
                             controller: onBoardPro.pageController,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (pageContext, index) {
+                              log("onBoardPro.onBoardingList[index]::${onBoardPro.onBoardingList[index].title}");
                               return BottomLayout(
                                   title: language(context,
-                                      appArray.onBoardingList[index]["title"]),
+                                      onBoardPro.onBoardingList[index].title),
                                   subText: language(
                                       context,
-                                      appArray.onBoardingList[index]
-                                          ["subtext"]));
+                                      onBoardPro
+                                          .onBoardingList[index].description));
                             })),
                     const VSpace(Sizes.s10),
                     const DotIndicatorLayout()

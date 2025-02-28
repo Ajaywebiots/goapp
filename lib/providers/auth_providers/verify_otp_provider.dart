@@ -8,6 +8,7 @@ import '../../services/api_service.dart';
 class VerifyOtpProvider with ChangeNotifier {
   TextEditingController otpController = TextEditingController();
   GlobalKey<FormState> otpKey = GlobalKey<FormState>();
+  GlobalKey<FormState> otpKey1 = GlobalKey<FormState>();
   String? phone, dialCode, verificationCode, min, sec, email;
   bool isCodeSent = false, isCountDown = false, isEmail = false;
   Timer? countdownTimer;
@@ -15,10 +16,12 @@ class VerifyOtpProvider with ChangeNotifier {
   Duration myDuration = const Duration(seconds: 60);
 
   onTapVerify(context) {
-    if (otpKey.currentState!.validate()) {
-      if (isEmail) {
+    if (isEmail) {
+      if (otpKey.currentState!.validate()) {
         verifyOtp(context);
-      } else {
+      }
+    } else {
+      if (otpKey1.currentState!.validate()) {
         verifyPhoneOtp(context);
       }
     }
@@ -81,6 +84,8 @@ class VerifyOtpProvider with ChangeNotifier {
   }
 
   getArgument(context) {
+    otpKey = GlobalKey<FormState>();
+    otpKey1 = GlobalKey<FormState>();
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     if (data['email'] != null) {
       isEmail = true;
@@ -90,7 +95,6 @@ class VerifyOtpProvider with ChangeNotifier {
       phone = data["phone"].toString();
       dialCode = data["dialCode"].toString();
       verificationCode = data["verificationCode"].toString();
-
       startTimer();
     }
     log("ARG : $data");
