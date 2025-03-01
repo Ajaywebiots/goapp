@@ -8,15 +8,13 @@ class LanguageHelper {
       case "english":
         convertedLocale = const Locale('en', 'EN');
         break;
-      case "french":
-        convertedLocale = const Locale('fr', 'FR');
+      case "greek":
+        convertedLocale = const Locale('gr', 'GR');
         break;
-      case 'spanish':
-        convertedLocale = const Locale('es', 'ES');
+      case 'hebrew':
+        convertedLocale = const Locale('he', 'HE');
         break;
-      case 'arabic':
-        convertedLocale = const Locale('ar', 'AE');
-        break;
+
       default:
         convertedLocale = const Locale('en', 'EN');
     }
@@ -30,19 +28,15 @@ class LanguageHelper {
       case 'en':
         langName = "English";
         break;
-      case 'fr':
-        langName = "Français";
+      case 'gr':
+        langName = "Greek";
         break;
-      case 'es':
-        langName = "Español";
-        break;
-      case 'ru':
-        langName = "Русский";
+      case 'he':
+        langName = "Hebrew";
         break;
       default:
         langName = "English";
     }
-
     return langName;
   }
 }

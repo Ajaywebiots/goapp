@@ -2,7 +2,6 @@ export '../../screens/auth_screens/change_password_screen/change_password_screen
 export '../../screens/auth_screens/change_password_screen/layouts/change_password_layout.dart';
 export '../../screens/auth_screens/forgot_password_screen/forgot_password_screen.dart';
 export '../../screens/auth_screens/login_screen/layouts/auth_button_common.dart';
-export '../../screens/auth_screens/login_screen/layouts/continue_guest_layout.dart';
 export '../../screens/auth_screens/login_screen/layouts/continue_with_container.dart';
 export '../../screens/auth_screens/login_screen/layouts/login_layout.dart';
 export '../../screens/auth_screens/login_screen/login_screen.dart';

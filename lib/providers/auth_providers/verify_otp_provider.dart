@@ -16,15 +16,15 @@ class VerifyOtpProvider with ChangeNotifier {
   Duration myDuration = const Duration(seconds: 60);
 
   onTapVerify(context) {
-    if (otpKey.currentState!.validate()) {
-      verifyOtp(context);
-    }
+    // if (otpKey.currentState!.validate()) {
+    verifyOtp(context);
+    // }
   }
 
   onTapVerification(context) {
-    if (otpKey1.currentState!.validate()) {
-      verifyPhoneOtp(context);
-    }
+    // if (otpKey1.currentState!.validate()) {
+    verifyPhoneOtp(context);
+    // }
   }
 
   //verify otp

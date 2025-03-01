@@ -21,11 +21,12 @@ class VerifyOtpScreen extends StatelessWidget {
                 Align(
                     alignment: Alignment.topLeft,
                     child: CommonArrow(
-                            arrow: rtl(context)
+                        arrow: /*rtl(context)
                                 ? eSvgAssets.arrowRight
-                                : eSvgAssets.arrowLeft1,
-                            onTap: () => route.pop(context))
-                        .paddingAll(Insets.i20)),
+                                :*/
+                            eSvgAssets.arrowLeft1,
+                        onTap: () =>
+                            route.pop(context)).paddingAll(Insets.i20)),
                 Align(
                     alignment: Alignment.center,
                     child: AuthTopLayout(

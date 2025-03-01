@@ -1,84 +1,83 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:goapp/common/languages/language_helper.dart';
-import 'package:goapp/config.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+
+import '../../config.dart';
+import 'language_helper.dart';
 
 class LanguageProvider with ChangeNotifier {
-  String currentLanguage = '';
+  final SharedPreferences sharedPreferences;
+
+  bool get isUserRTl => sharedPreferences.getBool("isUserRTL") ?? false;
+
+  TextDirection get data => isUserRTl ? TextDirection.rtl : TextDirection.ltr;
+
+  Future<void> switchRTL() async {
+    sharedPreferences.setBool("isUserRTL", isUserRTl ? false : true);
+    notifyListeners();
+  }
+
+  TextDirection get textDirection =>
+      isUserRTl ? TextDirection.rtl : TextDirection.ltr;
+  String currentLanguage = appFonts.english;
   Locale? locale;
   int selectedIndex = 0;
-  final SharedPreferences sharedPreferences;
+
   LanguageProvider(this.sharedPreferences) {
     var selectedLocale = sharedPreferences.getString("selectedLocale");
-
+    log("fdhjgfthj : $selectedLocale");
     if (selectedLocale != null) {
       locale = Locale(selectedLocale);
     } else {
-      selectedLocale = "english";
+      selectedLocale = "English";
       locale = const Locale("en");
     }
-
-    // getLanguage();
-    // getLanguageTranslate();
+    setVal(selectedLocale);
   }
-
 
   LanguageHelper languageHelper = LanguageHelper();
 
+  void changeLocale(String newLocale) {
+    log("sharedPreferences a1: $newLocale");
+    Locale convertedLocale;
 
+    currentLanguage = newLocale;
+    log("CURRENT $currentLanguage");
+    convertedLocale = languageHelper.convertLangNameToLocale(newLocale);
+
+    locale = convertedLocale;
+    log("CURRENT LOCAL $locale");
+    sharedPreferences.setString(
+        'selectedLocale', locale!.languageCode.toString());
+    notifyListeners();
+  }
 
   getLocal() {
     var selectedLocale = sharedPreferences.getString("selectedLocale");
     return selectedLocale;
   }
 
-  //translateText api
-  getLanguageTranslate() async {
-  /*  try {
-      translations = Translation.defaultTranslations();
-      final response = await apiServices.getApi(
-          "${api.translate}/${locale!.languageCode}", [],
-          isToken: false, isData: true);
-
-      if (response.isSuccess!) {
-        translations =
-            Translation.fromJson(response.data); // Directly pass the map
-        log("Loaded translations: ${appFonts.skip}");
-        notifyListeners();
-      } else {
-        log('Failed to load translations, using defaults');
-        translations = Translation.defaultTranslations();
-      }
-    } catch (e) {
-      log('Error Translation: $e');
-      translations = Translation.defaultTranslations();
-    } finally {
-      notifyListeners();
-    }*/
-  }
-
   defineCurrentLanguage(context) {
     String? definedCurrentLanguage;
+
     if (currentLanguage.isNotEmpty) {
-      log("definedCurrentLanguage:::$definedCurrentLanguage");
       definedCurrentLanguage = currentLanguage;
     } else {
-      log("locale from currentData: ${Localizations.localeOf(context).toString()}");
       definedCurrentLanguage = languageHelper
           .convertLocaleToLangName(Localizations.localeOf(context).toString());
     }
-
     return definedCurrentLanguage;
   }
 
-
-
-  setIndex(index) {
-    selectedIndex = index;
-    sharedPreferences.setInt("index", selectedIndex);
-    log("selectedIndex::${selectedIndex}");
+  setVal(value) {
+    if (value == "en") {
+      currentLanguage = "english";
+    } else if (value == "gr") {
+      currentLanguage = "greek";
+    } else if (value == "he") {
+      currentLanguage = "hebrew";
+    } else {
+      currentLanguage = "english";
+    }
     notifyListeners();
+    changeLocale(currentLanguage);
   }
 }

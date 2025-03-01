@@ -15,7 +15,7 @@ class DotIndicatorLayout extends StatelessWidget {
                 onTap: () => onBoardPro.onPageBack())
             : Container(width: Sizes.s40),
         DotIndicator(
-            list: appArray.onBoardingList,
+            list: onBoardPro.onBoardingList,
             selectedIndex: onBoardPro.selectIndex),
         CommonArrow(
             arrow: eSvgAssets.arrowRight,

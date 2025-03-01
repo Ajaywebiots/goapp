@@ -5,9 +5,8 @@ class SmallContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-        width: 4,
-        height: Sizes.s26
-    ).decorated(color: appColor(context).primary,borderRadius: BorderRadius.circular(AppRadius.r50));
+    return const SizedBox(width: 4, height: Sizes.s26).decorated(
+        color: appColor(context).primary,
+        borderRadius: BorderRadius.circular(AppRadius.r50));
   }
 }

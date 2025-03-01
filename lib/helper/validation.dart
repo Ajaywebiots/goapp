@@ -79,7 +79,6 @@ class Validation {
     if (!regex.hasMatch(phone)) {
       return language(context, appFonts.pleaseEnterValidNumber);
     }
-
     return null;
   }
 

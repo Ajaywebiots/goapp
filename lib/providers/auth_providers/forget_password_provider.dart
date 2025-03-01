@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:goapp/config.dart';
-import 'package:goapp/widgets/alert_message_common.dart';
+
+import '../../services/api_service.dart';
 
 class ForgetPasswordProvider with ChangeNotifier {
   TextEditingController forgetController = TextEditingController();
@@ -20,6 +20,14 @@ class ForgetPasswordProvider with ChangeNotifier {
 
   //forget password api
   forgetPassword(context) async {
+    apiServices
+        .commonApi(api.forgotPassword, [], ApiType.post, isToken: false)
+        .then((value) {
+      if (value.isSuccess!) {
+        log("ssss ${value.data}");
+        route.pushReplacementNamed(context, routeName.homeScreen);
+      }
+    });
     route.pushNamed(context, routeName.verifyOtp, arg: {
       "email": forgetController.text
     }).then((_) => forgetKey.currentState!.reset());

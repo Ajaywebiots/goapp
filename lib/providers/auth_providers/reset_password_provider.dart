@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:goapp/config.dart';
 
+import '../../services/api_service.dart';
+
 class ResetPasswordProvider extends ChangeNotifier {
   TextEditingController txtNewPassword = TextEditingController();
   TextEditingController txtConfirmPassword = TextEditingController();
@@ -38,102 +40,53 @@ class ResetPasswordProvider extends ChangeNotifier {
 
   resetPassword(context) async {
     showLoading(context);
-    hideLoading(context);
-    showCupertinoDialog(
-        context: context,
-        builder: (context1) {
-          return AlertDialogCommon(
-              title: appFonts.successfullyChanged,
-              height: Sizes.s120,
-              image: eImageAssets.successReset,
-              subtext: language(context, appFonts.thankYou),
-              bText1: language(context, appFonts.loginAgain),
-              b1OnTap: () {
-                txtNewPassword.text = "";
-                txtConfirmPassword.text = "";
-                notifyListeners();
-                Navigator.pop(context1);
-
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                      create: (_) => LoginProvider()),
-                                  ChangeNotifierProvider(
-                                      create: (_) => ForgetPasswordProvider()),
-                                  ChangeNotifierProvider(
-                                      create: (_) => VerifyOtpProvider()),
-                                ],
-                                child: const LoginScreen(),
-                                builder: (context, child) {
-                                  return child!;
-                                })));
-              });
-        });
-    notifyListeners();
-/*
     var body = {
       "password": txtNewPassword.text,
-      "password_confirmation": txtConfirmPassword.text,
-      "otp": otp,
-      "email": email
+      "retypedPassword": txtConfirmPassword.text,
     };
 
-    try {
-      await apiServices
-          .postApi(api.updatePassword, jsonEncode(body))
-          .then((value) {
+    apiServices
+        .commonApi(api.resetPassword, body, ApiType.patch, isToken: false)
+        .then((value) {
+      if (value.isSuccess!) {
         hideLoading(context);
-        notifyListeners();
-        if (value.isSuccess!) {
-          showCupertinoDialog(
+        showCupertinoDialog(
             context: context,
             builder: (context1) {
               return AlertDialogCommon(
-                title: appFonts.successfullyChanged,
-                height: Sizes.s140,
-                image: eGifAssets.successGif,
-                subtext: language(context, appFonts.thankYou),
-                bText1: language(context, appFonts.loginAgain),
-                b1OnTap: () {
-                  txtNewPassword.text = "";
-                  txtConfirmPassword.text = "";
-                  notifyListeners();
-                  Navigator.pop(context1);
+                  title: appFonts.successfullyChanged,
+                  height: Sizes.s120,
+                  image: eImageAssets.successReset,
+                  subtext: language(context, appFonts.thankYou),
+                  bText1: language(context, appFonts.loginAgain),
+                  b1OnTap: () {
+                    txtNewPassword.text = "";
+                    txtConfirmPassword.text = "";
+                    notifyListeners();
+                    Navigator.pop(context1);
 
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => MultiProvider(
-                                  providers: [
-                                    ChangeNotifierProvider(
-                                        create: (_) => LoginProvider()),
-                                    ChangeNotifierProvider(
-                                        create: (_) =>
-                                            ForgetPasswordProvider()),
-                                    ChangeNotifierProvider(
-                                        create: (_) => VerifyOtpProvider()),
-                                  ],
-                                  child: const LoginScreen(),
-                                  builder: (context, child) {
-                                    return child!;
-                                  })));
-                },
-              );
-            },
-          );
-        } else {
-          log("VVVV : ${value.message}");
-          snackBarMessengers(context,
-              message: value.message, color: appColor(context).red);
-        }
-      });
-    } catch (e) {
-      hideLoading(context);
-      notifyListeners();
-    }*/
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider(
+                                          create: (_) => LoginProvider()),
+                                      ChangeNotifierProvider(
+                                          create: (_) =>
+                                              ForgetPasswordProvider()),
+                                      ChangeNotifierProvider(
+                                          create: (_) => VerifyOtpProvider()),
+                                    ],
+                                    child: const LoginScreen(),
+                                    builder: (context, child) {
+                                      return child!;
+                                    })));
+                  });
+            });
+        notifyListeners();
+      }
+    });
   }
 
   static getDisposableProviders(BuildContext context) {

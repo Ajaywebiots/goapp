@@ -8,7 +8,7 @@ import 'package:goapp/services/environment.dart';
 
 import 'api_data_class.dart';
 
-enum ApiType { post, get, put, delete }
+enum ApiType { post, get, put, delete, patch }
 
 class ApiServices {
   final dio = Dio();
@@ -44,6 +44,9 @@ class ApiServices {
             response = await dio.put(apiName, data: body, options: options);
           case ApiType.delete:
             response = await dio.delete(apiName, data: body, options: options);
+          case ApiType.patch:
+            response = await dio.patch(apiName, data: body, options: options);
+            break;
         }
 
         var responseData = response.data;

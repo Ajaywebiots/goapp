@@ -6,4 +6,6 @@ class ApiMethods {
   String googleLogin = '/authentication/google';
   String otp = '/authentication/otp';
   String otpVerify = '/authentication/otp';
+  String forgotPassword = '/authentication/forgot-password';
+  String resetPassword = '/api/authentication/resetPassword';
 }

@@ -15,29 +15,38 @@ class LoginWithPhoneProvider with ChangeNotifier {
 
   onTapOtp(context) async {
     final aaa = Provider.of<VerifyOtpProvider>(context, listen: false);
-    aaa.otpController.text = "";
-    FocusManager.instance.primaryFocus?.unfocus();
-    if (globalKey.currentState!.validate()) {
-      // showLoading(context);
-      // hideLoading(context);
-      route.pushNamed(context, routeName.verifyOtp, arg: {
-        "phone": numberController.text,
-        "dialCode": dialCode,
-        "verificationCode": verificationCode
-      });
-      notifyListeners();
-      // sendOtp(context);
-    } else if (globalKey1.currentState!.validate()) {
-      // showLoading(context);
-      // hideLoading(context);
-      route.pushNamed(context, routeName.verifyOtp, arg: {
-        "phone": numberController.text,
-        "dialCode": dialCode,
-        "verificationCode": verificationCode
-      });
-      notifyListeners();
-      // sendOtp(context);
-    }
+    // showLoading(context);
+    route.pushNamed(context, routeName.verifyOtp1, arg: {
+      "phone": numberController.text,
+      "dialCode": dialCode,
+      // "verificationCode": verificationCode
+    });
+    hideLoading(context);
+    notifyListeners();
+    sendOtp(context);
+    // aaa.otpController.text = "";
+    // FocusManager.instance.primaryFocus?.unfocus();
+    // if (globalKey.currentState!.validate()) {
+    //   // showLoading(context);
+    //   // hideLoading(context);
+    //   route.pushNamed(context, routeName.verifyOtp, arg: {
+    //     "phone": numberController.text,
+    //     "dialCode": dialCode,
+    //     "verificationCode": verificationCode
+    //   });
+    //   notifyListeners();
+    //   // sendOtp(context);
+    // } else if (globalKey1.currentState!.validate()) {
+    //   // showLoading(context);
+    //   // hideLoading(context);
+    //   route.pushNamed(context, routeName.verifyOtp, arg: {
+    //     "phone": numberController.text,
+    //     "dialCode": dialCode,
+    //     "verificationCode": verificationCode
+    //   });
+    //   notifyListeners();
+    //   // sendOtp(context);
+    // }
   }
 
   //send Otp api

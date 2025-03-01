@@ -20,13 +20,14 @@ class ResetPasswordScreen extends StatelessWidget {
               appBar: AppBar(
                 elevation: 0,
                 leading: CommonArrow(
-                        arrow: rtl(context)
+                    arrow: /*rtl(context)
                             ? eSvgAssets.arrowRight
-                            : eSvgAssets.arrowLeft1,
-                        onTap: () => route.pop(context))
-                    .paddingOnly(
-                        left: rtl(context) ? 0 : Insets.i20,
-                        right: rtl(context) ? Insets.i20 : 0),
+                            : */
+                        eSvgAssets.arrowLeft1,
+                    onTap: () =>
+                        route.pop(context)).paddingOnly(
+                    left: /*rtl(context) ? 0 : */ Insets.i20,
+                    right: /*rtl(context) ? Insets.i20 :*/ 0),
               ),
               body: SafeArea(
                   child: SingleChildScrollView(

@@ -18,9 +18,10 @@ class ForgotPasswordScreen extends StatelessWidget {
               Align(
                   alignment: Alignment.topLeft,
                   child: CommonArrow(
-                      arrow: rtl(context)
+                      arrow: /*languages.isUserRTl
                           ? eSvgAssets.arrowRight
-                          : eSvgAssets.arrowLeft1,
+                          : */
+                          eSvgAssets.arrowLeft1,
                       onTap: () => route.pop(context)).paddingAll(Insets.i20)),
               Align(
                   alignment: Alignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
 
 import 'common/theme/app_theme.dart';
@@ -41,8 +42,7 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => ThemeService(snapData.data!, context)),
                   ChangeNotifierProvider(create: (_) => SplashProvider()),
                   ChangeNotifierProvider(
-                      create: (_) => LanguageProvider(snapData.data!)
-                        ..getLanguageTranslate()),
+                      create: (_) => LanguageProvider(snapData.data!)),
                   ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
                   ChangeNotifierProvider(create: (_) => LoginProvider()),
                   ChangeNotifierProvider(
@@ -65,10 +65,10 @@ class _MyAppState extends State<MyApp> {
                     showIgnore: false,
                     showLater: false,
                     barrierDismissible: false,
-                    child: const RouteToPage(),
                     upgrader: Upgrader(
                         storeController: UpgraderStoreController(
-                            onAndroid: () => UpgraderPlayStore()))));
+                            onAndroid: () => UpgraderPlayStore())),
+                    child: const RouteToPage()));
           } else {
             return MaterialApp(
                 theme: AppTheme.fromType(ThemeType.light).themeData,
@@ -80,10 +80,10 @@ class _MyAppState extends State<MyApp> {
                     showLater: false,
                     barrierDismissible: false,
                     dialogStyle: UpgradeDialogStyle.cupertino,
-                    child: const SplashLayout(),
                     upgrader: Upgrader(
                         storeController: UpgraderStoreController(
-                            onAndroid: () => UpgraderPlayStore()))));
+                            onAndroid: () => UpgraderPlayStore())),
+                    child: const SplashLayout()));
           }
         });
   }
@@ -119,7 +119,7 @@ class _RouteToPageState extends State<RouteToPage> {
             debugShowCheckedModeBanner: false,
             theme: AppTheme.fromType(ThemeType.light).themeData,
             darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
-            // locale: provider.locale,
+            locale: lang.locale,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               AppLocalizationDelagate(),
@@ -134,7 +134,7 @@ class _RouteToPageState extends State<RouteToPage> {
             // Wrap MaterialApp with Directionality
             builder: (context, child) {
               return Directionality(
-                  textDirection: lang.locale?.languageCode == 'ar'
+                  textDirection: locale?.languageCode == 'ar'
                       ? TextDirection.rtl
                       : TextDirection.ltr,
                   child: child!);

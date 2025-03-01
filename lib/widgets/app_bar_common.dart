@@ -3,18 +3,25 @@ import '../config.dart';
 class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final GestureTapCallback? onTap;
-  const AppBarCommon({super.key,this.title,this.onTap});
+
+  const AppBarCommon({super.key, this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-        leadingWidth: 80,
-        title: Text(language(context, title!),
-            style: appCss.dmDenseBold18
-                .textColor(appColor(context).darkText)),
-        centerTitle: true,
-        leading: CommonArrow(arrow: rtl(context) ? eSvgAssets.arrowRight : eSvgAssets.arrowLeft,onTap: onTap ?? ()=> route.pop(context))
-            .padding(vertical: Insets.i8));
+    return Consumer<LanguageProvider>(builder: (context, languages, child) {
+      return AppBar(
+          leadingWidth: 80,
+          title: Text(language(context, title!),
+              style:
+                  appCss.dmDenseBold18.textColor(appColor(context).darkText)),
+          centerTitle: true,
+          leading: CommonArrow(
+                  arrow: languages.isUserRTl
+                      ? eSvgAssets.arrowRight
+                      : eSvgAssets.arrowLeft,
+                  onTap: onTap ?? () => route.pop(context))
+              .padding(vertical: Insets.i8));
+    });
   }
 
   @override
