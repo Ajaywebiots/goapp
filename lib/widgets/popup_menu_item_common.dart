@@ -7,7 +7,7 @@ PopupMenuItem buildPopupMenuItems(context, list,
       onTap: () {
         if (icon) {
         } else {
-          if (data == appFonts.call) {}
+          if (data == language(context, appFonts.call)) {}
         }
       },
       padding: const EdgeInsets.symmetric(

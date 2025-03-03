@@ -18,9 +18,9 @@ class _NoInternetScreenState extends State<NoInternetScreen>
           child: Scaffold(
               appBar: const AppBarCommon(title: ""),
               body: EmptyLayout(
-                  title: appFonts.oppsYour,
-                  subtitle: appFonts.clickTheRefresh,
-                  buttonText: appFonts.refresh,
+                  title: language(context, appFonts.oppsYour),
+                  subtitle: language(context, appFonts.clickTheRefresh),
+                  buttonText: language(context, appFonts.refresh),
                   bTap: () {
                     value.animationController!.dispose();
                     route.pushReplacementNamed(context, routeName.splash);

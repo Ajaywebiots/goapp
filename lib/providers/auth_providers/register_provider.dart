@@ -64,6 +64,7 @@ class RegisterProvider extends ChangeNotifier {
             .commonApi(api.register, body, ApiType.post, isToken: false)
             .then((value) {
           if (value.isSuccess!) {
+            log("ssss ${value.data}");
             hideLoading(context);
             userNameCtrl.text = "";
             enterFName.text = "";

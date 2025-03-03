@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
+import 'package:goapp/providers/dashboard_provider/home_screen_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -8,16 +10,8 @@ import 'config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-/*  await initializeAppSettings();
-
-  String? jsonString = sharedPreferences.getString("apiJsonData");
-  log("selectedLocale:::$jsonString");
-  sharedPreferences.getString("selectedLocale");
-  log("=-=-=-=-=-=-=-=-=- ${sharedPreferences.getString("selectedLocale")}");*/
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
@@ -45,6 +39,7 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => LanguageProvider(snapData.data!)),
                   ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
                   ChangeNotifierProvider(create: (_) => LoginProvider()),
+                  ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LoginWithPhoneProvider()),
                   ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
@@ -55,6 +50,8 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
                   ChangeNotifierProvider(create: (_) => NoInternetProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => VerifyResetPasswordProvider()),
                   ChangeNotifierProvider(
                       create: (_) => ChangePasswordProvider()),
                   ChangeNotifierProvider(
@@ -120,6 +117,7 @@ class _RouteToPageState extends State<RouteToPage> {
             theme: AppTheme.fromType(ThemeType.light).themeData,
             darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
             locale: lang.locale,
+            supportedLocales: appArray.localList,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               AppLocalizationDelagate(),
@@ -134,7 +132,7 @@ class _RouteToPageState extends State<RouteToPage> {
             // Wrap MaterialApp with Directionality
             builder: (context, child) {
               return Directionality(
-                  textDirection: locale?.languageCode == 'ar'
+                  textDirection: locale?.languageCode == 'he'
                       ? TextDirection.rtl
                       : TextDirection.ltr,
                   child: child!);

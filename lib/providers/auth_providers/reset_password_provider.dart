@@ -1,10 +1,8 @@
 import 'dart:ui' as ui;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:goapp/config.dart';
-
-import '../../services/api_service.dart';
+import 'package:goapp/widgets/DirectionalityRtl.dart';
 
 class ResetPasswordProvider extends ChangeNotifier {
   TextEditingController txtNewPassword = TextEditingController();
@@ -40,53 +38,66 @@ class ResetPasswordProvider extends ChangeNotifier {
 
   resetPassword(context) async {
     showLoading(context);
+    hideLoading(context);
     var body = {
       "password": txtNewPassword.text,
       "retypedPassword": txtConfirmPassword.text
     };
+    showCupertinoDialog(
+        context: context,
+        builder: (context1) {
+          return DirectionalityRtl(
+            child: AlertDialogCommon(
+                title: language(context, appFonts.successfullyChanged),
+                height: Sizes.s120,
+                image: eImageAssets.successReset,
+                subtext: language(context, appFonts.thankYou),
+                bText1: language(context, appFonts.loginAgain),
+                b1OnTap: () {
+                  txtNewPassword.text = "";
+                  txtConfirmPassword.text = "";
+                  notifyListeners();
+                  Navigator.pop(context1);
 
-    apiServices
-        .commonApi(api.resetPassword, body, ApiType.patch, isToken: false)
-        .then((value) {
-      if (value.isSuccess!) {
-        hideLoading(context);
-        showCupertinoDialog(
-            context: context,
-            builder: (context1) {
-              return AlertDialogCommon(
-                  title: appFonts.successfullyChanged,
-                  height: Sizes.s120,
-                  image: eImageAssets.successReset,
-                  subtext: language(context, appFonts.thankYou),
-                  bText1: language(context, appFonts.loginAgain),
-                  b1OnTap: () {
-                    txtNewPassword.text = "";
-                    txtConfirmPassword.text = "";
-                    notifyListeners();
-                    Navigator.pop(context1);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => MultiProvider(
+                                  providers: [
+                                    ChangeNotifierProvider(
+                                        create: (_) => LoginProvider()),
+                                    ChangeNotifierProvider(
+                                        create: (_) =>
+                                            ForgetPasswordProvider()),
+                                    ChangeNotifierProvider(
+                                        create: (_) => VerifyOtpProvider()),
+                                  ],
+                                  child: const LoginScreen(),
+                                  builder: (context, child) {
+                                    return child!;
+                                  })));
+                }),
+          );
+        });
+    /*  try {
+      apiServices
+          .commonApi(api.resetPassword, body, ApiType.patch, isToken: true)
+          .then((value) {
+        if (value.isSuccess!) {
+          hideLoading(context);
 
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                          create: (_) => LoginProvider()),
-                                      ChangeNotifierProvider(
-                                          create: (_) =>
-                                              ForgetPasswordProvider()),
-                                      ChangeNotifierProvider(
-                                          create: (_) => VerifyOtpProvider()),
-                                    ],
-                                    child: const LoginScreen(),
-                                    builder: (context, child) {
-                                      return child!;
-                                    })));
-                  });
-            });
-        notifyListeners();
-      }
-    });
+          notifyListeners();
+        } else {
+          hideLoading(context);
+          final scaffoldMessenger = ScaffoldMessenger.of(context);
+          scaffoldMessenger
+              .showSnackBar(SnackBar(content: Text(value.message)));
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("CATCH resetPassword: $e");
+    }*/
   }
 
   static getDisposableProviders(BuildContext context) {

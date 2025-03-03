@@ -12,7 +12,7 @@ class ChangePasswordProvider extends ChangeNotifier {
   TextEditingController txtNewPassword = TextEditingController();
   TextEditingController txtConfirmPassword = TextEditingController();
   GlobalKey<FormState> resetFormKey = GlobalKey<FormState>();
-  bool isNewPassword = true, isConfirmPassword = true,isOldPassword =true;
+  bool isNewPassword = true, isConfirmPassword = true, isOldPassword = true;
   String? email, otp;
   Future<ui.Image>? loadingImage;
   final FocusNode oldPasswordFocus = FocusNode();
@@ -42,9 +42,8 @@ class ChangePasswordProvider extends ChangeNotifier {
   updatePassword(context) {
     FocusManager.instance.primaryFocus?.unfocus();
     if (resetFormKey.currentState!.validate()) {
-  resetPassword(context);
+      resetPassword(context);
     }
-
   }
 
   resetPassword(context) async {
@@ -89,15 +88,13 @@ class ChangePasswordProvider extends ChangeNotifier {
     });
   }
 
-  getArg(context)async {
+  getArg(context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     dynamic data = ModalRoute.of(context)!.settings.arguments;
-    if(data != null) {
+    if (data != null) {
       email = data['email'];
       otp = data['otp'];
-    }else{
-
-    }
+    } else {}
     notifyListeners();
   }
 

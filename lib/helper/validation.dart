@@ -33,12 +33,12 @@ class Validation {
   }
 
   // Email Validation
-  emailValidation(context, email) {
-    if (email.isEmpty) {
-      return language(context, appFonts.pleaseEnterEmail);
-    } else if (!digitRegex.hasMatch(email)) {
+  emailValidation(context, userName) {
+    if (userName.isEmpty) {
+      return language(context, appFonts.pleaseEnterUsername);
+    } /*else if (!digitRegex.hasMatch(email)) {
       return language(context, appFonts.pleaseEnterValid);
-    }
+    }*/
     return null;
   }
 

@@ -1,6 +1,7 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../config.dart';
 import 'language_helper.dart';
 
 class LanguageProvider with ChangeNotifier {
@@ -11,23 +12,25 @@ class LanguageProvider with ChangeNotifier {
   TextDirection get data => isUserRTl ? TextDirection.rtl : TextDirection.ltr;
 
   Future<void> switchRTL() async {
-    sharedPreferences.setBool("isUserRTL", isUserRTl ? false : true);
+    sharedPreferences.setBool("isUserRTL", !isUserRTl);
     notifyListeners();
   }
 
   TextDirection get textDirection =>
       isUserRTl ? TextDirection.rtl : TextDirection.ltr;
-  String currentLanguage = appFonts.english;
+  String currentLanguage = "English";
+
   Locale? locale;
   int selectedIndex = 0;
 
   LanguageProvider(this.sharedPreferences) {
     var selectedLocale = sharedPreferences.getString("selectedLocale");
-    log("fdhjgfthj : $selectedLocale");
+    log("Selected Locale: $selectedLocale");
+
     if (selectedLocale != null) {
       locale = Locale(selectedLocale);
     } else {
-      selectedLocale = "English";
+      selectedLocale = "en";
       locale = const Locale("en");
     }
     setVal(selectedLocale);
@@ -36,48 +39,35 @@ class LanguageProvider with ChangeNotifier {
   LanguageHelper languageHelper = LanguageHelper();
 
   void changeLocale(String newLocale) {
-    log("sharedPreferences a1: $newLocale");
-    Locale convertedLocale;
+    log("Changing Locale to: $newLocale");
 
     currentLanguage = newLocale;
-    log("CURRENT $currentLanguage");
-    convertedLocale = languageHelper.convertLangNameToLocale(newLocale);
-
-    locale = convertedLocale;
-    log("CURRENT LOCAL $locale");
-    sharedPreferences.setString(
-        'selectedLocale', locale!.languageCode.toString());
+    locale = languageHelper.convertLangNameToLocale(newLocale);
+    sharedPreferences.setString('selectedLocale', locale!.languageCode);
     notifyListeners();
   }
 
-  getLocal() {
-    var selectedLocale = sharedPreferences.getString("selectedLocale");
-    return selectedLocale;
+  String? getLocal() {
+    return sharedPreferences.getString("selectedLocale");
   }
 
-  defineCurrentLanguage(context) {
-    String? definedCurrentLanguage;
-
-    if (currentLanguage.isNotEmpty) {
-      definedCurrentLanguage = currentLanguage;
-    } else {
-      definedCurrentLanguage = languageHelper
-          .convertLocaleToLangName(Localizations.localeOf(context).toString());
-    }
-    return definedCurrentLanguage;
+  String defineCurrentLanguage(BuildContext context) {
+    return currentLanguage.isNotEmpty
+        ? currentLanguage
+        : languageHelper.convertLocaleToLangName(
+            Localizations.localeOf(context).languageCode);
   }
 
-  setVal(value) {
+  void setVal(String value) {
     if (value == "en") {
-      currentLanguage = "english";
-    } else if (value == "gr") {
-      currentLanguage = "greek";
+      currentLanguage = "English";
+    } else if (value == "el") {
+      currentLanguage = "Greek";
     } else if (value == "he") {
-      currentLanguage = "hebrew";
+      currentLanguage = "Hebrew";
     } else {
-      currentLanguage = "english";
+      currentLanguage = "English";
     }
     notifyListeners();
-    changeLocale(currentLanguage);
   }
 }

@@ -76,7 +76,7 @@ class OnDeleteDialog extends StatelessWidget {
                   Expanded(
                       child: ButtonCommon(
                           onTap: () => route.pop(context),
-                          title: appFonts.no,
+                          title: language(context, appFonts.no),
                           borderColor: appColor(context).primary,
                           color: appColor(context).whiteBg,
                           style: appCss.dmDenseSemiBold16
@@ -84,7 +84,8 @@ class OnDeleteDialog extends StatelessWidget {
                   const HSpace(Sizes.s15),
                   Expanded(
                       child: ButtonCommon(
-                          onTap: onDelete, title: appFonts.yes))
+                          onTap: onDelete,
+                          title: language(context, appFonts.yes)))
                 ])
               ]).padding(
                   horizontal: Insets.i20, top: Insets.i60, bottom: Insets.i20),

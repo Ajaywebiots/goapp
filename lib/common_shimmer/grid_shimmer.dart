@@ -16,7 +16,7 @@ class GridShimmer extends StatelessWidget {
             }))
         .width(MediaQuery.of(context).size.width)
         .paddingOnly(
-            left: /*rtl(context) ? 0 : */ Insets.i12,
-            right: /* rtl(context) ? Insets.i12 :*/ 0);
+            left: rtl(context) ? 0 :  Insets.i12,
+            right:  rtl(context) ? Insets.i12 : 0);
   }
 }

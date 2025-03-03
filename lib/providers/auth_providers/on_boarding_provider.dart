@@ -12,6 +12,7 @@ class OnBoardingProvider with ChangeNotifier {
   onChanged(newValue) {
     notifyListeners();
     selectedLanguage = newValue;
+    log("sss # # $selectedLanguage");
     notifyListeners();
   }
 
@@ -26,9 +27,8 @@ class OnBoardingProvider with ChangeNotifier {
 
   onSkip(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    final login = Provider.of<LoginProvider>(context, listen: false);
-    login.continueAsGuestTap(context);
-
+    // final login = Provider.of<LoginProvider>(context, listen: false);
+    // login.continueAsGuestTap(context);
     pref.setBool(session.isIntro, true);
   }
 
@@ -78,8 +78,8 @@ class OnBoardingProvider with ChangeNotifier {
       notifyListeners();
     } else if (selectIndex == -1) {
       SharedPreferences pref = await SharedPreferences.getInstance();
-      final login = Provider.of<LoginProvider>(context, listen: false);
-      login.continueAsGuestTap(context);
+      // final login = Provider.of<LoginProvider>(context, listen: false);
+      // login.continueAsGuestTap(context);
       route.pushReplacementNamed(context, routeName.login);
       pref.setBool(session.isIntro, true);
     }

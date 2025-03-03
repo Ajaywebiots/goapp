@@ -4,19 +4,18 @@ class LanguageHelper {
   convertLangNameToLocale(String langNameToConvert) {
     Locale convertedLocale;
 
-    switch (langNameToConvert) {
+    switch (langNameToConvert.toLowerCase()) {
       case "english":
-        convertedLocale = const Locale('en', 'EN');
+        convertedLocale = const Locale('en', 'US');
         break;
       case "greek":
-        convertedLocale = const Locale('gr', 'GR');
+        convertedLocale = const Locale('el', 'GR');
         break;
-      case 'hebrew':
-        convertedLocale = const Locale('he', 'HE');
+      case "hebrew":
+        convertedLocale = const Locale('he', 'IL');
         break;
-
       default:
-        convertedLocale = const Locale('en', 'EN');
+        convertedLocale = const Locale('en', 'US');
     }
 
     return convertedLocale;
@@ -28,7 +27,7 @@ class LanguageHelper {
       case 'en':
         langName = "English";
         break;
-      case 'gr':
+      case 'el':
         langName = "Greek";
         break;
       case 'he':

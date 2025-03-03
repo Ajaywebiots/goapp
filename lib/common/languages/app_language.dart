@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:goapp/common/languages/gr.dart';
+import 'package:goapp/common/languages/he.dart';
+
+import 'en.dart';
 
 class AppLocalizations {
   final Locale locale;
-  Map<String, String> _localizedStrings = {};
 
   AppLocalizations(this.locale);
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
-  AppLocalizationDelagate();
+      AppLocalizationDelagate();
 
   static AppLocalizations? of(context) =>
       Localizations.of<AppLocalizations>(context, AppLocalizations);
 
-  Future<bool> load(Map<String, Map<String, String>> localizedData) async {
-    _localizedStrings = localizedData[locale.languageCode] ?? {};
+  Future<bool> load() async {
     return true;
   }
 
   String translate(String key) {
-    return _localizedStrings[key] ?? key;
+    return _localizedValues[locale.languageCode]?[key] ?? key;
   }
+
+  static final Map<String, Map<String, String>> _localizedValues = {
+    'en': english,
+    'el': greek,
+    'he': hebrew,
+  };
 }
 
 class AppLocalizationDelagate extends LocalizationsDelegate<AppLocalizations> {
@@ -27,7 +35,7 @@ class AppLocalizationDelagate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return true; // Dynamic support based on API data
+    return ['en', 'el', 'he'].contains(locale.languageCode);
   }
 
   @override
@@ -38,6 +46,7 @@ class AppLocalizationDelagate extends LocalizationsDelegate<AppLocalizations> {
   @override
   Future<AppLocalizations> load(Locale locale) async {
     AppLocalizations appLocalizations = AppLocalizations(locale);
+    await appLocalizations.load();
     return appLocalizations;
   }
 }

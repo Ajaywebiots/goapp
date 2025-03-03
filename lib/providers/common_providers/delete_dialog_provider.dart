@@ -38,7 +38,7 @@ class DeleteDialogProvider with ChangeNotifier {
               builder: (context, value, child) {
             return AlertDialogCommon(
                 isBooked: true,
-                title: title ?? appFonts.deleteSuccessfully,
+                title: title ?? language(context,appFonts.deleteSuccessfully),
                 widget: Stack(alignment: Alignment.center, children: [
                   SizedBox(
                           height: 200,

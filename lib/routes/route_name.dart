@@ -4,7 +4,7 @@ class RouteName {
   final String login = '/login';
   final String loginWithPhone = '/loginWithPhone';
   final String verifyOtp = '/verifyOtp';
-  final String verifyOtp1 = '/verifyOtp1';
+  final String loginPhoneOtpVerifyScreen = '/loginPhoneOtpVerifyScreen';
   final String forgetPassword = '/forgetPassword';
   final String registerUser = '/registerUser';
   final String resetPass = '/resetPass';

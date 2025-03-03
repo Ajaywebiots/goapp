@@ -10,7 +10,7 @@ class AppFonts {
   final goSalamina = "goSalamina";
   final login = "login";
   final email = "email";
-  final enterEmail = "enterEmail";
+  final enterUsername = "enterUsername";
   final password = "password";
   final enterPassword = "enterPassword";
   final forgotPassword = "forgotPassword";
@@ -21,7 +21,7 @@ class AppFonts {
   final enterZip = "enterZip";
   final pleaseCity = "pleaseCity";
   final pleaseAddress = "pleaseAddress";
-  final pleaseEnterEmail = "pleaseEnterEmail";
+  final pleaseEnterUsername = "pleaseEnterUsername";
   final pleaseEnterValid = "pleaseEnterValid";
   final pleaseEnterPassword = "pleaseEnterPassword";
   final notMatch = "notMatch";
@@ -44,7 +44,7 @@ class AppFonts {
   final enterConfirmPassword = "enterConfirmPassword";
   final forgetPass = "forgetPass";
   final enterYourRegister = "enterYourRegister";
-  final emailPhone = "emailPhone";
+  // final emailPhone = "emailPhone";
   final sendOtp = "sendOtp";
   final phone = "phone";
   final verifyOtp = "verifyOtp";

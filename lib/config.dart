@@ -65,6 +65,11 @@ AppTheme appColor(context) {
   return themeServices.appTheme;
 }
 
+bool rtl(BuildContext context) {
+  final languageProvider = context.watch<LanguageProvider>();
+  return languageProvider.locale?.languageCode == 'he';
+}
+
 showLoading(context) async {
   Provider.of<LoadingProvider>(context, listen: false).showLoading();
 }

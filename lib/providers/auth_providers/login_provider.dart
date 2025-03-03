@@ -6,13 +6,14 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
 
 import '../../services/api_service.dart';
+import '../../services/user_services.dart';
 
 class LoginProvider with ChangeNotifier {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController userName = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   SharedPreferences? pref;
-  final FocusNode emailFocus = FocusNode();
+  final FocusNode userNameFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
   bool isPassword = true;
 
@@ -22,12 +23,6 @@ class LoginProvider with ChangeNotifier {
     if (formKey.currentState!.validate()) {
       login(context);
     }
-  }
-
-  demoCreds() {
-    emailController.text = "user@example.com";
-    passwordController.text = "123456789";
-    notifyListeners();
   }
 
   // password see tap
@@ -41,11 +36,16 @@ class LoginProvider with ChangeNotifier {
     showLoading(context);
     try {
       var body = {
-        "username": emailController.text,
+        "username": userName.text,
         "password": passwordController.text
       };
-      apiServices.commonApi(api.authenticate, body, ApiType.post).then((value) {
+      apiServices
+          .commonApi(api.authenticate, body, ApiType.post)
+          .then((value) async {
         if (value.isSuccess!) {
+          log("ajay hariyani ${value.data}");
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          token = pref.getString(session.accessToken);
           hideLoading(context);
           route.pushNamed(context, routeName.homeScreen);
         }
@@ -56,13 +56,13 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  continueAsGuestTap(context) async {
-    pref = await SharedPreferences.getInstance();
-
-    pref!.setBool(session.isContinueAsGuest, true);
-    log("CCC");
-    // route.pushReplacementNamed(context, routeName.dashboard);
-  }
+  // continueAsGuestTap(context) async {
+  //   pref = await SharedPreferences.getInstance();
+  //
+  //   pref!.setBool(session.isContinueAsGuest, true);
+  //   log("CCC");
+  //   // route.pushReplacementNamed(context, routeName.dashboard);
+  // }
 
   googleLogin() {
     /*apiServices.commonApi(api.googleLogin, [], ApiType.get).then((value) {
@@ -97,7 +97,7 @@ class LoginProvider with ChangeNotifier {
           log("Backend authentication failed: ${response.data}");
         }
       } catch (e) {
-        print("API Error: $e");
+        log("API Error: $e");
       }
     } else {
       print("Facebook Login Failed: ${result.status}");

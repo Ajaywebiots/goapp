@@ -65,7 +65,7 @@ class ResetPasswordLayout extends StatelessWidget {
                       .paddingSymmetric(horizontal: Insets.i20),
                   const VSpace(Sizes.s40),
                   ButtonCommon(
-                    title: appFonts.resetPassword,
+                    title: language(context, appFonts.resetPassword),
                     onTap: () => resetPass.reset(context),
                   ).paddingSymmetric(horizontal: Insets.i20),
                 ]).paddingSymmetric(vertical: Insets.i20)

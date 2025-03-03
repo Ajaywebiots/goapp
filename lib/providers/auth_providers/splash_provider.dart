@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import '../../config.dart';
+import '../../services/user_services.dart';
 
 class SplashProvider extends ChangeNotifier {
   onReady(TickerProvider sync, context) async {
@@ -9,25 +10,27 @@ class SplashProvider extends ChangeNotifier {
     if (isAvailable) {
       SharedPreferences pref = await SharedPreferences.getInstance();
 
-      Timer(
-        const Duration(seconds: 3),
-        () async {
-          await onChangeSize();
-          await Future.delayed(const Duration(seconds: 1)).then((value) {
-            bool? isIntro = pref.getBool(session.isIntro) ?? false;
+      Timer(const Duration(seconds: 3), () async {
+        await onChangeSize();
+        await Future.delayed(const Duration(seconds: 1)).then((value) {
+          bool? isIntro = pref.getBool(session.isIntro) ?? false;
+          String? token = pref.getString('authToken');
 
-            Provider.of<SplashProvider>(context, listen: false).dispose();
-            onDispose();
-            log("isIntro::$isIntro");
+          Provider.of<SplashProvider>(context, listen: false).dispose();
+          onDispose();
+          log("isIntro::$isIntro");
 
-            if (isIntro) {
-              route.pushReplacementNamed(context, routeName.login);
+          if (isIntro) {
+            if (token != null) {
+              route.pushReplacementNamed(context, routeName.homeScreen);
             } else {
-              route.pushReplacementNamed(context, routeName.onBoarding);
+              route.pushReplacementNamed(context, routeName.login);
             }
-          });
-        },
-      );
+          } else {
+            route.pushReplacementNamed(context, routeName.onBoarding);
+          }
+        });
+      });
     } else {
       onDispose();
       Provider.of<SplashProvider>(context, listen: false).dispose();

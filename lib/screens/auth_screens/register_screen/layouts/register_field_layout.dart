@@ -13,11 +13,12 @@ class RegisterFieldLayout extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ContainerWithTextLayout(title: appFonts.firstName),
+            ContainerWithTextLayout(
+                title: language(context, appFonts.firstName)),
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     controller: register.enterFName,
-                    hintText: appFonts.enterFName,
+                    hintText: language(context, appFonts.enterFName),
                     focusNode: register.fNameFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.fNameFocus, register.emailFocus),
@@ -26,11 +27,12 @@ class RegisterFieldLayout extends StatelessWidget {
                         validation.nameValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
-            ContainerWithTextLayout(title: appFonts.lastName),
+            ContainerWithTextLayout(
+                title: language(context, appFonts.lastName)),
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     controller: register.enterLName,
-                    hintText: appFonts.enterLName,
+                    hintText: language(context, appFonts.enterLName),
                     focusNode: register.lNameFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.lNameFocus, register.emailFocus),
@@ -43,7 +45,7 @@ class RegisterFieldLayout extends StatelessWidget {
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     controller: register.userNameCtrl,
-                    hintText: appFonts.chooseUsername,
+                    hintText: language(context, appFonts.chooseUsername),
                     focusNode: register.usernameFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.usernameFocus, register.emailFocus),
@@ -56,7 +58,7 @@ class RegisterFieldLayout extends StatelessWidget {
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     controller: register.txtEmail,
-                    hintText: language(context, appFonts.enterEmail),
+                    hintText: language(context, appFonts.enterUsername),
                     focusNode: register.emailFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.emailFocus, register.phoneFocus),
@@ -94,10 +96,11 @@ class RegisterFieldLayout extends StatelessWidget {
                         validation.passValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
-            ContainerWithTextLayout(title: appFonts.confirmPassword),
+            ContainerWithTextLayout(
+                title: language(context, appFonts.confirmPassword)),
             const VSpace(Sizes.s8),
             TextFieldCommon(
-                hintText: appFonts.enterConfirmPassword,
+                hintText: language(context, appFonts.enterConfirmPassword),
                 obscureText: register.isConfirmPassword,
                 controller: register.txtConfirmPass,
                 focusNode: register.confirmPasswordFocus,
@@ -115,7 +118,7 @@ class RegisterFieldLayout extends StatelessWidget {
             const TermsLayout(),
             const VSpace(Sizes.s35),
             ButtonCommon(
-                    title: appFonts.signUp,
+                    title: language(context, appFonts.signUp),
                     onTap: () => register.signUp(buildContext!))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),

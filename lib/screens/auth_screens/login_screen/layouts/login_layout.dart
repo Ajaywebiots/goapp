@@ -23,13 +23,13 @@ class LoginLayout extends StatelessWidget {
               ]),
               const VSpace(Sizes.s8),
               TextFieldCommon(
-                      validator: (email) =>
-                          Validation().emailValidation(context, email),
-                      controller: value.emailController,
-                      hintText: language(context, appFonts.enterEmail),
-                      focusNode: value.emailFocus,
+                      validator: (userName) =>
+                          Validation().emailValidation(context, userName),
+                      controller: value.userName,
+                      hintText: language(context, appFonts.enterUsername),
+                      focusNode: value.userNameFocus,
                       onFieldSubmitted: (val) => validation.fieldFocusChange(
-                          context, value.emailFocus, value.passwordFocus),
+                          context, value.userNameFocus, value.passwordFocus),
                       prefixIcon: eSvgAssets.email)
                   .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s15),
@@ -62,12 +62,12 @@ class LoginLayout extends StatelessWidget {
                           appCss.dmDenseMedium12.textColor(Color(0xff5465FF)))
                   .inkWell(
                       onTap: () =>
-                          route.push(context, const ForgotPasswordScreen()))
+                          route.pushNamed(context, routeName.forgetPassword))
                   .alignment(Alignment.bottomRight)
                   .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s35),
               ButtonCommon(
-                      title: appFonts.loginNow,
+                      title: language(context, appFonts.loginNow),
                       onTap: () => value.onLogin(context))
                   .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s12),

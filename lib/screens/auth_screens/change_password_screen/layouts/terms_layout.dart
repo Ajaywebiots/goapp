@@ -23,7 +23,7 @@ class TermsLayout extends StatelessWidget {
                     : null)
             .inkWell(onTap: () => register.isCheckBoxCheck(!register.isCheck)),
         const HSpace(Sizes.s10),
-        Text(appFonts.agreeTerms,
+        Text(language(context, appFonts.agreeTerms),
             style:
                 appCss.dmDenseMedium14.textColor(appColor(context).lightText))
       ]).paddingSymmetric(horizontal: Insets.i20);
