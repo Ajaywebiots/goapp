@@ -42,7 +42,7 @@ class ResetPasswordProvider extends ChangeNotifier {
     showLoading(context);
     var body = {
       "password": txtNewPassword.text,
-      "retypedPassword": txtConfirmPassword.text,
+      "retypedPassword": txtConfirmPassword.text
     };
 
     apiServices
@@ -90,10 +90,7 @@ class ResetPasswordProvider extends ChangeNotifier {
   }
 
   static getDisposableProviders(BuildContext context) {
-    return [
-      Provider.of<LoginProvider>(context, listen: false),
-      //...other disposable providers
-    ];
+    return [Provider.of<LoginProvider>(context, listen: false)];
   }
 
   static void disposeAllDisposableProviders(BuildContext context) {
