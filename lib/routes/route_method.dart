@@ -1,5 +1,6 @@
 //app file
 
+import 'package:goapp/screens/auth_screens/social_register_screen/social_reg_screen.dart';
 import 'package:goapp/screens/dashboard_screens/home_screen.dart';
 
 import '../config.dart';
@@ -17,7 +18,7 @@ class AppRoute {
     routeName.forgetPassword: (p0) => const ForgotPasswordScreen(),
     routeName.resetPass: (p0) => const ResetPasswordScreen(),
     routeName.registerUser: (p0) => const RegisterScreen(),
-    // routeName.changePass: (p0) => const ChangePasswordScreen(),
     routeName.homeScreen: (p0) => const HomeScreen(),
+    routeName.socialRegister: (p0) => const SocialRegScreen(),
   };
 }

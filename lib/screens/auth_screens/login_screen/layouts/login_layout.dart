@@ -1,5 +1,4 @@
 import 'package:flutter/gestures.dart';
-
 import '../../../../config.dart';
 
 class LoginLayout extends StatelessWidget {
@@ -60,9 +59,9 @@ class LoginLayout extends StatelessWidget {
               Text(language(context, appFonts.forgotPassword),
                       style:
                           appCss.dmDenseMedium12.textColor(Color(0xff5465FF)))
-                  .inkWell(
-                      onTap: () =>
-                          route.pushNamed(context, routeName.forgetPassword))
+                  .inkWell(onTap: () {
+                    route.pushNamed(context, routeName.forgetPassword);
+                  })
                   .alignment(Alignment.bottomRight)
                   .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s35),
@@ -84,7 +83,7 @@ class LoginLayout extends StatelessWidget {
                               route.pushNamed(context, routeName.registerUser),
                         style:
                             appCss.dmDenseMedium14.textColor(Color(0xff5465FF)))
-                  ])).alignment(Alignment.center),
+                  ])).alignment(Alignment.center)
             ]).paddingSymmetric(vertical: Insets.i20)
       ]);
     });

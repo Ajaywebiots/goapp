@@ -11,4 +11,5 @@ class RouteName {
   final String changePass = '/changePass';
   final String noInternet = '/noInternet';
   final String homeScreen = '/homeScreen';
+  final String socialRegister = '/socialRegister';
 }

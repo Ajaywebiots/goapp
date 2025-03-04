@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:goapp/providers/auth_providers/social_register_provider.dart';
 import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
 import 'package:goapp/providers/dashboard_provider/home_screen_provider.dart';
 import 'package:goapp/services/user_services.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(
                       create: (_) => ForgetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => RegisterProvider()),
+                  ChangeNotifierProvider(create: (_) => SocialRegProvider()),
                   ChangeNotifierProvider(
                       create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
@@ -72,15 +74,7 @@ class _MyAppState extends State<MyApp> {
                 darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
                 themeMode: ThemeMode.light,
                 debugShowCheckedModeBanner: false,
-                home: UpgradeAlert(
-                    showIgnore: false,
-                    showLater: false,
-                    barrierDismissible: false,
-                    dialogStyle: UpgradeDialogStyle.cupertino,
-                    upgrader: Upgrader(
-                        storeController: UpgraderStoreController(
-                            onAndroid: () => UpgraderPlayStore())),
-                    child: const SplashLayout()));
+                home: const SplashLayout());
           }
         });
   }

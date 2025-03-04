@@ -110,4 +110,5 @@ class AppFonts {
   final thankYou = "thankYou";
   final loginAgain = "loginAgain";
   final english = "english";
+  final signUpWithGoogle = "signUpWithGoogle";
 }

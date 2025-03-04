@@ -20,9 +20,8 @@ class RegisterScreen extends StatelessWidget {
                         child: Center(
                             child: SingleChildScrollView(
                                 child: Column(children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Image.asset(eImageAssets.appLogo,
-                        height: Sizes.s34, width: Sizes.s34),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    Image.asset(eImageAssets.appLogo, height: Sizes.s75),
                     const HSpace(Sizes.s5),
                     Text(language(context, appFonts.goSalamina),
                         style: appCss.outfitBold38
@@ -35,7 +34,7 @@ class RegisterScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const VSpace(Sizes.s35),
+                            const VSpace(Sizes.s15),
                             Text(
                                 language(context, appFonts.signup)
                                     .toUpperCase(),

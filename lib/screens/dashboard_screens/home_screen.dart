@@ -7,8 +7,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeScreenProvider>(builder: (context, homePvr, child) {
-      return StatefulWrapper(
-          onInit: homePvr.onInit(context), child: const Scaffold());
+      return const Scaffold();
     });
   }
 }

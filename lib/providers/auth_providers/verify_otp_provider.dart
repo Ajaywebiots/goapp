@@ -52,18 +52,11 @@ class VerifyOtpProvider with ChangeNotifier {
 
   getArgument(context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
-
-    /*otpKey = GlobalKey<FormState>();
-    if (data['email'] != null) {
-      isEmail = true;
-      email = data["email"].toString();
-    } else {
-      isEmail = false;*/
     phone = data["phone"].toString();
     dialCode = data["dialCode"].toString();
-    verificationCode = data["verificationCode"].toString();
+    verificationCode = data["code"].toString();
+    otpController.text = data["code"].toString();
     startTimer();
-    /*}*/
     log("ARG : $data");
     notifyListeners();
   }
@@ -93,5 +86,27 @@ class VerifyOtpProvider with ChangeNotifier {
 
   //resend code
   //send Otp api
-  resendOtp(context) async {}
+  resendOtp(context) async {
+    dynamic data = ModalRoute.of(context)!.settings.arguments;
+    verificationCode = "";
+    otpController.text = "";
+    try {
+      showLoading(context);
+      var body = {"phoneNumber": data['phone'], "dialCode": dialCode};
+      apiServices
+          .commonApi(api.otp, body, ApiType.post, isToken: false)
+          .then((value) async {
+        if (value.isSuccess!) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          log("token.toString ${token.toString()}");
+          await prefs.setString('authToken', token.toString());
+          log("ssss ${value.data}");
+          log("ssss ${value.data['code']}");
+          hideLoading(context);
+        }
+      });
+    } catch (e) {
+      log("EEEE : login $e");
+    }
+  }
 }

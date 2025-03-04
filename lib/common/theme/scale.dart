@@ -85,6 +85,7 @@ class Insets {
   static const double i185 = 185 * scale;
   static const double i190 = 190 * scale;
   static const double i300 = 300 * scale;
+  static const double i220 = 220 * scale;
   static const double i325 = 325 * scale;
   static const double i315 = 315 * scale;
   static const double i320 = 320 * scale;

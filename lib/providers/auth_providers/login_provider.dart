@@ -6,7 +6,6 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
 
 import '../../services/api_service.dart';
-import '../../services/user_services.dart';
 
 class LoginProvider with ChangeNotifier {
   TextEditingController userName = TextEditingController();
@@ -19,7 +18,6 @@ class LoginProvider with ChangeNotifier {
 
   onLogin(context) {
     FocusManager.instance.primaryFocus?.unfocus();
-    /*  route.pushReplacementNamed(context, routeName.dashboard);*/
     if (formKey.currentState!.validate()) {
       login(context);
     }
@@ -44,8 +42,11 @@ class LoginProvider with ChangeNotifier {
           .then((value) async {
         if (value.isSuccess!) {
           log("ajay hariyani ${value.data}");
+          log("token TTTT ${value.data['token']}");
           SharedPreferences pref = await SharedPreferences.getInstance();
-          token = pref.getString(session.accessToken);
+          await pref.setString(session.accessToken, value.data['token']);
+
+          log("tokeneeeee ${pref.getString(session.accessToken)}");
           hideLoading(context);
           route.pushNamed(context, routeName.homeScreen);
         }
@@ -56,15 +57,8 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  // continueAsGuestTap(context) async {
-  //   pref = await SharedPreferences.getInstance();
-  //
-  //   pref!.setBool(session.isContinueAsGuest, true);
-  //   log("CCC");
-  //   // route.pushReplacementNamed(context, routeName.dashboard);
-  // }
-
-  googleLogin() {
+  googleLogin(context) {
+    route.pushNamed(context, routeName.socialRegister);
     /*apiServices.commonApi(api.googleLogin, [], ApiType.get).then((value) {
       if (value.isSuccess!) {
         log("ssss ${value.data}");

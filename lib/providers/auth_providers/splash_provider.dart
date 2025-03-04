@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import '../../config.dart';
-import '../../services/user_services.dart';
 
 class SplashProvider extends ChangeNotifier {
   onReady(TickerProvider sync, context) async {
@@ -14,8 +13,9 @@ class SplashProvider extends ChangeNotifier {
         await onChangeSize();
         await Future.delayed(const Duration(seconds: 1)).then((value) {
           bool? isIntro = pref.getBool(session.isIntro) ?? false;
-          String? token = pref.getString('authToken');
+          String? token = pref.getString(session.accessToken);
 
+          log("access token::: $token");
           Provider.of<SplashProvider>(context, listen: false).dispose();
           onDispose();
           log("isIntro::$isIntro");

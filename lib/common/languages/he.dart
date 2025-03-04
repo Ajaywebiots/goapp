@@ -112,4 +112,5 @@ final hebrew = {
   "thankYou": "תודה לך! הניסיון לאפס את הסיסמה שלך הצליח.",
   "loginAgain": "התחבר שוב",
   "english": "אַנגְלִית",
+  "signUpWithGoogle": "הרשמה עם גוגל"
 };

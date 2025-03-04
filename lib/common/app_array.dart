@@ -26,4 +26,22 @@ class AppArray {
       "code": "he",
     },
   ];
+
+  List<Map<String, dynamic>> loginOptions = [
+    {
+      "image": eImageAssets.google,
+      "onTap": (BuildContext context, dynamic value) =>
+          value.googleLogin(context),
+    },
+    {
+      "image": eImageAssets.fbLogo,
+      "onTap": (BuildContext context, dynamic value) =>
+          value.loginWithFacebook(),
+    },
+    {
+      "image": eImageAssets.mobile,
+      "onTap": (BuildContext context, dynamic value) =>
+          route.pushNamed(context, routeName.loginWithPhone),
+    },
+  ];
 }

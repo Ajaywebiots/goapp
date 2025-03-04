@@ -113,5 +113,6 @@ final english = {
   "successfullyChanged": "Successfully Changed",
   "thankYou": "Thank you! The attempt to reset your password was successful.",
   "loginAgain": "Login again",
-  "english": "English"
+  "english": "English",
+  "signUpWithGoogle": "SignUp with Google"
 };

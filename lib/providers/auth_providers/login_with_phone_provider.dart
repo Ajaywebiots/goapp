@@ -25,11 +25,16 @@ class LoginWithPhoneProvider with ChangeNotifier {
             .then((value) async {
           if (value.isSuccess!) {
             SharedPreferences prefs = await SharedPreferences.getInstance();
+            log("token.toString ${token.toString()}");
             await prefs.setString('authToken', token.toString());
             log("ssss ${value.data}");
+            log("ssss ${value.data['code']}");
             hideLoading(context);
-            route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen,
-                arg: {"phone": numberController.text, "dialCode": dialCode});
+            route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen, arg: {
+              "phone": numberController.text,
+              "dialCode": dialCode,
+              "code": value.data['code']
+            });
           }
         });
       } catch (e) {

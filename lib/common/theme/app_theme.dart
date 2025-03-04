@@ -22,6 +22,8 @@ class AppTheme {
   Color rateColor;
   Color pending, accepted, ongoing, cartBottomBg, skeletonColor;
 
+  Color borderStroke;
+
   /// Default constructor
   AppTheme({
     required this.isDark,
@@ -43,6 +45,7 @@ class AppTheme {
     required this.greenColor,
     required this.cartBottomBg,
     required this.skeletonColor,
+    required this.borderStroke,
   });
 
   /// fromType factory constructor
@@ -56,7 +59,7 @@ class AppTheme {
           lightText: const Color(0xff808B97),
           whiteBg: const Color(0xffFFFFFF),
           stroke: const Color(0xffD2D3D4),
-          // stroke: const Color(0xffE5E8EA),
+          borderStroke: const Color(0xffE5E8EA),
           fieldCardBg: const Color(0xffF5F6F7),
           whiteColor: const Color(0xffFFFFFF),
           rateColor: const Color(0xffFFC412),
@@ -74,26 +77,26 @@ class AppTheme {
 
       case ThemeType.dark:
         return AppTheme(
-          isDark: true,
-          primary: const Color(0xff2362A8),
-          darkText: const Color(0xffF1F1F1),
-          lightText: const Color(0xff808B97),
-          whiteBg: const Color(0xff1A1C28),
-          stroke: const Color(0xff3A3D48),
-          fieldCardBg: const Color(0xff262935),
-          whiteColor: const Color(0xffFFFFFF),
-          rateColor: const Color(0xffFFC412),
-          trans: Colors.transparent,
-          green: Colors.green,
-          online: Colors.green,
-          red: const Color(0xffFF4B4B),
-          pending: const Color(0xffFDB448),
-          accepted: const Color(0xff48BFFD),
-          ongoing: const Color(0xffFF7456),
-          greenColor: const Color(0xff27AF4D),
-          cartBottomBg: const Color(0xffF1F3FF),
-          skeletonColor: const Color(0xffEDEDED),
-        );
+            isDark: true,
+            primary: const Color(0xff2362A8),
+            darkText: const Color(0xffF1F1F1),
+            lightText: const Color(0xff808B97),
+            whiteBg: const Color(0xff1A1C28),
+            stroke: const Color(0xff3A3D48),
+            fieldCardBg: const Color(0xff262935),
+            whiteColor: const Color(0xffFFFFFF),
+            rateColor: const Color(0xffFFC412),
+            trans: Colors.transparent,
+            green: Colors.green,
+            online: Colors.green,
+            red: const Color(0xffFF4B4B),
+            pending: const Color(0xffFDB448),
+            accepted: const Color(0xff48BFFD),
+            ongoing: const Color(0xffFF7456),
+            greenColor: const Color(0xff27AF4D),
+            cartBottomBg: const Color(0xffF1F3FF),
+            skeletonColor: const Color(0xffEDEDED),
+            borderStroke: const Color(0xffE5E8EA));
 
       // TODO: Handle this case.
     }
