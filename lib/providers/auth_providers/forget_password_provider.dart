@@ -8,21 +8,29 @@ class ForgetPasswordProvider with ChangeNotifier {
   final FocusNode emailFocus = FocusNode();
   final GlobalKey<FormState> forgetKey = GlobalKey<FormState>();
 
-  onTapSendOtp(BuildContext context) {
+  onTapSendOtp(context) {
     FocusManager.instance.primaryFocus?.unfocus();
-    /*if (forgetKey.currentState!.validate()) {
-      apiServices
-          .commonApi(api.forgotPassword, [], ApiType.post, isToken: false)
-          .then((value) {
-        if (value.isSuccess!) {
-          log("Response: ${value.data}");
-        }
-      });
+    var body = {"phoneNumber": forgetController.text};
+    if (forgetKey.currentState!.validate()) {
+      try {
+        apiServices
+            .commonApi(api.forgotPassword, body, ApiType.post, isToken: false)
+            .then((value) {
+          if (value.isSuccess!) {
+            log("Response: ${value.data}");
+            route.pushNamed(context, routeName.verifyOtp, arg: {
+              "phoneNumber": forgetController.text,
+              "code": value.data["code"]
+            });
+          }
+        });
+      } on Exception catch (e) {
+        log("EEEE : onTapSendOtp  $e");
+        // TODO
+      }
     } else {
-
-    }*/
-    route.pushNamed(context, routeName.verifyOtp,
-        arg: {"email": forgetController.text});
+      log("Validation Error");
+    }
   }
 
   @override

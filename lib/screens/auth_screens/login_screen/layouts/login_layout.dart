@@ -16,7 +16,7 @@ class LoginLayout extends StatelessWidget {
               Row(children: [
                 const SmallContainer(),
                 const HSpace(Sizes.s20),
-                Text(language(context, appFonts.email),
+                Text(language(context, appFonts.username),
                     style: appCss.dmDenseSemiBold14
                         .textColor(appColor(context).darkText))
               ]),

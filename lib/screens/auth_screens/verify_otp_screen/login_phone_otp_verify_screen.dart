@@ -38,7 +38,8 @@ class LoginPhoneOtpVerifyScreen extends StatelessWidget {
                               subTitle:
                                   language(context, appFonts.enterTheCode),
                               isNumber: true,
-                              number: "${otpCtrl.dialCode} ${otpCtrl.phone}"))
+                              number:
+                                  "\"${otpCtrl.dialCode} ${otpCtrl.phone}\""))
                     ]),
                     SizedBox(
                         child: Stack(children: [

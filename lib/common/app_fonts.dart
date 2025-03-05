@@ -47,6 +47,7 @@ class AppFonts {
   // final emailPhone = "emailPhone";
   final sendOtp = "sendOtp";
   final phone = "phone";
+  final phoneNumber = "phoneNumber";
   final verifyOtp = "verifyOtp";
   final enterTheCode = "enterTheCode";
   final verifyProceed = "verifyProceed";

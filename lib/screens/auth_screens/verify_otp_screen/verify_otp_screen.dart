@@ -40,7 +40,7 @@ class VerifyOtpScreen extends StatelessWidget {
                                 subTitle:
                                     language(context, appFonts.enterTheCode),
                                 isNumber: true,
-                                number: verifyResetPvr.email))
+                                number: "\"${verifyResetPvr.phoneNum}\""))
                       ]),
                       Stack(children: [
                         const FieldsBackground(),

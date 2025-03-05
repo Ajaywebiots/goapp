@@ -7,7 +7,7 @@ class ApiClass {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         "Authorization": "Bearer $token",
-        "Accept-Lang": "en"
+        "Accept-Lang": "en",
       };
 
   static Map<String, String>? get headers =>

@@ -7,5 +7,5 @@ class ApiMethods {
   String otp = '/authentication/otp';
   String otpVerify = '/authentication/otp';
   String forgotPassword = '/authentication/forgot-password';
-  String resetPassword = '/api/authentication/resetPassword';
+  String resetPassword = '/authentication/resetPassword';
 }

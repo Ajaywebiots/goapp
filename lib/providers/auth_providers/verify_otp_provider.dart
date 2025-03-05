@@ -23,18 +23,25 @@ class VerifyOtpProvider with ChangeNotifier {
 
   //verify phone otp
   verifyPhoneOtp(context) async {
-    final ssss = "${api.otpVerify}/${otpController.text}/verify";
-    log("ssss dddd $ssss");
-    apiServices
-        .commonApi(ssss, [], ApiType.patch, isToken: false)
-        .then((value) {
-      if (value.isSuccess!) {
-        log("ssss ${value.data['token']}");
-        token = value.data['token'];
+    showLoading(context);
+    try {
+      apiServices
+          .commonApi("${api.otpVerify}/${otpController.text}/verify", [],
+              ApiType.patch,
+              isToken: false)
+          .then((value) {
+        hideLoading(context);
+        if (value.isSuccess!) {
+          log("ssss ${value.data['token']}");
+          token = value.data['token'];
 
-        route.pushReplacementNamed(context, routeName.homeScreen);
-      }
-    });
+          route.pushReplacementNamed(context, routeName.homeScreen);
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("EEEE : verifyPhoneOtp $e");
+    }
   }
 
   defaultTheme(context) {

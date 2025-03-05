@@ -1,59 +1,45 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import '../../config.dart';
+import '../../services/api_service.dart';
+import '../../services/user_services.dart';
 
 class VerifyResetPasswordProvider extends ChangeNotifier {
   TextEditingController otpController = TextEditingController();
   bool isCodeSent = false, isCountDown = false, isEmail = false;
-  String? phone, dialCode, verificationCode, min, sec, email;
+  String? phone, dialCode, verificationCode, min, sec, phoneNum;
   GlobalKey<FormState> otpKey = GlobalKey<FormState>();
+
   getArgument(context) {
     otpKey = GlobalKey<FormState>();
     dynamic data = ModalRoute.of(context)!.settings.arguments;
 
-    email = data["email"].toString();
-
+    phoneNum = data["phoneNumber"].toString();
+    otpController.text = data["code"].toString();
+    verificationCode = data["code"].toString();
     log("ARG : $data");
     notifyListeners();
   }
 
   onTapVerify(context) {
     if (otpKey.currentState!.validate()) {
-      verifyOtp(context);
+      try {
+        apiServices
+            .commonApi("${api.otpVerify}/${otpController.text}/verify", [],
+                ApiType.patch)
+            .then((value) async {
+          if (value.isSuccess!) {
+            log("ssss ${value.data['token']}");
+            SharedPreferences pref = await SharedPreferences.getInstance();
+            await pref.setString(session.accessToken, value.data['token']);
+            route.pushNamed(context, routeName.resetPass);
+          }
+        });
+      } catch (e) {
+        log("EEEE : onTapVerify $e");
+      }
     }
-  }
-
-  //verify resetPass otp
-  verifyOtp(context) async {
-    showLoading(context);
-    hideLoading(context);
-    route.pushNamed(context, routeName.resetPass,
-        arg: {"otp": otpController.text, "email": email});
-
-    /*showLoading(context);
-    notifyListeners();
-
-    var body = {"otp": otpController.text, "email": email};
-    log("body : $body");
-
-    try {
-      await apiServices.postApi(api.verifyOtp, jsonEncode(body)).then((value) {
-        hideLoading(context);
-        log("SSSS : ${value.isSuccess}");
-        notifyListeners();
-        if (value.isSuccess!) {
-          route.pushNamed(context, routeName.resetPass,
-              arg: {"otp": otpController.text, "email": email});
-        } else {
-          snackBarMessengers(context,
-              message: value.message, color: appColor(context).red);
-        }
-      });
-    } catch (e) {
-      hideLoading(context);
-      notifyListeners();
-      log("CATCH verifyOtp: $e");
-    }*/
   }
 
   defaultTheme(context) {

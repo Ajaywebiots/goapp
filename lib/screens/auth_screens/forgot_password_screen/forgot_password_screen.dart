@@ -43,7 +43,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         Row(children: [
                           const SmallContainer(),
                           const HSpace(Sizes.s20),
-                          Text(language(context, appFonts.phone),
+                          Text(language(context, appFonts.phoneNumber),
                               style: appCss.dmDenseSemiBold14
                                   .textColor(appColor(context).darkText))
                         ]),
@@ -54,14 +54,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                                 controller: value.forgetController,
                                 keyboardType: TextInputType.phone,
                                 focusNode: value.emailFocus,
-                                hintText: language(context, appFonts.phone),
+                                hintText: language(
+                                    context, appFonts.enterPhoneNumber),
                                 prefixIcon: eSvgAssets.lock)
                             .paddingSymmetric(horizontal: Insets.i20),
                         const VSpace(Sizes.s40),
                         ButtonCommon(
                             title: language(context, appFonts.sendOtp),
                             margin: Insets.i20,
-                            onTap: () => value.onTapSendOtp(context)),
+                            onTap: () => value.onTapSendOtp(context))
                       ]).paddingSymmetric(vertical: Insets.i20))
             ]).paddingSymmetric(horizontal: Insets.i20)
           ]))))));
