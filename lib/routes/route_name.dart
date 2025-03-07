@@ -12,4 +12,5 @@ class RouteName {
   final String noInternet = '/noInternet';
   final String homeScreen = '/homeScreen';
   final String socialRegister = '/socialRegister';
+  final String dashboard = '/dashboard';
 }

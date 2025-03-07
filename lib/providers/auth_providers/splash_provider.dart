@@ -22,7 +22,7 @@ class SplashProvider extends ChangeNotifier {
 
           if (isIntro) {
             if (token != null) {
-              route.pushReplacementNamed(context, routeName.homeScreen);
+              route.pushReplacementNamed(context, routeName.dashboard);
             } else {
               route.pushReplacementNamed(context, routeName.login);
             }

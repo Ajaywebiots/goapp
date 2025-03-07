@@ -30,12 +30,14 @@ class VerifyOtpProvider with ChangeNotifier {
               ApiType.patch,
               isToken: false)
           .then((value) {
-        hideLoading(context);
-        if (value.isSuccess!) {
+        if (value.data['responseStatus'] == 1) {
+          hideLoading(context);
           log("ssss ${value.data['token']}");
           token = value.data['token'];
-
-          route.pushReplacementNamed(context, routeName.homeScreen);
+          route.pushReplacementNamed(context, routeName.dashboard);
+        } else {
+          hideLoading(context);
+          showMessage(context, value.data['responseMessage']);
         }
       });
     } catch (e) {

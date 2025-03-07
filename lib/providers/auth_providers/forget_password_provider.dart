@@ -16,12 +16,18 @@ class ForgetPasswordProvider with ChangeNotifier {
         apiServices
             .commonApi(api.forgotPassword, body, ApiType.post, isToken: false)
             .then((value) {
-          if (value.isSuccess!) {
+          if (value.data['code'].isNotEmpty) {
+            log("ssss ${value.data}");
+            log("ssss ${value.data['code']}");
+            hideLoading(context);
             log("Response: ${value.data}");
             route.pushNamed(context, routeName.verifyOtp, arg: {
               "phoneNumber": forgetController.text,
               "code": value.data["code"]
             });
+          } else {
+            hideLoading(context);
+            showMessage(context, value.data['responseMessage']);
           }
         });
       } on Exception catch (e) {

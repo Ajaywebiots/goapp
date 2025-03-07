@@ -11,6 +11,15 @@
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="db847b2314a4b0cd9c426e15169c5c74"/>
+        <meta-data
+            android:name="android.surfaceview.max_buffers"
+            android:value="3"/>
+        <meta-data
+            android:name="io.flutter.embedding.android.SurfaceView"
+            android:value="true"/>
+        <meta-data
+            android:name="io.flutter.embedding.android.useEmbeddedSurfaceTexture"
+            android:value="true"/>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

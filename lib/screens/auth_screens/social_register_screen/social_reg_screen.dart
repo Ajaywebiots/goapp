@@ -106,7 +106,7 @@ class SocialRegScreen extends StatelessWidget {
                           title: language(context, appFonts.signUp),
                           onTap: () {
                             route.pushReplacementNamed(
-                                context, routeName.homeScreen);
+                                context, routeName.dashboard);
                           }).paddingSymmetric(horizontal: Insets.i20),
                       const VSpace(Sizes.s15),
                       RegisterWidgetClass().notMember(context)

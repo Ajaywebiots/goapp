@@ -40,15 +40,18 @@ class LoginProvider with ChangeNotifier {
       apiServices
           .commonApi(api.authenticate, body, ApiType.post)
           .then((value) async {
-        if (value.isSuccess!) {
-          log("ajay hariyani ${value.data}");
-          log("token TTTT ${value.data['token']}");
+        if (value.data['responseStatus'] == 1) {
+          hideLoading(context);
+          log("login data ${value.data}");
+          log("token  ${value.data['token']}");
           SharedPreferences pref = await SharedPreferences.getInstance();
           await pref.setString(session.accessToken, value.data['token']);
+          log("accessToken ${pref.getString(session.accessToken)}");
 
-          log("tokeneeeee ${pref.getString(session.accessToken)}");
+          route.pushNamed(context, routeName.dashboard);
+        } else {
           hideLoading(context);
-          route.pushNamed(context, routeName.homeScreen);
+          showMessage(context, value.data['responseMessage']);
         }
       });
     } catch (e) {

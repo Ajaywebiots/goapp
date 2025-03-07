@@ -63,7 +63,7 @@ class RegisterProvider extends ChangeNotifier {
         apiServices
             .commonApi(api.register, body, ApiType.post, isToken: false)
             .then((value) {
-          if (value.isSuccess!) {
+          if (value.data['responseStatus'] == 1) {
             log("ssss ${value.data}");
             hideLoading(context);
             userNameCtrl.text = "";
@@ -78,8 +78,7 @@ class RegisterProvider extends ChangeNotifier {
             route.pushReplacementNamed(context, routeName.login);
           } else {
             hideLoading(context);
-            snackBarMessengers(context,
-                message: value.message, color: appColor(context).red);
+            showMessage(context, value.data['responseMessage']);
           }
         });
       }

@@ -29,11 +29,14 @@ class VerifyResetPasswordProvider extends ChangeNotifier {
             .commonApi("${api.otpVerify}/${otpController.text}/verify", [],
                 ApiType.patch)
             .then((value) async {
-          if (value.isSuccess!) {
+          if (value.data['responseStatus'] == 1) {
             log("ssss ${value.data['token']}");
             SharedPreferences pref = await SharedPreferences.getInstance();
             await pref.setString(session.accessToken, value.data['token']);
             route.pushNamed(context, routeName.resetPass);
+          } else {
+            hideLoading(context);
+            showMessage(context, value.data['responseMessage']);
           }
         });
       } catch (e) {

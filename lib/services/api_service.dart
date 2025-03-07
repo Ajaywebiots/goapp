@@ -1,14 +1,19 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/services/environment.dart';
-
 import 'api_data_class.dart';
 
 enum ApiType { post, get, put, delete, patch }
+
+void showMessage(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message,
+          style:
+              AppCss().dmDenseMedium12.textColor(appColor(context).darkText))));
+}
 
 class ApiServices {
   final dio = Dio();

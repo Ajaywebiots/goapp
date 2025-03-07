@@ -57,7 +57,7 @@ class ImageAssets {
   final window2 = "assets/images/window2.png";
   final window3 = "assets/images/window3.png";
 
-  final banner1 = "assets/images/banner1.png";
+  final banner1 = "assets/images/Banner1.png";
   final banner2 = "assets/images/banner2.png";
   final homeAnimation = "assets/images/homeAnimation.png";
   final cleaning = "assets/images/cleaning.png";

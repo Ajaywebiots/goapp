@@ -23,10 +23,11 @@ class LoginWithPhoneProvider with ChangeNotifier {
         apiServices
             .commonApi(api.otp, body, ApiType.post, isToken: false)
             .then((value) async {
-          if (value.isSuccess!) {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            log("token.toString ${token.toString()}");
-            await prefs.setString('authToken', token.toString());
+          log("dasdasdasd ${value.data}");
+          if (value.data['code'].isNotEmpty) {
+            // SharedPreferences prefs = await SharedPreferences.getInstance();
+            // log("token.toString ${token.toString()}");
+            // await prefs.setString('authToken', token.toString());
             log("ssss ${value.data}");
             log("ssss ${value.data['code']}");
             hideLoading(context);
@@ -35,9 +36,13 @@ class LoginWithPhoneProvider with ChangeNotifier {
               "dialCode": dialCode,
               "code": value.data['code']
             });
+          } else {
+            hideLoading(context);
+            showMessage(context, value.data['responseMessage']);
           }
         });
       } catch (e) {
+        hideLoading(context);
         log("EEEE : login $e");
       }
     }

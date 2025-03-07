@@ -7,9 +7,12 @@ class ApiClass {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         "Authorization": "Bearer $token",
-        "Accept-Lang": "en",
+        "X-GoApp-Api-Key": "ba16106c-2d7b-4a13-bdb2-b15b19691280"
       };
 
-  static Map<String, String>? get headers =>
-      {'Accept': 'application/json', 'Content-Type': 'application/json'};
+  static Map<String, String>? get headers => {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "X-GoApp-Api-Key": "ba16106c-2d7b-4a13-bdb2-b15b19691280"
+      };
 }

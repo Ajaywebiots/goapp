@@ -92,19 +92,17 @@ class SelectionListState extends State<SelectionList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            widget.theme?.searchText ?? 'SEARCH',
-                            style: TextStyle(
-                                color:
-                                    widget.theme?.labelColor ?? Colors.black),
-                          ),
-                        ),
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(widget.theme?.searchText ?? 'SEARCH',
+                                style: TextStyle(
+                                    color: widget.theme?.labelColor ??
+                                        Colors.black))),
                         Container(
                           color: Colors.white,
                           child: TextField(
                             controller: _controller,
                             decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,

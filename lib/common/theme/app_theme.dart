@@ -8,6 +8,7 @@ class AppTheme {
   //Theme Colors
   bool isDark;
   Color primary;
+  Color second;
   Color darkText;
   Color lightText;
   Color whiteBg;
@@ -28,6 +29,7 @@ class AppTheme {
   AppTheme({
     required this.isDark,
     required this.primary,
+    required this.second,
     required this.darkText,
     required this.lightText,
     required this.whiteBg,
@@ -73,13 +75,15 @@ class AppTheme {
           greenColor: const Color(0xff27AF4D),
           cartBottomBg: const Color(0xffF1F3FF),
           skeletonColor: const Color(0xffEDEDED),
+          second: Color(0xff5465FF),
         );
 
       case ThemeType.dark:
         return AppTheme(
             isDark: true,
             primary: const Color(0xff2362A8),
-            darkText: const Color(0xffF1F1F1),
+            // darkText: const Color(0xffF1F1F1),
+            darkText: const Color(0xff00162E),
             lightText: const Color(0xff808B97),
             whiteBg: const Color(0xff1A1C28),
             stroke: const Color(0xff3A3D48),
@@ -96,6 +100,7 @@ class AppTheme {
             greenColor: const Color(0xff27AF4D),
             cartBottomBg: const Color(0xffF1F3FF),
             skeletonColor: const Color(0xffEDEDED),
+            second: Color(0xff5465FF),
             borderStroke: const Color(0xffE5E8EA));
 
       // TODO: Handle this case.

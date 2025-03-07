@@ -2,7 +2,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:goapp/providers/auth_providers/social_register_provider.dart';
 import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
-import 'package:goapp/providers/dashboard_provider/home_screen_provider.dart';
+import 'package:goapp/providers/bottom_providers/booking_provider.dart';
+import 'package:goapp/providers/bottom_providers/cart_provider.dart';
+import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
+import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -41,6 +45,10 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
                   ChangeNotifierProvider(create: (_) => LoginProvider()),
                   ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
+                  ChangeNotifierProvider(create: (_) => ProfileProvider()),
+                  ChangeNotifierProvider(create: (_) => BookingProvider()),
+                  ChangeNotifierProvider(create: (_) => CartProvider()),
+                  ChangeNotifierProvider(create: (_) => DashboardProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LoginWithPhoneProvider()),
                   ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),

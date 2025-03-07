@@ -1560,7 +1560,6 @@ class CountryListLayout extends StatelessWidget {
                           color: Colors.transparent,
                           child: ListTile(
                               leading: Image.asset(countryCode.flagUri!,
-                                  // package: 'country_list_pick',
                                   width: 30.0),
                               title: Text(countryCode.name!,
                                   style: appCss.dmDenseMedium14

@@ -46,7 +46,7 @@ class ResetPasswordProvider extends ChangeNotifier {
         apiServices
             .commonApi(api.resetPassword, body, ApiType.patch, isToken: true)
             .then((value) {
-          if (value.isSuccess!) {
+          if (value.data['responseStatus'] == 1) {
             hideLoading(context);
             showCupertinoDialog(
                 context: context,
@@ -89,9 +89,7 @@ class ResetPasswordProvider extends ChangeNotifier {
             notifyListeners();
           } else {
             hideLoading(context);
-            final scaffoldMessenger = ScaffoldMessenger.of(context);
-            scaffoldMessenger
-                .showSnackBar(SnackBar(content: Text(value.message)));
+            showMessage(context, value.data['responseMessage']);
           }
         });
       } catch (e) {

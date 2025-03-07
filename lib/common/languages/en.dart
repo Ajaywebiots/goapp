@@ -101,7 +101,7 @@ final english = {
   "customMessage": "Custom Message",
   "writeHere": "Write Here",
   "disclaimer": "Disclaimer",
-  "viewAll": "View All",
+  "viewAll": "View all",
   "servicesDelivered": "Services Delivered",
   "services": "Services",
   "location": "Location",
