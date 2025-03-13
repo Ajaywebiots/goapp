@@ -1,0 +1,36 @@
+
+import '../config.dart';
+
+class SearchTextFieldCommon extends StatelessWidget {
+  final TextEditingController? controller;
+  final Widget? suffixIcon;
+  final ValueChanged<String>? onChanged, onFieldSubmitted;
+  final FocusNode? focusNode;
+  final Color? color;
+  final GestureTapCallback? onTap;
+
+  const SearchTextFieldCommon(
+      {super.key,
+      this.controller,
+      this.suffixIcon,
+      this.onChanged,
+      this.color,
+      this.focusNode,
+      this.onFieldSubmitted, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFieldCommon(
+        hintStyle: appCss.dmDenseRegular13
+            .textColor(appColor(context).appTheme.lightText),
+        radius: AppRadius.r23,
+        hintText: appFonts.searchHere,
+        controller: controller,onTap:onTap ,
+        focusNode: focusNode,
+        onFieldSubmitted: onFieldSubmitted,
+        fillColor: appColor(context).appTheme.fieldCardBg,
+        suffixIcon: suffixIcon,
+        onChanged: onChanged,
+        prefixIcon: eSvgAssets.search);
+  }
+}
