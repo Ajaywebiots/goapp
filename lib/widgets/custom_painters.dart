@@ -232,9 +232,9 @@ class CouponPainter extends CustomPainter {
     path_0.lineTo(size.width * 0.7622951, 0);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff000000).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = const Color(0xfff99D1C).withValues(alpha: 0.4);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(size.width * 0.7622951, 0);
@@ -300,9 +300,9 @@ class CouponPainter extends CustomPainter {
     path_1.lineTo(size.width * 0.7622951, 0);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xffF99D1C).withOpacity(1);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Colors.transparent;
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(size.width * 0.7622951, 0);
@@ -709,9 +709,9 @@ class CouponPainter extends CustomPainter {
     path_2.lineTo(size.width * 0.7622951, size.height * 0.01428571);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffF99D1C).withOpacity(0.4);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = const Color(0xfff99D1C).withValues(alpha: 0.4);
+    canvas.drawPath(path_2, paint2Fill);
   }
 
   @override

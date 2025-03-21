@@ -4,7 +4,7 @@ class CouponModel {
   int? id;
   String? code;
   String? type;
-  int? amount;
+  String? amount;
   int? minSpend;
   int? isUnlimited;
   String? usagePerCoupon;
@@ -23,6 +23,9 @@ class CouponModel {
   List<Services>? services;
   List<Services>? excludeServices;
   String? icon;
+  String? title;
+  String? subTitle;
+  String? validTill;
 
   CouponModel(
       {this.id,
@@ -46,6 +49,9 @@ class CouponModel {
       this.updatedAt,
       this.deletedAt,
       this.services,
+      this.title,
+      this.subTitle,
+      this.validTill,
       this.excludeServices});
 
   CouponModel.fromJson(Map<String, dynamic> json) {
@@ -69,6 +75,9 @@ class CouponModel {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     icon = json['icon'];
+    title = json['title'];
+    validTill = json['validTill'];
+    subTitle = json['subTitle'];
     if (json['services'] != null) {
       services = <Services>[];
       json['services'].forEach((v) {
@@ -105,6 +114,8 @@ class CouponModel {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['icon'] = icon;
+    data['title'] = title;
+    data['subTitle'] = subTitle;
     if (services != null) {
       data['services'] = services!.map((v) => v.toJson()).toList();
     }

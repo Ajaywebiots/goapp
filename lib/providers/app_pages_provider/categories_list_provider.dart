@@ -1,56 +1,77 @@
 import 'dart:developer';
 
-import 'package:fixit_user/config.dart';
+import 'package:goapp/services/api_service.dart';
 
-class CategoriesListProvider with ChangeNotifier{
+import '../../config.dart';
+import '../../models/api_model/category_model.dart';
+import '../../models/category_model.dart';
+import '../bottom_providers/dashboard_provider.dart';
+
+class CategoriesListProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
   bool isGrid = true;
-List<CategoryModel> categoryList =[];
+
+  // List<CategoryModel> categoryList = [];
+  List categoryList = [];
   final FocusNode searchFocus = FocusNode();
   int? selectedIndex;
 
-  onGrid(){
+  onGrid() {
     isGrid = !isGrid;
     notifyListeners();
   }
 
-
-  onReady(context,dash){
+  onReady(context, DashboardProvider dash) {
     //final dash = Provider.of<DashboardProvider>(context, listen: false);
-    categoryList  = dash.categoryList;
+    // categoryList = dash.categoryList;
+
+    getCategoriesData(context);
     notifyListeners();
   }
 
-
-  searchCategory(context)async{
-    categoryList= [];
+  getCategoriesData(context) {
+    showLoading(context);
     notifyListeners();
-    try {
-      String apiUrl = api.category;
-      if(searchCtrl.text.isNotEmpty){
-        apiUrl = "${api.category}?search=${searchCtrl.text}";
-      }else{
-        apiUrl = api.category;
+    apiServices
+        .commonApi(api.businessCategories, [], ApiType.get)
+        .then((value) {
+      if (value.data['responseStatus'] == 1) {
+        notifyListeners();
+        hideLoading(context);
+        log("API Response: ${value.data}");
+        CategoryModelAPI categoryModel = CategoryModelAPI.fromJson(value.data);
+        notifyListeners();
+        // Clear old list and add new parsed categories
+        categoryList.clear();
+        notifyListeners();
+        categoryList.addAll(categoryModel.categories ?? []);
+        notifyListeners();
       }
+    });
+  }
 
-      log("CATEGIRY");
-      await apiServices.getApi(apiUrl, []).then((value) {
-        if (value.isSuccess!) {
-          List category =value.data;
-          for (var data in category.reversed.toList()) {
-            if(!categoryList.contains(CategoryModel.fromJson(data))) {
-              categoryList.add(CategoryModel.fromJson(data));
+  searchCategory(context, DashboardProvider dash) async {
+    categoryList = [];
+    notifyListeners();
+    /*try {
+      if (searchCtrl.text.isNotEmpty) {
+        for (var data in dash.categoryList) {
+          if (data.title!
+              .toLowerCase()
+              .contains(searchCtrl.text.replaceAll(" ", "").toLowerCase())) {
+            if (!categoryList.contains(data)) {
+              categoryList.add(data);
             }
             notifyListeners();
           }
         }
-      });
-      log("categoryList :${categoryList.length}");
-
+      } else {
+        // categoryList = dash.categoryList;
+        notifyListeners();
+      }
     } catch (e) {
       notifyListeners();
-    }
+    }*/
     notifyListeners();
   }
-
 }

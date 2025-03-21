@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config.dart';
+import '../../../../models/api_model/category_model.dart';
 import '../../../../models/category_model.dart';
 
 class TopCategoriesLayout extends StatelessWidget {
-  final CategoryModel? data;
+  final data;
   final GestureTapCallback? onTap;
   final int? index, selectedIndex;
   final double? rPadding;
@@ -36,7 +37,8 @@ class TopCategoriesLayout extends StatelessWidget {
                           : appColor(context).trans),
                   borderRadius: SmoothBorderRadius(
                       cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
-          child: data!.media != null && data!.media!.isNotEmpty
+          child:
+              Container() /*data!.media != null && data!.media!.isNotEmpty
               ? SvgPicture.asset(data!.media![0].originalUrl!,
                       colorFilter: ColorFilter.mode(
                           selectedIndex == index
@@ -58,19 +60,14 @@ class TopCategoriesLayout extends StatelessWidget {
                           fit: BoxFit.cover,
                           height: Sizes.s24,
                           width: Sizes.s24)
-                      .paddingAll(Insets.i18)),
+                      .paddingAll(Insets.i18)*/
+          ),
       const VSpace(Sizes.s8),
-      /*   Text(data!.title!,
-          textAlign: TextAlign.center,
-
-          style: appCss.dmDenseRegular13.textColor(selectedIndex == index
-              ? appColor(context)primary
-              : appColor(context)darkText))*/
       Marquee(
           directionMarguee: DirectionMarguee.oneDirection,
           animationDuration: const Duration(milliseconds: 1500),
           pauseDuration: const Duration(milliseconds: 1000),
-          child: Text(language(context, data!.title!),
+          child: Text(language(context, data?.translatedValue ?? ""),
               textAlign: TextAlign.center,
               style: appCss.dmDenseRegular13.textColor(selectedIndex == index
                   ? appColor(context).primary

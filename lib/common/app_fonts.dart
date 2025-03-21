@@ -53,7 +53,9 @@ class AppFonts {
   final verifyProceed = "verifyProceed";
   final resendCode = "resendCode";
   final oppsYour = "oppsYour";
-  final clickTheRefresh = "clickTheRefresh";
+  final clickTheRefresh = "Click the " "Refresh" " button below to try again";
+  final sorry =
+      "Sorry, we could not find any results. Please change your search and try again";
   final refresh = "refresh";
   final selectCountry = "selectCountry";
   final loginWithPhone = "loginWithPhone";
@@ -98,6 +100,7 @@ class AppFonts {
   final writeHere = "writeHere";
   final disclaimer = "disclaimer";
   final viewAll = "viewAll";
+  final viewHistory = "View History";
   final servicesDelivered = "servicesDelivered";
   final services = "services";
   final location = "location";
@@ -117,10 +120,12 @@ class AppFonts {
   ////''''''''''''''''''
   final currentLocation = "Current Location";
   final salamina = "Salamina";
-  final promotions = "Promotions";
+
+  //////////
+
+  final promotions = "Popular Offers";
   ///////'''''''''''''''
 /////////////////////////
-  final fixit = "fixit";
   final welcomeToJust = "welcomeToJust";
   final findYour = "findYour";
   final bookYourDate = "bookYourDate";
@@ -153,10 +158,11 @@ class AppFonts {
   final french = "french";
   final spanish = "spanish";
 
-  final home = "home";
-  final booking = "booking";
-  final offer = "offer";
-  final profile = "profile";
+  final home = "Home";
+  final booking = "Listings";
+  final cart = "Explore";
+  final offer = "Offers";
+  final menu = "Menu";
 
   final topCategories = "Top categories";
   final acRepair = "Ac Repair";
@@ -184,7 +190,7 @@ class AppFonts {
   final arleneMcCoy = "arleneMcCoy";
   final darleneRobertson = "darleneRobertson";
   final furnishing = "furnishing";
-  final expertService = "expertService";
+  final featuredAttractions = "Featured Attractions";
   final leslie = "leslie";
   final paintingService = "paintingService";
   final santaAna = "santaAna";
@@ -193,7 +199,8 @@ class AppFonts {
   final allentown = "allentown";
   final guyHawkins = "guyHawkins";
   final salonService = "salonService";
-  final latestBlog = "latestBlog";
+  final latestBlog = "Latest blog";
+  final latestArticles = "Latest Articles";
   final switchboard = "switchboard";
   final woodenPartition = "woodenPartition";
   final feb25 = "feb25";
@@ -213,6 +220,7 @@ class AppFonts {
   final inr = "inr";
   final pound = "pound";
 
+  final pointOfInterests = "Point of Interests";
 ////
   final profileSetting = "profileSetting";
   final zainDorwart = "zainDorwart";
@@ -225,7 +233,7 @@ class AppFonts {
   final aboutApp = "aboutApp";
   final appDetails = "appDetails";
   final aboutUs = "aboutUs";
-  final rateUs = "rateUs";
+  final rateUs = "Rate Us";
   final shareApp = "shareApp";
   final becomeProvider = "becomeProvider";
   final alertZone = "alertZone";
@@ -233,7 +241,7 @@ class AppFonts {
   final logOut = "logOut";
 
   final bankOfAmerica = "bankOfAmerica";
-  final useCode = "useCode";
+  final useCode = "Use Code";
   final code = "code";
 
   final off30 = "off30";
@@ -252,18 +260,20 @@ class AppFonts {
   final providerList = "providerList";
   final serviceList = "serviceList";
   final myLocations = "myLocations";
-  final review = "review";
-  final reviews = "reviews";
+  final review = "Review";
+  final reviews = "Latest Reviews";
+  final activeOffers = "Active Offers";
+
   final address = "address";
   final editReview = "editReview";
-  final whatDoYouThink = "whatDoYouThink";
-  final explainEmoji = "explainEmoji";
-  final bad = "bad";
-  final okay = "okay";
-  final good = "good";
-  final amazing = "amazing";
-  final excellent = "excellent";
-  final saySomething = "saySomething";
+  final whatDoYouThink =
+      "What do you think of the service provided by our business?";
+  final bad = "Bad";
+  final okay = "Okay";
+  final good = "Good";
+  final amazing = "Amazing";
+  final excellent = "Excellent";
+  final writeYourReview = "Write your review";
   final rateApp = "rateApp";
   final privacyPolicy = "privacyPolicy";
   final cancellationPolicy = "cancellationPolicy";
@@ -273,7 +283,8 @@ class AppFonts {
   final submitLocation = "submitLocation";
   final yourReview = "yourReview";
   final successfullySubmit = "successfullySubmit";
-  final contactUs = "contactUs";
+  final contactUs = "Contact Us";
+  final openingHours = "Opening Hours";
   final selectError = "selectError";
   final purchaseError = "purchaseError";
   final technicalError = "technicalError";
@@ -288,8 +299,9 @@ class AppFonts {
   final yourAccountWill = "yourAccountWill";
 
   //
-  final notifications = "notifications";
-  final nothingHere = "nothingHere";
+  final notifications = "Notifications";
+  final nothingHere = "No notifications we found";
+  final noResultsWereFound = "No results were found";
   final noSaveLocation = "noSaveLocation";
   final thereAreNo = "thereAreNo";
   final addNewLocation = "addNewLocation";
@@ -310,33 +322,41 @@ class AppFonts {
   final addLocation = "addLocation";
   final editLocation = "editLocation";
   final updateLocation = "updateLocation";
-  final search = "search";
+  final search = "Search";
+  final offerDetails = "Offer Details";
+  final gallery = "Gallery";
   final noMatching = "noMatching";
   final attemptYourSearch = "attemptYourSearch";
   final searchAgain = "searchAgain";
   final enterValidZip = "enterValidZip";
-  final recentSearch = "recentSearch";
-  final category = "category";
-  final priceRating = "priceRating";
-  final distance = "distance";
-  final categoryList = "categoryList";
-  final filterBy = "filterBy";
-  final clearAll = "clearAll";
-  final apply = "apply";
-  final nearByLocation = "nearByLocation";
-  final distanceLocation = "distanceLocation";
-  final rating = "rating";
+  final recentSearch = "Recent Search";
+  final category = "Category";
+  final priceRating = "Price Rating";
+  final distance = "Distance";
+  final categoryList = "Category List";
+  final couponTypeList = "Coupon type list";
+  final businessCategoryList = "Business category list";
+  final blogCategoryList = "Blog category list";
+  final filterBy = "Filter by";
+  final clearAll = "Clear All";
+  final apply = "Apply";
+  final addToContacts = "Add to Contacts";
+  final nearByLocation = "Select City or Area";
+  final distanceLocation = "Distance Location";
+  final addReview = "Add Review";
+
+  final rating = "Rating";
   final priceRange = "priceRange";
 
   final australianDollar = "australianDollar";
-  final description = "description";
+  final description = "Description";
   final ohhNoList = "ohhNoList";
   final yourBookingList = "yourBookingList";
   final bookings = "bookings";
   final selectOne = "selectOne";
   final chooseFromGallery = "chooseFromGallery";
   final openCamera = "openCamera";
-  final categories = "categories";
+  final categories = "Categories";
   final subCategories = "subCategories";
   final installation = "installation";
   final hanging = "hanging";
@@ -350,18 +370,18 @@ class AppFonts {
   final totalExperience = "totalExperience";
   final year3 = "year3";
   final alsoProvided = "alsoProvided";
-  final addToCart = "addToCart";
+
   final more = "more";
   final providerDetails = "providerDetails";
-  final averageRate = "averageRate";
+  final averageRate = "Average Rate";
   final star5 = "star5";
   final star4 = "star4";
   final star3 = "star3";
   final star2 = "star2";
   final star1 = "star1";
   final star = "star";
-  final lowestRate = "lowestRate";
-  final highestRate = "highestRate";
+  final lowestRate = "Lowest Rate";
+  final highestRate = "Highest Rate";
   final detailsOfProvider = "detailsOfProvider";
   final theBusiness = "theBusiness";
   final personalInfo = "personalInfo";
@@ -411,7 +431,7 @@ class AppFonts {
   final subtotal = "subtotal";
   final proceedCheckout = "proceedCheckout";
   final enterCode = "enterCode";
-  final couponList = "couponList";
+  final offers = "Offers";
   final mastercard = "mastercard";
   final validTill = "validTill";
   final off = "off";
@@ -508,58 +528,21 @@ class AppFonts {
   final noOfRequired = "No. of required servicemen";
   final iAccomplished = "I accomplished it on my own.";
 
-  final noOfRequiredServiceman = "noOfRequiredServiceman";
   final of = "of";
-  final min = "min";
-  final servicemenRequired = "servicemenRequired";
-  final selectAnotherServiceMan = "selectAnotherServiceMan";
-  final couponDiscount = "couponDiscount";
-  final platformFees = "platformFees";
-  final percentage = "percentage";
-  final dateTimeShowInPackageDetail = "dateTimeShowInPackageDetail";
-  final appSelectNote = "appSelectNote";
-  final hurry = "hurry";
-  final withCode = "withCode";
-  final couponDesc = "couponDesc";
   final to = "to";
   final paid = "paid";
   final notPaid = "notPaid";
   final paidInAdvance = "paidInAdvance";
   final wp = "Wp";
-  final extraServiceCharge = "extraServiceCharge";
-  final cash = "cash";
-  final pay = "pay";
-  final hour = "hour";
-  final minute = "minute";
-  final day = "day";
-  final selectAddress = "selectAddress";
-  final selectPrimaryLocation = "selectPrimaryLocation";
   final served = "served";
   final dealsZone = "dealsZone";
-  final pleaseSelectAddress = "pleaseSelectAddress";
-  final servicePackageDisclaimer = "servicePackageDisclaimer";
-  final appliedDiscount = "appliedDiscount";
-  final totalSelectedServicemenList = "totalSelectedServicemenList";
-  final fresher = "fresher";
-  final at = "at";
   final successfullyDelete = "successfullyDelete";
-  final deleteLocationSuccessfully = "deleteLocationSuccessfully";
   final deleteCartSuccessfully = "deleteCartSuccessfully";
-  final deleteCart = "deleteCart";
-  final deleteLocation = "deleteLocation";
   final deleteNotificationSuccessfully = "deleteNotificationSuccessfully";
   final deleteNotification = "deleteNotification";
-  final deleteReview = "deleteReview";
-  final spend = "spend";
-  final toSave = "toSave";
-  final ofRealPrice = "ofRealPrice";
-  final serviceCompleted = "serviceCompleted";
+
   final notificationDeletedSuccessfully = "notificationDeletedSuccessfully";
-  final locationDeletedSuccessfully = "locationDeletedSuccessfully";
   final cartDeletedSuccessfully = "cartDeletedSuccessfully";
-  final cancelBookingSuccessfully = "cancelBookingSuccessfully";
-  final reviewDeleteSuccessfully = "cancelDeleteSuccessfully";
-  final deleteReviewSuccessfully = "deleteReviewSuccessfully";
-  final reviewDeletedSuccessfully = "reviewDeletedSuccessfully";
+
   final logoutDesc = "logoutDesc";
 }

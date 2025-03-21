@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../../config.dart';
 
 class LanguageDropDownLayout extends StatelessWidget {
@@ -12,7 +10,7 @@ class LanguageDropDownLayout extends StatelessWidget {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
             width: Sizes.s83,
-            height: 34,
+            height: Insets.i34,
             child: DropdownButtonHideUnderline(
                 child: ButtonTheme(
                     child: DropdownButton(
@@ -24,7 +22,6 @@ class LanguageDropDownLayout extends StatelessWidget {
                         icon: SvgPicture.asset(eSvgAssets.dropDown,
                             colorFilter: ColorFilter.mode(
                                 appColor(context).darkText, BlendMode.srcIn)),
-                        isDense: true,
                         isExpanded: true,
                         hint: Text(langProvider.currentLanguage
                             .substring(0, 2)
@@ -73,20 +70,13 @@ class LanguageList {
       List.generate(appArray.languageList.length, (i) {
         return i == index
             ? Row(children: [
-                // Image.asset(
-                //     appArray.languageList[index!]['icon']
-                //         .toString(),
-                //     width: Sizes.s30,
-                //     height: Sizes.s30),
-                // const HSpace(Sizes.s5),
                 Text(
                     language(context,
                             appArray.languageList[index!]["title"]!.toString())
                         .substring(0, 2)
                         .toUpperCase(),
                     style: appCss.dmDenseMedium14
-                        .textColor(appColor(context).darkText),
-                    overflow: TextOverflow.ellipsis)
+                        .textColor(appColor(context).darkText))
               ])
             : Container();
       });
@@ -97,7 +87,6 @@ class LanguageList {
           onTap: onTap,
           child: Row(children: [
             SizedBox(
-                width: Sizes.s50,
                 child: Text(language(context, data["title"]!.toString()),
                     style: appCss.dmDenseMedium14
                         .textColor(appColor(context).lightText),

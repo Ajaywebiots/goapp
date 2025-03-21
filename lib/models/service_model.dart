@@ -8,8 +8,10 @@ class Services {
   String? status;
   String? duration;
   String? durationUnit;
+  String? phoneNum;
   String? serviceRate;
   String? discount;
+  String? location;
   String? description;
   String? userId;
   String? type;
@@ -32,6 +34,9 @@ class Services {
   String? selectedDateTimeFormat;
   String? selectedServiceNote;
   PrimaryAddress? primaryAddress;
+  int? totalReviewRating;
+  bool? isFav;
+  String? distance;
 
   Services(
       {this.id,
@@ -44,6 +49,8 @@ class Services {
       this.discount,
       this.description,
       this.userId,
+      this.location,
+      this.phoneNum,
       this.type,
       this.isFeatured,
       this.requiredServicemen,
@@ -62,6 +69,9 @@ class Services {
       this.primaryAddress,
       this.selectDateTimeOption,
       this.selectedDateTimeFormat,
+      this.totalReviewRating,
+      this.isFav,
+      this.distance,
       this.selectedServiceNote});
 
   Services.fromJson(Map<String, dynamic> json) {
@@ -77,10 +87,14 @@ class Services {
     userId = json['user_id'];
     type = json['type'];
     isFeatured = json['is_featured'];
+    phoneNum = json['phoneNum'];
     requiredServicemen = json['required_servicemen'];
     isMultipleServiceman = json['isMultipleServiceman'];
     metaDescription = json['meta_description'];
     selectServiceManType = json['selectServiceManType'];
+    isFav = json['isFav'];
+    location = json['location'];
+    distance = json['distance'];
     serviceDate = json["serviceDate"] == null
         ? null
         : DateTime.parse(json["serviceDate"]);
@@ -94,6 +108,7 @@ class Services {
     selectDateTimeOption = json['selectDateTimeOption'];
     selectedDateTimeFormat = json['selectedDateTimeFormat'];
     selectedServiceNote = json['selectedServiceNote'];
+    totalReviewRating = json['total_review_ratings'];
     if (json['categories'] != null) {
       categories = <CategoryModel>[];
       json['categories'].forEach((v) {
@@ -143,11 +158,15 @@ class Services {
     data['description'] = description;
     data['user_id'] = userId;
     data['type'] = type;
+    data['location'] = location;
     data['is_featured'] = isFeatured;
     data['required_servicemen'] = requiredServicemen;
     data['isMultipleServiceman'] = isMultipleServiceman;
     data['meta_description'] = metaDescription;
     data['selectServiceManType'] = selectServiceManType;
+    data['total_review_ratings'] = totalReviewRating;
+    data['phoneNum'] = phoneNum;
+    data['distance'] = distance;
     data['serviceDate'] =
         serviceDate == null ? null : serviceDate!.toIso8601String();
 
@@ -157,6 +176,7 @@ class Services {
     data['selectDateTimeOption'] = selectDateTimeOption;
     data['selectedDateTimeFormat'] = selectedDateTimeFormat;
     data['selectedServiceNote'] = selectedServiceNote;
+    data['isFav'] = isFav;
     if (primaryAddress != null) {
       data['primary_address'] = primaryAddress!.toJson();
     }

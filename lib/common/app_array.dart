@@ -62,12 +62,17 @@ class AppArray {
       "icon2": eSvgAssets.bookingFill
     },
     {
+      "title": appFonts.cart,
+      "icon": eSvgAssets.cart,
+      "icon2": eSvgAssets.cartFill
+    },
+    {
       "title": appFonts.offer,
       "icon": eSvgAssets.offerOut,
       "icon2": eSvgAssets.offerFill
     },
     {
-      "title": "Logout",
+      "title": appFonts.menu,
       "icon": eSvgAssets.profileOut,
       "icon2": eSvgAssets.profileFill
     }
@@ -95,42 +100,27 @@ class AppArray {
   ];
 
   var categoriesList = [
-    {"title": appFonts.acRepair, "icon": eSvgAssets.ac},
-    {"title": appFonts.cleaning, "icon": eSvgAssets.cleaning},
-    {"title": appFonts.carpenter, "icon": eSvgAssets.carpenter},
-    {"title": appFonts.cooking, "icon": eSvgAssets.cooking},
-    {"title": appFonts.electrician, "icon": eSvgAssets.electrician},
-    {"title": appFonts.painter, "icon": eSvgAssets.painter},
-    {"title": appFonts.plumber, "icon": eSvgAssets.plumber},
-    {"title": appFonts.salon, "icon": eSvgAssets.salon}
+    {"title": "Stays", "icon": eSvgAssets.ac},
+    {"title": "Beauty", "icon": eSvgAssets.cleaning},
+    {"title": "Restaurants", "icon": eSvgAssets.carpenter},
+    {"title": "Fitness", "icon": eSvgAssets.cooking},
+    {"title": "Health", "icon": eSvgAssets.electrician},
+    {"title": "Nightlife", "icon": eSvgAssets.painter},
+    {"title": "Shopping", "icon": eSvgAssets.plumber},
+    {"title": "Real Estate", "icon": eSvgAssets.salon},
+    {"title": "Bars", "icon": eSvgAssets.ac},
+    {"title": "Cafes", "icon": eSvgAssets.cleaning},
+    {"title": "Banks", "icon": eSvgAssets.carpenter},
+    {"title": "Cooking", "icon": eSvgAssets.cooking},
+    {"title": "Electrician", "icon": eSvgAssets.electrician},
+    {"title": "Painter", "icon": eSvgAssets.painter},
+    {"title": "Plumber", "icon": eSvgAssets.plumber},
+    {"title": "Salon", "icon": eSvgAssets.salon},
+    {"title": "Ac Repair", "icon": eSvgAssets.ac},
+    {"title": "Cleaning", "icon": eSvgAssets.cleaning},
   ];
 
   var servicesList = [
-    {
-      "id": 4,
-      "title": "Ac deep cleaning",
-      "price": "12.00",
-      "duration": "00:30",
-      "duration_unit": "minute",
-      "service_rate": "12.00",
-      "discount": "0.00",
-      "description": "Foamjet tachnology removes dust 2x dee",
-      "user_id": "2",
-      "required_servicemen": "2",
-      "distance": 2.884202079111746,
-      "review_ratings": [0, 0, 0, 0, 1],
-      "media": [
-        {"id": 34, "original_url": eImageAssets.fsl1}
-      ],
-      "user": {
-        "id": 2,
-        "name": "Victoria Popa",
-        "review_ratings": 3,
-        "media": [
-          {"id": 1, "original_url": eImageAssets.fsl1}
-        ]
-      }
-    },
     {
       "id": 3,
       "title": "Anti-rust deep clean",
@@ -155,6 +145,31 @@ class AppArray {
         "media": [
           {"id": 1, "original_url": eImageAssets.fsl1}
         ],
+      }
+    },
+    {
+      "id": 4,
+      "title": "Ac deep cleaning",
+      "price": "12.00",
+      "duration": "00:30",
+      "duration_unit": "minute",
+      "service_rate": "12.00",
+      "discount": "0.00",
+      "description": "Foamjet tachnology removes dust 2x dee",
+      "user_id": "2",
+      "required_servicemen": "2",
+      "distance": 2.884202079111746,
+      "review_ratings": [0, 0, 0, 0, 1],
+      "media": [
+        {"id": 34, "original_url": eImageAssets.fsl1}
+      ],
+      "user": {
+        "id": 2,
+        "name": "Victoria Popa",
+        "review_ratings": 3,
+        "media": [
+          {"id": 1, "original_url": eImageAssets.fsl1}
+        ]
       }
     },
     {
@@ -191,21 +206,26 @@ class AppArray {
       "price": "40.56",
       "status": "1",
       "duration": "00:30",
+      "distance": "2 km",
       "duration_unit": "minute",
       "service_rate": "30",
       "discount": "10.00",
-      "description": "Foamjet tachnology removes dust 2x dee",
+      "description": "Restaurants",
       "user_id": "2",
       "required_servicemen": "1",
       "created_by_id": "1",
       "review_ratings": [0, 0, 0, 0, 1],
+      "total_review_ratings": 81,
       "rating_count": 5,
+      "isFav": true,
+      "phoneNum": '+30 210 4652115',
+      "location": "Ag.Nikolaou 11, 18900",
       "media": [
         {"id": 34, "original_url": eImageAssets.fs1}
       ],
       "user": {
         "id": 2,
-        "name": appFonts.arleneMcCoy,
+        "name": "Belair All Day Bar And Resto",
         "email": "provider@example.com",
         "served": "3",
         "phone": "3696566666",
@@ -222,18 +242,23 @@ class AppArray {
     },
     {
       "id": 3,
-      "title": appFonts.furnishing,
+      "title": "",
       "price": "15.23",
       "status": "1",
       "duration": "02:00",
       "duration_unit": "hour",
+      "distance": "0.5 km",
       "service_rate": "15.23",
-      "discount": "",
-      "description": "Foamjet tachnology removes dust 2x deeper.",
+      "discount": "Free Drink",
+      "description": "Restaurants",
       "user_id": "2",
       "required_servicemen": "1",
       "review_ratings": [0, 0, 0, 0, 0],
+      "total_review_ratings": 810,
       "rating_count": 3,
+      "isFav": false,
+      "phoneNum": '+30 210 4657587',
+      "location": "Akti Karaiskaki 56, Salamina 189 00",
       "media": [
         {
           "id": 32,
@@ -242,7 +267,7 @@ class AppArray {
       ],
       "user": {
         "id": 2,
-        "name": appFonts.darleneRobertson,
+        "name": "Ouzeri Paralia",
         "email": "provider@example.com",
         "served": "3",
         "phone": "9537670615",
@@ -261,11 +286,14 @@ class AppArray {
     }
   ];
 
-  var expertServicesList = [
+  var featureAttractions = [
     {
       "id": 1,
-      "name": appFonts.leslie,
+      "name": "Faneromeni Monastery",
       "review_ratings": 5,
+      "totalReviewRating": 810,
+      "isFav": false,
+      "distance": "0.5 km",
       "primary_address": {
         "id": 1,
         "user_id": "2",
@@ -296,8 +324,11 @@ class AppArray {
     },
     {
       "id": 2,
-      "name": appFonts.estherHoward,
+      "name": "The Stone Lighthouse",
       "review_ratings": 2,
+      "totalReviewRating": 810,
+      "isFav": true,
+      "distance": "0.4 km",
       "primary_address": {
         "id": 1,
         "user_id": "2",
@@ -328,8 +359,11 @@ class AppArray {
     },
     {
       "id": 3,
-      "name": appFonts.guyHawkins,
+      "name": "Fighters tomb of the naval Battle of Salamis",
       "review_ratings": 4,
+      "totalReviewRating": 810,
+      "isFav": false,
+      "distance": "0.6 km",
       "primary_address": {
         "id": 1,
         "user_id": "2",
@@ -387,11 +421,15 @@ class AppArray {
     },*/
     {
       "id": 3,
-      "title": appFonts.switchboard,
+      "isTopRated": true,
+      "isFav": true,
+      "title": "Switchboard an a electrical..",
       "description":
           "Many people with their very own houses worry about air conditioning repair prices, as well as wonder in case their homeowner’s insurance covers this region.",
-      "content":
-          "<p>Many people with their very own houses worry about air conditioning repair prices, as well as wonder in case their homeowner’s insurance covers this region.</p><p>Whether you’ve a natural disaster, fire, or another calamity, as well as your air conditioning gets destroyed or damaged along with the home, then you’re covered by your insurance.</p>",
+      "content": "<p>Many people with their very own houses worry about air conditioning repair prices, as well as wonder in case their homeowner’s insurance covers this region.</p>"
+          "<p>In lots of cases where it is only the air conditioner that’s broken, or has a problem, in thatcase your homeowner insurance does not insure the repair costs.</p>"
+          "<p>With regards to air conditioning repair, there’s another kind of insurance that home owners can purchase.</p>"
+          "<p>This insurance was advertised in the media and could be obtained on-line, or you could also ask your agent insurance agent about it.</p>",
       "created_at": "2023-12-26T10:25:04.000000Z",
       "media": [
         {"id": 63, "original_url": eImageAssets.lb1}
@@ -399,7 +437,7 @@ class AppArray {
       "categories": [
         {
           "id": 2,
-          "title": appFonts.woodenPartition,
+          "title": "Must See",
         }
       ],
       "created_by": {
@@ -415,8 +453,11 @@ class AppArray {
     },
     {
       "id": 2,
-      "title": appFonts.manTrimming,
-      "description":
+      "isTopRated": true,
+      "isFav": false,
+      "title": "Man trimming his beard at a..",
+      ""
+              "description":
           "Many people with their very own houses worry about air conditioning repair prices, as well as wonder in case their homeowner’s insurance covers this region.",
       "content":
           "<p>Many people with their very own houses worry about air conditioning repair prices, as well as wonder in case their homeowner’s insurance covers this region.</p><p>Whether you’ve a natural disaster, fire, or another calamity, as well as your air conditioning gets destroyed or damaged along with the home, then you’re covered by your insurance.</p><p>In lots of cases where it is only the air conditioner that’s broken, or has a problem, in that case your homeowner insurance does not insure the repair costs.</p>",
@@ -427,7 +468,7 @@ class AppArray {
       "categories": [
         {
           "id": 15,
-          "title": "Hair cutting",
+          "title": "Landmarks",
         }
       ],
       "created_by": {
@@ -440,8 +481,10 @@ class AppArray {
     },
     {
       "id": 1,
-      "title": appFonts.bringJoy,
-      "description": "Wooden partition",
+      "title": "Bring Joy and Unity on this...",
+      "description": "Painting",
+      "isTopRated": true,
+      "isFav": false,
       "created_at": "2023-09-09T08:44:33.000000Z",
       "content":
           "<p>Whether you’ve a natural disaster, fire, or another calamity, as well as your air conditioning gets destroyed or damaged along with the home, then you’re covered by your insurance.<br><br>In lots of cases where it is only the air conditioner that’s broken, or has a problem, in that case your homeowner insurance does not insure the repair costs.<br><br>With regards to air conditioning repair, there’s another kind of insurance that home owners can purchase.<br><br>This insurance was advertised in the media and could be obtained on-line, or you could also ask your agent insurance agent about it.</p>",
@@ -1200,7 +1243,7 @@ class AppArray {
         "message": "You have booked plumber service today at 6:30pm.",
         "provider_id": "1",
         "type": "provider",
-        "thumbnail": eImageAssets.pot,
+        "thumbnail": eImageAssets.not1,
       }
     },
     {
@@ -1211,7 +1254,7 @@ class AppArray {
         "message": "Jane cooper has started service of cleaning.",
         "provider_id": "1",
         "type": "provider",
-        "thumbnail": eImageAssets.pot,
+        "thumbnail": eImageAssets.not2,
       }
     },
     {
@@ -1223,8 +1266,8 @@ class AppArray {
         "message": "Add a new carpenter & furnishing category service picture.",
         "provider_id": "1",
         "type": "category",
-        "thumbnail": eImageAssets.pot,
-        "image": eImageAssets.notiImage
+        "thumbnail": eImageAssets.not3,
+        "image": eImageAssets.appLogo
       }
     },
     {
@@ -1236,7 +1279,7 @@ class AppArray {
         "message": "Your payment is done of cleaning service.",
         "provider_id": "1",
         "type": "payment",
-        "thumbnail": eImageAssets.pot,
+        "thumbnail": eImageAssets.not4,
       }
     },
     {
@@ -1248,7 +1291,7 @@ class AppArray {
         "message": "Booking status has been changed from pending to accepted.",
         "provider_id": "1",
         "type": "booking",
-        "thumbnail": eImageAssets.pot,
+        "thumbnail": eImageAssets.not3,
       }
     },
     {
@@ -1260,7 +1303,7 @@ class AppArray {
         "message": "You have booked plumber service today at 6:30pm.",
         "provider_id": "1",
         "type": "booking",
-        "thumbnail": eImageAssets.pot,
+        "thumbnail": eImageAssets.not2,
       }
     }
   ];
@@ -1398,6 +1441,68 @@ class AppArray {
     {"id": 6, "title": "Punjab"},
   ];
 
+  List type = [
+    {
+      "id": 1,
+      "title": "Discount (%)",
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:22:08.000000Z",
+      "updated_at": "2023-10-04T11:22:08.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 1, "original_url": eSvgAssets.ac}
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Discount (€)",
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:21:38.000000Z",
+      "updated_at": "2023-10-04T11:21:38.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 2, "original_url": eSvgAssets.cleaning}
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Free Gift",
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:20:52.000000Z",
+      "updated_at": "2023-10-04T11:20:52.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 29, "original_url": eSvgAssets.carpenter}
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Buy and Get",
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T06:36:29.000000Z",
+      "updated_at": "2023-10-04T06:36:29.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 28, "original_url": eSvgAssets.cooking}
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Volume discount",
+      "description": "Cooking",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:18:33.000000Z",
+      "updated_at": "2023-09-25T13:18:33.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 27, "original_url": eSvgAssets.electrician}
+      ]
+    },
+  ];
   List categoryList = [
     {
       "id": 1,
@@ -1409,68 +1514,6 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 1, "original_url": eSvgAssets.ac}
-      ],
-      "has_sub_categories": [
-        {
-          "id": 10,
-          "title": appFonts.acRepair,
-          "description": "Fast Food Cooking",
-          "parent_id": "6",
-          "created_at": "2023-10-04T05:48:35.000000Z",
-          "updated_at": "2023-10-04T05:48:35.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 20, "original_url": eSvgAssets.fan}
-          ]
-        },
-        {
-          "id": 10,
-          "title": appFonts.installation,
-          "description": "Fast Food Cooking",
-          "parent_id": "6",
-          "created_at": "2023-10-04T05:48:35.000000Z",
-          "updated_at": "2023-10-04T05:48:35.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 20, "original_url": eSvgAssets.installation}
-          ]
-        },
-        {
-          "id": 10,
-          "title": appFonts.hanging,
-          "description": "Fast Food Cooking",
-          "parent_id": "6",
-          "created_at": "2023-10-04T05:48:35.000000Z",
-          "updated_at": "2023-10-04T05:48:35.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 20, "original_url": eSvgAssets.ac}
-          ]
-        },
-        {
-          "id": 10,
-          "title": appFonts.servicing,
-          "description": "Fast Food Cooking",
-          "parent_id": "6",
-          "created_at": "2023-10-04T05:48:35.000000Z",
-          "updated_at": "2023-10-04T05:48:35.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 20, "original_url": eSvgAssets.servicing}
-          ]
-        },
-        {
-          "id": 10,
-          "title": appFonts.painting,
-          "description": "Fast Food Cooking",
-          "parent_id": "6",
-          "created_at": "2023-10-04T05:48:35.000000Z",
-          "updated_at": "2023-10-04T05:48:35.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 20, "original_url": eSvgAssets.painter}
-          ]
-        }
       ]
     },
     {
@@ -1483,8 +1526,7 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 2, "original_url": eSvgAssets.cleaning}
-      ],
-      "has_sub_categories": []
+      ]
     },
     {
       "id": 12,
@@ -1496,8 +1538,7 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 29, "original_url": eSvgAssets.carpenter}
-      ],
-      "has_sub_categories": []
+      ]
     },
     {
       "id": 11,
@@ -1509,8 +1550,7 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 28, "original_url": eSvgAssets.cooking}
-      ],
-      "has_sub_categories": []
+      ]
     },
     {
       "id": 6,
@@ -1522,23 +1562,6 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 27, "original_url": eSvgAssets.electrician}
-      ],
-      "has_sub_categories": [
-        {
-          "id": 10,
-          "title": appFonts.installation,
-          "description": "Fast Food Cooking",
-          "parent_id": "6",
-          "created_at": "2023-10-04T05:48:35.000000Z",
-          "updated_at": "2023-10-04T05:48:35.000000Z",
-          "deleted_at": null,
-          "media": [
-            {
-              "id": 20,
-              "original_url": eSvgAssets.installation,
-            }
-          ]
-        }
       ]
     },
     {
@@ -1551,20 +1574,6 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 26, "original_url": eSvgAssets.painter}
-      ],
-      "has_sub_categories": [
-        {
-          "id": 9,
-          "title": appFonts.painting,
-          "description": "Home Furniture",
-          "parent_id": "5",
-          "created_at": "2023-10-04T05:47:42.000000Z",
-          "updated_at": "2023-10-04T05:47:42.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 19, "original_url": eSvgAssets.paint}
-          ]
-        }
       ]
     },
     {
@@ -1577,8 +1586,7 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 25, "original_url": eSvgAssets.plumber}
-      ],
-      "has_sub_categories": []
+      ]
     },
     {
       "id": 3,
@@ -1590,34 +1598,203 @@ class AppArray {
       "deleted_at": null,
       "media": [
         {"id": 24, "original_url": eSvgAssets.salon}
-      ],
-      "has_sub_categories": [
-        {
-          "id": 7,
-          "title": "Outdor cleaning",
-          "description": "Outdor cleaning",
-          "parent_id": "3",
-          "created_at": "2023-10-04T05:45:21.000000Z",
-          "updated_at": "2023-12-25T04:33:24.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 17, "original_url": eSvgAssets.cleaning}
-          ]
-        },
-        {
-          "id": 16,
-          "title": "Installation",
-          "description": "installation",
-          "parent_id": "3",
-          "created_at": "2023-10-30T06:25:52.000000Z",
-          "updated_at": "2023-12-25T04:34:01.000000Z",
-          "deleted_at": null,
-          "media": [
-            {"id": 48, "original_url": eSvgAssets.installation}
-          ]
-        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": appFonts.acRepair,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:22:08.000000Z",
+      "updated_at": "2023-10-04T11:22:08.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 1, "original_url": eSvgAssets.ac}
+      ]
+    },
+    {
+      "id": 2,
+      "title": appFonts.cleaning,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:21:38.000000Z",
+      "updated_at": "2023-10-04T11:21:38.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 2, "original_url": eSvgAssets.cleaning}
+      ]
+    },
+    {
+      "id": 12,
+      "title": appFonts.carpenter,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:20:52.000000Z",
+      "updated_at": "2023-10-04T11:20:52.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 29, "original_url": eSvgAssets.carpenter}
+      ]
+    },
+    {
+      "id": 11,
+      "title": appFonts.cooking,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T06:36:29.000000Z",
+      "updated_at": "2023-10-04T06:36:29.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 28, "original_url": eSvgAssets.cooking}
+      ]
+    },
+    {
+      "id": 6,
+      "title": appFonts.electrician,
+      "description": "Cooking",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:18:33.000000Z",
+      "updated_at": "2023-09-25T13:18:33.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 27, "original_url": eSvgAssets.electrician}
+      ]
+    },
+    {
+      "id": 5,
+      "title": appFonts.painter,
+      "description": "Carpenter",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:17:35.000000Z",
+      "updated_at": "2023-09-25T13:17:35.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 26, "original_url": eSvgAssets.painter}
+      ]
+    },
+    {
+      "id": 4,
+      "title": appFonts.plumber,
+      "description": "Cleaning",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:12:45.000000Z",
+      "updated_at": "2023-09-25T13:12:45.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 25, "original_url": eSvgAssets.plumber}
+      ]
+    },
+    {
+      "id": 3,
+      "title": appFonts.salon,
+      "description": "Ac Repair",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:11:16.000000Z",
+      "updated_at": "2023-09-25T13:11:16.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 24, "original_url": eSvgAssets.salon}
       ]
     }
+  ];
+
+  List blogFilterList = [
+    {
+      "id": 1,
+      "title": appFonts.acRepair,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:22:08.000000Z",
+      "updated_at": "2023-10-04T11:22:08.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 1, "original_url": eSvgAssets.ac}
+      ]
+    },
+    {
+      "id": 2,
+      "title": appFonts.cleaning,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:21:38.000000Z",
+      "updated_at": "2023-10-04T11:21:38.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 2, "original_url": eSvgAssets.cleaning}
+      ]
+    },
+    {
+      "id": 12,
+      "title": appFonts.carpenter,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T11:20:52.000000Z",
+      "updated_at": "2023-10-04T11:20:52.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 29, "original_url": eSvgAssets.carpenter}
+      ]
+    },
+    {
+      "id": 11,
+      "title": appFonts.cooking,
+      "description": null,
+      "parent_id": null,
+      "created_at": "2023-10-04T06:36:29.000000Z",
+      "updated_at": "2023-10-04T06:36:29.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 28, "original_url": eSvgAssets.cooking}
+      ]
+    },
+    {
+      "id": 6,
+      "title": appFonts.electrician,
+      "description": "Cooking",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:18:33.000000Z",
+      "updated_at": "2023-09-25T13:18:33.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 27, "original_url": eSvgAssets.electrician}
+      ]
+    },
+    {
+      "id": 5,
+      "title": appFonts.painter,
+      "description": "Carpenter",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:17:35.000000Z",
+      "updated_at": "2023-09-25T13:17:35.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 26, "original_url": eSvgAssets.painter}
+      ]
+    },
+    {
+      "id": 4,
+      "title": appFonts.plumber,
+      "description": "Cleaning",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:12:45.000000Z",
+      "updated_at": "2023-09-25T13:12:45.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 25, "original_url": eSvgAssets.plumber}
+      ]
+    },
+    {
+      "id": 3,
+      "title": appFonts.salon,
+      "description": "Ac Repair",
+      "parent_id": null,
+      "created_at": "2023-09-25T13:11:16.000000Z",
+      "updated_at": "2023-09-25T13:11:16.000000Z",
+      "deleted_at": null,
+      "media": [
+        {"id": 24, "original_url": eSvgAssets.salon}
+      ]
+    },
   ];
 
   var ratingList = [
@@ -1628,25 +1805,13 @@ class AppArray {
     {"rate": "1 rate", "icon": eSvgAssets.star1, "value": 1},
   ];
 
-  var subCategoriesList = [
-    {"icon": eSvgAssets.fan, "title": appFonts.acRepair},
-    {"icon": eSvgAssets.installation, "title": appFonts.installation},
-    {"icon": eSvgAssets.ac, "title": appFonts.hanging},
-    {"icon": eSvgAssets.servicing, "title": appFonts.servicing},
-    {"icon": eSvgAssets.painter, "title": appFonts.painter},
-  ];
-
   var filterList = [
     appFonts.category,
     appFonts.priceRating,
     appFonts.distance,
   ];
 
-  var filterList1 = [
-    appFonts.provider,
-    appFonts.priceRating,
-    appFonts.distance,
-  ];
+  var filterList1 = ["Category", "Type", appFonts.distance];
 
   List experienceList = [
     {
@@ -1862,61 +2027,89 @@ class AppArray {
 
   var recentSearch = [
     {
-      "id": 3,
-      "title": "Cleaning of bathroom",
+      "id": 4,
+      "title": appFonts.cleaningBathroom,
       "price": "40.56",
       "status": "1",
-      "duration": "02:00",
-      "duration_unit": "hour",
-      "service_rate": "30.00",
+      "duration": "00:30",
+      "distance": "2 km",
+      "duration_unit": "minute",
+      "service_rate": "30",
       "discount": "10.00",
-      "description": "Foamjet tachnology removes dust 2x deeper.",
+      "description": "Restaurants",
       "user_id": "2",
-      "type": "fixed",
-      "required_servicemen": "2",
-      "deleted_at": null,
-      "created_at": "2023-10-04T11:43:23.000000Z",
-      "updated_at": "2023-11-01T04:44:43.000000Z",
-      "review_ratings": [0, 0, 0, 0, 0],
-      "rating_count": null,
+      "required_servicemen": "1",
+      "created_by_id": "1",
+      "review_ratings": [0, 0, 0, 0, 1],
+      "total_review_ratings": 81,
+      "rating_count": 5,
+      "isFav": true,
+      "phoneNum": '+30 210 4652115',
+      "location": "Ag.Nikolaou 11, 18900",
+      "media": [
+        {"id": 34, "original_url": eImageAssets.fs1}
+      ],
       "user": {
-        "name": "Arlene McCoy",
-        "review_ratings": 3.0,
+        "id": 2,
+        "name": "Belair All Day Bar And Resto",
+        "email": "provider@example.com",
+        "served": "3",
+        "phone": "3696566666",
+        "code": "93",
+        "provider_id": null,
+        "experience_interval": "year",
+        "experience_duration": "5",
+        "description": "Loren Description",
+        "review_ratings": 5,
         "media": [
           {"id": 1, "original_url": eImageAssets.fsProfile1}
         ],
-      },
-      "media": [
-        {"id": 32, "original_url": eImageAssets.fs1}
-      ],
-      "reviews": []
+      }
     },
     {
-      "id": 5,
-      "title": "Furnishing & carpentry",
+      "id": 3,
+      "title": "",
       "price": "15.23",
-      "service_rate": "15.23",
-      "description": "Foamjet tachnology removes dust 2x deeper.",
+      "status": "1",
       "duration": "02:00",
       "duration_unit": "hour",
-      "discount": "",
+      "distance": "0.5 km",
+      "service_rate": "15.23",
+      "discount": "Free Drink",
+      "description": "Restaurants",
       "user_id": "2",
       "required_servicemen": "1",
-      "serviceDate": "2024-01-25T18:30:00.000Z",
-      "rating_count": 4,
-      "selectedRequiredServiceMan": "1",
-      "selectedServiceNote": "",
+      "review_ratings": [0, 0, 0, 0, 0],
+      "total_review_ratings": 810,
+      "rating_count": 3,
+      "isFav": false,
+      "phoneNum": '+30 210 4657587',
+      "location": "Akti Karaiskaki 56, Salamina 189 00",
+      "media": [
+        {
+          "id": 32,
+          "original_url": eImageAssets.fs2,
+        }
+      ],
       "user": {
-        "name": "Darlene Robertson",
-        "review_ratings": 4.0,
+        "id": 2,
+        "name": "Ouzeri Paralia",
+        "email": "provider@example.com",
+        "served": "3",
+        "phone": "9537670615",
+        "code": "93",
+        "provider_id": null,
+        "experience_interval": "year",
+        "experience_duration": "5",
+        "created_by": null,
+        "description": "Loren Description",
+        "review_ratings": 5,
+        "ServicemanReviewRatings": null,
         "media": [
           {"id": 1, "original_url": eImageAssets.fsProfile2}
-        ],
-      },
-      "media": [
-        {"id": 1, "original_url": eImageAssets.fs2}
-      ],
-    },
+        ]
+      }
+    }
   ];
 
   var cartList = [
@@ -2049,9 +2242,11 @@ class AppArray {
   var couponList = [
     {
       "id": 1,
+      "validTill": "Mon-Fri only",
       "code": "#A125",
       "type": "percentage",
-      "amount": 5,
+      "subTitle": "Get 5% off all cocktails before midnight",
+      "amount": "5% OFF",
       "min_spend": 150,
       "is_unlimited": 1,
       "usage_per_coupon": null,
@@ -2068,13 +2263,17 @@ class AppArray {
       "updated_at": "2023-12-06T11:33:29.000000Z",
       "deleted_at": null,
       "services": [],
-      "exclude_services": []
+      "exclude_services": [],
+      "icon": "assets/images/coupon1.png",
+      "title": "Sparrow Coffee & Sweets"
     },
     {
       "id": 2,
+      "validTill": "13th Aug, 2025",
       "code": "#A126",
       "type": "percentage",
-      "amount": 30,
+      "subTitle": "Book 1 night and get 1 free breakfast",
+      "amount": "Buy 1 Get 1",
       "min_spend": 300,
       "is_unlimited": 1,
       "usage_per_coupon": null,
@@ -2091,7 +2290,63 @@ class AppArray {
       "updated_at": "2023-10-05T06:48:26.000000Z",
       "deleted_at": null,
       "services": [],
-      "exclude_services": []
+      "exclude_services": [],
+      "icon": "assets/images/coupon2.png",
+      "title": "All About Coffee"
+    },
+    {
+      "id": 3,
+      "validTill": "30 Jun, 2025",
+      "code": "#A127",
+      "type": "percentage",
+      "subTitle": "Get 10€ off your dinner when you send a min of 100€.",
+      "amount": "10€ OFF",
+      "min_spend": 300,
+      "is_unlimited": 1,
+      "usage_per_coupon": null,
+      "usage_per_customer": null,
+      "used": "0",
+      "status": 1,
+      "is_expired": 0,
+      "is_apply_all": 0,
+      "is_first_order": 0,
+      "start_date": null,
+      "end_date": null,
+      "created_by_id": "1",
+      "created_at": "2023-09-08T17:13:16.000000Z",
+      "updated_at": "2023-09-08T17:13:16.000000Z",
+      "deleted_at": null,
+      "services": [],
+      "exclude_services": [],
+      "icon": "assets/images/c3.png",
+      "title": "Ouzeri Paralia"
+    },
+    {
+      "id": 4,
+      "validTill": "13th Aug, 2023",
+      "code": "#A129",
+      "type": "percentage",
+      "subTitle": "Get free soft drink for every mix grill you order",
+      "amount": "FREE GIFT",
+      "min_spend": 400,
+      "is_unlimited": 1,
+      "usage_per_coupon": null,
+      "usage_per_customer": null,
+      "used": "0",
+      "status": 1,
+      "is_expired": 0,
+      "is_apply_all": 0,
+      "is_first_order": 0,
+      "start_date": null,
+      "end_date": null,
+      "created_by_id": "1",
+      "created_at": "2023-09-08T17:13:16.000000Z",
+      "updated_at": "2023-09-08T17:13:16.000000Z",
+      "deleted_at": null,
+      "services": [],
+      "exclude_services": [],
+      "icon": "assets/images/c4.png",
+      "title": "Hot Island Beach Bar"
     }
   ];
 
@@ -3160,6 +3415,91 @@ class AppArray {
     }
   ];
 
+  final List<Map<String, dynamic>> buttonItems = [
+    {
+      'icon': eSvgAssets.calling,
+      'label': 'Call',
+      'action': () => print('Call tapped')
+    },
+    {
+      'icon': eSvgAssets.direction,
+      'label': 'Directions',
+      'action': () => print('Directions tapped')
+    },
+    {
+      'icon': "assets/svg/contact.svg",
+      'label': 'Contact',
+      'action': () => print('Website tapped')
+    },
+    {
+      'icon': eSvgAssets.time,
+      'label': 'Hours',
+      'action': () => print('Hours tapped')
+    },
+    {
+      'icon': "assets/svg/gallery1.svg",
+      'label': 'Gallery',
+      'action': () => print('Share tapped')
+    },
+    {
+      'icon': eSvgAssets.like,
+      'label': 'Save',
+      'action': () => print('Save tapped')
+    },
+  ];
+
+  final List galleryList = [
+    'assets/images/img1.png',
+    'assets/images/img2.png',
+    'assets/images/img3.png',
+    'assets/images/img4.png',
+    'assets/images/img5.png',
+    'assets/images/img6.png'
+  ];
+
+  final List contactItems = [
+    {
+      'icon': eSvgAssets.calling,
+      'label': "+30 555 666 111",
+      'action': () => print("Call tapped")
+    },
+    {
+      'icon': eSvgAssets.mail,
+      'label': "support@mydomain.com",
+      'action': () => print("Email tapped")
+    },
+    {
+      'icon': eSvgAssets.locationOut1,
+      'label': "Telamonos 14, Salamina",
+      'action': () => print("Address tapped")
+    },
+    {
+      'icon': eSvgAssets.global,
+      'label': "www.mysite.com",
+      'action': () => print("Website tapped")
+    },
+    {
+      'icon': eImageAssets.fbIcon,
+      'label': "Facebook",
+      'action': () => print("Facebook tapped")
+    },
+    {
+      'icon': eImageAssets.insta,
+      'label': "Instagram",
+      'action': () => print("Instagram tapped")
+    },
+    {
+      'icon': eImageAssets.tiktok,
+      'label': "TikTok",
+      'action': () => print("TikTok tapped")
+    },
+    {
+      'icon': eImageAssets.ytIcon,
+      'label': "YouTube",
+      'action': () => print("YouTube tapped")
+    },
+  ];
+
   var bookingStatus = [
     {
       "status": "s",
@@ -3276,7 +3616,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Ac cleaning"}
       ],
@@ -3430,7 +3770,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Ac cleaning"}
       ],
@@ -3619,7 +3959,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Beauty"}
       ],
@@ -3808,7 +4148,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Beauty"}
       ],
@@ -3997,7 +4337,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Beauty"}
       ],
@@ -4186,7 +4526,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Beauty"}
       ],
@@ -4375,7 +4715,7 @@ class AppArray {
       "review_ratings": [0, 0, 0, 0, 0],
       "rating_count": 3.5,
       "description":
-          "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal performance.",
+          "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
       "categories": [
         {"id": 8, "title": "Beauty"}
       ],
@@ -4799,7 +5139,7 @@ class AppArray {
     "service_rate": "15.00",
     "discount": "10.00",
     "description":
-        "Our expert technicians will thoroughly clean and disinfect your air conditioning system, ensuring optimal..Car Service & Cleaning Description",
+        "The Battle of Salamis was a decisive naval engagement fought in 480 BC during the Greco-Persian Wars. It took place in the Saronic Gulf near the island of Salamis, between the Greek city-states, led by the Athenian general Themistocles, and the Persian Empire under King Xerxes. After the Persian invasion of Greece, Xerxes sought to crush the Greek resistance by defeating their navy, but Themistocles devised a brilliant strategy to turn the tide in favour of the Greeks. Despite being heavily outnumbered, the Greek fleet lured the larger Persian fleet into the narrow straits between Salamis and the mainland, where their superior manoeuvrability and tactics gave them a distinct advantage.",
     "user_id": "4",
     "type": "fixed",
     "is_featured": "1",
@@ -4917,7 +5257,7 @@ class AppArray {
 
   var allReview = [
     {
-      "service_id": 1,
+      "service_id": 3,
       "provider_id": 2,
       "serviceman_id": 2,
       "rating": 3,
@@ -4931,7 +5271,7 @@ class AppArray {
       "created_at": "2024-02-23 10:17:00"
     },
     {
-      "service_id": 1,
+      "service_id": 4,
       "provider_id": 2,
       "serviceman_id": 2,
       "rating": 3,
@@ -4946,7 +5286,7 @@ class AppArray {
       "created_at": "2024-02-23 10:17:00"
     },
     {
-      "service_id": 1,
+      "service_id": 5,
       "provider_id": 2,
       "serviceman_id": 2,
       "rating": 3,

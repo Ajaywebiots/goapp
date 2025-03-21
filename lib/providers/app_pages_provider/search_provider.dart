@@ -2,19 +2,26 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:fixit_user_uikit/config.dart';
+import 'package:goapp/config.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 
 import '../../common_tap.dart';
+import '../../models/api_model/home_feed_model.dart';
+import '../../models/category_model.dart';
+import '../../models/service_model.dart';
+import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
+import '../bottom_providers/dashboard_provider.dart';
+import 'categories_details_provider.dart';
 
 class SearchProvider with ChangeNotifier {
   AnimationController? animationController;
   SharedPreferences? pref;
   TextEditingController searchCtrl = TextEditingController();
   TextEditingController filterSearchCtrl = TextEditingController();
-  List<CategoryModel> categoryList = [];
+  List<Category> categoryList = [];
+  List<CategoryModel> type = [];
   Future<ui.Image>? loadingImage;
   final FocusNode searchFocus = FocusNode();
   final FocusNode filterSearchFocus = FocusNode();
@@ -113,8 +120,11 @@ class SearchProvider with ChangeNotifier {
     FrameInfo fi = await loadImage(eImageAssets.userSlider);
     customImage = fi.image;
     final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
+    final cat = Provider.of<CategoriesDetailsProvider>(context, listen: false);
     categoryList = dashCtrl.categoryList;
-    recentSearchList = appArray.recentSearch.map((e) => Services.fromJson(e)).toList();
+    recentSearchList =
+        appArray.recentSearch.map((e) => Services.fromJson(e)).toList();
+    cat.onReady(context);
     notifyListeners();
     log("CATEG :${categoryList.length}");
   }
@@ -142,16 +152,14 @@ class SearchProvider with ChangeNotifier {
 
   onBottomSheet(context) {
     showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return const FilterLayout();
-      },
-    ).then((value) {
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return const FilterLayout();
+        }).then((value) {
       log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);
       getCategory();
-
       dash.notifyListeners();
       filterSearchCtrl.text = "";
     });
@@ -159,7 +167,9 @@ class SearchProvider with ChangeNotifier {
 
   //category list
   getCategory({search}) async {
-    categoryList = appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
+    // categoryList =
+    // appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
+    type = appArray.type.map((e) => CategoryModel.fromJson(e)).toList();
     notifyListeners();
   }
 
@@ -336,10 +346,14 @@ class SearchProvider with ChangeNotifier {
     }*/
     searchList = [];
 
-    List<Services> serviceList = appArray.servicesList.map((e) => Services.fromJson(e)).toList();
-    for(var search in serviceList){
+    List<Services> serviceList =
+        appArray.servicesList.map((e) => Services.fromJson(e)).toList();
+    for (var search in serviceList) {
       log("search.title!. :${search.title!} // ${searchCtrl.text}");
-      if(search.title!.toLowerCase().replaceAll(" ", "").contains(searchCtrl.text)){
+      if (search.title!
+          .toLowerCase()
+          .replaceAll(" ", "")
+          .contains(searchCtrl.text)) {
         searchList.add(search);
       }
       notifyListeners();
@@ -352,15 +366,17 @@ class SearchProvider with ChangeNotifier {
   }
 
   searchClear() {
+    notifyListeners();
+    log("ssss ${searchCtrl.text.length}");
     searchCtrl.text = "";
-    isSearch = false;
+    isSearch = true;
     notifyListeners();
   }
 
   onFeatured(context, Services? services, id, {inCart}) async {
     if (inCart) {
       route.pop(context);
-      route.pushNamed(context, routeName.cartScreen);
+      // route.pushNamed(context, routeName.cartScreen);
     } else {
       onBook(context, services!,
           addTap: () => onAdd(id),
@@ -404,8 +420,8 @@ class SearchProvider with ChangeNotifier {
 
     pref!.setString(session.recentSearch, jsonEncode(saveList));
     notifyListeners();
-    route.pushNamed(context, routeName.servicesDetailsScreen,
-        arg: services!.id);
+    // route.pushNamed(context, routeName.businessDetailsScreen,
+    //     arg: services!.id);
   }
 
   onRemoveService(context, index) {

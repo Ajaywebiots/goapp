@@ -1,6 +1,7 @@
-
 import 'package:flutter_xlider/flutter_xlider.dart';
 import '../../../../config.dart';
+import '../../../../providers/app_pages_provider/search_provider.dart';
+import 'filter_radio.dart';
 
 class ThirdFilter extends StatelessWidget {
   const ThirdFilter({super.key});
@@ -9,62 +10,60 @@ class ThirdFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = Provider.of<SearchProvider>(context, listen: true);
     return SingleChildScrollView(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(language(context, appFonts.distance),
-                style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).appTheme.lightText))
-            .padding(horizontal: Insets.i20, bottom: Insets.i10),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          IntrinsicHeight(
-              child: Row(children: [
-            SvgPicture.asset(
-              eSvgAssets.address,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(language(context, appFonts.distance),
+              style:
+                  appCss.dmDenseMedium14.textColor(appColor(context).lightText))
+          .padding(horizontal: Insets.i20, bottom: Insets.i10),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        IntrinsicHeight(
+            child: Row(children: [
+          SvgPicture.asset(eSvgAssets.address,
               colorFilter: ColorFilter.mode(
-                  appColor(context).appTheme.darkText, BlendMode.srcIn),
-            ),
-            VerticalDivider(
-                    indent: 1,
-                    endIndent: 1,
-                    width: 1,
-                    color: appColor(context).appTheme.stroke)
-                .paddingSymmetric(horizontal: Insets.i12),
-            Text(language(context, appFonts.nearByLocation),
-                style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).appTheme.darkText))
-          ])),
-          FilterRadioLayout(
-              isCheck: value.isSelect == false, onTap: () => value.onChange())
-        ])
-            .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
-            .boxBorderExtension(context, isShadow: true)
-            .padding(horizontal: Insets.i20, bottom: Insets.i15),
-        SizedBox(
-                height: Sizes.s115,
-                child: Column(children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IntrinsicHeight(
-                            child: Row(children: [
-                          SvgPicture.asset(eSvgAssets.country,
-                              colorFilter: ColorFilter.mode(
-                                  appColor(context).appTheme.darkText,
-                                  BlendMode.srcIn)),
-                          VerticalDivider(
-                                  indent: 1,
-                                  endIndent: 1,
-                                  width: 1,
-                                  color: appColor(context).appTheme.stroke)
-                              .paddingSymmetric(horizontal: Insets.i12),
-                          Text(language(context, appFonts.distanceLocation),
-                              style: appCss.dmDenseMedium14.textColor(
-                                  appColor(context).appTheme.darkText))
-                        ])),
-                        FilterRadioLayout(
-                            isCheck: value.isSelect,
-                            onTap: () => value.onChange1())
-                      ]),
-                  /*  FutureBuilder<FrameInfo>(
+                  appColor(context).darkText, BlendMode.srcIn)),
+          VerticalDivider(
+                  indent: 1,
+                  endIndent: 1,
+                  width: 1,
+                  color: appColor(context).stroke)
+              .paddingSymmetric(horizontal: Insets.i12),
+          Text(language(context, appFonts.nearByLocation),
+              style:
+                  appCss.dmDenseMedium14.textColor(appColor(context).darkText))
+        ])),
+        SvgPicture.asset(eSvgAssets.dropDown)
+        // FilterRadioLayout(
+        //     isCheck: value.isSelect == false, onTap: () => value.onChange())
+      ])
+          .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
+          .boxBorderExtension(context, isShadow: true)
+          .padding(horizontal: Insets.i20, bottom: Insets.i15),
+      SizedBox(
+              height: Sizes.s115,
+              child: Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IntrinsicHeight(
+                          child: Row(children: [
+                        SvgPicture.asset(eSvgAssets.country,
+                            colorFilter: ColorFilter.mode(
+                                appColor(context).darkText, BlendMode.srcIn)),
+                        VerticalDivider(
+                                indent: 1,
+                                endIndent: 1,
+                                width: 1,
+                                color: appColor(context).stroke)
+                            .paddingSymmetric(horizontal: Insets.i12),
+                        Text(language(context, appFonts.distanceLocation),
+                            style: appCss.dmDenseMedium14
+                                .textColor(appColor(context).darkText))
+                      ])),
+                      FilterRadioLayout(
+                          isCheck: value.isSelect,
+                          onTap: () => value.onChange1())
+                    ]),
+                /*  FutureBuilder<FrameInfo>(
                       future: value.loadImage(eImageAssets.userSlider),
                       builder: (context, snapshot) {
 
@@ -74,24 +73,24 @@ class ThirdFilter extends StatelessWidget {
                                   activeTrackHeight: 4,
                                   inactiveTrackHeight: 4,
                                   disabledActiveTickColor:
-                                      appColor(context).appTheme.darkText,
+                                      appColor(context).darkText,
                                   activeTickColor:
-                                      appColor(context).appTheme.darkText,
+                                      appColor(context).darkText,
                                   inactiveTrackColor:
-                                      appColor(context).appTheme.stroke,
+                                      appColor(context).stroke,
                                   activeLabelStyle: appCss.dmDenseMedium14
                                       .textColor(appColor(context)
-                                          .appTheme
+
                                           .darkText),
                                   inactiveLabelStyle: appCss.dmDenseMedium14
                                       .textColor(appColor(context)
-                                          .appTheme
+
                                           .lightText),
                                   activeTrackColor:
-                                      appColor(context).appTheme.darkText),
+                                      appColor(context).darkText),
                               child: SfSlider(
                                   activeColor:
-                                      appColor(context).appTheme.darkText,
+                                      appColor(context).darkText,
                                   min: 0.0,
                                   max: 30.0,
                                   interval: 5,
@@ -129,9 +128,8 @@ class ThirdFilter extends StatelessWidget {
                           return Container();
                         }
                       })*/
-                  SizedBox(
+                SizedBox(
                     height: Sizes.s85,
-
                     child: FlutterSlider(
                         values: [value.slider],
                         min: 0.0,
@@ -144,9 +142,9 @@ class ThirdFilter extends StatelessWidget {
                                 height: 10,
                                 width: 20,
                                 decoration: BoxDecoration(
-                                    color: appColor(context).appTheme.trans)),
-                            smallLine:
-                                const FlutterSliderSizedBox(width: 1, height: 1),
+                                    color: appColor(context).trans)),
+                            smallLine: const FlutterSliderSizedBox(
+                                width: 1, height: 1),
                             bigLine: const FlutterSliderSizedBox(
                               width: 1,
                               height: 1,
@@ -163,131 +161,105 @@ class ThirdFilter extends StatelessWidget {
                                         color: value.slider == 0.0 ||
                                                 value.slider == 5.0 ||
                                                 value.slider == 10.0 ||
-                                                value.slider == 15.0||
-                                                value.slider == 20.0||
-                                                value.slider == 25.0||
-                                            value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
+                                                value.slider == 15.0 ||
+                                                value.slider == 20.0 ||
+                                                value.slider == 25.0 ||
+                                                value.slider == 30.0
+                                            ? appColor(context).darkText
+                                            : appColor(context).stroke,
                                       ),
                                       const VSpace(Sizes.s3),
                                       Text('0\nkm',
                                           textAlign: TextAlign.center,
                                           style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
+                                              .textColor(
+                                                  appColor(context).darkText)
                                               .textHeight(1)),
                                     ],
                                   )),
                               FlutterSliderHatchMarkLabel(
                                   percent: 17,
-                                  label: Column(
-                                    children: [
-                                      Container(
+                                  label: Column(children: [
+                                    Container(
                                         height: 4,
                                         width: 2,
                                         color: value.slider == 5.0 ||
-                                            value.slider == 10.0 ||
-                                            value.slider == 15.0||
-                                            value.slider == 20.0||
-                                            value.slider == 25.0||
-                                            value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('5\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                                value.slider == 10.0 ||
+                                                value.slider == 15.0 ||
+                                                value.slider == 20.0 ||
+                                                value.slider == 25.0 ||
+                                                value.slider == 30.0
+                                            ? appColor(context).darkText
+                                            : appColor(context).stroke),
+                                    const VSpace(Sizes.s3),
+                                    Text('5\nkm',
+                                        textAlign: TextAlign.center,
+                                        style: appCss.dmDenseMedium12
+                                            .textColor(
+                                                appColor(context).darkText)
+                                            .textHeight(1))
+                                  ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 33.5,
-                                  label: Column(
-                                    children: [
-                                      Container(
+                                  label: Column(children: [
+                                    Container(
                                         height: 4,
                                         width: 2,
                                         color: value.slider == 10.0 ||
-                                            value.slider == 15.0||
-                                            value.slider == 20.0||
-                                            value.slider == 25.0||
-                                            value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('10\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                                value.slider == 15.0 ||
+                                                value.slider == 20.0 ||
+                                                value.slider == 25.0 ||
+                                                value.slider == 30.0
+                                            ? appColor(context).darkText
+                                            : appColor(context).stroke),
+                                    const VSpace(Sizes.s3),
+                                    Text('10\nkm',
+                                        textAlign: TextAlign.center,
+                                        style: appCss.dmDenseMedium12
+                                            .textColor(
+                                                appColor(context).darkText)
+                                            .textHeight(1))
+                                  ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 50,
-                                  label: Column(
-                                    children: [
-                                      Container(
+                                  label: Column(children: [
+                                    Container(
                                         height: 4,
                                         width: 2,
-                                        color: value.slider == 15.0||
-                                            value.slider == 20.0||
-                                            value.slider == 25.0||
-                                            value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('15\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                        color: value.slider == 15.0 ||
+                                                value.slider == 20.0 ||
+                                                value.slider == 25.0 ||
+                                                value.slider == 30.0
+                                            ? appColor(context).darkText
+                                            : appColor(context).stroke),
+                                    const VSpace(Sizes.s3),
+                                    Text('15\nkm',
+                                        textAlign: TextAlign.center,
+                                        style: appCss.dmDenseMedium12
+                                            .textColor(
+                                                appColor(context).darkText)
+                                            .textHeight(1))
+                                  ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 66,
-                                  label: Column(
-                                    children: [
-                                      Container(
-                                        height: 4,
-                                        width: 2,
-                                        color: value.slider == 20.0||
-                                            value.slider == 25.0||
-                                            value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('20\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                  label: Column(children: [
+                                    Container(
+                                      height: 4,
+                                      width: 2,
+                                      color: value.slider == 20.0 ||
+                                              value.slider == 25.0 ||
+                                              value.slider == 30.0
+                                          ? appColor(context).darkText
+                                          : appColor(context).stroke,
+                                    ),
+                                    const VSpace(Sizes.s3),
+                                    Text('20\nkm',
+                                        textAlign: TextAlign.center,
+                                        style: appCss.dmDenseMedium12
+                                            .textColor(
+                                                appColor(context).darkText)
+                                            .textHeight(1))
+                                  ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 84,
                                   label: Column(
@@ -295,20 +267,17 @@ class ThirdFilter extends StatelessWidget {
                                       Container(
                                         height: 4,
                                         width: 2,
-                                        color: value.slider == 25.0||
-                                            value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
+                                        color: value.slider == 25.0 ||
+                                                value.slider == 30.0
+                                            ? appColor(context).darkText
+                                            : appColor(context).stroke,
                                       ),
                                       const VSpace(Sizes.s3),
                                       Text('25\nkm',
                                           textAlign: TextAlign.center,
                                           style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
+                                              .textColor(
+                                                  appColor(context).darkText)
                                               .textHeight(1)),
                                     ],
                                   )),
@@ -320,18 +289,15 @@ class ThirdFilter extends StatelessWidget {
                                         height: 4,
                                         width: 2,
                                         color: value.slider == 30.0
-                                            ? appColor(context)
-                                                .appTheme
-                                                .darkText
-                                            : appColor(context).appTheme.stroke,
+                                            ? appColor(context).darkText
+                                            : appColor(context).stroke,
                                       ),
                                       const VSpace(Sizes.s3),
                                       Text('30\nkm',
                                           textAlign: TextAlign.center,
                                           style: appCss.dmDenseMedium12
-                                              .textColor(appColor(context)
-                                                  .appTheme
-                                                  .darkText)
+                                              .textColor(
+                                                  appColor(context).darkText)
                                               .textHeight(1)),
                                     ],
                                   )),
@@ -340,8 +306,8 @@ class ThirdFilter extends StatelessWidget {
                         tooltip: FlutterSliderTooltip(
                             alwaysShowTooltip: false, disabled: true),
                         handler: FlutterSliderHandler(
-                            decoration: BoxDecoration(
-                                color: appColor(context).appTheme.trans),
+                            decoration:
+                                BoxDecoration(color: appColor(context).trans),
                             child: SvgPicture.asset(
                               eSvgAssets.userSlider,
                               height: Sizes.s28,
@@ -351,25 +317,23 @@ class ThirdFilter extends StatelessWidget {
                             activeTrackBarDraggable: true,
                             inactiveTrackBar: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: appColor(context).appTheme.stroke),
+                                color: appColor(context).stroke),
                             activeTrackBar: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: appColor(context).appTheme.darkText),
+                                color: appColor(context).darkText),
                             inactiveTrackBarHeight: 4.5,
                             inactiveDisabledTrackBarColor:
-                                appColor(context).appTheme.stroke,
+                                appColor(context).stroke,
                             activeDisabledTrackBarColor:
-                                appColor(context).appTheme.darkText),
+                                appColor(context).darkText),
                         step: const FlutterSliderStep(step: 5),
                         jump: true,
                         onDragging: (handlerIndex, lowerValue, upperValue) =>
-                            value.slidingValue(lowerValue)),
-                  )
-                ]))
-            .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
-            .boxBorderExtension(context, isShadow: true)
-            .padding(horizontal: Insets.i20, bottom: Insets.i15),
-      ]),
-    );
+                            value.slidingValue(lowerValue)))
+              ]))
+          .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
+          .boxBorderExtension(context, isShadow: true)
+          .padding(horizontal: Insets.i20, bottom: Insets.i15)
+    ]));
   }
 }

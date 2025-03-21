@@ -58,7 +58,7 @@ class RegisterFieldLayout extends StatelessWidget {
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     controller: register.txtEmail,
-                    hintText: language(context, appFonts.enterUsername),
+                    hintText: language(context, appFonts.enterEmail),
                     focusNode: register.emailFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.emailFocus, register.phoneFocus),

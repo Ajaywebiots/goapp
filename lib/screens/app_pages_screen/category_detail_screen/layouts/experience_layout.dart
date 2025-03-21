@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../config.dart';
+import '../../../../models/provider_model.dart';
+import '../../../../widgets/checkbox_common.dart';
 
 class ExperienceLayout extends StatelessWidget {
   final ProviderModel? data;
@@ -13,7 +15,6 @@ class ExperienceLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       IntrinsicHeight(
           child: Row(children: [
@@ -26,12 +27,15 @@ class ExperienceLayout extends StatelessWidget {
                   )
                 )*/
 
-            data!.media != null && data!.media!.isNotEmpty ?    Container(
+        data!.media != null && data!.media!.isNotEmpty
+            ? Container(
                 height: Sizes.s36,
                 width: Sizes.s36,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: AssetImage(data!.media![0].originalUrl!)))): Container(
+                    image: DecorationImage(
+                        image: AssetImage(data!.media![0].originalUrl!))))
+            : Container(
                 height: Sizes.s36,
                 width: Sizes.s36,
                 decoration: BoxDecoration(
@@ -42,32 +46,32 @@ class ExperienceLayout extends StatelessWidget {
                 indent: 2,
                 endIndent: 2,
                 width: 1,
-                color: appColor(context).appTheme.stroke)
+                color: appColor(context).stroke)
             .paddingSymmetric(horizontal: Insets.i12),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           IntrinsicHeight(
               child: Row(children: [
             Text(language(context, data!.name),
                 style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).appTheme.darkText)),
+                    .textColor(appColor(context).darkText)),
             VerticalDivider(
                     indent: 2,
                     endIndent: 2,
                     width: 1,
-                    color: appColor(context).appTheme.stroke)
+                    color: appColor(context).stroke)
                 .paddingSymmetric(horizontal: Insets.i5),
-
             Text("${data!.served} ${language(context, appFonts.served)}",
                 style: appCss.dmDenseMedium12
-                    .textColor(appColor(context).appTheme.darkText))
+                    .textColor(appColor(context).darkText))
           ])),
           const VSpace(Sizes.s4),
-          Text("${data!.experienceDuration ?? "0"} ${language(context, appFonts.of)} ${data!.experienceInterval ?? "years"} ${language(context, appFonts.experience).toLowerCase()}",
-              style: appCss.dmDenseMedium12
-                  .textColor(appColor(context).appTheme.lightText))
+          Text(
+              "${data!.experienceDuration ?? "0"} ${language(context, appFonts.of)} ${data!.experienceInterval ?? "years"} ${language(context, appFonts.experience).toLowerCase()}",
+              style:
+                  appCss.dmDenseMedium12.textColor(appColor(context).lightText))
         ])
       ])),
-      CheckBoxCommon(isCheck:isContain, onTap: onTap)
+      CheckBoxCommon(isCheck: isContain, onTap: onTap)
     ])
         .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
         .boxBorderExtension(context, isShadow: true)

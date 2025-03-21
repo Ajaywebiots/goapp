@@ -10,8 +10,10 @@ class LoginPhoneOtpVerifyScreen extends StatelessWidget {
     return Consumer<VerifyOtpProvider>(builder: (context1, otpCtrl, child) {
       return LoadingComponent(
           child: StatefulWrapper(
-              onInit: () => Future.delayed(DurationClass.ms50)
-                  .then((value) => otpCtrl.getArgument(context)),
+              onInit: () {
+                final args = ModalRoute.of(context)?.settings.arguments;
+                otpCtrl.getArgument(args);
+              },
               child: DirectionalityRtl(
                   child: Scaffold(
                       body: SafeArea(

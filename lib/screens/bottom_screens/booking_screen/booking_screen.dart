@@ -67,12 +67,11 @@ class _BookingScreenState extends State<BookingScreen>
                             title: appFonts.noMatching,
                             subtitle: appFonts.attemptYourSearch,
                             buttonText: appFonts.refresh,
-                            isBooking: true,
                             bTap: () {
                               value.clearTap(context, isBack: false);
                               dash.getBookingHistory(context);
                             },
-                            widget: Stack(children: [
+                            widget: Column(children: [
                               Image.asset(eImageAssets.noSearch,
                                       height: Sizes.s346)
                                   .paddingOnly(top: Insets.i40),

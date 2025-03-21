@@ -65,6 +65,8 @@ class AppCss {
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f18);
   TextStyle dmDenseExtraBold16 =
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f16);
+  TextStyle dmDenseExtraBold15 =
+      dmDense(fontWeight: extraBold, fontsize: FontSizes.f15);
   TextStyle dmDenseExtraBold14 =
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f14);
   TextStyle dmDenseExtraBold12 =
@@ -82,6 +84,7 @@ class AppCss {
   TextStyle dmDenseBold17 = dmDense(fontWeight: bold, fontsize: FontSizes.f17);
   TextStyle dmDenseBold14 = dmDense(fontWeight: bold, fontsize: FontSizes.f14);
   TextStyle dmDenseBold12 = dmDense(fontWeight: bold, fontsize: FontSizes.f12);
+  TextStyle dmDenseBold13 = dmDense(fontWeight: bold, fontsize: FontSizes.f13);
   TextStyle dmDenseBold10 = dmDense(fontWeight: bold, fontsize: FontSizes.f10);
 
   TextStyle dmDenseSemiBold24 =
@@ -104,10 +107,15 @@ class AppCss {
       dmDense(fontWeight: semiBold, fontsize: FontSizes.f12);
   TextStyle dmDenseSemiBold10 =
       dmDense(fontWeight: semiBold, fontsize: FontSizes.f10);
+  TextStyle dmDenseSemiBold7 =
+      dmDense(fontWeight: semiBold, fontsize: FontSizes.f7);
 
   //Text Style dmDense medium
   TextStyle dmDenseMedium28 =
       dmDense(fontWeight: medium, fontsize: FontSizes.f28);
+
+  TextStyle dmDenseMedium24 =
+      dmDense(fontWeight: medium, fontsize: FontSizes.f24);
   TextStyle dmDenseMedium22 =
       dmDense(fontWeight: medium, fontsize: FontSizes.f22);
   TextStyle dmDenseMedium20 =
@@ -130,6 +138,8 @@ class AppCss {
       dmDense(fontWeight: medium, fontsize: FontSizes.f10);
   TextStyle dmDenseMedium8 =
       dmDense(fontWeight: medium, fontsize: FontSizes.f8);
+  TextStyle dmDenseMedium7 =
+      dmDense(fontWeight: medium, fontsize: FontSizes.f7);
 
   //Text Style dmDense regular
   TextStyle dmDenseRegular18 =
@@ -156,6 +166,8 @@ class AppCss {
 
   TextStyle outfitBold38 = outfit(fontWeight: bold, fontsize: FontSizes.f38);
 
+  TextStyle outfitMedium24 =
+      outfit(fontWeight: medium, fontsize: FontSizes.f24);
   TextStyle outfitSemiBold45 =
       outfit(fontWeight: semiBold, fontsize: FontSizes.f45);
   TextStyle righteousSemiBold23 =

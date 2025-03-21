@@ -180,9 +180,7 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
-  logoutConfirmation(
-    context,
-  ) {
+  logoutConfirmation(context) {
     showDialog(
         context: context,
         builder: (context1) {

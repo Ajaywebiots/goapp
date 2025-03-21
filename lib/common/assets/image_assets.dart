@@ -103,7 +103,7 @@ class ImageAssets {
   final dustbin = "assets/images/dustbin.png";
   final dustbinCover = "assets/images/dustbinCover.png";
 
-  final notiGirl = "assets/images/notiGirl.png";
+  final noNoti = "assets/images/noNotification.png";
   final notiImage = "assets/images/notiImage.png";
   final notificationBell = "assets/images/notificationBell.png";
   final noLocation = "assets/images/noLocation.png";
@@ -172,4 +172,21 @@ class ImageAssets {
   final assignServicemen = "assets/images/assignServicemen.png";
   final maintenance = "assets/images/maintenance.png";
   final bottomSub = "assets/images/bottomSub.png";
+
+  final not1 = "assets/images/not1.png";
+  final not2 = "assets/images/not2.png";
+  final not3 = "assets/images/not3.png";
+  final not4 = "assets/images/not4.png";
+
+  final ytIcon = "assets/images/yt.png";
+  final tiktok = "assets/images/tiktok.png";
+  final insta = "assets/images/insta.png";
+  final fbIcon = "assets/images/fb.png";
+
+  final img1 = "assets/images/img1.png";
+  final img2 = "assets/images/img2.png";
+  final img3 = "assets/images/img3.png";
+  final img4 = "assets/images/img4.png";
+  final img5 = "assets/images/img5.png";
+  final img6 = "assets/images/img6.png";
 }

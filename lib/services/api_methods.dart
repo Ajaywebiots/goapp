@@ -8,8 +8,13 @@ class ApiMethods {
   String otpVerify = '/authentication/otp';
   String forgotPassword = '/authentication/forgot-password';
   String resetPassword = '/authentication/resetPassword';
+  String homeFeed = '/home/feed';
 
-  //////
+  /// business api
+  String businessCategories = "/Business/categories";
+  String businessList = "/business/list";
+
+// //
   // String homeFeed = '/api/App/home/feed';
   // String countries = '/api/App/countries';
 }

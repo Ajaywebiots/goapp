@@ -1,5 +1,17 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
+import 'package:goapp/providers/app_pages_provider/expert_service_provider.dart';
+import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart';
+import 'package:goapp/providers/app_pages_provider/featured_service_provider.dart';
+import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
+import 'package:goapp/providers/app_pages_provider/provider_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
+import 'package:goapp/providers/app_pages_provider/services_details_provider.dart';
 import 'package:goapp/providers/auth_providers/social_register_provider.dart';
 import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
 import 'package:goapp/providers/bottom_providers/booking_provider.dart';
@@ -9,7 +21,6 @@ import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
-
 import 'common/theme/app_theme.dart';
 import 'config.dart';
 
@@ -43,10 +54,15 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(
                       create: (_) => LanguageProvider(snapData.data!)),
                   ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => ServicesDetailsProvider()),
                   ChangeNotifierProvider(create: (_) => LoginProvider()),
                   ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
                   ChangeNotifierProvider(create: (_) => ProfileProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => FeaturedBusinessProvider()),
                   ChangeNotifierProvider(create: (_) => BookingProvider()),
+                  // ChangeNotifierProvider(create: (_) => ProviderDetailsProvider()),
                   ChangeNotifierProvider(create: (_) => CartProvider()),
                   ChangeNotifierProvider(create: (_) => DashboardProvider()),
                   ChangeNotifierProvider(
@@ -56,9 +72,17 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => ForgetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => RegisterProvider()),
                   ChangeNotifierProvider(create: (_) => SocialRegProvider()),
+                  ChangeNotifierProvider(create: (_) => SearchProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => LatestBLogDetailsProvider()),
                   ChangeNotifierProvider(
                       create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
+                  ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => ExpertServiceProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => FavouriteListProvider()),
                   ChangeNotifierProvider(create: (_) => NoInternetProvider()),
                   ChangeNotifierProvider(
                       create: (_) => VerifyResetPasswordProvider()),
@@ -66,6 +90,14 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => ChangePasswordProvider()),
                   ChangeNotifierProvider(
                       create: (_) => CommonPermissionProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => CategoriesDetailsProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => CategoriesListProvider()),
+                  ChangeNotifierProvider(create: (_) => NotificationProvider()),
+                  ChangeNotifierProvider(create: (_) => RateAppProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => ServiceReviewProvider()),
                 ],
                 child: UpgradeAlert(
                     dialogStyle: UpgradeDialogStyle.cupertino,

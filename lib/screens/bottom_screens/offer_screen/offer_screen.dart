@@ -40,7 +40,7 @@ class OfferScreen extends StatelessWidget {
                                     .inkWell(onTap: () {
                                   if (e.value.type == "service") {
                                     // route.pushNamed(
-                                    //     context, routeName.servicesDetailsScreen,
+                                    //     context, routeName.businessDetailsScreen,
                                     //     arg: e.value.relatedId);
                                   } else if (e.value.type == "category") {
                                     dash.onBannerTap(

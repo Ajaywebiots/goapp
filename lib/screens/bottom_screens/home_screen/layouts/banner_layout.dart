@@ -1,10 +1,11 @@
 import 'dart:ffi';
 
 import '../../../../config.dart';
+import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../models/banner_model.dart';
 
 class BannerLayout extends StatelessWidget {
-  final List<BannerModel>? bannerList;
+  final List<TopBanner>? bannerList;
   final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
   final Function(String, String)? onTap;
 
@@ -13,6 +14,9 @@ class BannerLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (bannerList == null || bannerList!.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return CarouselSlider(
             options: CarouselOptions(
                 height: Sizes.s240,
@@ -26,11 +30,9 @@ class BannerLayout extends StatelessWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(i.media![0].originalUrl!),
+                                image: NetworkImage(i.source ?? ''),
                                 fit: BoxFit.cover)))
-                    .inkWell(
-                  onTap: () => onTap!(i.type!, i.relatedId!),
-                );
+                    .inkWell(onTap: () => onTap!);
               });
             }).toList())
         .paddingOnly(top: Insets.i15);

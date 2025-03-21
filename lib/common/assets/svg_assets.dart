@@ -48,6 +48,11 @@ class SvgAssets {
   final like = "assets/svg/like.svg";
   final rate = "assets/svg/rate.svg";
   final share = "assets/svg/share.svg";
+  final time = "assets/svg/time.svg";
+  final global = "assets/svg/global.svg";
+  final direction = "assets/svg/direction.svg";
+  final calling = "assets/svg/calling.svg";
+
   final coupon = "assets/svg/coupon.svg";
   final logout = "assets/svg/logout.svg";
   final dark = "assets/svg/dark.svg";

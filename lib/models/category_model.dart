@@ -20,8 +20,6 @@ class CategoryModel {
   List<Media>? media;
   Pivot? pivot;
 
-  List<CategoryModel>? hasSubCategories;
-
   CategoryModel(
       {this.id,
       this.title,
@@ -39,8 +37,7 @@ class CategoryModel {
       this.updatedAt,
       this.deletedAt,
       this.media,
-      this.pivot,
-      this.hasSubCategories});
+      this.pivot});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,12 +62,6 @@ class CategoryModel {
       });
     }
     pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
-    if (json['has_sub_categories'] != null) {
-      hasSubCategories = <CategoryModel>[];
-      json['has_sub_categories'].forEach((v) {
-        hasSubCategories!.add(CategoryModel.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -95,10 +86,6 @@ class CategoryModel {
     }
     if (pivot != null) {
       data['pivot'] = pivot!.toJson();
-    }
-    if (hasSubCategories != null) {
-      data['has_sub_categories'] =
-          hasSubCategories!.map((v) => v.toJson()).toList();
     }
     return data;
   }

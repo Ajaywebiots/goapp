@@ -23,6 +23,12 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
+  autoFetch() {
+    userName.text = "ajay2404";
+    passwordController.text = "123456";
+    notifyListeners();
+  }
+
   // password see tap
   passwordSeenTap() {
     isPassword = !isPassword;

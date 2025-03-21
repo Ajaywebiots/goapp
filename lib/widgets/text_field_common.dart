@@ -79,7 +79,10 @@ class _TextFieldCommonState extends State<TextFieldCommon> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-        data: ThemeData(canvasColor: appColor(context).whiteBg),
+        data: ThemeData(
+            canvasColor: appColor(context).whiteBg,
+            textSelectionTheme: TextSelectionThemeData(
+                cursorColor: Colors.black, selectionHandleColor: Colors.black)),
         child: TextFormField(
             maxLines: widget.maxLines ?? 1,
             style: appCss.dmDenseMedium14.textColor(appColor(context).darkText),

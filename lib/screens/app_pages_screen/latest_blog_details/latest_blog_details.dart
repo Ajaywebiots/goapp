@@ -1,4 +1,7 @@
 import '../../../config.dart';
+import '../../../providers/app_pages_provider/latest_blog_details_provider.dart';
+import '../../../widgets/DirectionalityRtl.dart';
+import 'layouts/blog_details_layout.dart';
 
 class LatestBlogDetailsScreen extends StatelessWidget {
   const LatestBlogDetailsScreen({super.key});
@@ -8,32 +11,33 @@ class LatestBlogDetailsScreen extends StatelessWidget {
     return Consumer<LatestBLogDetailsProvider>(
         builder: (context, value, child) {
       return StatefulWrapper(
-          onInit: () => Future.delayed(const Duration(milliseconds: 100),() => value.onReady(context)),
-          child: Scaffold(
-              appBar: AppBarCommon(title: appFonts.latestBlog),
-              body: SingleChildScrollView(
-                  child: Column(children: [
-                SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: value.data != null
-                            ? const BlogDetailsLayout()
-                            : Container())
-                    .decorated(
-                        color: appColor(context).appTheme.whiteBg,
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 3,
-                              spreadRadius: 2,
-                              color: appColor(context)
-                                  .appTheme
-                                  .darkText
-                                  .withOpacity(0.06))
-                        ],
-                        borderRadius: BorderRadius.circular(AppRadius.r8),
-                        border: Border.all(
-                            color: appColor(context).appTheme.stroke))
-                    .padding(vertical: Insets.i15, horizontal: Insets.i20)
-              ]))));
+          onInit: () => Future.delayed(
+              const Duration(milliseconds: 100), () => value.onReady(context)),
+          child: DirectionalityRtl(
+            child: Scaffold(
+                appBar: AppBarCommon(title: appFonts.latestBlog),
+                body: SingleChildScrollView(
+                    child: Column(children: [
+                  SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: value.data != null
+                              ? const BlogDetailsLayout()
+                              : Container())
+                      .decorated(
+                          color: appColor(context).whiteBg,
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 3,
+                                spreadRadius: 2,
+                                color: appColor(context)
+                                    .darkText
+                                    .withOpacity(0.06))
+                          ],
+                          borderRadius: BorderRadius.circular(AppRadius.r8),
+                          border: Border.all(color: appColor(context).stroke))
+                      .padding(vertical: Insets.i15, horizontal: Insets.i20)
+                ]))),
+          ));
     });
   }
 }

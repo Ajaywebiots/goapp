@@ -1,4 +1,5 @@
 import '../../../../config.dart';
+import '../../../../widgets/checkbox_common.dart';
 
 class RatingBarLayout extends StatelessWidget {
   final dynamic data;
@@ -15,22 +16,22 @@ class RatingBarLayout extends StatelessWidget {
       IntrinsicHeight(
           child: Row(children: [
         Text(language(context, data['rate']),
-            style: appCss.dmDenseMedium14
-                .textColor(appColor(context).appTheme.darkText)),
+            style:
+                appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
         VerticalDivider(
                 indent: 1,
                 endIndent: 1,
                 width: 1,
-                color: appColor(context).appTheme.stroke)
+                color: appColor(context).stroke)
             .paddingSymmetric(horizontal: Insets.i12),
         SvgPicture.asset(data['icon'])
       ])),
-      CheckBoxCommon(
-          isCheck: selectedIndex, onTap: onTap),
-  //    CommonRadioBool(index: index, selectedIndex: selectedIndex, onTap: onTap)
+      CheckBoxCommon(isCheck: selectedIndex, onTap: onTap),
+      //    CommonRadioBool(index: index, selectedIndex: selectedIndex, onTap: onTap)
     ])
         .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
-        .boxBorderExtension(context, isShadow: true,bColor:  appColor(context).appTheme.fieldCardBg)
+        .boxBorderExtension(context,
+            isShadow: true, bColor: appColor(context).fieldCardBg)
         .padding(horizontal: Insets.i20, bottom: Insets.i15);
   }
 }

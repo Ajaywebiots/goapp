@@ -64,7 +64,7 @@ class _NoInternetLayoutState extends State<NoInternetLayout> {
                   subtitle: appFonts.clickTheRefresh,
                   buttonText: appFonts.refresh,
                   widget: Stack(children: [
-                    Image.asset(eImageAssets.notiGirl, height: Sizes.s346),
+                    Image.asset(eImageAssets.noNoti, height: Sizes.s300),
                     if (value.animationController != null)
                       Positioned(
                           top: MediaQuery.of(context).size.height * 0.03,

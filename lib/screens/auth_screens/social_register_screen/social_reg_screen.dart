@@ -74,18 +74,18 @@ class SocialRegScreen extends StatelessWidget {
                           title: language(context, appFonts.email)),
                       const VSpace(Sizes.s8),
                       TextFieldCommon(
-                          controller: socialRegPvr.txtEmail,
-                          hintText: language(context, appFonts.enterUsername),
-                          focusNode: socialRegPvr.emailFocus,
-                          onFieldSubmitted: (value) =>
-                              validation.fieldFocusChange(
-                                  context,
-                                  socialRegPvr.emailFocus,
-                                  socialRegPvr.phoneFocus),
-                          prefixIcon: eSvgAssets.email,
-                          validator: (value) => validation.emailValidation(
-                              context, value)).paddingSymmetric(
-                          horizontal: Insets.i20),
+                              controller: socialRegPvr.txtEmail,
+                              hintText: language(context, appFonts.enterEmail),
+                              focusNode: socialRegPvr.emailFocus,
+                              onFieldSubmitted: (value) =>
+                                  validation.fieldFocusChange(
+                                      context,
+                                      socialRegPvr.emailFocus,
+                                      socialRegPvr.phoneFocus),
+                              prefixIcon: eSvgAssets.email,
+                              validator: (value) =>
+                                  validation.emailValidation(context, value))
+                          .paddingSymmetric(horizontal: Insets.i20),
                       const VSpace(Sizes.s15),
                       ContainerWithTextLayout(
                           title: language(context, appFonts.phoneNo)),

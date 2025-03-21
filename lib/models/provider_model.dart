@@ -46,6 +46,9 @@ class ProviderModel {
   List<PrimaryAddress>? addresses;
   List<ServicemanModel>? servicemans;
   List<Reviews>? reviews;
+  int? totalReviewRating;
+  bool? isFav;
+  String? distance;
 
   ProviderModel(
       {this.id,
@@ -79,10 +82,13 @@ class ProviderModel {
       this.expertise,
       this.addresses,
       this.servicemans,
-      this.reviews,this.services});
+      this.reviews,
+      this.totalReviewRating,
+      this.services,
+      this.distance,
+      this.isFav});
 
   ProviderModel.fromJson(Map<String, dynamic> json) {
-
     id = json['id'];
     name = json['name'];
     email = json['email'];
@@ -103,7 +109,12 @@ class ProviderModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    reviewRatings = json['review_ratings'] != null ?double.parse(json['review_ratings'].toString()):null;
+    isFav = json['isFav'];
+    distance = json['distance'];
+    totalReviewRating = json['totalReviewRating'];
+    reviewRatings = json['review_ratings'] != null
+        ? double.parse(json['review_ratings'].toString())
+        : null;
     reviewCount = json['reviewCount'];
     if (json['categories'] != null) {
       categories = <CategoryModel>[];
@@ -127,9 +138,8 @@ class ProviderModel {
       });
     }
     if (json['wallet'] != null) {
-      wallet = json['wallet'] != null
-          ? WalletModel.fromJson(json['wallet'])
-          : null;
+      wallet =
+          json['wallet'] != null ? WalletModel.fromJson(json['wallet']) : null;
     }
     if (json['known_languages'] != null) {
       knownLanguages = <KnownLanguageModel>[];
@@ -164,7 +174,7 @@ class ProviderModel {
     if (json['services'] != null) {
       services = <Services>[];
       json['services'].forEach((v) {
-        if(v != null) {
+        if (v != null) {
           services!.add(Services.fromJson(v));
         }
       });
@@ -194,7 +204,10 @@ class ProviderModel {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['review_ratings'] = reviewRatings;
+    data['totalReviewRating'] = totalReviewRating;
     data['reviewCount'] = reviewCount;
+    data['distance'] = distance;
+    data['isFav'] = isFav;
     if (categories != null) {
       data['categories'] = categories!.map((v) => v.toJson()).toList();
     }
@@ -227,8 +240,7 @@ class ProviderModel {
       data['reviews'] = reviews!.map((v) => v.toJson()).toList();
     }
     if (services != null) {
-      data['services'] =
-          services!.map((v) => v.toJson()).toList();
+      data['services'] = services!.map((v) => v.toJson()).toList();
     }
     return data;
   }

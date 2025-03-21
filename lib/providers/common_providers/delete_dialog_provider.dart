@@ -38,7 +38,7 @@ class DeleteDialogProvider with ChangeNotifier {
               builder: (context, value, child) {
             return AlertDialogCommon(
                 isBooked: true,
-                title: title ?? language(context,appFonts.deleteSuccessfully),
+                title: title ?? language(context, appFonts.deleteSuccessfully),
                 widget: Stack(alignment: Alignment.center, children: [
                   SizedBox(
                           height: 200,
@@ -95,27 +95,27 @@ class DeleteDialogProvider with ChangeNotifier {
   }
 
   //on delete any confirmation dialog open
-  onDeleteDialog(sync, context, image, title, subtitle, onDelete) {
-    animateDesign(sync);
-    showDialog(
-        context: context,
-        builder: (context1) {
-          return StatefulBuilder(builder: (context2, setState) {
-            return Consumer<DeleteDialogProvider>(
-                builder: (context3, value, child) {
-              return OnDeleteDialog(
-                  image: image,
-                  onDelete: onDelete,
-                  subtitle: subtitle,
-                  title: title);
-            });
-          });
-        }).then((value) {
-      isPositionedRight = false;
-      isAnimateOver = false;
-      notifyListeners();
-    });
-  }
+  // onDeleteDialog(sync, context, image, title, subtitle, onDelete) {
+  //   animateDesign(sync);
+  //   showDialog(
+  //       context: context,
+  //       builder: (context1) {
+  //         return StatefulBuilder(builder: (context2, setState) {
+  //           return Consumer<DeleteDialogProvider>(
+  //               builder: (context3, value, child) {
+  //             return OnDeleteDialog(
+  //                 image: image,
+  //                 onDelete: onDelete,
+  //                 subtitle: subtitle,
+  //                 title: title);
+  //           });
+  //         });
+  //       }).then((value) {
+  //     isPositionedRight = false;
+  //     isAnimateOver = false;
+  //     notifyListeners();
+  //   });
+  // }
 
   @override
   void dispose() {

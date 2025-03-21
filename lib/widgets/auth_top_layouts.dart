@@ -24,12 +24,13 @@ class AuthTopLayout extends StatelessWidget {
           style: appCss.dmDenseBold20.textColor(appColor(context).darkText)),
       const VSpace(Sizes.s6),
       Text(language(context, subTitle!),
-          style: appCss.dmDenseMedium14.textColor(appColor(context).lightText)),
+          style:
+              appCss.dmDenseRegular14.textColor(appColor(context).lightText)),
       const VSpace(Sizes.s2),
       if (isNumber)
         Text(number ?? "",
-            style: appCss.dmDenseExtraBold16
-                .textColor(appColor(context).darkText)),
+            style:
+                appCss.dmDenseRegular14.textColor(appColor(context).darkText)),
       const VSpace(Sizes.s25)
     ]);
   }

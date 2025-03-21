@@ -1,14 +1,11 @@
 import 'dart:developer';
-
-import 'package:fixit_user_uikit/models/blog_model.dart';
-import 'package:fixit_user_uikit/models/booking_status_model.dart';
-import 'package:fixit_user_uikit/models/coupon_model.dart';
-import 'package:fixit_user_uikit/models/currency_model.dart';
-
 import '../../config.dart';
+import '../../models/provider_model.dart';
+import '../bottom_providers/dashboard_provider.dart';
 
 class ExpertServiceProvider with ChangeNotifier {
   final FocusNode searchFocus = FocusNode();
+
   List<ProviderModel> searchList = [];
   AnimationController? animationController;
   TextEditingController txtFeaturedSearch = TextEditingController();
@@ -26,7 +23,6 @@ class ExpertServiceProvider with ChangeNotifier {
       await animationController!.reverse();
     }
   }
-
 
   //featured package list
   getFeaturedPackage(DashboardProvider dash) async {
@@ -47,7 +43,7 @@ class ExpertServiceProvider with ChangeNotifier {
     }
   }
 
-  onBack(DashboardProvider dash,context) {
+  onBack(DashboardProvider dash, context) {
     txtFeaturedSearch.text = "";
     searchList = [];
     notifyListeners();

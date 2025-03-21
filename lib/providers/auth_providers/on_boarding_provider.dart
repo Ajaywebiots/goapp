@@ -6,6 +6,13 @@ import 'package:goapp/models/support_lang_model.dart';
 import 'package:goapp/services/api_service.dart';
 
 class OnBoardingProvider with ChangeNotifier {
+  @override
+  void dispose() {
+    super.dispose();
+    pageController!.dispose();
+    notifyListeners();
+  }
+
   int selectIndex = 0;
   PageController? pageController;
 
@@ -27,8 +34,7 @@ class OnBoardingProvider with ChangeNotifier {
 
   onSkip(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    // final login = Provider.of<LoginProvider>(context, listen: false);
-    // login.continueAsGuestTap(context);
+    pageController!.jumpToPage(3);
     pref.setBool(session.isIntro, true);
   }
 
@@ -103,11 +109,6 @@ class OnBoardingProvider with ChangeNotifier {
       width = 0;
       notifyListeners();
     }
-  }
-
-  onDispose() {
-    pageController!.dispose();
-    notifyListeners();
   }
 
   onPageChange(index) {

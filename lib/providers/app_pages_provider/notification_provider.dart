@@ -1,7 +1,9 @@
 import 'dart:developer';
 
-import 'package:fixit_user_uikit/config.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../config.dart';
+import '../../models/notification_model.dart';
 
 class NotificationProvider with ChangeNotifier {
   bool isNotification = false;
@@ -105,7 +107,7 @@ class NotificationProvider with ChangeNotifier {
                   shape: const SmoothRectangleBorder(
                       borderRadius: SmoothBorderRadius.all(SmoothRadius(
                           cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
-                  backgroundColor: appColor(context).appTheme.whiteBg,
+                  backgroundColor: appColor(context).whiteBg,
                   content: Stack(alignment: Alignment.topRight, children: [
                     Column(mainAxisSize: MainAxisSize.min, children: [
                       // Gif
@@ -141,7 +143,7 @@ class NotificationProvider with ChangeNotifier {
                                             .paddingOnly(bottom: Insets.i24)
                                       ]))
                               .decorated(
-                                  color: appColor(context).appTheme.fieldCardBg,
+                                  color: appColor(context).fieldCardBg,
                                   borderRadius:
                                       BorderRadius.circular(AppRadius.r10)),
                         ]),
@@ -161,7 +163,7 @@ class NotificationProvider with ChangeNotifier {
                               context, appFonts.deleteNotificationSuccessfully),
                           textAlign: TextAlign.center,
                           style: appCss.dmDenseRegular14
-                              .textColor(appColor(context).appTheme.lightText)
+                              .textColor(appColor(context).lightText)
                               .textHeight(1.5)),
                       const VSpace(Sizes.s25),
                       Row(children: [
@@ -169,17 +171,17 @@ class NotificationProvider with ChangeNotifier {
                             child: ButtonCommon(
                                 onTap: () => route.pop(context),
                                 title: appFonts.no,
-                                borderColor: appColor(context).appTheme.primary,
-                                color: appColor(context).appTheme.whiteBg,
-                                style: appCss.dmDenseSemiBold16.textColor(
-                                    appColor(context).appTheme.primary))),
+                                borderColor: appColor(context).primary,
+                                color: appColor(context).whiteBg,
+                                style: appCss.dmDenseSemiBold16
+                                    .textColor(appColor(context).primary))),
                         const HSpace(Sizes.s15),
                         Expanded(
                             child: ButtonCommon(
-                                color: appColor(context).appTheme.primary,
+                                color: appColor(context).primary,
                                 onTap: () => deleteNotification(context),
-                                style: appCss.dmDenseSemiBold16.textColor(
-                                    appColor(context).appTheme.whiteColor),
+                                style: appCss.dmDenseSemiBold16
+                                    .textColor(appColor(context).whiteColor),
                                 title: appFonts.yes))
                       ])
                     ]).padding(
@@ -191,11 +193,11 @@ class NotificationProvider with ChangeNotifier {
                         children: [
                           // Title
                           Text(language(context, appFonts.deleteNotification),
-                              style: appCss.dmDenseExtraBold18.textColor(
-                                  appColor(context).appTheme.darkText)),
+                              style: appCss.dmDenseExtraBold18
+                                  .textColor(appColor(context).darkText)),
                           Icon(CupertinoIcons.multiply,
                                   size: Sizes.s20,
-                                  color: appColor(context).appTheme.darkText)
+                                  color: appColor(context).darkText)
                               .inkWell(onTap: () => route.pop(context))
                         ]).paddingAll(Insets.i20)
                   ]));
@@ -249,8 +251,8 @@ class NotificationProvider with ChangeNotifier {
   onTap(NotificationModel model, context) {
     log("TY{PE : ${model.data!.type}");
     if (model.data!.type == "provider") {
-      route.pushNamed(context, routeName.providerDetailsScreen,
-          arg: model.data!.providerId);
+      // route.pushNamed(context, routeName.providerDetailsScreen,
+      //     arg: model.data!.providerId);
     }
   }
 }

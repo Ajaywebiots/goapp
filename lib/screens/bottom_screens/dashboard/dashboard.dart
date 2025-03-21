@@ -48,7 +48,7 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
               });
             },
             child: Scaffold(
-                floatingActionButton: MediaQuery.of(context)
+                /* floatingActionButton: MediaQuery.of(context)
                                 .viewInsets
                                 .bottom !=
                             0 &&
@@ -83,9 +83,9 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                                       .paddingOnly(
                                           top: Insets.i2, left: Insets.i2))
                           ]).height(Sizes.s38).width(Sizes.s30);
-                        })),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerDocked,
+                        })),*/
+                // floatingActionButtonLocation:
+                //     FloatingActionButtonLocation.centerDocked,
                 extendBody: true,
                 bottomNavigationBar: Consumer<ThemeService>(
                     builder: (themeContext, theme, child) {
@@ -93,7 +93,7 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                       elevation: 18,
                       activeIndex: value.selectIndex,
                       height: 76,
-                      gapLocation: GapLocation.center,
+                      gapLocation: GapLocation.none,
                       shadow: BoxShadow(
                           color: appColor(context).darkText.withOpacity(0.12),
                           blurRadius: 20,

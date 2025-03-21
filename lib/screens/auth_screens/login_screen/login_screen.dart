@@ -33,7 +33,16 @@ class LoginScreen extends StatelessWidget {
                           .textColor(appColor(context).darkText)),
                   const VSpace(Sizes.s15),
                   const LoginLayout(),
-                  const VSpace(Sizes.s35),
+                  const VSpace(Sizes.s55),
+                  ButtonCommon(
+                          title: "Auto Fetch",
+                          color: Colors.white,
+                          style: appCss.dmDenseSemiBold16
+                              .textColor(appColor(context).primary),
+                          borderColor: appColor(context).primary,
+                          onTap: () => value.autoFetch())
+                      .paddingSymmetric(horizontal: Insets.i20),
+                  const VSpace(Sizes.s15),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const ContinueWithContainer(),
                     Text(language(context, appFonts.orContinue),
@@ -57,7 +66,8 @@ class LoginScreen extends StatelessWidget {
                                       color: appColor(context).borderStroke))
                               .inkWell(
                                   onTap: () => option["onTap"](context, value)))
-                          .toList())
+                          .toList()),
+                  const VSpace(Sizes.s20),
                 ]).alignment(Alignment.centerLeft))
       ]).paddingSymmetric(horizontal: Insets.i20))))));
     });

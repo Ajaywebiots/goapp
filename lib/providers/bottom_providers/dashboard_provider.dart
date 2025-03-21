@@ -1,31 +1,40 @@
 import 'dart:developer';
 
-import 'package:goapp/common_tap.dart';
-import 'package:goapp/screens/bottom_screens/profile_screen/profile_screen.dart'
-    show ProfileScreen;
+import 'package:goapp/models/api_model/business_list_model.dart';
+import 'package:goapp/screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
+import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
+import 'package:goapp/screens/bottom_screens/home_screen/layouts/expert_business_layout.dart';
+import 'package:goapp/screens/bottom_screens/offer_screen/offer_screen.dart';
+
 import '../../config.dart';
+import '../../models/api_model/home_feed_model.dart';
 import '../../models/banner_model.dart';
 import '../../models/index.dart';
-import '../../screens/bottom_screens/booking_screen/booking_screen.dart';
+import '../../screens/app_pages_screen/expert_service_screen/expert_service_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
-import '../../screens/bottom_screens/offer_screen/offer_screen.dart';
-import '../dashboard_provider/home_screen_provider.dart';
+import '../../services/api_service.dart';
 import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
-  List<BannerModel> bannerList = [];
-  List<OfferModel> offerList = [];
+  List<TopBanner> bannerList = [];
+  List<OfferModel> offerList = []; ////
+  List<Coupon> couponOfferList = [];
+
   List<ProviderModel> highestRateList = [];
   List<CurrencyModel> currencyList = [];
   List<CouponModel> couponList = [];
-  List<CategoryModel> categoryList = [];
+  List<Category> categoryList = [];
   List<ServicePackageModel> servicePackagesList = [];
   List<ServicePackageModel> firstThreeServiceList = [];
   List<Services> featuredServiceList = [];
   static const pageSize = 1;
   SharedPreferences? pref;
+  bool isFav = false;
 
-  List<Services> firstTwoFeaturedServiceList = [];
+  TextEditingController searchCtrl = TextEditingController();
+  final FocusNode searchFocus = FocusNode();
+
+  List<Business> firstTwoFeaturedServiceList = [];
   List<ProviderModel> firstTwoHighRateList = [];
   List<BlogModel> blogList = [];
   List<BlogModel> firstTwoBlogList = [];
@@ -39,13 +48,63 @@ class DashboardProvider with ChangeNotifier {
 
   final List<Widget> pages = [
     const HomeScreen(),
-    Container(),
-    Container(),
+    SearchScreen(),
+    ExpertServiceScreen(),
+    CouponListScreen(),
     Container(),
     // const BookingScreen(),
     // const OfferScreen(),
     // const ProfileScreen()
   ];
+
+  onInit(context) {
+    homeFeed();
+    // getBanner();
+    getCoupons();
+    getCategory();
+    getFeaturedPackage(1);
+    getBlog();
+    getHighestRate();
+    notifyListeners();
+    final homeScreenPvr =
+        Provider.of<HomeScreenProvider>(context, listen: false);
+    homeScreenPvr.getBlogFilter();
+  }
+
+  homeFeed() {
+    try {
+      apiServices
+          .commonApi(api.homeFeed, [], ApiType.get, isToken: true)
+          .then((value) {
+        if ((value.data['responseStatus'] == 1)) {
+          log("ajay hariyani ${value.data}");
+
+          final ajay = HomeFeedModel.fromJson(value.data);
+          bannerList = [];
+          couponOfferList = [];
+          categoryList = [];
+          firstTwoFeaturedServiceList = [];
+          bannerList.addAll(ajay.banners ?? []);
+          couponOfferList.addAll(ajay.coupons ?? []);
+          categoryList.addAll(ajay.categories ?? []);
+          firstTwoFeaturedServiceList.addAll(ajay.businesses ?? []);
+          // featuredServiceList.addAll(ajay.businesses ?? []);
+          // addAll(ajay.attractions ?? []);
+          // addAll(ajay.articles ?? []);
+
+          log("Updated bannerList: ${bannerList.length} items");
+
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      log("EEEE : homeFeed $e");
+    }
+  }
+
+  void refreshData() {
+    notifyListeners();
+  }
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -54,7 +113,7 @@ class DashboardProvider with ChangeNotifier {
 
   onTap(index, context) async {
     selectIndex = index;
-    if (selectIndex == 3) {
+    if (selectIndex == 4) {
       logout();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -89,23 +148,14 @@ class DashboardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onInit() {
-    getBanner();
-    getCoupons();
-    getCategory();
-    getFeaturedPackage();
-    getBlog();
-    notifyListeners();
-  }
-
   //banner list
-  getBanner() async {
-    bannerList =
-        appArray.bannerList.map((e) => BannerModel.fromJson(e)).toList();
-    notifyListeners();
-
-    log("bannerList bannerList eee ${bannerList}");
-  }
+  // getBanner() async {
+  //   // bannerList = appArray.bannerList.map((e) => BannerModel.fromJson(e)).toList();
+  //   bannerList = appArray.bannerList.map((e) => TopBanner.fromJson(e)).toList();
+  //   notifyListeners();
+  //
+  //   log("bannerList bannerList eee $bannerList");
+  // }
 
   //offer list
   getOffer() async {
@@ -115,7 +165,7 @@ class DashboardProvider with ChangeNotifier {
 
   //highest rate provider list
   getHighestRate() async {
-    highestRateList = appArray.expertServicesList
+    highestRateList = appArray.featureAttractions
         .map((e) => ProviderModel.fromJson(e))
         .toList();
     if (highestRateList.length >= 3) {
@@ -199,8 +249,8 @@ class DashboardProvider with ChangeNotifier {
     } catch (e) {
       notifyListeners();
     }*/
-    categoryList =
-        appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
+    // categoryList =
+    //     appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
     notifyListeners();
   }
 
@@ -236,11 +286,11 @@ class DashboardProvider with ChangeNotifier {
   }
 
   //featured package list
-  getFeaturedPackage() async {
+  getFeaturedPackage(page) async {
     featuredServiceList =
         appArray.featuredList.map((e) => Services.fromJson(e)).toList();
     if (featuredServiceList.length >= 2) {
-      firstTwoFeaturedServiceList = featuredServiceList.getRange(0, 2).toList();
+      // firstTwoFeaturedServiceList = featuredServiceList.getRange(0, 2).toList();
     }
     notifyListeners();
     /* featuredServiceList = [];
@@ -317,32 +367,32 @@ class DashboardProvider with ChangeNotifier {
     }*/
   }
 
-  onRemoveService(context, index) {
-    if (firstTwoFeaturedServiceList.isEmpty) {
-      if (int.parse(featuredServiceList[index].selectedRequiredServiceMan!) ==
-          1) {
-        route.pop(context);
-      } else {
-        featuredServiceList[index].selectedRequiredServiceMan =
-            (int.parse(featuredServiceList[index].selectedRequiredServiceMan!) -
-                    1)
-                .toString();
-      }
-    } else {
-      if (int.parse(
-              firstTwoFeaturedServiceList[index].selectedRequiredServiceMan!) ==
-          1) {
-        route.pop(context);
-      } else {
-        firstTwoFeaturedServiceList[index].selectedRequiredServiceMan =
-            (int.parse(firstTwoFeaturedServiceList[index]
-                        .selectedRequiredServiceMan!) -
-                    1)
-                .toString();
-      }
-    }
-    notifyListeners();
-  }
+  // onRemoveService(context, index) {
+  //   if (firstTwoFeaturedServiceList.isEmpty) {
+  //     if (int.parse(featuredServiceList[index].selectedRequiredServiceMan!) ==
+  //         1) {
+  //       route.pop(context);
+  //     } else {
+  //       featuredServiceList[index].selectedRequiredServiceMan =
+  //           (int.parse(featuredServiceList[index].selectedRequiredServiceMan!) -
+  //                   1)
+  //               .toString();
+  //     }
+  //   } else {
+  //     if (int.parse(
+  //             firstTwoFeaturedServiceList[index].selectedRequiredServiceMan!) ==
+  //         1) {
+  //       route.pop(context);
+  //     } else {
+  //       firstTwoFeaturedServiceList[index].selectedRequiredServiceMan =
+  //           (int.parse(firstTwoFeaturedServiceList[index]
+  //                       .selectedRequiredServiceMan!) -
+  //                   1)
+  //               .toString();
+  //     }
+  //   }
+  //   notifyListeners();
+  // }
 
   onAdd(index) {
     int count =
@@ -385,7 +435,7 @@ class DashboardProvider with ChangeNotifier {
     // booking.notifyListeners();
   }
 
-  onFeatured(context, Services? services, id, {inCart}) async {
+  onFeatured(context, services, id, {inCart}) async {
     if (inCart) {
       // route.pushNamed(context, routeName.cartScreen);
     } else {

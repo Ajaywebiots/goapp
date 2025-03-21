@@ -1,17 +1,22 @@
 import 'dart:developer';
 
-import 'package:fixit_user_uikit/common_tap.dart';
-import 'package:fixit_user_uikit/models/blog_model.dart';
-import 'package:fixit_user_uikit/models/booking_status_model.dart';
-import 'package:fixit_user_uikit/models/coupon_model.dart';
-import 'package:fixit_user_uikit/models/currency_model.dart';
+import 'package:goapp/common_tap.dart';
+import 'package:goapp/models/blog_model.dart';
+import 'package:goapp/models/booking_status_model.dart';
+import 'package:goapp/models/coupon_model.dart';
+import 'package:goapp/models/currency_model.dart';
+import 'package:goapp/services/api_methods.dart';
+import 'package:goapp/services/api_service.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import '../../config.dart';
+import '../../models/api_model/business_list_model.dart';
+import '../../models/service_model.dart';
+import '../bottom_providers/dashboard_provider.dart';
 
-class FeaturedServiceProvider with ChangeNotifier {
+class FeaturedBusinessProvider with ChangeNotifier {
   List<Services> featuredServiceList = [];
   List<Services> searchList = [];
+  List<Businesses> featuredBusiness = [];
   final FocusNode searchFocus = FocusNode();
   TextEditingController txtFeaturedSearch = TextEditingController();
   final PagingController<int, Services> pagingController =
@@ -19,33 +24,48 @@ class FeaturedServiceProvider with ChangeNotifier {
   AnimationController? animationController;
 
   //featured package list
-  getFeaturedPackage(DashboardProvider dash,context) async {
+  getFeaturedPackage(DashboardProvider dash, context) async {
     searchList = [];
-    if(txtFeaturedSearch.text.isNotEmpty){
-      for(var data in dash.featuredServiceList){
-
-        if(data.title!.toLowerCase().contains(txtFeaturedSearch.text.replaceAll(" ", "").toLowerCase())){
-          if(!searchList.contains(data)){
+    if (txtFeaturedSearch.text.isNotEmpty) {
+      for (var data in dash.featuredServiceList) {
+        if (data.title!.toLowerCase().contains(
+            txtFeaturedSearch.text.replaceAll(" ", "").toLowerCase())) {
+          if (!searchList.contains(data)) {
             searchList.add(data);
           }
           notifyListeners();
         }
       }
-    }else{
+    } else {
       notifyListeners();
     }
     route.pop(context);
   }
 
-  onReady(context, TickerProvider sync) async {
+  getBusinessList() {
+    notifyListeners();
+    apiServices.commonApi(api.businessList, [], ApiType.get).then((value) {
+      log("business list -- ${value.data}");
+      featuredBusiness = [];
+      if (value.isSuccess!) {
+        final dataList = BusinessList.fromJson(value.data);
 
+        featuredBusiness.clear();
+        if (dataList.businesses != null) {
+          featuredBusiness.addAll(dataList.businesses!);
+        }
+        notifyListeners();
+      }
+    });
+    notifyListeners();
+  }
+
+  /*onReady(context, TickerProvider sync) async {
     animationController = AnimationController(
         vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
     notifyListeners();
-
-  }
-
+  }*/
 
   void _runAnimation() async {
     for (int i = 0; i < 300; i++) {
@@ -54,22 +74,19 @@ class FeaturedServiceProvider with ChangeNotifier {
     }
   }
 
-  onBack(DashboardProvider dash,context) {
+  onBack(DashboardProvider dash, context) {
     txtFeaturedSearch.text = "";
     searchList = [];
     notifyListeners();
-    getFeaturedPackage(dash,context);
+    getFeaturedPackage(dash, context);
   }
 
-  onFeatured(context, Services? services, id,
-      {inCart, isSearch = false}) async {
+  onFeatured(context, services, id, {inCart, isSearch = false}) async {
     if (inCart) {
       route.pop(context);
-      route.pushNamed(context, routeName.cartScreen);
+      // route.pushNamed(context, routeName.cartScreen);
     } else {
-
       onBook(context, services!,
-
               addTap: () => onAdd(context, id, isSearch: isSearch),
               minusTap: () => onRemoveService(context, id, isSearch: isSearch))!
           .then((e) {
@@ -91,7 +108,7 @@ class FeaturedServiceProvider with ChangeNotifier {
       }
     } else {
       final dash = Provider.of<DashboardProvider>(context, listen: false);
-      dash.onRemoveService(context, index);
+      // dash.onRemoveService(context, index);
       dash.notifyListeners();
     }
     notifyListeners();
@@ -116,6 +133,4 @@ class FeaturedServiceProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-
-
 }

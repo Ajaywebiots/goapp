@@ -3,8 +3,11 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:goapp/screens/app_pages_screen/search_screen/layouts/rating_bar_layout.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import '../../../../config.dart';
+import '../../../../providers/app_pages_provider/categories_details_provider.dart';
+import '../../../../providers/app_pages_provider/search_provider.dart';
 
 class SecondFilter extends StatefulWidget {
   final int? selectIndex;
@@ -33,68 +36,13 @@ class _SecondFilterState extends State<SecondFilter> {
     final categoriesProvider =
         Provider.of<CategoriesDetailsProvider>(context, listen: true);
     final searchProvider = Provider.of<SearchProvider>(context, listen: true);
-log("${widget.lowerVal} //${widget.upperVal}");
+    log("${widget.lowerVal} //${widget.upperVal}");
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const VSpace(Sizes.s20),
-        Text(language(context, appFonts.priceRange),
-                style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).appTheme.lightText))
-            .paddingOnly(left: Insets.i20),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: Insets.i15),
-          height: Sizes.s60,
-          child: FlutterSlider(
-                  values: [widget.lowerVal!, widget.upperVal ?? 100.0],
-                  rangeSlider: true,
-                  tooltip: FlutterSliderTooltip(
-                      format: (String value) {
-                        return '${getSymbol(context)}$value';
-                      },
-                      textStyle: appCss.dmDenseMedium12
-                          .textColor(appColor(context).appTheme.darkText),
-                      direction: FlutterSliderTooltipDirection.top,
-                      positionOffset:
-                          FlutterSliderTooltipPositionOffset(top: 28),
-                      alwaysShowTooltip: true,
-                      boxStyle: FlutterSliderTooltipBox(
-                          decoration: BoxDecoration(
-                              color: appColor(context).appTheme.trans))),
-                  rightHandler: FlutterSliderHandler(
-                      decoration: BoxDecoration(
-                          color: appColor(context).appTheme.trans),
-                      child: SvgPicture.asset(
-                        eSvgAssets.rSlider1,
-                        fit: BoxFit.cover,
-                      ).paddingOnly(bottom: 1)),
-                  handler: FlutterSliderHandler(
-                      decoration: BoxDecoration(
-                          color: appColor(context).appTheme.trans),
-                      child: SvgPicture.asset(eSvgAssets.rSlider2)
-                          .paddingOnly(bottom: 1)),
-                  max: widget.max,
-                  min: widget.min,
-                  handlerHeight: 25,
-
-                  trackBar: FlutterSliderTrackBar(
-                      activeTrackBarHeight: 4.5,
-                      activeTrackBar: BoxDecoration(
-                          color: appColor(context).appTheme.darkText),
-                      inactiveTrackBarHeight: 4.5,
-                      inactiveDisabledTrackBarColor: Colors.cyanAccent,
-                      activeDisabledTrackBarColor:
-                          appColor(context).appTheme.darkText),
-                  step: const FlutterSliderStep(step: 20),
-                  jump: true,
-                  onDragging: widget.onDragging!)
-              .paddingOnly(bottom: Insets.i10),
-        )
-            .boxShapeExtension(color: appColor(context).appTheme.fieldCardBg)
-            .padding(
-                horizontal: Insets.i20, top: Insets.i10, bottom: Insets.i20),
         Text(language(context, appFonts.rating),
                 style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).appTheme.lightText))
+                    .textColor(appColor(context).lightText))
             .paddingOnly(left: Insets.i20),
         const VSpace(Sizes.s15),
         ...appArray.ratingList.asMap().entries.map((e) => RatingBarLayout(
@@ -160,8 +108,7 @@ class CustomThumbShapes extends SfThumbShape {
     }
 
     _textSpan = TextSpan(
-      text:
-          "${getSymbol(buildContext)}${currency(buildContext).currencyVal * double.parse(text)}",
+      text: "00",
       style: const TextStyle(color: Colors.black),
     );
     _textPainter

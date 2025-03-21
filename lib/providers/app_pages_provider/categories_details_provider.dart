@@ -1,10 +1,13 @@
 import 'dart:developer';
-import 'dart:math' as math;
-import 'package:fixit_user_uikit/common_tap.dart';
-import 'package:fixit_user_uikit/config.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
-import '../../screens/app_pages_screens/category_detail_screen/layouts/categories_filter.dart';
+import '../../common_tap.dart';
+import '../../config.dart';
+import '../../models/category_model.dart';
+import '../../models/provider_model.dart';
+import '../../models/service_model.dart';
+import '../../screens/app_pages_screen/category_detail_screen/layouts/categories_filter.dart';
+import '../bottom_providers/cart_provider.dart';
 
 class CategoriesDetailsProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
@@ -88,18 +91,20 @@ class CategoriesDetailsProvider with ChangeNotifier {
   fetchProviderByFilter() async {
     providerList = [];
     try {
-    List<ProviderModel>  newLList = appArray.providerExpList
+      List<ProviderModel> newLList = appArray.providerExpList
           .map((e) => ProviderModel.fromJson(e))
           .toList();
       notifyListeners();
       if (filterSearchCtrl.text.isNotEmpty) {
         newLList.asMap().entries.forEach((element) {
           log("dsd :${element.value.name!.toString().toLowerCase().replaceAll(" ", "")}");
-          if(element.value.name!.toString().toLowerCase().replaceAll(" ", "").contains(filterSearchCtrl.text)){
+          if (element.value.name!
+              .toString()
+              .toLowerCase()
+              .replaceAll(" ", "")
+              .contains(filterSearchCtrl.text)) {
             providerList.add(element.value);
-
           }
-
         });
         notifyListeners();
       } else {
@@ -192,36 +197,32 @@ class CategoriesDetailsProvider with ChangeNotifier {
 
   onBottomSheet(context) {
     showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return const CategoriesFilterLayout();
-      },
-    );
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return const CategoriesFilterLayout();
+        });
   }
 
   onReady(context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     categoryModel = data;
     notifyListeners();
-    if (categoryModel!.hasSubCategories != null &&
-        categoryModel!.hasSubCategories!.isNotEmpty) {
-      getServiceByCategoryId(context, categoryModel!.hasSubCategories![0].id);
-    } else {
-      getServiceByCategoryId(context, categoryModel!.id);
-    }
+
+    getServiceByCategoryId(context, categoryModel?.id);
+
     fetchProviderByFilter();
     notifyListeners();
   }
 
   getServiceByCategoryId(context, id) async {
     serviceList =
-        appArray.servicesList.map((e) => Services.fromJson(e)).toList();
+        appArray.featuredList.map((e) => Services.fromJson(e)).toList();
     notifyListeners();
   }
 
   getServiceById(context, serviceId) async {
-    route.pushNamed(context, routeName.servicesDetailsScreen);
+    // route.pushNamed(context, routeName.businessDetailsScreen);
   }
 
   getProviderById(context, id, index, Services service) async {
@@ -231,15 +232,15 @@ class CategoriesDetailsProvider with ChangeNotifier {
             element.serviceList != null &&
             element.serviceList!.id == service.id)
         .isNotEmpty) {
-      route.pushNamed(context, routeName.cartScreen);
+      // route.pushNamed(context, routeName.cartScreen);
     } else {
-      onBook(context, service,
-          addTap: () => onAdd(index),
-          minusTap: () => onRemoveService(context, index)).then((e) {
-        serviceList[index].selectedRequiredServiceMan =
-            serviceList[index].requiredServicemen;
-        notifyListeners();
-      });
+      // onBook(context, service,
+      //     addTap: () => onAdd(index),
+      //     minusTap: () => onRemoveService(context, index)).then((e) {
+      //   serviceList[index].selectedRequiredServiceMan =
+      //       serviceList[index].requiredServicemen;
+      //   notifyListeners();
+      // });
     }
   }
 

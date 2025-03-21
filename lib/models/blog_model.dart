@@ -22,6 +22,8 @@ class BlogModel {
   List<CategoryModel>? categories;
   CreatedBy? createdBy;
   List<Tags>? tags;
+  bool? isTopRated;
+  bool? isFav;
 
   BlogModel(
       {this.id,
@@ -40,7 +42,9 @@ class BlogModel {
       this.media,
       this.categories,
       this.createdBy,
-      this.tags});
+      this.isTopRated,
+      this.tags,
+      this.isFav});
 
   BlogModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -55,7 +59,9 @@ class BlogModel {
     createdById = json['created_by_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    isTopRated = json['isTopRated'];
     deletedAt = json['deleted_at'];
+    isFav = json['isFav'];
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
@@ -93,7 +99,9 @@ class BlogModel {
     data['created_by_id'] = createdById;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['isTopRated'] = isTopRated;
     data['deleted_at'] = deletedAt;
+    data['isFav'] = isFav;
     if (media != null) {
       data['media'] = media!.map((v) => v.toJson()).toList();
     }

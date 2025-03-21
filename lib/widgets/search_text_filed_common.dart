@@ -1,4 +1,3 @@
-
 import '../config.dart';
 
 class SearchTextFieldCommon extends StatelessWidget {
@@ -16,19 +15,21 @@ class SearchTextFieldCommon extends StatelessWidget {
       this.onChanged,
       this.color,
       this.focusNode,
-      this.onFieldSubmitted, this.onTap});
+      this.onFieldSubmitted,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return TextFieldCommon(
-        hintStyle: appCss.dmDenseRegular13
-            .textColor(appColor(context).appTheme.lightText),
+        hintStyle:
+            appCss.dmDenseRegular13.textColor(appColor(context).lightText),
         radius: AppRadius.r23,
         hintText: appFonts.searchHere,
-        controller: controller,onTap:onTap ,
+        controller: controller,
+        onTap: onTap,
         focusNode: focusNode,
         onFieldSubmitted: onFieldSubmitted,
-        fillColor: appColor(context).appTheme.fieldCardBg,
+        fillColor: appColor(context).fieldCardBg,
         suffixIcon: suffixIcon,
         onChanged: onChanged,
         prefixIcon: eSvgAssets.search);

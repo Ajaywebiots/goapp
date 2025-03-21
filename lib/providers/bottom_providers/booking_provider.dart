@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:goapp/config.dart';
+import 'package:goapp/models/api_model/home_feed_model.dart';
 import 'package:goapp/models/booking_status_model.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,7 +19,7 @@ class BookingProvider with ChangeNotifier {
   bool isExpand = false;
   int selectIndex = 0;
   int? statusIndex;
-  List<CategoryModel> categoryList = [];
+  List<Category> categoryList = [];
   ScrollController scrollController = ScrollController();
   List selectedCategory = [];
   dynamic slotChosenValue;
@@ -138,9 +139,9 @@ class BookingProvider with ChangeNotifier {
 
   //category list
   getCategory({search}) async {
-    categoryList = [];
-    categoryList =
-        appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
+    // categoryList = [];
+    // categoryList =
+    // appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
     notifyListeners();
   }
 

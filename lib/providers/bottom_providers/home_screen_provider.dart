@@ -2,12 +2,30 @@ import 'dart:developer';
 
 import 'package:goapp/config.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:goapp/models/blog_filter_model.dart';
+
+import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
+import 'dashboard_provider.dart';
 
 class HomeScreenProvider with ChangeNotifier {
   int selectIndex = 0;
   int? cIndex;
   AnimationController? controller;
   Animation? animation;
+  TextEditingController searchCtrl = TextEditingController();
+  final FocusNode searchFocus = FocusNode();
+
+  List selectedCategory = [];
+
+  onCategoryChange(context, id) {
+    if (!selectedCategory.contains(id)) {
+      selectedCategory.add(id);
+    } else {
+      selectedCategory.remove(id);
+    }
+    log("SSS : ${selectedCategory.isEmpty}");
+    notifyListeners();
+  }
 
   HomeScreenProvider() {
     animationController = AnimationController(
@@ -15,6 +33,49 @@ class HomeScreenProvider with ChangeNotifier {
       ..repeat();
     rotationAnimation =
         Tween<double>(begin: 1, end: 0).animate(animationController!);
+  }
+
+  setState() {
+    notifyListeners();
+  }
+
+  String formatDiscount(String? discount) {
+    if (discount == null || discount.isEmpty) {
+      return "N/A";
+    }
+
+    final parsedValue = num.tryParse(discount);
+    if (parsedValue != null) {
+      return "${parsedValue.round()}%";
+    }
+
+    return discount;
+  }
+
+  List<BlogFilterModel> blogFilterList = [];
+
+  getBlogFilter({search}) async {
+    blogFilterList = appArray.blogFilterList
+        .map((e) => BlogFilterModel.fromJson(e))
+        .toList();
+    notifyListeners();
+  }
+
+  onBottomSheet(context) {
+    notifyListeners();
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return const FilterLayout1();
+        }).then((value) {
+      log("DDDD");
+      final dash = Provider.of<DashboardProvider>(context, listen: false);
+      // getCategory();
+
+      notifyListeners();
+      // filterSearchCtrl.text = "";
+    });
   }
 
   onAnimate(TickerProvider sync) {
@@ -92,7 +153,7 @@ class HomeScreenProvider with ChangeNotifier {
     pref = await SharedPreferences.getInstance();
     bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
     if (isGuest == false) {
-      // route.pushNamed(context, routeName.notifications);
+      route.pushNamed(context, routeName.notifications);
     } else {
       route.pushAndRemoveUntil(context);
     }

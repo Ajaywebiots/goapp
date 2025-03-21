@@ -19,7 +19,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
       return StatefulWrapper(
           onInit: () => Timer(const Duration(milliseconds: 150),
               () => onBoardPro.onReady(context)),
-          onDispose: () => onBoardPro.onDispose(),
           child: DirectionalityRtl(
             child: Scaffold(
                 body: SafeArea(

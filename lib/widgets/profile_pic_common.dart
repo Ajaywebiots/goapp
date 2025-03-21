@@ -26,40 +26,36 @@ class ProfilePicCommon extends StatelessWidget {
                       image: FileImage(File(image!.path)), fit: BoxFit.cover),
                   border: Border.all(
                       color: isProfile == true
-                          ? appColor(context).appTheme.whiteBg.withOpacity(0.75)
-                          : appColor(context).appTheme.trans,
+                          ? appColor(context).whiteBg.withOpacity(0.75)
+                          : appColor(context).trans,
                       width: isProfile == true ? 4 : 2,
                       style: BorderStyle.solid)))
           : imageUrl != null
               ? Container(
-          height: Sizes.s88,
-          width: Sizes.s88,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: AssetImage(imageUrl!),
-                  fit: BoxFit.cover),
-              border: Border.all(
-                  color: isProfile == true
-                      ? appColor(context)
-                      .appTheme
-                      .whiteBg
-                      .withOpacity(0.75)
-                      : appColor(context).appTheme.trans,
-                  width: isProfile == true ? 4 : 2,
-                  style: BorderStyle.solid)))
+                  height: Sizes.s88,
+                  width: Sizes.s88,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: AssetImage(imageUrl!), fit: BoxFit.cover),
+                      border: Border.all(
+                          color: isProfile == true
+                              ? appColor(context).whiteBg.withOpacity(0.75)
+                              : appColor(context).trans,
+                          width: isProfile == true ? 4 : 2,
+                          style: BorderStyle.solid)))
               : Container(
                   height: Sizes.s88,
                   width: Sizes.s88,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                                  image: AssetImage(eImageAssets.noImageFound3),
-                                  fit: BoxFit.cover),
+                          image: AssetImage(eImageAssets.noImageFound3),
+                          fit: BoxFit.cover),
                       border: Border.all(
                           color: isProfile == true
-                              ? appColor(context).appTheme.whiteBg.withOpacity(0.75)
-                              : appColor(context).appTheme.trans,
+                              ? appColor(context).whiteBg.withOpacity(0.75)
+                              : appColor(context).trans,
                           width: isProfile == true ? 4 : 2,
                           style: BorderStyle.solid))),
       /*Container(
@@ -78,8 +74,8 @@ class ProfilePicCommon extends StatelessWidget {
                           fit: BoxFit.cover),
               border: Border.all(
                   color: isProfile == true
-                      ? appColor(context).appTheme.whiteBg.withOpacity(0.75)
-                      : appColor(context).appTheme.trans,
+                      ? appColor(context).whiteBg.withOpacity(0.75)
+                      : appColor(context).trans,
                   width: isProfile == true ? 4 : 2,
                   style: BorderStyle.solid))),*/
       Container(
@@ -88,7 +84,7 @@ class ProfilePicCommon extends StatelessWidget {
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                  color: appColor(context).appTheme.whiteBg,
+                  color: appColor(context).whiteBg,
                   width: isProfile == true ? 2 : 1,
                   style: BorderStyle.solid)))
     ]);

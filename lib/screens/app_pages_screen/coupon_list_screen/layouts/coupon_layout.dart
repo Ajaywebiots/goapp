@@ -1,81 +1,74 @@
-import 'package:intl/intl.dart';
-
 import '../../../../config.dart';
+import '../../../../models/api_model/home_feed_model.dart';
+import '../../../../models/coupon_model.dart';
+import '../../../../providers/bottom_providers/dashboard_provider.dart';
+import '../../../../widgets/DirectionalityRtl.dart';
 
 class CouponLayout extends StatelessWidget {
-  final CouponModel? data;
+  final Coupon? data;
   final GestureTapCallback? onTap;
 
   const CouponLayout({super.key, this.data, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Image.asset(appColor(context).isDarkMode ?eImageAssets.couponDark : eImageAssets.coupon,
-          height: Sizes.s130,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.fill),
-      Column(children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(flex: 4,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(language(context, "${language(context, appFonts.spend)} ${data!.minSpend} ${language(context, appFonts.amount)}"),
-                  style: appCss.dmDenseBold14
-                      .textColor(appColor(context).appTheme.darkText)),
-              RichText(
-                  text: TextSpan(
-                      text: language(context, appFonts.useCode),
-                      style: appCss.dmDenseMedium12
-                          .textColor(appColor(context).appTheme.lightText),
-                      children: [
-                    TextSpan(
-                        style: appCss.dmDenseBold12
-                            .textColor(appColor(context).appTheme.lightText),
-                        text: " ${data!.code} "),
-                    TextSpan(
-                        style: appCss.dmDenseMedium12
-                            .textColor(appColor(context).appTheme.lightText),
-                        text: "${language(context, appFonts.toSave)} ${'${data!.amount}${data!.type == "percentage" ? "%":"${getSymbol(context)}"}\n${language(context,appFonts.off)}'} ${language(context, appFonts.ofRealPrice)}")
-                  ]))
-            ]),
-          ),
-          Expanded(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Image.asset(eImageAssets.dashLines, height: Sizes.s50),
-              const HSpace(Sizes.s17),
-              Text(
-              '${data!.amount}${data!.type == "percentage" ? "%":"${getSymbol(context)}"}\n${language(context, appFonts.off).toUpperCase()}',
-                  style: appCss.dmDenseBold14
-                      .textColor(appColor(context).appTheme.darkText))
-            ]),
-          )
-        ]),
-        const VSpace(Sizes.s28),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          RichText(
-              text: TextSpan(
-                  text: language(context, appFonts.validTill),
-                  style: appCss.dmDenseMedium12
-                      .textColor(appColor(context).appTheme.lightText),
-                  children: [
-                TextSpan(
-                    style: appCss.dmDenseMedium12
-                        .textColor(appColor(context).appTheme.darkText),
-                    text: " ${data!.endDate ?? DateFormat("yyyy-MM-dd").format(DateTime.now())}")
-              ])),
-          Row(children: [
-            Text(language(context, appFonts.useCode),
-                style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).appTheme.primary)),
-            const HSpace(Sizes.s5),
-            SvgPicture.asset(eSvgAssets.anchorArrowRight,
-                colorFilter: ColorFilter.mode(
-                    appColor(context).appTheme.primary, BlendMode.srcIn))
-          ]).inkWell(onTap: onTap)
-        ])
-      ]).paddingAll(Insets.i15)
-    ]).paddingOnly(bottom: Insets.i20);
+    final dash = Provider.of<DashboardProvider>(context, listen: false);
+    bool isFav = false;
+    return DirectionalityRtl(
+        child: Container(
+            padding: EdgeInsets.only(bottom: Insets.i12),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fill, image: AssetImage(eImageAssets.coupon))),
+            child: Column(children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(backgroundImage: AssetImage(data!.image!))
+                          .padding(right: Insets.i10),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(language(context, "${data!.name}"),
+                                    style: appCss.dmDenseMedium14
+                                        .textColor(appColor(context).darkText)),
+                                VSpace(Insets.i3),
+                                Text(language(context, data!.name),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: appCss.dmDenseRegular12
+                                            .textColor(
+                                                appColor(context).lightText)
+                                            .textHeight(1.2))
+                                    .paddingOnly(bottom: 10)
+                              ]).padding(top: Insets.i10))
+                    ]).paddingOnly(top: Insets.i8),
+                Text(language(context, '5% OFF'),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                        style: appCss.dmDenseBold14
+                            .textColor(appColor(context).darkText)
+                            .textHeight(1.2))
+                    .width(Insets.i50)
+              ]).inkWell(onTap: onTap).padding(horizontal: 10),
+              VSpace(Insets.i12),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text("Valid on Mon-Fri only",
+                    style: appCss.dmDenseRegular12
+                        .textColor(appColor(context).darkText)),
+                SvgPicture.asset(isFav == true
+                        ? "assets/svg/dislike.svg"
+                        : "assets/svg/fav.svg")
+                    .inkWell(onTap: () {
+                  dash.notifyListeners();
+                  isFav = !isFav;
+                  dash.notifyListeners();
+                })
+              ]).padding(horizontal: 15, top: 5)
+            ])).paddingOnly(bottom: Insets.i20));
   }
 }
