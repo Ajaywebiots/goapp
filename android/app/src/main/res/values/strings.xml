@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">goapp</string>
-    <string name="facebook_app_id">1354302585585380</string>
-    <string name="fb_login_protocol_scheme">fb1354302585585380</string>
+<string name="facebook_app_id">1754660718425463</string>
+<string name="fb_login_protocol_scheme">fb1754660718425463</string>
+<string name="facebook_client_token">97c2db78f0c6ebecbb2a51b26db89303</string>
+<string name="app_name">"auth-login"</string>
 </resources>

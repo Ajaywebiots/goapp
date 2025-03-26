@@ -33,19 +33,19 @@ class AppArray {
   List<Map<String, dynamic>> loginOptions = [
     {
       "image": eImageAssets.google,
-      "onTap": (BuildContext context, dynamic value) =>
-          value.googleLogin(context),
+      "onTap": (BuildContext context, LoginProvider value) =>
+          value.signInWithGoogle(context)
     },
     {
       "image": eImageAssets.fbLogo,
-      "onTap": (BuildContext context, dynamic value) =>
-          value.loginWithFacebook(),
+      "onTap": (BuildContext context, LoginProvider value) =>
+          value.signInWithFacebook(context)
     },
     {
       "image": eImageAssets.mobile,
       "onTap": (BuildContext context, dynamic value) =>
-          route.pushNamed(context, routeName.loginWithPhone),
-    },
+          route.pushNamed(context, routeName.loginWithPhone)
+    }
   ];
 
   /////
@@ -1960,8 +1960,6 @@ class AppArray {
     {"id": 1, "title": appFonts.highestRate},
   ];
 
-  var languagesList = [appFonts.english, appFonts.spanish, appFonts.chines];
-
   var servicemanChooseList = [
     appFonts.letAppChoose,
     appFonts.selectServicemenAs
@@ -2350,43 +2348,43 @@ class AppArray {
     }
   ];
 
-  var paymentMethodList = [
-    {
-      "image": eSvgAssets.wallet,
-      "title": appFonts.wallet,
-      "value": appFonts.wallet
-    },
-    {
-      "image": eSvgAssets.wallet,
-      "title": appFonts.paypal,
-      "value": appFonts.paypal
-    },
-    {
-      "image": eSvgAssets.razorpay,
-      "title": appFonts.razorPay,
-      "value": appFonts.wallet
-    },
-    {
-      "image": eSvgAssets.stripe,
-      "title": appFonts.stripe,
-      "value": appFonts.wallet
-    },
-    {
-      "image": eSvgAssets.visa,
-      "title": appFonts.mastercardVisa,
-      "value": appFonts.wallet
-    },
-    {
-      "image": eSvgAssets.cash,
-      "title": appFonts.payOnHold,
-      "value": appFonts.onHand
-    },
-  ];
+  // var paymentMethodList = [
+  //   {
+  //     "image": eSvgAssets.wallet,
+  //     "title": appFonts.wallet,
+  //     "value": appFonts.wallet
+  //   },
+  //   {
+  //     "image": eSvgAssets.wallet,
+  //     "title": appFonts.paypal,
+  //     "value": appFonts.paypal
+  //   },
+  //   {
+  //     "image": eSvgAssets.razorpay,
+  //     "title": appFonts.razorPay,
+  //     "value": appFonts.wallet
+  //   },
+  //   {
+  //     "image": eSvgAssets.stripe,
+  //     "title": appFonts.stripe,
+  //     "value": appFonts.wallet
+  //   },
+  //   {
+  //     "image": eSvgAssets.visa,
+  //     "title": appFonts.mastercardVisa,
+  //     "value": appFonts.wallet
+  //   },
+  //   {
+  //     "image": eSvgAssets.cash,
+  //     "title": appFonts.payOnHold,
+  //     "value": appFonts.onHand
+  //   },
+  // ];
 
-  var paymentGatewayList = [
-    {"id": 0, "title": appFonts.razorPay, 'icon': eSvgAssets.razorpay},
-    {"id": 1, "title": appFonts.stripe, 'icon': eSvgAssets.stripe}
-  ];
+  // var paymentGatewayList = [
+  //   {"id": 0, "title": appFonts.razorPay, 'icon': eSvgAssets.razorpay},
+  //   {"id": 1, "title": appFonts.stripe, 'icon': eSvgAssets.stripe}
+  // ];
 
   var servicemanList = [
     {
@@ -3497,44 +3495,6 @@ class AppArray {
       'icon': eImageAssets.ytIcon,
       'label': "YouTube",
       'action': () => print("YouTube tapped")
-    },
-  ];
-
-  var bookingStatus = [
-    {
-      "status": "s",
-      "time": "2:30 am",
-      "date": "Today",
-      "title": "Changes in schedule",
-      "subtext": "You have change time for service."
-    },
-    {
-      "status": "s",
-      "time": "2:30 am",
-      "date": "Today",
-      "title": "Changes in schedule",
-      "subtext": "You have change time for service."
-    },
-    {
-      "status": appFonts.ongoing,
-      "time": "2:30 am",
-      "date": "Today",
-      "title": "Changes in schedule",
-      "subtext": "You have change time for service."
-    },
-    {
-      "status": appFonts.accepted,
-      "time": "2:30 am",
-      "date": "Today",
-      "title": "Changes in schedule",
-      "subtext": "You have change time for service."
-    },
-    {
-      "status": appFonts.pending,
-      "time": "2:30 am",
-      "date": "Today",
-      "title": "Changes in schedule",
-      "subtext": "You have change time for service."
     },
   ];
 
@@ -4852,36 +4812,6 @@ class AppArray {
       }
     ]
   };
-
-  var packageBookingList = [
-    {
-      "title": "Cleaning service package",
-      "price": "32.08",
-      "Description":
-          "As a service member, I believe I am capable of problem solving. I too face a variety of obstacles at work and must develop effective solutions to ensure client satisfaction.",
-      "pImage": eImageAssets.es1,
-      "pName": "Kurt Bates",
-      "rate": "3.0",
-      "includedService": [
-        {
-          "image": eImageAssets.fs2,
-          "title": "House hold cook",
-          "price": "15.23",
-          "bookingId": "#15263",
-          "status": appFonts.accepted,
-          "serviceman": "2"
-        },
-        {
-          "image": eImageAssets.es1,
-          "title": "Hair spa",
-          "price": "10.15",
-          "bookingId": "#15264",
-          "status": appFonts.ongoing,
-          "serviceman": "0"
-        },
-      ]
-    }
-  ];
 
   var offerList = [
     {

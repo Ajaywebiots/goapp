@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:goapp/config.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../config.dart';
 import '../../models/profile_model.dart';
 import 'dashboard_provider.dart';
 
@@ -118,7 +115,7 @@ class ProfileProvider with ChangeNotifier {
                                 .decorated(
                                     color: appColor(context).fieldCardBg,
                                     borderRadius:
-                                        BorderRadius.circular(AppRadius.r10)),
+                                        BorderRadius.circular(AppRadius.r10))
                           ]),
                           if (offsetAnimation != null)
                             SlideTransition(
@@ -230,25 +227,26 @@ class ProfileProvider with ChangeNotifier {
                       const HSpace(Sizes.s15),
                       Expanded(
                           child: ButtonCommon(
-                        title: appFonts.yes,
-                        color: appColor(context).primary,
-                        onTap: () async {
-                          preferences = await SharedPreferences.getInstance();
-                          preferences!.remove(session.isContinueAsGuest);
-                          preferences!.remove(session.isLogin);
+                              title: appFonts.yes,
+                              color: appColor(context).primary,
+                              onTap: () async {
+                                preferences =
+                                    await SharedPreferences.getInstance();
+                                preferences!.remove(session.isContinueAsGuest);
+                                preferences!.remove(session.isLogin);
 
-                          notifyListeners();
-                          route.pop(context);
-                          route.pushAndRemoveUntil(context);
-                          final dash = Provider.of<DashboardProvider>(context,
-                              listen: false);
+                                notifyListeners();
+                                route.pop(context);
+                                route.pushAndRemoveUntil(context);
+                                final dash = Provider.of<DashboardProvider>(
+                                    context,
+                                    listen: false);
 
-                          dash.selectIndex = 0;
-                          dash.notifyListeners();
-                        },
-                        style: appCss.dmDenseSemiBold16
-                            .textColor(appColor(context).whiteColor),
-                      ))
+                                dash.selectIndex = 0;
+                                dash.notifyListeners();
+                              },
+                              style: appCss.dmDenseSemiBold16
+                                  .textColor(appColor(context).whiteColor)))
                     ])
                   ]).padding(
                       horizontal: Insets.i20,

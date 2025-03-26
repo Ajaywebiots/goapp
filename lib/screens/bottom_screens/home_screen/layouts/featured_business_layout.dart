@@ -29,7 +29,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
-                        data?.image == ""
+                        data?.image != ""
                             ? Container(
                                 height: Sizes.s30,
                                 width: Sizes.s30,

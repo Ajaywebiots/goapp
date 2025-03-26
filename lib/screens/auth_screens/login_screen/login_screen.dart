@@ -7,6 +7,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(builder: (loginContext, value, child) {
+      final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+
       return LoadingComponent(
           child: DirectionalityRtl(
               child: Scaffold(
@@ -35,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   const LoginLayout(),
                   const VSpace(Sizes.s55),
                   ButtonCommon(
-                          title: "Auto Fetch",
+                          title: language(context, appFonts.autoFetch),
                           color: Colors.white,
                           style: appCss.dmDenseSemiBold16
                               .textColor(appColor(context).primary),
@@ -65,7 +67,8 @@ class LoginScreen extends StatelessWidget {
                                   border: Border.all(
                                       color: appColor(context).borderStroke))
                               .inkWell(
-                                  onTap: () => option["onTap"](context, value)))
+                                  onTap: () =>
+                                      option["onTap"](context, loginProvider)))
                           .toList()),
                   const VSpace(Sizes.s20),
                 ]).alignment(Alignment.centerLeft))

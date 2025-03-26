@@ -165,7 +165,7 @@ class OpeningHoursSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 0.58,
         child: SingleChildScrollView(
             child: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -175,23 +175,24 @@ class OpeningHoursSheet extends StatelessWidget {
             const Icon(CupertinoIcons.multiply)
                 .inkWell(onTap: () => route.pop(context))
           ]),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Day',
-                    style: appCss.dmDenseMedium12
-                        .textColor(appColor(context).lightText)),
-                Text('Open',
-                    style: appCss.dmDenseMedium12
-                        .textColor(appColor(context).lightText)),
-                Text('Close',
-                    style: appCss.dmDenseMedium12
-                        .textColor(appColor(context).lightText)),
-                Text('Remark',
-                    style: appCss.dmDenseMedium12
-                        .textColor(appColor(context).lightText))
-              ]).paddingSymmetric(vertical: 20),
+          Row(children: [
+            Text('Day',
+                style: appCss.dmDenseMedium12
+                    .textColor(appColor(context).lightText)),
+            HSpace(MediaQuery.of(context).size.width * 0.16),
+            Text('Open',
+                style: appCss.dmDenseMedium12
+                    .textColor(appColor(context).lightText)),
+            HSpace(MediaQuery.of(context).size.width * 0.1),
+            Text('Close',
+                style: appCss.dmDenseMedium12
+                    .textColor(appColor(context).lightText)),
+            HSpace(MediaQuery.of(context).size.width * 0.07),
+            Text('Remark',
+                style: appCss.dmDenseMedium12
+                    .textColor(appColor(context).lightText))
+          ]).paddingDirectional(
+              start: MediaQuery.of(context).size.width * 0.03, vertical: 20),
           ListView.builder(
               shrinkWrap: true,
               itemCount: openingHours.length,
@@ -202,7 +203,7 @@ class OpeningHoursSheet extends StatelessWidget {
                           size: const Size(double.infinity, 1),
                           painter: DottedLinePainter(
                               color: appColor(context).borderStroke))
-                      .paddingSymmetric(vertical: 15)
+                      .paddingDirectional(vertical: 15)
                 ]).paddingOnly(right: 20, left: 15);
               }),
           ButtonCommon(

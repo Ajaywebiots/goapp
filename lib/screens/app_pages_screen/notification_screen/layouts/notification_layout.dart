@@ -88,17 +88,17 @@ checkCurrentDateShowMin(date) {
   if (DateFormat("dd/MM/yyyy").format(now) ==
       DateFormat("dd/MM/yyyy").format(DateTime.parse(date))) {
     if (DateTime.now().difference(DateTime.parse(date)).inMinutes < 1) {
-      return "seconds ago";
+      return appFonts.secondsAgo;
     } else if (DateTime.now().difference(DateTime.parse(date)).inMinutes < 60) {
-      return "${DateTime.now().difference(DateTime.parse(date)).inMinutes} minutes";
+      return "${DateTime.now().difference(DateTime.parse(date)).inMinutes} ${appFonts.minutes}";
     } else if (DateTime.now().difference(DateTime.parse(date)).inMinutes <
         1440) {
-      return "${DateTime.now().difference(DateTime.parse(date)).inHours} hours";
+      return "${DateTime.now().difference(DateTime.parse(date)).inHours} ${appFonts.hours}";
     }
   } else {
     if (DateTime.now().difference(DateTime.parse(date)).inMinutes > 1440 &&
         DateTime.now().difference(DateTime.parse(date)).inMinutes <= 2880) {
-      return "${DateTime.now().difference(DateTime.parse(date)).inDays} days";
+      return "${DateTime.now().difference(DateTime.parse(date)).inDays} ${appFonts.days}";
     } else {
       return DateFormat("dd/MM/yyyy").format(DateTime.parse(date));
     }

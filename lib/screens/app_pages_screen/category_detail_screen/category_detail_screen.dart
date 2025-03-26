@@ -54,7 +54,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
                                   onTap: () => search.onBottomSheet(context)))
                           .paddingSymmetric(horizontal: 20),
                       VSpace(Insets.i25),
-                      Text("Categories",
+                      Text(appFonts.categories,
                               style: appCss.dmDenseBold16
                                   .textColor(appColor(context).darkText))
                           .paddingSymmetric(horizontal: Insets.i20),
@@ -90,7 +90,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
                                                 width: Sizes.s24)
                                             .paddingAll(Insets.i17)),
                                     VSpace(Insets.i8),
-                                    Text('Popular',
+                                    Text(appFonts.popular,
                                         style: appCss.dmDenseRegular13
                                             .textColor(
                                                 appColor(context).darkText))

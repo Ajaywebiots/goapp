@@ -46,27 +46,25 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-
-	<!-- Facebook Login Details -->
-    	<key>CFBundleURLTypes</key>
-    	<array>
-    		<dict>
-    			<key>CFBundleURLSchemes</key>
-    			<array>
-    				<string>fb1354302585585380</string>
-    			</array>
-    		</dict>
-    	</array>
-    	<key>FacebookAppID</key>
-    	<string>1354302585585380</string>
-    	<key>FacebookDisplayName</key>
-    	<string>Goapp</string>
-    	<key>LSApplicationQueriesSchemes</key>
-    	<array>
-    		<string>fbapi</string>
-    		<string>fb-messenger-share-api</string>
-    		<string>fbauth2</string>
-    		<string>fbshareextension</string>
-    	</array>
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb1754660718425463</string>
+      </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1754660718425463</string>
+    <key>FacebookDisplayName</key>
+    <string>Go Salamina</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

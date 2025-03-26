@@ -68,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                 onTap: () => value
                                                     .onBottomSheet(context))),
                                         const VSpace(Sizes.s25),
-                                        Text("Categories",
+                                        Text(appFonts.categories,
                                             style: appCss.dmDenseBold16
                                                 .textColor(appColor(context)
                                                     .darkText)),
@@ -104,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                                     width: Sizes.s24)
                                                                 .paddingAll(Insets.i17)),
                                                         VSpace(Insets.i8),
-                                                        Text('Popular',
+                                                        Text(appFonts.popular,
                                                             style: appCss
                                                                 .dmDenseRegular13
                                                                 .textColor(appColor(
@@ -188,7 +188,7 @@ class _SearchScreenState extends State<SearchScreen>
                                 }))
                               : EmptyLayout(
                                   title: appFonts.noResultsWereFound,
-                                  subtitle: appFonts.sorry,
+                                  subtitle: language(context, appFonts.sorry),
                                   buttonText: appFonts.refresh,
                                   bTap: () => value.searchClear(),
                                   widget: Image.asset(eImageAssets.noNoti,

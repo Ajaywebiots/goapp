@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../widgets/country_picker_custom/country_code_custom.dart';
 
 class SocialRegProvider extends ChangeNotifier {
@@ -31,5 +31,12 @@ class SocialRegProvider extends ChangeNotifier {
   isCheckBoxCheck(value) {
     isCheck = value;
     notifyListeners();
+  }
+
+  onInit(context) {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is UserCredential) {
+      txtEmail.text = args.user?.email ?? "";
+    }
   }
 }

@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
@@ -23,9 +25,14 @@ import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
 import 'common/theme/app_theme.dart';
 import 'config.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());

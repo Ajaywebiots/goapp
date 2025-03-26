@@ -60,7 +60,7 @@ class _NoInternetLayoutState extends State<NoInternetLayout> {
             return Scaffold(
               body: EmptyLayout(
                   isButtonShow: false,
-                  title: appFonts.oppsYour,
+                  title: language(context, appFonts.oppsYour),
                   subtitle: appFonts.clickTheRefresh,
                   buttonText: appFonts.refresh,
                   widget: Stack(children: [

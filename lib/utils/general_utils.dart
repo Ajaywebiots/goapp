@@ -8,26 +8,6 @@ import 'package:rate_my_app/rate_my_app.dart';
 
 import '../providers/bottom_providers/cart_provider.dart';
 
-Color colorCondition(String? text, context) {
-  if (text == appFonts.pending) {
-    return appColor(context).pending;
-  } else if (text == appFonts.accepted || text == appFonts.assigned) {
-    return appColor(context).accepted;
-  } else if (text == appFonts.onGoing ||
-      text == appFonts.onHold ||
-      text == appFonts.startAgain) {
-    return appColor(context).ongoing;
-  } else if (text == appFonts.cancel) {
-    return appColor(context).red;
-  } else if (text == appFonts.onHold) {
-    return appColor(context).red;
-  } else if (text == appFonts.requested) {
-    return appColor(context).greenColor;
-  } else {
-    return appColor(context).primary;
-  }
-}
-
 String monthCondition(String? text) {
   if (text == '1') {
     return "JAN";

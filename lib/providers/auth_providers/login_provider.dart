@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../services/api_service.dart';
 
@@ -33,6 +35,33 @@ class LoginProvider with ChangeNotifier {
   passwordSeenTap() {
     isPassword = !isPassword;
     notifyListeners();
+  }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  signInWithGoogle(context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      log("userCredential ${userCredential.user?.email}");
+      log("userCredential ${userCredential.user?.displayName}");
+      log("userCredential ${userCredential.user?.phoneNumber}");
+
+      route.pushNamed(context, routeName.socialRegister, arg: userCredential);
+    } catch (e) {
+      log("Error in Google Sign-In: $e");
+    }
   }
 
   //login
@@ -66,44 +95,83 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  googleLogin(context) {
-    route.pushNamed(context, routeName.socialRegister);
-    /*apiServices.commonApi(api.googleLogin, [], ApiType.get).then((value) {
-      if (value.isSuccess!) {
-        log("ssss ${value.data}");
-      }
-    });*/
-  }
+  // final Dio dio = Dio();
+  // Map<String, dynamic>? userData;
 
-  final Dio dio = Dio();
-  Map<String, dynamic>? userData;
+  // Future<UserCredential?> signInWithFacebook() async {
+  //   try {
+  //     final LoginResult result = await FacebookAuth.instance.login();
+  //
+  //     if (result.status == LoginStatus.success) {
+  //       final AccessToken accessToken = result.accessToken!;
+  //       final OAuthCredential credential =
+  //           FacebookAuthProvider.credential(accessToken.tokenString);
+  //
+  //       return await auth.signInWithCredential(credential);
+  //     } else {
+  //       print("Facebook Login Failed: ${result.status}");
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print("Error in Facebook Sign-In: $e");
+  //     return null;
+  //   }
+  // }
 
-  Future<void> loginWithFacebook() async {
-    final LoginResult result = await FacebookAuth.instance
-        .login(permissions: ['email', 'public_profile']);
+  Future<UserCredential> signInWithFacebook(context) async {
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login();
 
-    if (result.status == LoginStatus.success) {
-      final AccessToken accessToken = result.accessToken!;
-
-      try {
-        Response response = await dio.post(
-          "https://go-1-api.azurewebsites.net/api/authentication/facebook",
-          data: jsonEncode({"access_token": accessToken.tokenString}),
-          options: Options(headers: {"Content-Type": "application/json"}),
+      if (loginResult.status == LoginStatus.success) {
+        final AccessToken accessToken = loginResult.accessToken!;
+        final OAuthCredential credential =
+            FacebookAuthProvider.credential(accessToken.tokenString);
+        log("userCredential ${credential.appleFullPersonName?.nickname}");
+        log("userCredential ${credential}");
+        route.pushNamed(context, routeName.dashboard);
+        return await FirebaseAuth.instance.signInWithCredential(credential);
+      } else {
+        throw FirebaseAuthException(
+          code: 'Facebook Login Failed',
+          message: 'The Facebook login was not successful.',
         );
-
-        if (response.statusCode == 200) {
-          notifyListeners();
-          userData = response.data;
-          notifyListeners();
-        } else {
-          log("Backend authentication failed: ${response.data}");
-        }
-      } catch (e) {
-        log("API Error: $e");
       }
-    } else {
-      print("Facebook Login Failed: ${result.status}");
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase authentication exceptions
+      print('Firebase Auth Exception: ${e.message}');
+      throw e; // rethrow the exception
+    } catch (e) {
+      // Handle other exceptions
+      print('Other Exception: $e');
+      throw e; // rethrow the exception
     }
   }
+// Future<void> loginWithFacebook() async {
+//   final LoginResult result = await FacebookAuth.instance
+//       .login(permissions: ['email', 'public_profile']);
+//
+//   if (result.status == LoginStatus.success) {
+//     final AccessToken accessToken = result.accessToken!;
+//
+//     try {
+//       Response response = await dio.post(
+//         "https://go-1-api.azurewebsites.net/api/authentication/facebook",
+//         data: jsonEncode({"access_token": accessToken.tokenString}),
+//         options: Options(headers: {"Content-Type": "application/json"}),
+//       );
+//
+//       if (response.statusCode == 200) {
+//         notifyListeners();
+//         userData = response.data;
+//         notifyListeners();
+//       } else {
+//         log("Backend authentication failed: ${response.data}");
+//       }
+//     } catch (e) {
+//       log("API Error: $e");
+//     }
+//   } else {
+//     print("Facebook Login Failed: ${result.status}");
+//   }
+// }
 }

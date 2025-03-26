@@ -88,6 +88,7 @@ class DashboardProvider with ChangeNotifier {
           couponOfferList.addAll(ajay.coupons ?? []);
           categoryList.addAll(ajay.categories ?? []);
           firstTwoFeaturedServiceList.addAll(ajay.businesses ?? []);
+
           // featuredServiceList.addAll(ajay.businesses ?? []);
           // addAll(ajay.attractions ?? []);
           // addAll(ajay.articles ?? []);
