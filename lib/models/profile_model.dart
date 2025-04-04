@@ -27,15 +27,15 @@ class ProfileModel {
 class Data {
   String? icon;
   String? title;
-  String? description;
+
   bool? isArrow;
 
-  Data({this.icon, this.title, this.description, this.isArrow});
+  Data({this.icon, this.title, this.isArrow});
 
   Data.fromJson(Map<String, dynamic> json) {
     icon = json['icon'];
     title = json['title'];
-    description = json['description'];
+
     isArrow = json['isArrow'];
   }
 
@@ -43,7 +43,6 @@ class Data {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['icon'] = icon;
     data['title'] = title;
-    data['description'] = description;
     data['isArrow'] = isArrow;
     return data;
   }

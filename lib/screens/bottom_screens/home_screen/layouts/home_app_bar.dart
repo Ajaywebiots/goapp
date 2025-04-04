@@ -48,27 +48,11 @@ class HomeAppBar extends StatelessWidget {
         ]),*/
         Row(children: [
           const HSpace(Sizes.s20),
-          Image.asset(
-            eImageAssets.appLogo,
-            height: 70,
-          ),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(language(context, appFonts.goSalamina),
-                    style: appCss.outfitMedium24
-                        .textColor(appColor(context).darkText)
-                        .textHeight(1)),
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Text(language(context, appFonts.salamina),
-                      style: appCss.dmDenseRegular14
-                          .textColor(appColor(context).lightText)
-                          .textHeight(1)),
-                  const HSpace(Sizes.s5),
-                  SvgPicture.asset(eSvgAssets.arrowDown)
-                ]).inkWell(onTap: () => value.locationTap(context))
-              ])
+          Image.asset(eImageAssets.appLogo, height: 70),
+          Text(language(context, appFonts.goSalamina),
+              style: appCss.outfitMedium26
+                  .textColor(appColor(context).darkText)
+                  .textHeight(1))
         ]),
         Row(children: [
           CommonArrow(arrow: eSvgAssets.search).inkWell(onTap: () {

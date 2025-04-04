@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 
 import '../../../config.dart';
+import '../../../providers/app_pages_provider/latest_blog_details_provider.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/filter_icon_common.dart';
@@ -18,39 +19,50 @@ class LatestBlogViewAll extends StatelessWidget {
     final dash = context.read<DashboardProvider>();
     final homeScreenPvr =
         Provider.of<HomeScreenProvider>(context, listen: true);
-    return DirectionalityRtl(
-      child: Scaffold(
-          appBar: AppBarCommon(title: appFonts.latestBlog),
-          body: SingleChildScrollView(
-              child: Container(
-                  alignment: Alignment.center,
-                  child: Column(children: [
-                    SearchTextFieldCommon(
-                        controller: homeScreenPvr.searchCtrl,
-                        focusNode: homeScreenPvr.searchFocus,
-                        suffixIcon: FilterIconCommon(
-                            selectedFilter: "1",
-                            onTap: () {
-                              showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return const FilterLayout1();
-                                  }).then((value) {
-                                log("DDDD");
-                                // getCategory();
-                                dash.refreshData();
-                                // filterSearchCtrl.text = "";
-                              });
-                            })),
-                    VSpace(Insets.i20),
-                    ...dash.blogList.asMap().entries.map((e) =>
-                        LatestBlogLayout(
-                                data: e.value, rPadding: 0, isView: true)
-                            .width(MediaQuery.of(context).size.width))
-                  ])
-                      .paddingSymmetric(horizontal: Insets.i20)
-                      .marginOnly(bottom: Insets.i15)))),
-    );
+
+    return Consumer<LatestBLogDetailsProvider>(
+        builder: (context, value, child) {
+      return StatefulWrapper(
+          onInit: () => Future.delayed(
+              const Duration(milliseconds: 100), () => value.onReady(context)),
+          child: DirectionalityRtl(
+              child: Scaffold(
+                  appBar:
+                      AppBarCommon(title: language(context, appFonts.articles)),
+                  body: SingleChildScrollView(
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: Column(children: [
+                            SearchTextFieldCommon(
+                                controller: homeScreenPvr.searchCtrl,
+                                focusNode: homeScreenPvr.searchFocus,
+                                suffixIcon: FilterIconCommon(
+                                    selectedFilter: homeScreenPvr
+                                        .selectedCategory.length
+                                        .toString(),
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (context) {
+                                            return FilterLayout1(value);
+                                          }).then((value) {
+                                        log("DDDD");
+                                        // getCategory();
+                                        dash.refreshData();
+                                        // filterSearchCtrl.text = "";
+                                      });
+                                    })),
+                            VSpace(Insets.i20),
+                            ...dash.firstTwoBlogList.asMap().entries.map((e) =>
+                                LatestBlogLayout(
+                                        data: e.value,
+                                        rPadding: 0,
+                                        isView: true)
+                                    .width(MediaQuery.of(context).size.width))
+                          ])
+                              .paddingSymmetric(horizontal: Insets.i20)
+                              .marginOnly(bottom: Insets.i15))))));
+    });
   }
 }

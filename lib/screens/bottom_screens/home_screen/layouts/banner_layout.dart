@@ -26,13 +26,63 @@ class BannerLayout extends StatelessWidget {
                 onPageChanged: onPageChanged),
             items: bannerList!.map((i) {
               return Builder(builder: (BuildContext context) {
-                return Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(i.source ?? ''),
-                                fit: BoxFit.cover)))
-                    .inkWell(onTap: () => onTap!);
+                return Stack(children: [
+                  Container(
+                    width: double.infinity,
+                    foregroundDecoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage("assets/images/imageLayer.png"))),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            opacity: 0.9,
+                            image: NetworkImage(i.image.source),
+                            fit: BoxFit.cover)),
+                  ).inkWell(onTap: () => onTap!),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  color: appColor(context).red,
+                                  child: Text(i.tagText,
+                                          style: appCss.dmDenseBold10.textColor(
+                                              appColor(context).whiteColor))
+                                      .paddingSymmetric(
+                                          vertical: Insets.i3,
+                                          horizontal: Insets.i6)),
+                              VSpace(Insets.i15),
+                              Text(i.title,
+                                      style: appCss.dmDenseBold18.textColor(
+                                          appColor(context).whiteColor))
+                                  .paddingSymmetric(
+                                      vertical: Insets.i3,
+                                      horizontal: Insets.i6),
+                              VSpace(Insets.i5),
+                              Text(i.subTitle,
+                                      style: appCss.dmDenseRegular12.textColor(
+                                          appColor(context).whiteColor))
+                                  .paddingSymmetric(
+                                      vertical: Insets.i3,
+                                      horizontal: Insets.i6)
+                            ]),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: appColor(context).primary,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(AppRadius.r20))),
+                            child: Text(i.buttonText,
+                                    style: appCss.dmDenseMedium12.textColor(
+                                        appColor(context).whiteColor))
+                                .paddingSymmetric(
+                                    vertical: Insets.i8,
+                                    horizontal: Insets.i14))
+                      ]).paddingSymmetric(
+                      horizontal: Insets.i20, vertical: Insets.i20)
+                ]);
               });
             }).toList())
         .paddingOnly(top: Insets.i15);

@@ -8,7 +8,6 @@ import '../../../widgets/heading_row_common.dart';
 import 'layouts/banner_layout.dart';
 import 'layouts/home_app_bar.dart';
 import 'layouts/home_body.dart';
-import 'layouts/home_coupon_layout.dart';
 import 'layouts/latest_blog_layout.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,70 +39,104 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         toolbarHeight: Sizes.s75,
                         leading: HomeAppBar(location: currentAddress ?? "")),
                     body: ListView(children: [
-                      BannerLayout(
-                          bannerList: dash.bannerList,
-                          onPageChanged: (index, reason) =>
-                              value.onSlideBanner(index),
-                          onTap: (type, id) {}),
+                      dash.bannerList.isEmpty
+                          ? SizedBox.shrink()
+                          : BannerLayout(
+                              bannerList: dash.bannerList,
+                              onPageChanged: (index, reason) =>
+                                  value.onSlideBanner(index),
+                              onTap: (type, id) {}),
                       if (dash.bannerList.length > 1) const VSpace(Sizes.s12),
                       if (dash.bannerList.length > 1)
-                        DotIndicator(
-                            list: dash.bannerList,
-                            selectedIndex: value.selectIndex),
-                      const VSpace(Sizes.s20),
-                      HeadingRowCommon(
-                              title: appFonts.promotions,
+                        dash.bannerList.isEmpty
+                            ? SizedBox.shrink()
+                            : DotIndicator(
+                                list: dash.bannerList,
+                                selectedIndex: value.selectIndex),
+                      dash.couponOfferList.isEmpty
+                          ? SizedBox.shrink()
+                          : const VSpace(Sizes.s20),
+                      dash.couponOfferList.isEmpty
+                          ? SizedBox.shrink()
+                          : HeadingRowCommon(
+                              title: language(context, appFonts.popularOffers),
                               isTextSize: true,
                               onTap: () => route.pushNamed(
                                   context, routeName.couponListScreen,
-                                  arg: true))
-                          .paddingSymmetric(horizontal: Insets.i20),
-                      const VSpace(Sizes.s15),
-                      Column(
-                              children: dash.couponOfferList
-                                  .asMap()
-                                  .entries
-                                  .take(2)
-                                  .map((e) => CouponLayout(
-                                      data: e.value,
-                                      onTap: () => route.pushNamed(context,
-                                          routeName.offerDetailsScreen)))
-                                  .toList())
-                          .paddingSymmetric(horizontal: Insets.i20),
-                      const VSpace(Sizes.s10),
+                                  arg: true)).paddingSymmetric(
+                              horizontal: Insets.i20),
+                      dash.couponOfferList.isEmpty
+                          ? SizedBox.shrink()
+                          : const VSpace(Sizes.s10),
+                      dash.couponOfferList.isEmpty
+                          ? SizedBox.shrink()
+                          : Column(
+                                  children: dash.couponOfferList
+                                      .asMap()
+                                      .entries
+                                      .take(2)
+                                      .map((e) => CouponLayout(
+                                          data: e.value,
+                                          onTap: () => route.pushNamed(context,
+                                                  routeName.offerDetailsScreen,
+                                                  arg: {
+                                                    "id": e.value.id,
+                                                    "title": e.value.title,
+                                                    "tag": e.value.tag,
+                                                    "description":
+                                                        e.value.description,
+                                                    "imageUrl":
+                                                        e.value.image.source,
+                                                    "expirationDate":
+                                                        e.value.expirationDate,
+                                                    "isFavourite":
+                                                        e.value.isFavourite
+                                                  })))
+                                      .toList())
+                              .paddingSymmetric(horizontal: Insets.i20),
+                      dash.couponOfferList.isEmpty
+                          ? SizedBox.shrink()
+                          : const VSpace(Sizes.s10),
                       const HomeBody(),
-                      if (dash.firstTwoHighRateList.isNotEmpty ||
-                          dash.highestRateList.isNotEmpty)
-                        const VSpace(Sizes.s33),
-                      HeadingRowCommon(
-                              title: appFonts.latestArticles,
+                      // if (dash.firstTwoHighRateList.isNotEmpty ||
+                      //     dash.highestRateList.isNotEmpty)
+                      const VSpace(Sizes.s33),
+                      dash.firstTwoBlogList.isEmpty
+                          ? Container()
+                          : HeadingRowCommon(
+                              title: language(context, appFonts.latestArticles),
                               isTextSize: true,
                               onTap: () => route.pushNamed(
-                                  context, routeName.latestBlogViewAll))
-                          .paddingSymmetric(horizontal: Insets.i20),
-                      SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: dash.firstTwoBlogList.isNotEmpty
-                              ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: dash.firstTwoBlogList
-                                          .asMap()
-                                          .entries
-                                          .map((e) => LatestBlogLayout(
-                                              data: e.value, isHome: true))
-                                          .toList())
-                                  .paddingOnly(left: Insets.i20)
-                              : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: dash.blogList
-                                          .asMap()
-                                          .entries
-                                          .map((e) => LatestBlogLayout(
-                                              data: e.value, isHome: true))
-                                          .toList())
-                                  .paddingOnly(left: Insets.i20)),
+                                  context,
+                                  routeName
+                                      .latestBlogViewAll)).paddingSymmetric(
+                              horizontal: Insets.i20),
+                      dash.firstTwoBlogList.isEmpty
+                          ? Container()
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: dash.firstTwoBlogList.isNotEmpty
+                                  ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: dash.firstTwoBlogList
+                                              .asMap()
+                                              .entries
+                                              .take(2)
+                                              .map((e) => LatestBlogLayout(
+                                                  data: e.value))
+                                              .toList())
+                                      .paddingOnly(left: Insets.i20)
+                                  : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: dash.firstTwoBlogList
+                                              .asMap()
+                                              .entries
+                                              .map((e) => LatestBlogLayout(
+                                                  data: e.value))
+                                              .toList())
+                                      .paddingOnly(left: Insets.i20)),
                       const VSpace(Sizes.s50)
                     ]))));
       });

@@ -1,9 +1,12 @@
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:goapp/models/api_model/home_feed_model.dart';
+
 import '../../../../config.dart';
 import '../../../../models/provider_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 
 class FeatureAttractionLayout extends StatelessWidget {
-  final ProviderModel? data;
+  final Attraction? data;
   final GestureTapCallback? onTap;
   final bool isHome;
 
@@ -18,17 +21,16 @@ class FeatureAttractionLayout extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
             Row(children: [
-              data != null && data!.media!.isNotEmpty
+              data != null && data!.image.source.isNotEmpty
                   ? Container(
                           height: Sizes.s75,
                           width: Sizes.s75,
                           decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: appColor(context).skeletonColor,
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: AssetImage(
-                                      data!.media![0].originalUrl!))))
+                                  image: NetworkImage(data!.image.source))))
                       .boxShapeExtension()
                   : Container(
                       height: Sizes.s75,
@@ -41,23 +43,44 @@ class FeatureAttractionLayout extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(
                     width: 176,
-                    child: Text(language(context, data!.name!),
+                    child: Text(language(context, data?.name),
                         overflow: TextOverflow.fade,
                         maxLines: 2,
                         style: appCss.dmDenseMedium14
                             .textColor(appColor(context).darkText))),
                 Row(children: [
-                  Row(
-                      children: List.generate(
-                          (data?.reviewRatings ?? 0).toInt(),
-                          (index) => SvgPicture.asset(eSvgAssets.star))),
-                  Text(" (${data!.totalReviewRating} Reviews)",
+                  RatingBar.builder(
+                      glow: false,
+                      initialRating:
+                          ((data?.rating ?? {})['starts'] ?? 0).toDouble(),
+                      minRating: 0,
+                      ignoreGestures: true,
+                      itemSize: 13,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                      itemBuilder: (context, index) {
+                        double rating =
+                            ((data?.rating ?? {})['starts'] ?? 0).toDouble();
+                        return SvgPicture.asset(rating > index
+                            ? eSvgAssets.star
+                            : 'assets/svg/starWithout.svg');
+                      },
+                      updateOnDrag: true,
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      }),
+                  Text(" (${data?.rating ?? 0} Reviews)",
                       style: appCss.dmDenseRegular12
                           .textColor(appColor(context).darkText))
                 ]),
                 const VSpace(Sizes.s8),
                 Row(children: [
-                  SvgPicture.asset(eSvgAssets.locationOut, height: Sizes.s20),
+                  SvgPicture.asset(eSvgAssets.locationOut,
+                      height: Sizes.s20,
+                      colorFilter: ColorFilter.mode(
+                          appColor(context).darkText, BlendMode.srcIn)),
                   const HSpace(Sizes.s5),
                   Text("View on map",
                       overflow: TextOverflow.ellipsis,
@@ -74,7 +97,9 @@ class FeatureAttractionLayout extends StatelessWidget {
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
                         SvgPicture.asset('assets/svg/locator.svg'),
                         const HSpace(Sizes.s3),
-                        Text(language(context, data!.distance),
+                        Text(
+                            language(context,
+                                "${(data?.location.selfLocationDistance as num?)?.toStringAsFixed(2)} km"),
                             style: appCss.dmDenseMedium10
                                 .textColor(appColor(context).whiteColor))
                       ]))
@@ -145,13 +170,13 @@ class FeatureAttractionLayout extends StatelessWidget {
                     ])
                   ]).paddingOnly(left: Insets.i10)*/
             ]),
-            SvgPicture.asset(data!.isFav == true
+            SvgPicture.asset(data?.isFavourite == true
                     ? 'assets/svg/fav.svg'
                     : "assets/svg/dislike.svg")
                 .inkWell(onTap: () {
-              value.setState();
-              data!.isFav = !data!.isFav!;
-              value.setState();
+              // value.setState();
+              data!.isFavourite = !data!.isFavourite;
+              // value.setState();
             })
           ])
           .paddingAll(Insets.i15)

@@ -23,8 +23,7 @@ class BookingFilterLayout extends StatelessWidget {
           child:
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text("${language(context, appFonts.filterBy)} (${value
-                  .totalCountFilter()})",
+              Text(language(context, appFonts.filterBy),
                   style: appCss.dmDenseMedium18
                       .textColor(appColor(context).darkText)),
               const Icon(CupertinoIcons.multiply)
@@ -43,27 +42,26 @@ class BookingFilterLayout extends StatelessWidget {
                   value.selectIndex == 0
                       ? Expanded(
                       child: SingleChildScrollView(
-                        child: Column(children: [
-                          ...dash.bookingStatusList
-                              .asMap()
-                              .entries
-                              .map((e) =>
-                              BookingStatusFilterLayout(
-                                  title: e.value.name.toString()
-                                      .capitalizeFirst(),
-                                  index: e.key,
-                                  selectedIndex: value.statusIndex,
-                                  onTap: () => value.onStatus(e.key)))
-
-                        ]).paddingSymmetric(horizontal: Insets.i20),
+                          child: Column(children: [
+                            ...dash.bookingStatusList
+                                .asMap()
+                                .entries
+                                .map((e) =>
+                                BookingStatusFilterLayout(
+                                    title: e.value.name.toString()
+                                        .capitalizeFirst(),
+                                    index: e.key,
+                                    selectedIndex: value.statusIndex,
+                                    onTap: () => value.onStatus(e.key)))
+                          ]).paddingSymmetric(horizontal: Insets.i20)
                       ))
                       : value.selectIndex == 2
                       ? Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                          children: [
-                          ]),
-                    ),
+                      child: SingleChildScrollView(
+                          child: Column(
+                              children: [
+                              ])
+                      )
                   )
                       : Expanded(child: SingleChildScrollView(child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

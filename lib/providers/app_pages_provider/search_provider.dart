@@ -6,6 +6,7 @@ import 'package:goapp/config.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
+import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 
 import '../../common_tap.dart';
 import '../../models/api_model/home_feed_model.dart';
@@ -150,12 +151,12 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
-  onBottomSheet(context) {
+  onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return const FilterLayout();
+          return FilterLayout(value1);
         }).then((value) {
       log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);

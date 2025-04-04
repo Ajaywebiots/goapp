@@ -22,8 +22,7 @@ class CategoriesFilterLayout extends StatelessWidget {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                          "${language(context, appFonts.filterBy)} (${value.totalCountFilter()})",
+                      Text(language(context, appFonts.filterBy),
                           style: appCss.dmDenseMedium18
                               .textColor(appColor(context).darkText)),
                       const Icon(CupertinoIcons.multiply)
@@ -90,7 +89,7 @@ class CouponFilterLayout extends StatelessWidget {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${language(context, appFonts.filterBy)} (1)",
+                        Text(language(context, appFonts.filterBy),
                             style: appCss.dmDenseMedium18
                                 .textColor(appColor(context).darkText)),
                         const Icon(CupertinoIcons.multiply)

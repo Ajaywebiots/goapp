@@ -29,11 +29,18 @@ class LanguageProvider with ChangeNotifier {
 
     if (selectedLocale != null) {
       locale = Locale(selectedLocale);
+      loadSelectedLanguage();
     } else {
       selectedLocale = "en";
       locale = const Locale("en");
     }
     setVal(selectedLocale);
+  }
+
+  Future<void> loadSelectedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    selectedIndex = prefs.getInt('selectedLanguageIndex') ?? 0;
+    notifyListeners();
   }
 
   LanguageHelper languageHelper = LanguageHelper();
@@ -43,6 +50,8 @@ class LanguageProvider with ChangeNotifier {
 
     currentLanguage = newLocale;
     locale = languageHelper.convertLangNameToLocale(newLocale);
+    log("Selected locale $locale");
+    log("Selected locale!.languageCode ${locale!.languageCode}");
     sharedPreferences.setString('selectedLocale', locale!.languageCode);
     notifyListeners();
   }
@@ -58,6 +67,15 @@ class LanguageProvider with ChangeNotifier {
             Localizations.localeOf(context).languageCode);
   }
 
+  onRadioChange(index, value) async {
+    selectedIndex = index;
+    notifyListeners();
+    changeLocale(currentLanguage);
+    notifyListeners();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('selectedLanguageIndex', index);
+  }
+
   void setVal(String value) {
     if (value == "en") {
       currentLanguage = "English";
@@ -65,6 +83,12 @@ class LanguageProvider with ChangeNotifier {
       currentLanguage = "Greek";
     } else if (value == "he") {
       currentLanguage = "Hebrew";
+    } else if (value == "es") {
+      currentLanguage = "Spanish";
+    } else if (value == "ar") {
+      currentLanguage = "Arabic";
+    } else if (value == "ru") {
+      currentLanguage = "Russian";
     } else {
       currentLanguage = "English";
     }

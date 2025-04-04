@@ -13,36 +13,36 @@ class BlogDetailsLayout extends StatelessWidget {
     return Column(children: [
       ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-          child: Image.asset(value.data!.media![0].originalUrl!,
+          child: Image.network(value.data!.media.source,
               width: MediaQuery.of(context).size.width, fit: BoxFit.fill)),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(language(context, value.data!.title!),
+          Text(language(context, value.data!.title),
               overflow: TextOverflow.clip,
               style:
                   appCss.dmDenseMedium16.textColor(appColor(context).darkText)),
-          SvgPicture.asset(value.isLike
-                  ? "assets/svg/dislike.svg"
-                  : "assets/svg/fav.svg")
+          SvgPicture.asset(value.data!.isFavourite
+                  ? "assets/svg/fav.svg"
+                  : "assets/svg/dislike.svg")
               .inkWell(onTap: () => value.likeDislike())
         ]),
-        Row(children: [
-          Expanded(
-              child: Text(language(context, value.data!.categories![0].title!),
-                  overflow: TextOverflow.ellipsis,
-                  style: appCss.dmDenseRegular12
-                      .textColor(appColor(context).lightText)))
-        ]),
-        const VSpace(Sizes.s15),
+        // Row(children: [
+        //   Expanded(
+        //       child: Text(language(context, value.data!.title),
+        //           overflow: TextOverflow.ellipsis,
+        //           style: appCss.dmDenseRegular12
+        //               .textColor(appColor(context).lightText)))
+        // ]),
+        const VSpace(Sizes.s25),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
               DateFormat("dd MMM, yyyy")
-                  .format(DateTime.parse(value.data!.createdAt!)),
+                  .format(DateTime.parse(value.data!.createdDate.toString())),
               style: appCss.dmDenseRegular12
                   .textColor(appColor(context).lightText)),
           SizedBox(
               width: Sizes.s70,
-              child: Text(value.data!.tags![0].name!,
+              child: Text(value.data!.category,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: appCss.dmDenseMedium11
@@ -57,9 +57,9 @@ class BlogDetailsLayout extends StatelessWidget {
                 style: appCss.dmDenseMedium12
                     .textColor(appColor(context).lightText)
                     .textHeight(0))
-            .padding(horizontal: 10),
-        // const VSpace(Sizes.s10),
-        Html(data: value.data!.content!, style: {
+            .padding(horizontal: Insets.i10),
+        const VSpace(Sizes.s10),
+        Html(data: "" /*"value.data!.title"*/, style: {
           "body": Style(
               fontFamily: GoogleFonts.dmSans().fontFamily,
               fontSize: FontSize(12),

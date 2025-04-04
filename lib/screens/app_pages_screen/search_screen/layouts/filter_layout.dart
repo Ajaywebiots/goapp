@@ -1,17 +1,18 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/third_filter.dart';
 import '../../../../config.dart';
+import '../../../../providers/app_pages_provider/latest_blog_details_provider.dart';
 import '../../../../providers/app_pages_provider/search_provider.dart';
-import '../../../../widgets/search_text_filed_common.dart';
 import '../filter_tap_layout.dart';
 import 'list_tile_common.dart';
 
 class FilterLayout extends StatelessWidget {
-  const FilterLayout({super.key});
+  final value1;
+
+  const FilterLayout(this.value1, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,7 @@ class FilterLayout extends StatelessWidget {
         child: Stack(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(
-                  "${language(context, appFonts.filterBy)} (${value.totalCountFilter()})",
+              Text(language(context, appFonts.filterBy),
                   style: appCss.dmDenseMedium18
                       .textColor(appColor(context).darkText)),
               const Icon(CupertinoIcons.multiply)
@@ -84,13 +84,13 @@ class FilterLayout extends StatelessWidget {
               value.selectIndex == 0
                   ? Expanded(
                       child: ListView.builder(
-                          itemCount: value.categoryList.length,
+                          itemCount: value1.categoryList.length,
                           //physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return ListTileLayout(
-                                data: value.categoryList[index],
+                                data: value1.categoryList[index],
                                 selectedCategory: value.selectedCategory,
                                 onTap: () {
                                   /*=>
@@ -108,7 +108,7 @@ class FilterLayout extends StatelessWidget {
                           onDragging: (handlerIndex, lowerValue, upperValue) =>
                               value.onSliderChange(
                                   handlerIndex, lowerValue, upperValue))
-                      : const ThirdFilter(),
+                      : const ThirdFilter()
             ]))
           ])
               .paddingSymmetric(vertical: Insets.i20)
@@ -127,7 +127,9 @@ class FilterLayout extends StatelessWidget {
 }
 
 class FilterLayout1 extends StatelessWidget {
-  const FilterLayout1({super.key});
+  final blogPvr;
+
+  const FilterLayout1(this.blogPvr, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +141,7 @@ class FilterLayout1 extends StatelessWidget {
         child: Stack(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(
-                  "${language(context, appFonts.filterBy)} (${value.totalCountFilter()})",
+              Text(language(context, appFonts.filterBy),
                   style: appCss.dmDenseMedium18
                       .textColor(appColor(context).darkText)),
               const Icon(CupertinoIcons.multiply)
@@ -156,15 +157,15 @@ class FilterLayout1 extends StatelessWidget {
                 child: Column(children: [
               Expanded(
                   child: ListView.builder(
-                      itemCount: blogFilter.blogFilterList.length,
+                      itemCount: blogPvr.categoryList.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
                         return ListTileLayout(
-                            data: blogFilter.blogFilterList[index],
+                            data: blogPvr.categoryList[index],
                             selectedCategory: blogFilter.selectedCategory,
-                            onTap: () => blogFilter.onCategoryChange(
-                                context, blogFilter.blogFilterList[index].id));
+                            onTap: () => blogFilter.onCategoryChange(context,
+                                blogPvr.categoryList[index].categoryId));
                       }))
             ]))
           ])
@@ -195,8 +196,7 @@ class FilterLayout2 extends StatelessWidget {
         child: Stack(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(
-                  "${language(context, appFonts.filterBy)} (${value.totalCountFilter()})",
+              Text(language(context, appFonts.filterBy),
                   style: appCss.dmDenseMedium18
                       .textColor(appColor(context).darkText)),
               const Icon(CupertinoIcons.multiply)

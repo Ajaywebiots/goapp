@@ -4,7 +4,9 @@ import 'package:goapp/config.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:goapp/models/blog_filter_model.dart';
 
+import '../../models/api_model/blog_categories_model.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
+import '../../services/api_service.dart';
 import 'dashboard_provider.dart';
 
 class HomeScreenProvider with ChangeNotifier {
@@ -15,9 +17,13 @@ class HomeScreenProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
   final FocusNode searchFocus = FocusNode();
 
+  bool? isSelected;
+
   List selectedCategory = [];
 
   onCategoryChange(context, id) {
+    log("id ddd $id");
+    log("selectedCategory.length ${1 + selectedCategory.length}");
     if (!selectedCategory.contains(id)) {
       selectedCategory.add(id);
     } else {
@@ -61,22 +67,22 @@ class HomeScreenProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onBottomSheet(context) {
-    notifyListeners();
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (context) {
-          return const FilterLayout1();
-        }).then((value) {
-      log("DDDD");
-      final dash = Provider.of<DashboardProvider>(context, listen: false);
-      // getCategory();
-
-      notifyListeners();
-      // filterSearchCtrl.text = "";
-    });
-  }
+  // onBottomSheet(context) {
+  //   notifyListeners();
+  //   showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       context: context,
+  //       builder: (context) {
+  //         return const FilterLayout1();
+  //       }).then((value) {
+  //     log("DDDD");
+  //     final dash = Provider.of<DashboardProvider>(context, listen: false);
+  //     // getCategory();
+  //
+  //     notifyListeners();
+  //     // filterSearchCtrl.text = "";
+  //   });
+  // }
 
   onAnimate(TickerProvider sync) {
     animationController = AnimationController(
@@ -117,35 +123,35 @@ class HomeScreenProvider with ChangeNotifier {
   }
 
 //location tap
-  locationTap(context) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref = await SharedPreferences.getInstance();
-    bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
-
-    if (isGuest == false) {
-      animationController!.stop();
-      notifyListeners();
-      // final location = Provider.of<LocationProvider>(context, listen: false);
-      // if (location.addressList.isEmpty) {
-      //   route.pushNamed(context, routeName.location).then((e) {
-      //     animationController!.reset();
-      //     notifyListeners();
-      //   });
-    } else {
-      // route.pushNamed(context, routeName.myLocation).then((e) {
-      //   animationController!.reset();
-      //   notifyListeners();
-      // });
-    }
-    // } else {
-    //   final dash = Provider.of<DashboardProvider>(context, listen: false);
-    //
-    //
-    //   dash.selectIndex =0;
-    //   dash.notifyListeners();
-    //   route.pushAndRemoveUntil(context);
-    // }
-  }
+//   locationTap(context) async {
+//     SharedPreferences pref = await SharedPreferences.getInstance();
+//     pref = await SharedPreferences.getInstance();
+//     bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
+//
+//     if (isGuest == false) {
+//       animationController!.stop();
+//       notifyListeners();
+//       // final location = Provider.of<LocationProvider>(context, listen: false);
+//       // if (location.addressList.isEmpty) {
+//       //   route.pushNamed(context, routeName.location).then((e) {
+//       //     animationController!.reset();
+//       //     notifyListeners();
+//       //   });
+//     } else {
+//       // route.pushNamed(context, routeName.myLocation).then((e) {
+//       //   animationController!.reset();
+//       //   notifyListeners();
+//       // });
+//     }
+//     // } else {
+//     //   final dash = Provider.of<DashboardProvider>(context, listen: false);
+//     //
+//     //
+//     //   dash.selectIndex =0;
+//     //   dash.notifyListeners();
+//     //   route.pushAndRemoveUntil(context);
+//     // }
+//   }
 
   //notification tap
   notificationTap(context) async {

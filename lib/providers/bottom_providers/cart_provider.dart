@@ -30,16 +30,16 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onReady(context) async {
-    notifyListeners();
-    try {
-      cartList = appArray.cartList.map((e) => CartModel.fromJson(e)).toList();
-
-      notifyListeners();
-    } catch (e) {
-      log("cartList : $e");
-    }
-  }
+  // onReady(context) async {
+  //   notifyListeners();
+  //   try {
+  //     cartList = appArray.cartList.map((e) => CartModel.fromJson(e)).toList();
+  //
+  //     notifyListeners();
+  //   } catch (e) {
+  //     log("cartList : $e");
+  //   }
+  // }
 
   // onServiceDetail(context, {data, packageServices, totalServiceman}) {
   //   showModalBottomSheet(

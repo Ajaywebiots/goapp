@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:intl/intl.dart';
+
 import '../../../config.dart';
 
 class OfferDetailsScreen extends StatefulWidget {
@@ -14,6 +16,8 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return Scaffold(
         appBar: AppBarCommon(
             title: appFonts.offerDetails,
@@ -26,8 +30,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             Column(children: [
               ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                  child: Image.asset('assets/images/sale.png',
+                  child: Image.network(args?['imageUrl'],
                       width: MediaQuery.of(context).size.width,
+                      height: Insets.i200,
                       fit: BoxFit.fill)),
               VSpace(Insets.i55),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -64,18 +69,18 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
               VSpace(20),
               Column(children: [
                 Container(
+                        width: double.infinity,
                         padding: EdgeInsets.all(8),
                         child: Column(children: [
                           Text(
-                            "5% OFF",
+                            args!['tag'],
                             style: appCss.dmDenseBold24
                                 .textColor(appColor(context).darkText),
                           ),
-                          Text(
+                          Text(args['title'],
                               textAlign: TextAlign.center,
                               style: appCss.dmDenseBold13
-                                  .textColor(appColor(context).primary),
-                              'Get 5% off all cocktails before midnight and every Sunday')
+                                  .textColor(appColor(context).primary))
                         ]))
                     .boxBorderExtension(context,
                         isShadow: true, color: Color(0xffF2F3F4)),
@@ -88,7 +93,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                   Text(
                       style: appCss.dmDenseRegular14
                           .textColor(appColor(context).darkText),
-                      'This business was founded in 2021 by Kurt. Working well together, he and his staff. This business was founded in 2021 by Kurt. Working well together, he and his staff.')
+                      args['description'])
                 ]),
                 VSpace(30),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -137,7 +142,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                                 Text("End date",
                                     style: appCss.dmDenseRegular12.textColor(
                                         appColor(context).lightText)),
-                                Text("12 Nov, 2023",
+                                Text(
+                                    formatDate(
+                                        args['expirationDate'].toString()),
                                     style: appCss.dmDenseMedium12
                                         .textColor(appColor(context).darkText))
                               ]),
@@ -175,13 +182,22 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),
                           shape: BoxShape.circle),
-                      child: SvgPicture.asset(isLike
-                          ? "assets/svg/dislike.svg"
-                          : "assets/svg/fav.svg"))
+                      child: SvgPicture.asset(args['isFavourite']
+                          ? "assets/svg/fav.svg"
+                          : "assets/svg/dislike.svg"))
                   .inkWell(onTap: () {
                 isLike = !isLike;
                 setState(() {});
               }))
         ])));
+  }
+
+  String formatDate(String dateString) {
+    try {
+      DateTime dateTime = DateTime.parse(dateString);
+      return DateFormat("dd MMM, yyyy").format(dateTime);
+    } catch (e) {
+      return "Invalid Date";
+    }
   }
 }

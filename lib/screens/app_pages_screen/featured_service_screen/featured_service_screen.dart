@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import '../../../config.dart';
+import '../../../providers/app_pages_provider/categories_list_provider.dart';
 import '../../../providers/app_pages_provider/featured_service_provider.dart';
 import '../../../providers/app_pages_provider/search_provider.dart';
 import '../../../providers/bottom_providers/cart_provider.dart';
@@ -23,13 +24,13 @@ class _FeaturedBusinessScreenState extends State<FeaturedBusinessScreen>
   Widget build(BuildContext context) {
     final dash = Provider.of<DashboardProvider>(context, listen: true);
     final search = Provider.of<SearchProvider>(context, listen: true);
+    final value1 = Provider.of<CategoriesListProvider>(context, listen: true);
 
     return Consumer<FeaturedBusinessProvider>(
         builder: (context1, value, child) {
       log("value.searchList::${value.searchList.length}");
       return StatefulWrapper(
-        onInit: () => Future.delayed(DurationClass.ms50)
-            .then((vaj) => value.getBusinessList()),
+        onInit: () => Future.delayed(DurationClass.ms50).then((vaj) {}),
         child: DirectionalityRtl(
           child: Scaffold(
               appBar: AppBarCommon(
@@ -56,9 +57,10 @@ class _FeaturedBusinessScreenState extends State<FeaturedBusinessScreen>
                           suffixIcon: FilterIconCommon(
                               selectedFilter:
                                   search.totalCountFilter().toString(),
-                              onTap: () => search.onBottomSheet(context))),
+                              onTap: () =>
+                                  search.onBottomSheet(context, value1))),
                       const VSpace(Sizes.s20),
-                      value.txtFeaturedSearch.text.isEmpty
+                      /* value.txtFeaturedSearch.text.isEmpty
                           ? Column(children: [
                               ...value.featuredBusiness.asMap().entries.map(
                                   (e) => FeaturedBusinessLayout(
@@ -73,27 +75,28 @@ class _FeaturedBusinessScreenState extends State<FeaturedBusinessScreen>
                                             routeName.businessDetailsScreen,
                                             arg: e.value.id);
                                       }))
-                            ])
-                          : value.searchList.isNotEmpty
-                              ? Column(children: [
-                                  ...value.searchList.asMap().entries.map((e) =>
-                                      FeaturedBusinessLayout(
-                                          data: e.value,
-                                          addTap: () => value.onFeatured(
-                                              context, e.value, e.key,
-                                              inCart:
-                                                  isInCart(context, e.value.id),
-                                              isSearch: true),
-                                          inCart: isInCart(context, e.value.id),
-                                          onTap: () {
-                                            /*    route.pushNamed(
+                            ]),*/
+                      /*: value.searchList.isNotEmpty
+                              ?*/
+                      Column(children: [
+                        ...dash.firstTwoFeaturedServiceList.asMap().entries.map(
+                            (e) => FeaturedBusinessLayout(
+                                // index: e.key,
+                                data: e.value,
+                                addTap: () => value.onFeatured(
+                                    context, e.value, e.key,
+                                    inCart: isInCart(context, e.value.id),
+                                    isSearch: true),
+                                inCart: isInCart(context, e.value.id),
+                                onTap: () {
+                                  /*    route.pushNamed(
                                                 context,
                                                 routeName
                                                     .businessDetailsScreen,
                                                 arg: e.value.id)*/
-                                          }))
-                                ])
-                              : Column(children: [
+                                }))
+                      ])
+                      /*: Column(children: [
                                   Stack(children: [
                                     Image.asset(eImageAssets.noSearch,
                                             height: Sizes.s346)
@@ -127,7 +130,7 @@ class _FeaturedBusinessScreenState extends State<FeaturedBusinessScreen>
                                               .textColor(
                                                   appColor(context).lightText))
                                       .paddingSymmetric(horizontal: Insets.i10)
-                                ])
+                                ])*/
                     ]).paddingSymmetric(horizontal: Insets.i20)));
               })),
         ),

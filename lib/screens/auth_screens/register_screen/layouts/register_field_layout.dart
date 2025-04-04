@@ -71,7 +71,7 @@ class RegisterFieldLayout extends StatelessWidget {
             const VSpace(Sizes.s10),
             RegisterWidgetClass().phoneTextBox(
                 context, register.txtPhone, register.phoneFocus,
-                dialCode: "+91",
+                dialCode: "+30",
                 onChanged: (CountryCodeCustom? code) =>
                     register.changeDialCode(code!),
                 onFieldSubmitted: (value) => validation.fieldFocusChange(

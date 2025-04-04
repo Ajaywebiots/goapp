@@ -10,7 +10,7 @@ class RegisterProvider extends ChangeNotifier {
   bool isNewPassword = true, isConfirmPassword = true, isCheck = false;
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
-  String dialCode = "+91";
+  String dialCode = "+30";
 
   TextEditingController enterFName = TextEditingController();
   TextEditingController enterLName = TextEditingController();
@@ -71,7 +71,7 @@ class RegisterProvider extends ChangeNotifier {
             enterLName.text = "";
             txtEmail.text = "";
             txtPhone.text = "";
-            dialCode = "+91";
+            dialCode = "+30";
             txtPass.text = "";
             txtConfirmPass.text = "";
 
@@ -98,7 +98,7 @@ class RegisterProvider extends ChangeNotifier {
     userNameCtrl.text = "";
     txtEmail.text = "";
     txtPhone.text = "";
-    dialCode = "+91";
+    dialCode = "+30";
     txtPass.text = "";
     txtConfirmPass.text = "";
     notifyListeners();

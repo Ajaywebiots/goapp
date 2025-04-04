@@ -2,7 +2,7 @@
 // import 'dart:developer';
 //
 // import '../../config.dart';
-// import '../../models/category_model.dart';
+// import '../../models/business_category_model.dart';
 // import '../../models/provider_model.dart';
 // import '../../models/service_model.dart';
 //

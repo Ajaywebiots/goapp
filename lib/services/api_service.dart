@@ -35,9 +35,12 @@ class ApiServices {
         String? token = pref.getString(session.accessToken);
         String apiName = "${apiClass.baseUrl}$endPoint";
         log("APINAME ssss $apiName");
+
         Response response;
-        Options options = Options(
-            headers: isToken ? ApiClass.headersToken(token) : ApiClass.headers);
+        Map<String, String> headers = await ApiClass.getHeaders();
+        Map<String, String> headersToken = await ApiClass.headersToken(token);
+
+        Options options = Options(headers: isToken ? headersToken : headers);
 
         switch (apiType) {
           case ApiType.post:

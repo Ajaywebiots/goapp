@@ -34,6 +34,7 @@ class SvgAssets {
   final anchorArrowRight = "assets/svg/anchorArrowRight.svg";
   final copy = "assets/svg/copy.svg";
   final paint = "assets/svg/paint.svg";
+  final attachLine = "assets/svg/attachLine.svg";
   final clean = "assets/svg/clean.svg";
   final fire = "assets/svg/fire.svg";
   final clock = "assets/svg/clock.svg";

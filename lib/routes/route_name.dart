@@ -18,14 +18,18 @@ class RouteName {
   final String notifications = '/notifications';
   final String featuredBusinessScreen = '/featuredBusinessScreen';
   final String couponListScreen = '/couponListScreen';
-  final String expertServiceScreen = '/expertServiceScreen';
+  final String attractionScreen = '/attractionScreen';
+  final String profileDetails = '/profileDetails';
   final String providerDetailsScreen = '/providerDetailsScreen';
   final String latestBlogViewAll = '/latestBlogViewAll';
   final String latestBlogDetails = '/latestBlogDetails';
+  final String commonGeneralInfoLayout = '/commonGeneralInfoLayout';
   final String search = '/search';
+  final String changeLanguage = '/changeLanguage';
   final String businessDetailsScreen = '/businessDetailsScreen';
   final String attractionDetailScreen = '/attractionDetailScreen';
   final String commonGalleryScreen = '/commonGalleryScreen';
   final String serviceReviewScreen = '/serviceReviewScreen';
   final String offerDetailsScreen = '/offerDetailsScreen';
+  final String appSetting = '/appSetting';
 }

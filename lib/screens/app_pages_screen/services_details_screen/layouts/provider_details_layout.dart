@@ -58,8 +58,7 @@ class ProviderDetailsLayout extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: AssetImage(eImageAssets.profile)))),
-                )
+                              image: AssetImage(eImageAssets.profile)))))
               : Container(
                   height: Sizes.s40,
                   width: Sizes.s40,

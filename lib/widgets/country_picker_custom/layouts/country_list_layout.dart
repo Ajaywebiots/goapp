@@ -1582,7 +1582,7 @@ class CountryListLayout extends StatelessWidget {
           theme: CountryTheme(
               isShowFlag: true,
               alphabetSelectedBackgroundColor: appColor(context).primary),
-          initialSelection: '+91',
+          initialSelection: '+30',
           onChanged: onChanged,
         )).decorated(color: appColor(context).whiteBg);
   }

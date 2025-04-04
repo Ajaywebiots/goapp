@@ -19,9 +19,10 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onAnimate() {
+  onReady() {
     profileLists =
         appArray.profileList.map((e) => ProfileModel.fromJson(e)).toList();
+    notifyListeners();
   }
 
   animateDesign(TickerProvider sync) {
@@ -276,9 +277,8 @@ class ProfileProvider with ChangeNotifier {
   }
 
   onTapSettingTap(context) {
-    // route
-    //     .pushNamed(context, routeName.appSetting)
-    //     .then((val) => notifyListeners());
+    route.pushNamed(context, routeName.appSetting);
+    notifyListeners();
   }
 
   //delete account

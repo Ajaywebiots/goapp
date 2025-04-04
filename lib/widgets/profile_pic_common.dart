@@ -21,6 +21,13 @@ class ProfilePicCommon extends StatelessWidget {
               height: Sizes.s88,
               width: Sizes.s88,
               decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xff162e0f).withValues(alpha: 0.2),
+                        offset: Offset(0, 2),
+                        blurRadius: 10,
+                        spreadRadius: 0)
+                  ],
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: FileImage(File(image!.path)), fit: BoxFit.cover),
@@ -35,6 +42,13 @@ class ProfilePicCommon extends StatelessWidget {
                   height: Sizes.s88,
                   width: Sizes.s88,
                   decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xff162e0f).withValues(alpha: 0.2),
+                            offset: Offset(0, 2),
+                            blurRadius: 10,
+                            spreadRadius: 0)
+                      ],
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           image: AssetImage(imageUrl!), fit: BoxFit.cover),
@@ -50,8 +64,15 @@ class ProfilePicCommon extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage(eImageAssets.noImageFound3),
+                          image: AssetImage(eImageAssets.profile),
                           fit: BoxFit.cover),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xff162e0f).withValues(alpha: 0.2),
+                            offset: Offset(0, 2),
+                            blurRadius: 10,
+                            spreadRadius: 0)
+                      ],
                       border: Border.all(
                           color: isProfile == true
                               ? appColor(context).whiteBg.withOpacity(0.75)

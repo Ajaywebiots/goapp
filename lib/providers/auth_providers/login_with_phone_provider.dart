@@ -9,7 +9,7 @@ class LoginWithPhoneProvider with ChangeNotifier {
   TextEditingController numberController = TextEditingController();
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isCodeSent = false;
-  String dialCode = "+91";
+  String dialCode = "+30";
   final FocusNode phoneFocus = FocusNode();
   String? verificationCode;
 

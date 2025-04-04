@@ -5,9 +5,10 @@ import '../config.dart';
 class AlertDialogCommon extends StatelessWidget {
   final String? image, title, subtext, bText1, firstBText, secondBText;
   final GestureTapCallback? b1OnTap, firstBTap, secondBTap;
-  final double? height;
+  final double? height, vertical, subtextVSpace, bottomPadding, horizontal;
   final bool? isBooked, isTwoButton;
   final Widget? widget;
+  final BoxFit? fit;
 
   const AlertDialogCommon(
       {super.key,
@@ -20,10 +21,15 @@ class AlertDialogCommon extends StatelessWidget {
       this.isTwoButton = false,
       this.widget,
       this.height,
+      this.horizontal,
+      this.bottomPadding,
+      this.vertical,
       this.firstBText,
       this.secondBText,
       this.firstBTap,
-      this.secondBTap});
+      this.fit,
+      this.secondBTap,
+      this.subtextVSpace});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +47,9 @@ class AlertDialogCommon extends StatelessWidget {
                 ? widget!
                 : SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        child:
-                            Image.asset(image!, height: height ?? Sizes.s190))
-                    .paddingSymmetric(vertical: Insets.i20)
+                        child: Image.asset(image!,
+                            height: height ?? Sizes.s190, fit: fit))
+                    .paddingSymmetric(vertical: vertical ?? Insets.i20)
                     .decorated(
                         color: appColor(context).whiteBg,
                         borderRadius: BorderRadius.circular(AppRadius.r10)),
@@ -54,7 +60,7 @@ class AlertDialogCommon extends StatelessWidget {
                 style: appCss.dmDenseRegular14
                     .textColor(appColor(context).lightText)
                     .textHeight(1.3)),
-            const VSpace(Sizes.s18),
+            VSpace(subtextVSpace ?? Sizes.s18),
             if (isTwoButton != true)
               ButtonCommon(onTap: b1OnTap, title: bText1!),
             if (isTwoButton == true)
@@ -64,7 +70,9 @@ class AlertDialogCommon extends StatelessWidget {
                   textTwo: secondBText,
                   textOne: firstBText)
           ]).padding(
-              horizontal: Insets.i20, top: Insets.i60, bottom: Insets.i20),
+              horizontal: horizontal ?? Insets.i20,
+              top: Insets.i60,
+              bottom: bottomPadding ?? Insets.i20),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             // Title
             Text(language(context, title!),

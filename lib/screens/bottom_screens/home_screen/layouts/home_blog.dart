@@ -1,9 +1,10 @@
 import '../../../../config.dart';
+import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../models/blog_model.dart';
 import 'latest_blog_layout.dart';
 
 class HomeBlog extends StatelessWidget {
-  final List<BlogModel> firstTwoBlogList, blogList;
+  final List<Article> firstTwoBlogList, blogList;
   const HomeBlog(
       {super.key, required this.firstTwoBlogList, required this.blogList});
 

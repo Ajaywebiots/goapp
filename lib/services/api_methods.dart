@@ -12,7 +12,16 @@ class ApiMethods {
 
   /// business api
   String businessCategories = "/Business/categories";
-  String businessList = "/business/list";
+  // String businessList = "/business/list";
+
+  ///Offer/categories
+  String offerCategories = '/Offer/categories';
+
+  ///blog/categories
+  String blogCategories = "/blog/categories";
+
+  ///attractionCategories
+  String attractionCategories = "/Attraction/categories";
 
 // //
   // String homeFeed = '/api/App/home/feed';

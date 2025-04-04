@@ -168,6 +168,8 @@ class AppCss {
 
   TextStyle outfitMedium24 =
       outfit(fontWeight: medium, fontsize: FontSizes.f24);
+  TextStyle outfitMedium26 =
+      outfit(fontWeight: medium, fontsize: FontSizes.f26);
   TextStyle outfitSemiBold45 =
       outfit(fontWeight: semiBold, fontsize: FontSizes.f45);
   TextStyle righteousSemiBold23 =

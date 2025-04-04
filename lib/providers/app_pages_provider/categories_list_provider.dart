@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:goapp/services/api_service.dart';
 
 import '../../config.dart';
-import '../../models/api_model/category_model.dart';
+import '../../models/api_model/business_category_model.dart';
 import '../../models/category_model.dart';
 import '../bottom_providers/dashboard_provider.dart';
 
@@ -39,7 +39,8 @@ class CategoriesListProvider with ChangeNotifier {
         notifyListeners();
         hideLoading(context);
         log("API Response: ${value.data}");
-        CategoryModelAPI categoryModel = CategoryModelAPI.fromJson(value.data);
+        BusinessCategoriesModel categoryModel =
+            BusinessCategoriesModel.fromJson(value.data);
         notifyListeners();
         // Clear old list and add new parsed categories
         categoryList.clear();

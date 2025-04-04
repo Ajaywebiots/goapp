@@ -10,6 +10,9 @@ class AppArray {
     const Locale('en'),
     const Locale('el'),
     const Locale('he'),
+    const Locale('es'),
+    const Locale('ar'),
+    const Locale('ru'),
   ];
 
   var languageList = [
@@ -17,16 +20,37 @@ class AppArray {
       "title": "English",
       "locale": const Locale('en', 'EN'),
       "code": "en",
+      "icon": "assets/flags/en.png"
     },
     {
       "title": "Greek",
       "locale": const Locale("el", 'GR'),
       "code": "el",
+      "icon": "assets/flags/gr.png"
     },
     {
       "title": "Hebrew",
       "locale": const Locale('he', 'HE'),
       "code": "he",
+      "icon": "assets/flags/he.png"
+    },
+    {
+      "title": "Spanish",
+      "locale": const Locale('es', 'ES'),
+      "code": "es",
+      "icon": "assets/flags/es.png"
+    },
+    {
+      "title": "Arabic",
+      "locale": const Locale('ar', 'AR'),
+      "code": "ar",
+      "icon": "assets/flags/ar.png"
+    },
+    {
+      "title": "Russian",
+      "locale": const Locale('ru', 'RU'),
+      "code": "ru",
+      "icon": "assets/flags/ru.png"
     },
   ];
 
@@ -99,26 +123,26 @@ class AppArray {
     }
   ];
 
-  var categoriesList = [
-    {"title": "Stays", "icon": eSvgAssets.ac},
-    {"title": "Beauty", "icon": eSvgAssets.cleaning},
-    {"title": "Restaurants", "icon": eSvgAssets.carpenter},
-    {"title": "Fitness", "icon": eSvgAssets.cooking},
-    {"title": "Health", "icon": eSvgAssets.electrician},
-    {"title": "Nightlife", "icon": eSvgAssets.painter},
-    {"title": "Shopping", "icon": eSvgAssets.plumber},
-    {"title": "Real Estate", "icon": eSvgAssets.salon},
-    {"title": "Bars", "icon": eSvgAssets.ac},
-    {"title": "Cafes", "icon": eSvgAssets.cleaning},
-    {"title": "Banks", "icon": eSvgAssets.carpenter},
-    {"title": "Cooking", "icon": eSvgAssets.cooking},
-    {"title": "Electrician", "icon": eSvgAssets.electrician},
-    {"title": "Painter", "icon": eSvgAssets.painter},
-    {"title": "Plumber", "icon": eSvgAssets.plumber},
-    {"title": "Salon", "icon": eSvgAssets.salon},
-    {"title": "Ac Repair", "icon": eSvgAssets.ac},
-    {"title": "Cleaning", "icon": eSvgAssets.cleaning},
-  ];
+  // var categoriesList = [
+  //   {"title": "Stays", "icon": eSvgAssets.ac},
+  //   {"title": "Beauty", "icon": eSvgAssets.cleaning},
+  //   {"title": "Restaurants", "icon": eSvgAssets.carpenter},
+  //   {"title": "Fitness", "icon": eSvgAssets.cooking},
+  //   {"title": "Health", "icon": eSvgAssets.electrician},
+  //   {"title": "Nightlife", "icon": eSvgAssets.painter},
+  //   {"title": "Shopping", "icon": eSvgAssets.plumber},
+  //   {"title": "Real Estate", "icon": eSvgAssets.salon},
+  //   {"title": "Bars", "icon": eSvgAssets.ac},
+  //   {"title": "Cafes", "icon": eSvgAssets.cleaning},
+  //   {"title": "Banks", "icon": eSvgAssets.carpenter},
+  //   {"title": "Cooking", "icon": eSvgAssets.cooking},
+  //   {"title": "Electrician", "icon": eSvgAssets.electrician},
+  //   {"title": "Painter", "icon": eSvgAssets.painter},
+  //   {"title": "Plumber", "icon": eSvgAssets.plumber},
+  //   {"title": "Salon", "icon": eSvgAssets.salon},
+  //   {"title": "Ac Repair", "icon": eSvgAssets.ac},
+  //   {"title": "Cleaning", "icon": eSvgAssets.cleaning},
+  // ];
 
   var servicesList = [
     {
@@ -509,66 +533,44 @@ class AppArray {
 
   var profileList = [
     {
-      "title": appFonts.general,
+      "title": "MY ACCOUNT",
       "data": [
+        {"icon": eSvgAssets.like, "title": "My Profile", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": "Favourite List", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": "My Reviews", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": "App Settings", "isArrow": true},
         {
           "icon": eSvgAssets.like,
-          "title": appFonts.favouriteList,
+          "title": "Subscription Plans",
           "isArrow": true
-        },
-        {
-          "icon": eSvgAssets.locationOut1,
-          "title": appFonts.manageLocations,
-          "isArrow": true
-        },
-        {
-          "icon": eSvgAssets.coupon,
-          "title": appFonts.myReviews,
-          "isArrow": true
-        },
-      ],
+        }
+      ]
     },
+    {"title": "Register your business"},
     {
-      "title": appFonts.aboutApp,
+      "title": "General Info",
       "data": [
+        {"icon": eSvgAssets.like, "title": "About Us", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": "Privacy Policy", "isArrow": true},
         {
-          "icon": eSvgAssets.mobile,
-          "title": appFonts.appDetails,
-          "description": appFonts.aboutUs,
+          "icon": eSvgAssets.like,
+          "title": "Cancellation Policy",
           "isArrow": true
         },
-        {"icon": eSvgAssets.rate, "title": appFonts.rateUs, "isArrow": false},
-        {
-          "icon": eSvgAssets.share,
-          "title": appFonts.shareApp,
-          "isArrow": false
-        },
+        {"icon": eSvgAssets.like, "title": "Contact Us", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": "FAQ", "isArrow": true},
       ]
     },
     {
-      "title": appFonts.becomeProvider,
-    },
-    {
-      "title": appFonts.alertZone,
       "data": [
-        {
-          "icon": eSvgAssets.delete,
-          "title": appFonts.deleteAccount,
-          "isArrow": false
-        },
-        {"icon": eSvgAssets.logout, "title": appFonts.logOut, "isArrow": false}
+        {"icon": eSvgAssets.logout, "title": "Logout", "isArrow": false}
       ]
-    },
+    }
   ];
 
   //app setting
-  List appSetting(isTheme) => [
-        {
-          'title': isTheme ? appFonts.lightTheme : appFonts.darkTheme,
-          'icon': eSvgAssets.dark
-        },
-        {'title': appFonts.changeCurrency, 'icon': eSvgAssets.currency},
-        {'title': appFonts.changeLanguage, 'icon': eSvgAssets.translate},
+  List appSetting() => [
+        {'title': "Change Language", 'icon': eSvgAssets.translate},
         {'title': appFonts.changePassword, 'icon': eSvgAssets.lock}
       ];
 
@@ -1805,11 +1807,7 @@ class AppArray {
     {"rate": "1 rate", "icon": eSvgAssets.star1, "value": 1},
   ];
 
-  var filterList = [
-    appFonts.category,
-    appFonts.priceRating,
-    appFonts.distance,
-  ];
+  var filterList = [appFonts.category, appFonts.rating, appFonts.distance];
 
   var filterList1 = ["Category", "Type", appFonts.distance];
 
@@ -1966,8 +1964,8 @@ class AppArray {
   ];
 
   var selectList = [
-    {"image": eSvgAssets.gallery, "title": appFonts.chooseFromGallery},
-    {"image": eSvgAssets.camera, "title": appFonts.openCamera}
+    {"image": eSvgAssets.gallery, "title": "Choose From Gallery"},
+    {"image": eSvgAssets.camera, "title": "Open Camera"}
   ];
 
   List monthList = [
@@ -3411,6 +3409,33 @@ class AppArray {
       "status": 1,
       "deleted_at": null
     }
+  ];
+
+  var timeSlotStartAtList = [appFonts.days, "Start at", "End at"];
+
+  var timeSlotList = [
+    {"days": 'Monday', "start_at": "09:00", "end_at": "02:00", "status": true},
+    {"days": 'Tuesday', "start_at": "00:00", "end_at": "00:00", "status": true},
+    {
+      "days": 'Wednesday',
+      "start_at": "00:00",
+      "end_at": "00:00",
+      "status": true
+    },
+    {
+      "days": 'Thursday',
+      "start_at": "00:00",
+      "end_at": "00:00",
+      "status": false
+    },
+    {"days": 'Friday', "start_at": "00:00", "end_at": "00:00", "status": true},
+    {
+      "days": 'Saturday',
+      "start_at": "00:00",
+      "end_at": "00:00",
+      "status": true
+    },
+    {"days": 'Sunday', "start_at": "00:00", "end_at": "00:00", "status": false}
   ];
 
   final List<Map<String, dynamic>> buttonItems = [

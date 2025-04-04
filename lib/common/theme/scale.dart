@@ -84,6 +84,7 @@ class Insets {
   static const double i184 = 184 * scale;
   static const double i185 = 185 * scale;
   static const double i190 = 190 * scale;
+  static const double i200 = 200 * scale;
   static const double i300 = 300 * scale;
   static const double i220 = 220 * scale;
   static const double i325 = 325 * scale;
@@ -148,6 +149,7 @@ class FontSizes {
   static const double f23 = 23.0 * scale;
   static const double f24 = 24.0 * scale;
   static const double f25 = 25.0 * scale;
+  static const double f26 = 26.0 * scale;
   static const double f28 = 28.0 * scale;
   static const double f30 = 30.0 * scale;
   static const double f35 = 35.0 * scale;

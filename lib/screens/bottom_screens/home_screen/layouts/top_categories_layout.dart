@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config.dart';
-import '../../../../models/api_model/category_model.dart';
+import '../../../../models/api_model/business_category_model.dart';
 import '../../../../models/category_model.dart';
 
 class TopCategoriesLayout extends StatelessWidget {
@@ -11,6 +11,7 @@ class TopCategoriesLayout extends StatelessWidget {
   final GestureTapCallback? onTap;
   final int? index, selectedIndex;
   final double? rPadding;
+  final bool isHomeScreen;
 
   const TopCategoriesLayout(
       {super.key,
@@ -18,7 +19,8 @@ class TopCategoriesLayout extends StatelessWidget {
       this.data,
       this.index,
       this.selectedIndex,
-      this.rPadding});
+      this.rPadding,
+      this.isHomeScreen = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +28,28 @@ class TopCategoriesLayout extends StatelessWidget {
       Container(
           height: Sizes.s60,
           width: Sizes.s60,
-          decoration: ShapeDecoration(
-              color: selectedIndex == index
-                  ? appColor(context).primary.withOpacity(0.2)
-                  : appColor(context).fieldCardBg,
-              shape: SmoothRectangleBorder(
-                  side: BorderSide(
-                      color: selectedIndex == index
-                          ? appColor(context).primary
-                          : appColor(context).trans),
-                  borderRadius: SmoothBorderRadius(
-                      cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
-          child:
-              Container() /*data!.media != null && data!.media!.isNotEmpty
+          decoration: isHomeScreen
+              ? ShapeDecoration(
+                  shape: SmoothRectangleBorder(
+                      borderAlign: BorderAlign.outside,
+                      borderRadius: SmoothBorderRadius.all(SmoothRadius(
+                          cornerRadius: AppRadius.r10, cornerSmoothing: 1)),
+                      side: BorderSide(
+                          width: 1, color: appColor(context).darkText)))
+              : ShapeDecoration(
+                  color: selectedIndex == index
+                      ? appColor(context).primary.withOpacity(0.2)
+                      : appColor(context).fieldCardBg,
+                  shape: SmoothRectangleBorder(
+                      side: BorderSide(
+                          color: selectedIndex == index
+                              ? appColor(context).primary
+                              : appColor(context).trans),
+                      borderRadius: SmoothBorderRadius(
+                          cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
+          child: Image.network(data.icon,
+              cacheHeight:
+                  25) /*data!.media != null && data!.media!.isNotEmpty
               ? SvgPicture.asset(data!.media![0].originalUrl!,
                       colorFilter: ColorFilter.mode(
                           selectedIndex == index
@@ -164,18 +175,10 @@ class ScrollingTextState extends State<ScrollingText>
     if (widget.scrollAxis == Axis.vertical) {
       String newString = widget.text.split("").join("\n");
       return Center(
-        child: Text(
-          newString,
-          style: widget.textStyle,
-          textAlign: TextAlign.center,
-        ),
-      );
+          child: Text(newString,
+              style: widget.textStyle, textAlign: TextAlign.center));
     }
-    return Center(
-        child: Text(
-      widget.text,
-      style: widget.textStyle,
-    ));
+    return Center(child: Text(widget.text, style: widget.textStyle));
   }
 
   Widget getCenterChild() {
@@ -195,15 +198,14 @@ class ScrollingTextState extends State<ScrollingText>
   @override
   Widget build(BuildContext context) {
     return ListView(
-      key: _key,
-      scrollDirection: widget.scrollAxis,
-      controller: scrollController,
-      physics: const NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        getBothEndsChild(),
-        getCenterChild(),
-        getBothEndsChild(),
-      ],
-    );
+        key: _key,
+        scrollDirection: widget.scrollAxis,
+        controller: scrollController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          getBothEndsChild(),
+          getCenterChild(),
+          getBothEndsChild()
+        ]);
   }
 }

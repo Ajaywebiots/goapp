@@ -1,19 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:goapp/providers/app_pages_provider/app_setting_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/expert_service_provider.dart';
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart';
 import 'package:goapp/providers/app_pages_provider/featured_service_provider.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
-import 'package:goapp/providers/app_pages_provider/provider_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
 import 'package:goapp/providers/app_pages_provider/services_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/time_slot_provider.dart';
 import 'package:goapp/providers/auth_providers/social_register_provider.dart';
 import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
 import 'package:goapp/providers/bottom_providers/booking_provider.dart';
@@ -29,9 +30,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -86,8 +85,7 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
                   ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => ExpertServiceProvider()),
+                  ChangeNotifierProvider(create: (_) => AttractionProvider()),
                   ChangeNotifierProvider(
                       create: (_) => FavouriteListProvider()),
                   ChangeNotifierProvider(create: (_) => NoInternetProvider()),
@@ -103,6 +101,11 @@ class _MyAppState extends State<MyApp> {
                       create: (_) => CategoriesListProvider()),
                   ChangeNotifierProvider(create: (_) => NotificationProvider()),
                   ChangeNotifierProvider(create: (_) => RateAppProvider()),
+                  ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => ProfileDetailProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => AppSettingProvider(snapData.data!)),
                   ChangeNotifierProvider(
                       create: (_) => ServiceReviewProvider()),
                 ],

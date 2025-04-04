@@ -15,29 +15,6 @@ class ThirdFilter extends StatelessWidget {
               style:
                   appCss.dmDenseMedium14.textColor(appColor(context).lightText))
           .padding(horizontal: Insets.i20, bottom: Insets.i10),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        IntrinsicHeight(
-            child: Row(children: [
-          SvgPicture.asset(eSvgAssets.address,
-              colorFilter: ColorFilter.mode(
-                  appColor(context).darkText, BlendMode.srcIn)),
-          VerticalDivider(
-                  indent: 1,
-                  endIndent: 1,
-                  width: 1,
-                  color: appColor(context).stroke)
-              .paddingSymmetric(horizontal: Insets.i12),
-          Text(language(context, appFonts.nearByLocation),
-              style:
-                  appCss.dmDenseMedium14.textColor(appColor(context).darkText))
-        ])),
-        SvgPicture.asset(eSvgAssets.dropDown)
-        // FilterRadioLayout(
-        //     isCheck: value.isSelect == false, onTap: () => value.onChange())
-      ])
-          .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
-          .boxBorderExtension(context, isShadow: true)
-          .padding(horizontal: Insets.i20, bottom: Insets.i15),
       SizedBox(
               height: Sizes.s115,
               child: Column(children: [

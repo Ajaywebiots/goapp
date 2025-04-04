@@ -42,23 +42,23 @@ class FeaturedBusinessProvider with ChangeNotifier {
     route.pop(context);
   }
 
-  getBusinessList() {
-    notifyListeners();
-    apiServices.commonApi(api.businessList, [], ApiType.get).then((value) {
-      log("business list -- ${value.data}");
-      featuredBusiness = [];
-      if (value.isSuccess!) {
-        final dataList = BusinessList.fromJson(value.data);
-
-        featuredBusiness.clear();
-        if (dataList.businesses != null) {
-          featuredBusiness.addAll(dataList.businesses!);
-        }
-        notifyListeners();
-      }
-    });
-    notifyListeners();
-  }
+  // getBusinessList() {
+  //   notifyListeners();
+  //   apiServices.commonApi(api.businessList, [], ApiType.get).then((value) {
+  //     log("business list -- ${value.data}");
+  //     featuredBusiness = [];
+  //     if (value.isSuccess!) {
+  //       final dataList = BusinessList.fromJson(value.data);
+  //
+  //       featuredBusiness.clear();
+  //       if (dataList.businesses != null) {
+  //         featuredBusiness.addAll(dataList.businesses!);
+  //       }
+  //       notifyListeners();
+  //     }
+  //   });
+  //   notifyListeners();
+  // }
 
   /*onReady(context, TickerProvider sync) async {
     animationController = AnimationController(

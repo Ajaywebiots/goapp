@@ -1,3 +1,5 @@
+import 'package:goapp/models/api_model/attraction_categories_model.dart';
+
 import '../../../../config.dart';
 import '../../../../widgets/checkbox_common.dart';
 
@@ -27,13 +29,7 @@ class ListTileLayout extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       IntrinsicHeight(
           child: Row(children: [
-        isHavingIcon
-            ? getImageWidget(icon)
-            : data!.media != null && data!.media!.isNotEmpty
-                ? SvgPicture.asset(data!.media![0].originalUrl!,
-                    height: Sizes.s20, width: Sizes.s20)
-                : Image.asset(eImageAssets.noImageFound1,
-                    height: Sizes.s20, width: Sizes.s20),
+        isHavingIcon ? getImageWidget(icon) : getImageWidget(data.icon),
         VerticalDivider(
                 indent: 1,
                 endIndent: 1,
@@ -44,17 +40,16 @@ class ListTileLayout extends StatelessWidget {
             ? Text(language(context, title),
                 style: appCss.dmDenseMedium14
                     .textColor(appColor(context).darkText))
-            : Text(language(context, data!.title),
+            : Text(language(context, data!.translatedValue),
                 style: appCss.dmDenseMedium14
                     .textColor(appColor(context).darkText))
       ])),
       isCheckBox
           ? CheckBoxCommon(
-              isCheck: selectedCategory!.contains(data!.id), onTap: onTap)
-          : SvgPicture.asset(
-              eSvgAssets.arrowRight,
-              colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-            )
+              isCheck: selectedCategory!.contains(data!.categoryId),
+              onTap: onTap)
+          : SvgPicture.asset(eSvgAssets.arrowRight,
+              colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn))
     ])
         .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
         .boxBorderExtension(context, isShadow: true, bColor: Color(0xFFF5F6F7))
@@ -64,10 +59,17 @@ class ListTileLayout extends StatelessWidget {
   Widget getImageWidget(String? icon) {
     if (icon == null) return SizedBox();
 
-    return icon.endsWith('.svg')
-        ? SvgPicture.asset(icon,
-            width: Insets.i24,
-            colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn))
-        : Image.asset(icon, width: Insets.i24);
+    if (icon.startsWith('http')) {
+      // Network image
+      return Image.network(icon, width: Insets.i24, height: Insets.i24);
+    } else {
+      // Asset image
+      return icon.endsWith('.svg')
+          ? SvgPicture.asset(icon,
+              width: Insets.i24,
+              height: Insets.i24,
+              colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn))
+          : Image.asset(icon, width: Insets.i24, height: Insets.i24);
+    }
   }
 }

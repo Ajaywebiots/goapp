@@ -17,8 +17,8 @@ class CategoriesListScreen extends StatelessWidget {
           onInit: () => Future.delayed(DurationClass.ms50)
               .then((vaj) => value.onReady(context, dash)),
           child: DirectionalityRtl(
-            child: Scaffold(
-                appBar: AppBar(
+              child: Scaffold(
+                  appBar: AppBar(
                     leadingWidth: 80,
                     title: Text(language(context, appFonts.categories),
                         style: appCss.dmDenseBold18
@@ -29,53 +29,21 @@ class CategoriesListScreen extends StatelessWidget {
                             ? eSvgAssets.arrowRight
                             : eSvgAssets.arrowLeft,
                         onTap: () => route.pop(context)).paddingAll(Insets.i8),
-                    actions: [
-                      CommonArrow(
-                              arrow: value.isGrid
-                                  ? eSvgAssets.list
-                                  : eSvgAssets.grid,
-                              onTap: () => value.onGrid())
-                          .paddingOnly(
-                              left: rtl(context) ? Insets.i20 : 0,
-                              right: rtl(context) ? 0 : Insets.i20)
-                    ]),
-                body: SingleChildScrollView(
-                    child: Column(children: [
-                  const VSpace(Sizes.s10),
-                  value.isGrid
-                      ? GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: value.categoryList.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4,
-                                  mainAxisExtent: Sizes.s90,
-                                  mainAxisSpacing: Sizes.s10,
-                                  crossAxisSpacing: Sizes.s10),
-                          itemBuilder: (context, index) {
-                            // Top Categories lists
-                            return TopCategoriesLayout(
-                                index: index,
-                                selectedIndex: dash.topSelected,
-                                data: value.categoryList[index],
+                  ),
+                  body: SingleChildScrollView(
+                      child: Column(children: [
+                    const VSpace(Sizes.s10),
+                    Column(
+                        children: value.categoryList
+                            .asMap()
+                            .entries
+                            .map((e) => CategoriesListLayout(
+                                data: e.value,
                                 onTap: () => route.pushNamed(
                                     context, routeName.categoriesDetailsScreen,
-                                    arg: value.categoryList[index]));
-                          })
-                      : Column(
-                          children: value.categoryList
-                              .asMap()
-                              .entries
-                              .map((e) => CategoriesListLayout(
-                                  data: e.value,
-                                  onTap: () => route.pushNamed(context,
-                                      routeName.categoriesDetailsScreen,
-                                      arg: value.categoryList[e.key])))
-                              .toList())
-                ]).paddingAll(Insets.i20))),
-          ));
+                                    arg: value.categoryList[e.key])))
+                            .toList())
+                  ]).paddingAll(Insets.i20)))));
     });
   }
 }

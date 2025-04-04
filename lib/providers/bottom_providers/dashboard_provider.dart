@@ -1,28 +1,27 @@
 import 'dart:developer';
 
-import 'package:goapp/models/api_model/business_list_model.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
-import 'package:goapp/screens/bottom_screens/home_screen/layouts/expert_business_layout.dart';
-import 'package:goapp/screens/bottom_screens/offer_screen/offer_screen.dart';
+import 'package:goapp/screens/menu_screens/menu_screen.dart';
 
 import '../../config.dart';
 import '../../models/api_model/home_feed_model.dart';
-import '../../models/banner_model.dart';
 import '../../models/index.dart';
-import '../../screens/app_pages_screen/expert_service_screen/expert_service_screen.dart';
+import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
 import '../../services/api_service.dart';
 import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
   List<TopBanner> bannerList = [];
-  List<OfferModel> offerList = []; ////
-  List<Coupon> couponOfferList = [];
+
+  // List<OfferModel> offerList = []; ////
+  List<Offer> couponOfferList = [];
 
   List<ProviderModel> highestRateList = [];
   List<CurrencyModel> currencyList = [];
-  List<CouponModel> couponList = [];
+
+  // List<CouponModel> couponList = [];
   List<Category> categoryList = [];
   List<ServicePackageModel> servicePackagesList = [];
   List<ServicePackageModel> firstThreeServiceList = [];
@@ -35,9 +34,14 @@ class DashboardProvider with ChangeNotifier {
   final FocusNode searchFocus = FocusNode();
 
   List<Business> firstTwoFeaturedServiceList = [];
-  List<ProviderModel> firstTwoHighRateList = [];
-  List<BlogModel> blogList = [];
-  List<BlogModel> firstTwoBlogList = [];
+  List<Attraction> firstTwoHighRateList = [];
+
+  // List<Category> businessCategories = [];
+
+  // List<BlogModel> blogList = [];
+  List<Article> firstTwoBlogList = [];
+
+  // List<BlogModel> firstTwoBlogList = [];
   List<ProviderModel> providerList = [];
   List<BookingStatusModel> bookingStatusList = [];
   List service = appArray.servicePackageList.getRange(1, 3).toList();
@@ -49,32 +53,87 @@ class DashboardProvider with ChangeNotifier {
   final List<Widget> pages = [
     const HomeScreen(),
     SearchScreen(),
-    ExpertServiceScreen(),
+    AttractionScreen(),
     CouponListScreen(),
-    Container(),
+    MenuScreen()
     // const BookingScreen(),
     // const OfferScreen(),
-    // const ProfileScreen()
+    // ProfileScreen()
   ];
 
   onInit(context) {
     homeFeed();
     // getBanner();
-    getCoupons();
+    // getCoupons();
     getCategory();
     getFeaturedPackage(1);
-    getBlog();
-    getHighestRate();
+    // getBlog();
+    // getHighestRate();
     notifyListeners();
     final homeScreenPvr =
         Provider.of<HomeScreenProvider>(context, listen: false);
     homeScreenPvr.getBlogFilter();
   }
 
-  homeFeed() {
+  locationFetch() {}
+
+  homeFeed() async {
     try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        log("Location services are disabled.");
+        return;
+      }
+
+      // Request location permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          log("Location permission denied.");
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        log("Location permission is permanently denied.");
+        return;
+      }
+
+      // Get last known location for faster results
+      Position? lastPosition = await Geolocator.getLastKnownPosition();
+
+      double currentLatitude = 0.0;
+      double currentLongitude = 0.0;
+
+      if (lastPosition != null) {
+        currentLatitude = lastPosition.latitude;
+        currentLongitude = lastPosition.longitude;
+        log("Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude");
+      }
+
+      // Fetch fresh location in background
+      Position position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.medium,
+              timeLimit: Duration(
+                  seconds: 5)) // If it takes too long, return what we have
+          .catchError((e) {
+        log("Failed to fetch fresh location: $e");
+        return lastPosition; // Use last known location if fresh location fails
+      });
+
+      if (position != null) {
+        currentLatitude = position.latitude;
+        currentLongitude = position.longitude;
+        log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
+      }
+
       apiServices
-          .commonApi(api.homeFeed, [], ApiType.get, isToken: true)
+          .commonApi(
+              "${api.homeFeed}?currentLongitude=$currentLongitude&currentLatitude=$currentLatitude",
+              [],
+              ApiType.get,
+              isToken: true)
           .then((value) {
         if ((value.data['responseStatus'] == 1)) {
           log("ajay hariyani ${value.data}");
@@ -84,15 +143,15 @@ class DashboardProvider with ChangeNotifier {
           couponOfferList = [];
           categoryList = [];
           firstTwoFeaturedServiceList = [];
-          bannerList.addAll(ajay.banners ?? []);
-          couponOfferList.addAll(ajay.coupons ?? []);
-          categoryList.addAll(ajay.categories ?? []);
-          firstTwoFeaturedServiceList.addAll(ajay.businesses ?? []);
-
-          // featuredServiceList.addAll(ajay.businesses ?? []);
-          // addAll(ajay.attractions ?? []);
-          // addAll(ajay.articles ?? []);
-
+          firstTwoHighRateList = [];
+          // businessCategories = [];
+          firstTwoBlogList = [];
+          bannerList.addAll(ajay.banners);
+          couponOfferList.addAll(ajay.offers);
+          categoryList.addAll(ajay.categories);
+          firstTwoFeaturedServiceList.addAll(ajay.businesses);
+          firstTwoBlogList.addAll(ajay.articles);
+          firstTwoHighRateList.addAll(ajay.attractions);
           log("Updated bannerList: ${bannerList.length} items");
 
           notifyListeners();
@@ -107,22 +166,9 @@ class DashboardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-  }
-
   onTap(index, context) async {
     selectIndex = index;
-    if (selectIndex == 4) {
-      logout();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.remove(session.accessToken).then(
-          (value) => route.pushReplacementNamed(context, routeName.login));
-
-      log("logout ===> ");
-    }
     if (selectIndex != 0) {
       final homeCtrl = Provider.of<HomeScreenProvider>(context, listen: false);
       homeCtrl.animationController!.stop();
@@ -159,44 +205,44 @@ class DashboardProvider with ChangeNotifier {
   // }
 
   //offer list
-  getOffer() async {
-    offerList = appArray.offerList.map((e) => OfferModel.fromJson(e)).toList();
-    notifyListeners();
-  }
+  // getOffer() async {
+  //   offerList = appArray.offerList.map((e) => OfferModel.fromJson(e)).toList();
+  //   notifyListeners();
+  // }
 
   //highest rate provider list
-  getHighestRate() async {
-    highestRateList = appArray.featureAttractions
-        .map((e) => ProviderModel.fromJson(e))
-        .toList();
-    if (highestRateList.length >= 3) {
-      firstTwoHighRateList = highestRateList.getRange(0, 3).toList();
-    }
-    notifyListeners();
-    /* try {
-      await apiServices
-          .getApi(api.highestRating, [], isData: true, isMessage: true)
-          .then((value) {
-        if (value.isSuccess!) {
-          debugPrint("HIGHH :${value.data}");
-          for (var data in value.data) {
-            highestRateList.add(ProviderModel.fromJson(data));
-            log("highestRateList :$data");
-            notifyListeners();
-          }
-          if (highestRateList.length >= 3) {
-            firstTwoHighRateList = highestRateList.getRange(0, 3).toList();
-          }
-
-          log("firstTwoHighRateList :${firstTwoHighRateList.length}");
-          notifyListeners();
-        }
-      });
-    } catch (e) {
-      log("getHighestRate ::${e}");
-      notifyListeners();
-    }*/
-  }
+  // getHighestRate() async {
+  //   highestRateList = appArray.featureAttractions
+  //       .map((e) => ProviderModel.fromJson(e))
+  //       .toList();
+  //   if (highestRateList.length >= 3) {
+  //     firstTwoHighRateList = highestRateList.getRange(0, 3).toList();
+  //   }
+  //   notifyListeners();
+  //   /* try {
+  //     await apiServices
+  //         .getApi(api.highestRating, [], isData: true, isMessage: true)
+  //         .then((value) {
+  //       if (value.isSuccess!) {
+  //         debugPrint("HIGHH :${value.data}");
+  //         for (var data in value.data) {
+  //           highestRateList.add(ProviderModel.fromJson(data));
+  //           log("highestRateList :$data");
+  //           notifyListeners();
+  //         }
+  //         if (highestRateList.length >= 3) {
+  //           firstTwoHighRateList = highestRateList.getRange(0, 3).toList();
+  //         }
+  //
+  //         log("firstTwoHighRateList :${firstTwoHighRateList.length}");
+  //         notifyListeners();
+  //       }
+  //     });
+  //   } catch (e) {
+  //     log("getHighestRate ::${e}");
+  //     notifyListeners();
+  //   }*/
+  // }
 
 //currency list
   getCurrency() async {
@@ -206,23 +252,23 @@ class DashboardProvider with ChangeNotifier {
   }
 
 //coupons list
-  getCoupons() async {
-    /* try {
-      await apiServices.getApi(api.coupon, []).then((value) {
-        if (value.isSuccess!) {
-          for (var data in value.data) {
-            couponList.add(CouponModel.fromJson(data));
-            notifyListeners();
-          }
-        }
-      });
-    } catch (e) {
-      notifyListeners();
-    }*/
-    couponList =
-        appArray.couponList.map((e) => CouponModel.fromJson(e)).toList();
-    notifyListeners();
-  }
+//   getCoupons() async {
+//     /* try {
+//       await apiServices.getApi(api.coupon, []).then((value) {
+//         if (value.isSuccess!) {
+//           for (var data in value.data) {
+//             couponList.add(CouponModel.fromJson(data));
+//             notifyListeners();
+//           }
+//         }
+//       });
+//     } catch (e) {
+//       notifyListeners();
+//     }*/
+//     couponList =
+//         appArray.couponList.map((e) => CouponModel.fromJson(e)).toList();
+//     notifyListeners();
+//   }
 
   //category list
   getCategory({search}) async {
@@ -319,31 +365,31 @@ class DashboardProvider with ChangeNotifier {
   }
 
   //blog list
-  getBlog() async {
-    /*try {
-      await apiServices.getApi(api.blog, []).then((value) {
-        if (value.isSuccess!) {
-          List service = value.data['data'];
-          for (var data in service.reversed.toList()) {
-            blogList.add(BlogModel.fromJson(data));
-            notifyListeners();
-          }
-          if (blogList.length >= 2) {
-            firstTwoBlogList = blogList.getRange(0, 2).toList();
-          }
-          notifyListeners();
-        }
-      });
-    } catch (e) {
-      notifyListeners();
-    }*/
-    blogList =
-        appArray.latestBlogList.map((e) => BlogModel.fromJson(e)).toList();
-    if (blogList.length >= 2) {
-      firstTwoBlogList = blogList.getRange(0, 2).toList();
-    }
-    notifyListeners();
-  }
+  // getBlog() async {
+  //   /*try {
+  //     await apiServices.getApi(api.blog, []).then((value) {
+  //       if (value.isSuccess!) {
+  //         List service = value.data['data'];
+  //         for (var data in service.reversed.toList()) {
+  //           blogList.add(BlogModel.fromJson(data));
+  //           notifyListeners();
+  //         }
+  //         if (blogList.length >= 2) {
+  //           firstTwoBlogList = blogList.getRange(0, 2).toList();
+  //         }
+  //         notifyListeners();
+  //       }
+  //     });
+  //   } catch (e) {
+  //     notifyListeners();
+  //   }*/
+  //   blogList =
+  //       appArray.latestBlogList.map((e) => BlogModel.fromJson(e)).toList();
+  //   if (blogList.length >= 2) {
+  //     firstTwoBlogList = blogList.getRange(0, 2).toList();
+  //   }
+  //   notifyListeners();
+  // }
 
   //provider list
   getProvider() async {

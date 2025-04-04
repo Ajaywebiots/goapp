@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LanguageHelper {
-  convertLangNameToLocale(String langNameToConvert) {
+  Locale convertLangNameToLocale(String langNameToConvert) {
     Locale convertedLocale;
 
     switch (langNameToConvert.toLowerCase()) {
@@ -14,15 +14,24 @@ class LanguageHelper {
       case "hebrew":
         convertedLocale = const Locale('he', 'IL');
         break;
+      case "spanish":
+        convertedLocale = const Locale('es', 'ES');
+        break;
+      case "arabic":
+        convertedLocale = const Locale('ar', 'SA');
+        break;
+      case "russian":
+        convertedLocale = const Locale('ru', 'RU');
+        break;
       default:
         convertedLocale = const Locale('en', 'US');
     }
-
     return convertedLocale;
   }
 
-  convertLocaleToLangName(String localeToConvert) {
+  String convertLocaleToLangName(String localeToConvert) {
     String langName;
+
     switch (localeToConvert) {
       case 'en':
         langName = "English";
@@ -33,9 +42,19 @@ class LanguageHelper {
       case 'he':
         langName = "Hebrew";
         break;
+      case 'es':
+        langName = "Spanish";
+        break;
+      case 'ar':
+        langName = "Arabic";
+        break;
+      case 'ru':
+        langName = "Russian";
+        break;
       default:
         langName = "English";
     }
+
     return langName;
   }
 }

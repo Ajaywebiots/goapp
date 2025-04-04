@@ -37,6 +37,8 @@ class SocialRegProvider extends ChangeNotifier {
     final args = ModalRoute.of(context)?.settings.arguments;
     if (args is UserCredential) {
       txtEmail.text = args.user?.email ?? "";
+      enterFName.text = args.user?.displayName ?? "";
+      txtPhone.text = args.user?.phoneNumber ?? "";
     }
   }
 }

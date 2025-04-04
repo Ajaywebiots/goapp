@@ -7,14 +7,14 @@ class DirectionalityRtl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LanguageProvider>(
-      builder: (context1, languageCtrl, child1) {
-        return Directionality(
-            textDirection:
-                languageCtrl.isUserRTl || languageCtrl.getLocal() == "he"
-                    ? TextDirection.rtl
-                    : TextDirection.ltr,
-            child: child!);
-      },
-    );
+        builder: (context1, languageCtrl, child1) {
+      return Directionality(
+          textDirection: languageCtrl.isUserRTl ||
+                  languageCtrl.getLocal() == "he" ||
+                  languageCtrl.getLocal() == "ar"
+              ? TextDirection.rtl
+              : TextDirection.ltr,
+          child: child!);
+    });
   }
 }

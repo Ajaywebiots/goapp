@@ -1,21 +1,21 @@
 import 'package:goapp/models/blog_model.dart';
 import 'package:intl/intl.dart';
 import '../../../../config.dart';
+import '../../../../models/api_model/home_feed_model.dart';
 
 class LatestBlogLayout extends StatelessWidget {
-  final BlogModel? data;
+  final Article? data;
   final GestureTapCallback? onTap;
   final double? rPadding;
   final bool? isView;
-  final bool? isHome;
 
-  const LatestBlogLayout(
-      {super.key,
-      this.onTap,
-      this.data,
-      this.rPadding,
-      this.isView = false,
-      this.isHome = false});
+  const LatestBlogLayout({
+    super.key,
+    this.onTap,
+    this.data,
+    this.rPadding,
+    this.isView = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class LatestBlogLayout extends StatelessWidget {
             child: Column(children: [
               ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                  child: Image.asset(data!.media![0].originalUrl!,
+                  child: Image.network(data!.media.source,
                       width: isView!
                           ? MediaQuery.of(context).size.width
                           : MediaQuery.of(context).size.width > 500
@@ -39,51 +39,35 @@ class LatestBlogLayout extends StatelessWidget {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Expanded(
-                      //     child:
                       SizedBox(
-                          width: Sizes.s210,
-                          child: Text(language(context, data!.title!),
+                          width: Sizes.s180,
+                          child: Text(language(context, data!.title),
                               overflow: TextOverflow.ellipsis,
-                              style: appCss.dmDenseMedium16
+                              style: appCss.dmDenseMedium15
                                   .textColor(appColor(context).darkText))),
-                      isHome == true
-                          ? Container()
-                          : SvgPicture.asset(data!.isFav == true
-                              ? 'assets/svg/fav.svg'
-                              : "assets/svg/dislike.svg")
+                      SvgPicture.asset(data!.isFavourite == true
+                          ? 'assets/svg/fav.svg'
+                          : "assets/svg/dislike.svg")
                     ]),
-                Row(children: [
-                  Expanded(
-                      child: Text(language(context, data!.categories![0].title),
-                          overflow: TextOverflow.ellipsis,
+                Text(
+                    DateFormat("dd MMM, yyyy")
+                        .format(DateTime.parse(data!.createdDate.toString())),
+                    style: appCss.dmDenseRegular12
+                        .textColor(appColor(context).lightText)),
+                const VSpace(Sizes.s8),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: Insets.i3, horizontal: Insets.i5),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(AppRadius.r4)),
+                          color:
+                              appColor(context).primary.withValues(alpha: 0.1)),
+                      child: Text(data!.category,
                           style: appCss.dmDenseRegular12
-                              .textColor(appColor(context).lightText)))
-                ]),
-                const VSpace(Sizes.s15),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                          DateFormat("dd MMM, yyyy")
-                              .format(DateTime.parse(data!.createdAt!)),
-                          style: appCss.dmDenseRegular12
-                              .textColor(appColor(context).lightText)),
-                      data!.isTopRated == true
-                          ? Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Insets.i3, horizontal: Insets.i5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(AppRadius.r4)),
-                                  color: appColor(context)
-                                      .primary
-                                      .withValues(alpha: 0.1)),
-                              child: Text("Top Rated",
-                                  style: appCss.dmDenseRegular12
-                                      .textColor(appColor(context).primary)))
-                          : Container()
-                    ])
+                              .textColor(appColor(context).primary)))
+                ])
               ]).paddingAll(Insets.i12)
             ]))
         .decorated(

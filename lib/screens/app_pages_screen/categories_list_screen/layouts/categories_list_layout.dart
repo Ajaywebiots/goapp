@@ -6,6 +6,7 @@ import '../../../../widgets/DirectionalityRtl.dart';
 class CategoriesListLayout extends StatelessWidget {
   final data;
   final GestureTapCallback? onTap;
+
   const CategoriesListLayout({super.key, this.data, this.onTap});
 
   @override
@@ -13,14 +14,12 @@ class CategoriesListLayout extends StatelessWidget {
     return DirectionalityRtl(
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(children: [
-          // SvgPicture.asset(data!,
-          //     colorFilter:
-          //         ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
-          //     fit: BoxFit.fill,
-          //     height: Sizes.s20,
-          //     width: Sizes.s20),
-          const HSpace(Sizes.s15),
-          Text(language(context, data.name!),
+          Image.network(data.icon,
+              fit: BoxFit.fill, height: Sizes.s20, width: Sizes.s20),
+          const HSpace(Sizes.s12),
+          SvgPicture.asset("assets/svg/line.svg", height: 16),
+          const HSpace(Sizes.s12),
+          Text(language(context, data?.translatedValue),
               style:
                   appCss.dmDenseMedium14.textColor(appColor(context).darkText))
         ]),

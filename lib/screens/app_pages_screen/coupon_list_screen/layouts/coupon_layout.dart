@@ -1,11 +1,11 @@
+import 'package:intl/intl.dart';
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
-import '../../../../models/coupon_model.dart';
 import '../../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../../widgets/DirectionalityRtl.dart';
 
 class CouponLayout extends StatelessWidget {
-  final Coupon? data;
+  final Offer? data;
   final GestureTapCallback? onTap;
 
   const CouponLayout({super.key, this.data, this.onTap});
@@ -26,18 +26,19 @@ class CouponLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(backgroundImage: AssetImage(data!.image!))
+                      CircleAvatar(
+                              backgroundImage: NetworkImage(data!.image.source))
                           .padding(right: Insets.i10),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language(context, "${data!.name}"),
+                                Text(language(context, "title"),
                                     style: appCss.dmDenseMedium14
                                         .textColor(appColor(context).darkText)),
                                 VSpace(Insets.i3),
-                                Text(language(context, data!.name),
+                                Text(language(context, data!.title),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                         style: appCss.dmDenseRegular12
@@ -47,7 +48,7 @@ class CouponLayout extends StatelessWidget {
                                     .paddingOnly(bottom: 10)
                               ]).padding(top: Insets.i10))
                     ]).paddingOnly(top: Insets.i8),
-                Text(language(context, '5% OFF'),
+                Text(language(context, data?.tag),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade,
                         style: appCss.dmDenseBold14
@@ -57,12 +58,13 @@ class CouponLayout extends StatelessWidget {
               ]).inkWell(onTap: onTap).padding(horizontal: 10),
               VSpace(Insets.i12),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text("Valid on Mon-Fri only",
+                Text(
+                    "Valid until ${data?.expirationDate != null ? DateFormat('dd/MM/yyyy').format(data!.expirationDate) : ''}",
                     style: appCss.dmDenseRegular12
                         .textColor(appColor(context).darkText)),
-                SvgPicture.asset(isFav == true
-                        ? "assets/svg/dislike.svg"
-                        : "assets/svg/fav.svg")
+                SvgPicture.asset(data?.isFavourite == true
+                        ? "assets/svg/fav.svg"
+                        : "assets/svg/dislike.svg")
                     .inkWell(onTap: () {
                   dash.notifyListeners();
                   isFav = !isFav;

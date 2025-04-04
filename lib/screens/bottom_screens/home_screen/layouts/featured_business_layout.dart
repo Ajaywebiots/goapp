@@ -1,13 +1,11 @@
-import 'package:goapp/models/api_model/business_list_model.dart';
-import 'package:nb_utils/nb_utils.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../config.dart';
-import '../../../../models/service_model.dart';
+import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class FeaturedBusinessLayout extends StatelessWidget {
-  final data;
+  final Business? data;
   final GestureTapCallback? onTap, addTap;
   final bool? isProvider, inCart;
 
@@ -29,15 +27,15 @@ class FeaturedBusinessLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
-                        data?.image != ""
+                        data?.logo.source != ""
                             ? Container(
                                 height: Sizes.s30,
                                 width: Sizes.s30,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                        image: NetworkImage(
-                                            data!.image.toString()))))
+                                        image:
+                                            NetworkImage(data!.logo.source))))
                             : Container(
                                 height: Sizes.s30,
                                 width: Sizes.s30,
@@ -58,43 +56,65 @@ class FeaturedBusinessLayout extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(data!.image.toString()),
+                              image: NetworkImage(data!.image.source),
                               fit: BoxFit.cover))),
                   // if (data!.discount != "")
-                  SizedBox(
-                          child: Text(value.formatDiscount("5"),
-                                  style: appCss.dmDenseMedium12
-                                      .textColor(appColor(context).whiteColor))
-                              .padding(
-                                  horizontal: Insets.i9,
-                                  top: Insets.i3,
-                                  bottom: Insets.i3))
-                      .decorated(
-                          color: appColor(context).red,
-                          borderRadius: BorderRadius.circular(AppRadius.r30))
-                      .paddingSymmetric(
-                          horizontal: Insets.i10, vertical: Insets.i13)
+                  data?.topOffer == null
+                      ? SizedBox.shrink()
+                      : SizedBox(
+                              child: Text(data?.topOffer,
+                                      style: appCss.dmDenseMedium12.textColor(
+                                          appColor(context).whiteColor))
+                                  .padding(
+                                      horizontal: Insets.i9,
+                                      top: Insets.i3,
+                                      bottom: Insets.i3))
+                          .decorated(
+                              color: appColor(context).red,
+                              borderRadius:
+                                  BorderRadius.circular(AppRadius.r30))
+                          .paddingSymmetric(
+                              horizontal: Insets.i10, vertical: Insets.i13)
                 ]),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(children: [
-                          Row(
-                              children: List.generate(
-                                  (data?.rating ?? 0).toInt(),
-                                  (index) =>
-                                      SvgPicture.asset(eSvgAssets.star))),
+                          RatingBar.builder(
+                              glow: false,
+                              initialRating:
+                                  ((data?.rating ?? {})['starts'] ?? 0)
+                                      .toDouble(),
+                              minRating: 1,
+                              ignoreGestures: true,
+                              itemSize: 13,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 1.0),
+                              itemBuilder: (context, index) {
+                                double rating =
+                                    ((data?.rating ?? {})['starts'] ?? 0)
+                                        .toDouble();
+                                return SvgPicture.asset(rating > index
+                                    ? eSvgAssets.star
+                                    : 'assets/svg/starWithout.svg');
+                              },
+                              updateOnDrag: true,
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              }),
                           const HSpace(Sizes.s3),
-                          Text("(${data!.reviewCount} Reviews)",
+                          Text("(${data!.rating['reviewCount'] ?? 0} Reviews)",
                               style: appCss.dmDenseRegular12
                                   .textColor(appColor(context).darkText))
                         ]),
-                        SvgPicture.asset(
-                            /*
+                        SvgPicture.asset(data!.isFavourite
                                 ? 'assets/svg/fav.svg'
-                                :*/
-                            "assets/svg/dislike.svg").inkWell(onTap: () {
+                                : "assets/svg/dislike.svg")
+                            .inkWell(onTap: () {
                           value.setState();
                           // data!.isFav = !data!.isFav!;
                           value.setState();
@@ -103,16 +123,20 @@ class FeaturedBusinessLayout extends StatelessWidget {
                   const VSpace(Sizes.s8),
                   IntrinsicHeight(
                       child: Row(children: [
-                    SvgPicture.asset(eSvgAssets.phone),
+                    SvgPicture.asset(eSvgAssets.phone,
+                        colorFilter: ColorFilter.mode(
+                            appColor(context).darkText, BlendMode.srcIn)),
                     const HSpace(Sizes.s5),
-                    Text("+111 222 333 44",
+                    Text(data!.contact.phoneNumber,
                         style: appCss.dmDenseRegular12
                             .textColor(appColor(context).darkText))
                   ])),
                   const VSpace(Sizes.s6),
                   IntrinsicHeight(
                       child: Row(children: [
-                    SvgPicture.asset(eSvgAssets.locationOut),
+                    SvgPicture.asset(eSvgAssets.locationOut,
+                        colorFilter: ColorFilter.mode(
+                            appColor(context).darkText, BlendMode.srcIn)),
                     const HSpace(Sizes.s5),
                     Text("View on map",
                         style: appCss.dmDenseRegular12
@@ -129,7 +153,9 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         child: Row(children: [
                           SvgPicture.asset('assets/svg/locator.svg'),
                           const HSpace(Sizes.s3),
-                          Text(language(context, "2KM"),
+                          Text(
+                              language(context,
+                                  "${(data?.location['selfLocationdistance'] as num?)?.toStringAsFixed(2)} km"),
                               style: appCss.dmDenseMedium10
                                   .textColor(appColor(context).whiteColor))
                         ]))
@@ -143,15 +169,19 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         colorFilter: ColorFilter.mode(
                             appColor(context).stroke, BlendMode.srcIn))
                   ]).paddingSymmetric(vertical: 10),
-                  Container(
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 7),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                          color:
-                              appColor(context).primary.withValues(alpha: 0.1)),
-                      child: Text(language(context, "Restaurants"),
-                          style: appCss.dmDenseMedium13
-                              .textColor(appColor(context).primary)))
+                  Wrap(
+                      children:
+                          data!.businessCategories.map<Widget>((category) {
+                    return Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(6)),
+                            color: appColor(context).primary.withOpacity(0.1)),
+                        child: Text(category.name,
+                            style: appCss.dmDenseMedium13
+                                .textColor(appColor(context).primary)));
+                  }).toList())
                 ]).padding(horizontal: Insets.i14, vertical: Insets.i13)
               ]))
           .decorated(
