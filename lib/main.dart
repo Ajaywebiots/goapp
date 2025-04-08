@@ -5,8 +5,8 @@ import 'package:goapp/providers/app_pages_provider/app_setting_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
+import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
 import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/featured_service_provider.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
 import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
@@ -65,9 +65,10 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => LoginProvider()),
                   ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
                   ChangeNotifierProvider(create: (_) => ProfileProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => FeaturedBusinessProvider()),
+                  // ChangeNotifierProvider(
+                  //     create: (_) => FeaturedBusinessProvider()),
                   ChangeNotifierProvider(create: (_) => BookingProvider()),
+                  ChangeNotifierProvider(create: (_) => ContactUsProvider()),
                   // ChangeNotifierProvider(create: (_) => ProviderDetailsProvider()),
                   ChangeNotifierProvider(create: (_) => CartProvider()),
                   ChangeNotifierProvider(create: (_) => DashboardProvider()),

@@ -65,23 +65,23 @@ class RateAppProvider with ChangeNotifier {
         context: context,
         builder: (context1) {
           return AlertDialogCommon(
-            title: appFonts.successfullyChanged,
-            image: eImageAssets.review,
-            subtext: appFonts.yourReview,
-            bText1: appFonts.okay,
-            height: Sizes.s145,
-            b1OnTap: () {
-              rateController.text = "";
-              notifyListeners();
-              route.pop(context);
-              route.pop(context);
-              if (data != null) {
+              title: "Successfully submit",
+              image: eImageAssets.review,
+              fit: BoxFit.contain,
+              subtext: "Your contact message was sent successfully.",
+              bText1: "Close",
+              height: Sizes.s145,
+              b1OnTap: () {
+                rateController.text = "";
+                notifyListeners();
                 route.pop(context);
-              }
-              rateController.text = "";
-              notifyListeners();
-            },
-          );
+                // route.pop(context);
+                // if (data != null) {
+                //   route.pop(context);
+                // }
+                rateController.text = "";
+                notifyListeners();
+              });
         });
   }
 

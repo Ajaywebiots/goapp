@@ -134,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   /*dash.categoryList.isNotEmpty
                                       ?*/
                                   Column(
-                                      children: dash.firstTwoFeaturedServiceList
+                                      children: value.businessSearchList
                                           .asMap()
                                           .entries
                                           .map((e) => FeaturedBusinessLayout(

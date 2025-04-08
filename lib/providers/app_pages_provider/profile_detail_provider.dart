@@ -52,7 +52,9 @@ class ProfileDetailProvider with ChangeNotifier {
                       Text(language(context, "Select one"),
                           style: appCss.dmDenseMedium18
                               .textColor(appColor(context).darkText)),
-                      const Icon(CupertinoIcons.multiply).inkWell(onTap: () {
+                      Icon(CupertinoIcons.multiply,
+                              color: appColor(context).darkText)
+                          .inkWell(onTap: () {
                         route.pop(context);
                       })
                     ]),

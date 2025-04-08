@@ -4,11 +4,6 @@ import 'package:goapp/config.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:goapp/models/blog_filter_model.dart';
 
-import '../../models/api_model/blog_categories_model.dart';
-import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
-import '../../services/api_service.dart';
-import 'dashboard_provider.dart';
-
 class HomeScreenProvider with ChangeNotifier {
   int selectIndex = 0;
   int? cIndex;

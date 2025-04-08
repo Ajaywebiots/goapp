@@ -35,7 +35,7 @@ class Validation {
   // Email Validation
   emailValidation(context, userName) {
     if (userName.isEmpty) {
-      return language(context, appFonts.pleaseEnterUsername);
+      return language(context, "Please Enter Email");
     } /*else if (!digitRegex.hasMatch(email)) {
       return language(context, appFonts.pleaseEnterValid);
     }*/

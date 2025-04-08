@@ -42,7 +42,6 @@ class AlertDialogCommon extends StatelessWidget {
         backgroundColor: appColor(context).whiteBg,
         content: Stack(alignment: Alignment.topRight, children: [
           Column(mainAxisSize: MainAxisSize.min, children: [
-            // Gif
             isBooked == true
                 ? widget!
                 : SizedBox(

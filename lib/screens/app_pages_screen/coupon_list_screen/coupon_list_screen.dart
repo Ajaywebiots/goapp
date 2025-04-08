@@ -18,7 +18,7 @@ class CouponListScreen extends StatefulWidget {
 }
 
 class _CouponListScreenState extends State<CouponListScreen> {
-  bool isArg = false;
+  // bool isArg = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
                     controller: dash.searchCtrl,
                     focusNode: dash.searchFocus,
                     suffixIcon: FilterIconCommon(
-                        selectedFilter: "1",
+                        selectedFilter: "",
                         onTap: () {
                           showModalBottomSheet(
                               isScrollControlled: true,

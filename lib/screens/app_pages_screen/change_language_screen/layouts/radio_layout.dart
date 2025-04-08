@@ -46,8 +46,8 @@ class RadioLayout extends StatelessWidget {
         ])
             .paddingSymmetric(horizontal: Insets.i15)
             .width(MediaQuery.of(context).size.width)
-            .inkWell(onTap: () => languageCtrl.onRadioChange(e.key, e.value));
-      }).toList()
+            .inkWell(onTap: () => languageCtrl.setIndex(e.key));
+      })
     ]))).decorated(
         color: appColor(context).whiteBg,
         border: Border.all(color: appColor(context).fieldCardBg),

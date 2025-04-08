@@ -9,10 +9,12 @@ import 'package:flutter/services.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 
 import '../../common_tap.dart';
+import '../../models/api_model/business_search_model.dart';
 import '../../models/api_model/home_feed_model.dart';
 import '../../models/category_model.dart';
 import '../../models/service_model.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
+import '../../services/api_service.dart';
 import '../bottom_providers/dashboard_provider.dart';
 import 'categories_details_provider.dart';
 
@@ -173,6 +175,8 @@ class SearchProvider with ChangeNotifier {
     type = appArray.type.map((e) => CategoryModel.fromJson(e)).toList();
     notifyListeners();
   }
+
+
 
   onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
@@ -442,6 +446,38 @@ class SearchProvider with ChangeNotifier {
     searchList[index].selectedRequiredServiceMan = count.toString();
 
     notifyListeners();
+  }
+  List businessSearchList = [];
+  getBusinessSearchAPI(context) async {
+    final dashboard = Provider.of<DashboardProvider>(context, listen: false);
+    Position position = await dashboard.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    try {
+      log("hello  kjhdfjkdfjsd  sssss ");
+      apiServices
+          .commonApi(
+          '${api.businessSearch}?currentLongitude=$lon&currentLatitude=$lat',
+          [],
+          ApiType.get,
+          isToken: true)
+          .then((value) {
+        log("value.data ${value.data}");
+        if (value.data['responseStatus'] == 1) {
+          hideLoading(context);
+          businessSearchList.clear();
+          BusinessSearchModel businessSearchModel =
+          BusinessSearchModel.fromJson(value.data);
+
+          businessSearchList.addAll(businessSearchModel.businesses);
+
+          log("businessSearchList $businessSearchList");
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("getBusinessSearchAPI :::");
+    }
   }
 
   @override

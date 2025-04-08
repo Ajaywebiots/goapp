@@ -97,7 +97,6 @@ class BusinessDetailsScreen extends StatelessWidget {
                                     ...dash.couponOfferList
                                         .asMap()
                                         .entries
-                                        .take(2)
                                         .map((e) => CouponLayout(
                                             data: e.value,
                                             onTap: () {

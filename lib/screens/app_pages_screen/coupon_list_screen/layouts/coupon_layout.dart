@@ -27,14 +27,15 @@ class CouponLayout extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CircleAvatar(
-                              backgroundImage: NetworkImage(data!.image.source))
+                              backgroundImage:
+                                  NetworkImage(data!.image!.source!))
                           .padding(right: Insets.i10),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language(context, "title"),
+                                Text(language(context, data!.name),
                                     style: appCss.dmDenseMedium14
                                         .textColor(appColor(context).darkText)),
                                 VSpace(Insets.i3),
@@ -59,7 +60,7 @@ class CouponLayout extends StatelessWidget {
               VSpace(Insets.i12),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                    "Valid until ${data?.expirationDate != null ? DateFormat('dd/MM/yyyy').format(data!.expirationDate) : ''}",
+                    "Valid until ${data?.expirationDate != null ? DateFormat('dd/MM/yyyy').format(data!.expirationDate!) : ''}",
                     style: appCss.dmDenseRegular12
                         .textColor(appColor(context).darkText)),
                 SvgPicture.asset(data?.isFavourite == true

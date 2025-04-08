@@ -126,8 +126,8 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   "title2": "Section Title",
                                                   "aboutDescription2": appFonts
                                                       .aboutDescription2,
-                                                  "aboutDescription3": appFonts
-                                                      .aboutDescription3,
+                                                  "aboutDescription3":
+                                                      appFonts.aboutDescription3
                                                 });
                                             log("true eee");
                                           } else if (s.value.title ==
@@ -148,8 +148,8 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   "title2": "Section Title",
                                                   "aboutDescription2": appFonts
                                                       .aboutDescription2,
-                                                  "aboutDescription3": appFonts
-                                                      .aboutDescription3,
+                                                  "aboutDescription3":
+                                                      appFonts.aboutDescription3
                                                 });
                                             log("true eee");
                                           } else if (s.value.title ==
@@ -170,12 +170,14 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   "title2": "Section Title",
                                                   "aboutDescription2": appFonts
                                                       .aboutDescription2,
-                                                  "aboutDescription3": appFonts
-                                                      .aboutDescription3,
+                                                  "aboutDescription3":
+                                                      appFonts.aboutDescription3
                                                 });
                                             log("true eee");
                                           } else if (s.value.title ==
                                               "Contact Us") {
+                                            route.pushNamed(
+                                                context, routeName.contactUs);
                                             log("true eee");
                                           } else if (s.value.title == "FAQ") {
                                             route.pushNamed(
@@ -195,8 +197,8 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       "The second question",
                                                   "aboutDescription2": appFonts
                                                       .aboutDescription2,
-                                                  "aboutDescription3": appFonts
-                                                      .aboutDescription3,
+                                                  "aboutDescription3":
+                                                      appFonts.aboutDescription3
                                                 });
                                           } else if (s.value.title ==
                                               "Logout") {
@@ -227,22 +229,13 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                             await SharedPreferences
                                                                 .getInstance();
 
-                                                        await prefs
-                                                            .remove(session
-                                                                .accessToken)
-                                                            .then(
-                                                                (value) async {
-                                                          await prefs
-                                                              .clear()
-                                                              .then((value) {
-                                                            route
-                                                                .pushReplacementNamed(
-                                                                    context,
-                                                                    routeName
-                                                                        .login);
-                                                          });
-                                                        });
-                                                        route.pop(context);
+                                                        await prefs.clear();
+
+                                                        route
+                                                            .pushReplacementNamed(
+                                                                context,
+                                                                routeName
+                                                                    .login);
                                                       });
                                                 });
 

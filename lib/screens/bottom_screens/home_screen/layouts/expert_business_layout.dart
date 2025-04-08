@@ -6,7 +6,7 @@ import '../../../../models/provider_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 
 class FeatureAttractionLayout extends StatelessWidget {
-  final Attraction? data;
+  final data;
   final GestureTapCallback? onTap;
   final bool isHome;
 
@@ -97,9 +97,9 @@ class FeatureAttractionLayout extends StatelessWidget {
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
                         SvgPicture.asset('assets/svg/locator.svg'),
                         const HSpace(Sizes.s3),
-                        Text(
-                            language(context,
-                                "${(data?.location.selfLocationDistance as num?)?.toStringAsFixed(2)} km"),
+                        Text("sss",
+                            /*language(context,
+                                "${(data?.location.selfLocationDistance as num?)?.toStringAsFixed(2)} km"),*/
                             style: appCss.dmDenseMedium10
                                 .textColor(appColor(context).whiteColor))
                       ]))

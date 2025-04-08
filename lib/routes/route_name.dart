@@ -16,10 +16,11 @@ class RouteName {
   final String categoriesDetailsScreen = '/categoriesDetailsScreen';
   final String categoriesListScreen = '/CategoriesListScreen';
   final String notifications = '/notifications';
-  final String featuredBusinessScreen = '/featuredBusinessScreen';
+  // final String featuredBusinessScreen = '/featuredBusinessScreen';
   final String couponListScreen = '/couponListScreen';
   final String attractionScreen = '/attractionScreen';
   final String profileDetails = '/profileDetails';
+  final String contactUs = '/contactUs';
   final String providerDetailsScreen = '/providerDetailsScreen';
   final String latestBlogViewAll = '/latestBlogViewAll';
   final String latestBlogDetails = '/latestBlogDetails';

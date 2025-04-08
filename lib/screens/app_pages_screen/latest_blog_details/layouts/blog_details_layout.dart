@@ -13,7 +13,7 @@ class BlogDetailsLayout extends StatelessWidget {
     return Column(children: [
       ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-          child: Image.network(value.data!.media.source,
+          child: Image.network(value.data!.media!.source!,
               width: MediaQuery.of(context).size.width, fit: BoxFit.fill)),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -21,7 +21,7 @@ class BlogDetailsLayout extends StatelessWidget {
               overflow: TextOverflow.clip,
               style:
                   appCss.dmDenseMedium16.textColor(appColor(context).darkText)),
-          SvgPicture.asset(value.data!.isFavourite
+          SvgPicture.asset(value.data!.isFavourite!
                   ? "assets/svg/fav.svg"
                   : "assets/svg/dislike.svg")
               .inkWell(onTap: () => value.likeDislike())
@@ -42,7 +42,7 @@ class BlogDetailsLayout extends StatelessWidget {
                   .textColor(appColor(context).lightText)),
           SizedBox(
               width: Sizes.s70,
-              child: Text(value.data!.category,
+              child: Text(value.data!.category!,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: appCss.dmDenseMedium11

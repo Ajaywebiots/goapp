@@ -24,14 +24,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                           .textColor(appColor(context).darkText))),
               body: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const RadioLayout(),
-                    // ButtonCommon(
-                    //   title: "Updte",
-                    //   onTap: () => languageCtrl
-                    //       .changeLocale(languageCtrl.selectLanguage),
-                    // ).paddingAll(Insets.i20)
-                  ])));
+                  children: [const RadioLayout()])));
     });
   }
 }

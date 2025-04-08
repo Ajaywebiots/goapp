@@ -67,15 +67,14 @@ class HomeBody extends StatelessWidget {
                 : HeadingRowCommon(
                         title: appFonts.featuredService,
                         isTextSize: true,
-                        onTap: () => route.pushNamed(
-                            context, routeName.featuredBusinessScreen))
+                        onTap: () => route.pushNamed(context, routeName.search))
                     .paddingSymmetric(horizontal: Insets.i20),
             dash.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : const VSpace(Sizes.s15),
             if (dash.firstTwoFeaturedServiceList.isNotEmpty)
-              ...dash.firstTwoFeaturedServiceList.asMap().entries.take(2).map(
-                  (e) => dash.firstTwoFeaturedServiceList.isEmpty
+              ...dash.firstTwoFeaturedServiceList.asMap().entries.map((e) =>
+                  dash.firstTwoFeaturedServiceList.isEmpty
                       ? Container()
                       : FeaturedBusinessLayout(
                               data: e.value,
@@ -97,8 +96,8 @@ class HomeBody extends StatelessWidget {
                           route.pushNamed(context, routeName.attractionScreen)),
                   const VSpace(Sizes.s15),
                   // if (dash.firstTwoHighRateList.isNotEmpty)
-                  ...dash.firstTwoHighRateList.asMap().entries.take(2).map(
-                      (e) => FeatureAttractionLayout(
+                  ...dash.firstTwoHighRateList.asMap().entries.map((e) =>
+                      FeatureAttractionLayout(
                           data: e.value,
                           onTap: () => route.pushNamed(
                               context, routeName.attractionDetailScreen))),

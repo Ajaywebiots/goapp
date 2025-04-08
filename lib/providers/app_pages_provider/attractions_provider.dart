@@ -1,6 +1,7 @@
 import 'dart:developer';
 import '../../config.dart';
 import '../../models/api_model/attraction_categories_model.dart';
+import '../../models/api_model/attractions_search_model.dart';
 import '../../models/provider_model.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
 import '../../services/api_service.dart';
@@ -13,22 +14,53 @@ class AttractionProvider with ChangeNotifier {
   AnimationController? animationController;
   TextEditingController txtFeaturedSearch = TextEditingController();
 
-  onReady(context, TickerProvider sync) async {
-    animationController = AnimationController(
-        vsync: sync, duration: const Duration(milliseconds: 1200));
-    _runAnimation();
+  onReady(context) async {
+    log("lllllll");
+    getAttractionSearchAPI(context);
     notifyListeners();
     getCategoriesData(context);
+    notifyListeners();
+
+    notifyListeners();
+    // animationController = AnimationController(
+    //     vsync: sync, duration: const Duration(milliseconds: 1200));
+    // _runAnimation();
   }
 
-  void _runAnimation() async {
-    for (int i = 0; i < 300; i++) {
-      await animationController!.forward();
-      await animationController!.reverse();
-    }
-  }
+  // void _runAnimation() async {
+  //   for (int i = 0; i < 300; i++) {
+  //     await animationController!.forward();
+  //     await animationController!.reverse();
+  //   }
+  // }
 
   List categoryList = [];
+
+  List attractionsSearchList = [];
+
+  getAttractionSearchAPI(context) {
+    try {
+      log("hello  kjhdfjkdfjsd  sssss ");
+      apiServices
+          .commonApi(api.attractionSearch, [], ApiType.get, isToken: true)
+          .then((value) {
+        log("value.data ${value.data}");
+        if (value.data['responseStatus'] == 1) {
+          hideLoading(context);
+          attractionsSearchList.clear();
+          AttractionsSearchModel attractionsSearchModel =
+              AttractionsSearchModel.fromJson(value.data);
+
+          attractionsSearchList.addAll(attractionsSearchModel.attractions);
+
+          log("attractionsSearchList $attractionsSearchList");
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("getAttractionSearchAPI :::");
+    }
+  }
 
   getCategoriesData(context) {
     showLoading(context);
@@ -53,6 +85,7 @@ class AttractionProvider with ChangeNotifier {
   }
 
   TextEditingController filterSearchCtrl = TextEditingController();
+
   onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,

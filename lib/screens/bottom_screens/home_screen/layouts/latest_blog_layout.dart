@@ -4,7 +4,7 @@ import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 
 class LatestBlogLayout extends StatelessWidget {
-  final Article? data;
+  final data;
   final GestureTapCallback? onTap;
   final double? rPadding;
   final bool? isView;

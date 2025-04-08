@@ -5,7 +5,7 @@ import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class FeaturedBusinessLayout extends StatelessWidget {
-  final Business? data;
+  final data;
   final GestureTapCallback? onTap, addTap;
   final bool? isProvider, inCart;
 
@@ -84,8 +84,10 @@ class FeaturedBusinessLayout extends StatelessWidget {
                           RatingBar.builder(
                               glow: false,
                               initialRating:
-                                  ((data?.rating ?? {})['starts'] ?? 0)
-                                      .toDouble(),
+                                  0 /*((data?.rating ?? {})['starts'] ??
+                                      data?.rating.starts)
+                                  .toDouble()*/
+                              ,
                               minRating: 1,
                               ignoreGestures: true,
                               itemSize: 13,
@@ -95,9 +97,10 @@ class FeaturedBusinessLayout extends StatelessWidget {
                               itemPadding:
                                   EdgeInsets.symmetric(horizontal: 1.0),
                               itemBuilder: (context, index) {
-                                double rating =
-                                    ((data?.rating ?? {})['starts'] ?? 0)
-                                        .toDouble();
+                                double rating = 0
+                                    /*((data?.rating ?? {})['starts'] ?? 0)
+                                        .toDouble()*/
+                                    ;
                                 return SvgPicture.asset(rating > index
                                     ? eSvgAssets.star
                                     : 'assets/svg/starWithout.svg');
@@ -107,7 +110,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                 print(rating);
                               }),
                           const HSpace(Sizes.s3),
-                          Text("(${data!.rating['reviewCount'] ?? 0} Reviews)",
+                          Text("( Reviews)",
                               style: appCss.dmDenseRegular12
                                   .textColor(appColor(context).darkText))
                         ]),
@@ -153,9 +156,9 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         child: Row(children: [
                           SvgPicture.asset('assets/svg/locator.svg'),
                           const HSpace(Sizes.s3),
-                          Text(
-                              language(context,
-                                  "${(data?.location['selfLocationdistance'] as num?)?.toStringAsFixed(2)} km"),
+                          Text("1",
+                              /* language(context,
+                                  "${(data?.location['selfLocationdistance'] as num?)?.toStringAsFixed(2)} km"),*/
                               style: appCss.dmDenseMedium10
                                   .textColor(appColor(context).whiteColor))
                         ]))

@@ -36,7 +36,7 @@ class BannerLayout extends StatelessWidget {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             opacity: 0.9,
-                            image: NetworkImage(i.image.source),
+                            image: NetworkImage(i.image!.source!),
                             fit: BoxFit.cover)),
                   ).inkWell(onTap: () => onTap!),
                   Column(
@@ -48,21 +48,21 @@ class BannerLayout extends StatelessWidget {
                             children: [
                               Container(
                                   color: appColor(context).red,
-                                  child: Text(i.tagText,
+                                  child: Text(i.tagText!,
                                           style: appCss.dmDenseBold10.textColor(
                                               appColor(context).whiteColor))
                                       .paddingSymmetric(
                                           vertical: Insets.i3,
                                           horizontal: Insets.i6)),
                               VSpace(Insets.i15),
-                              Text(i.title,
+                              Text(i.title!,
                                       style: appCss.dmDenseBold18.textColor(
                                           appColor(context).whiteColor))
                                   .paddingSymmetric(
                                       vertical: Insets.i3,
                                       horizontal: Insets.i6),
                               VSpace(Insets.i5),
-                              Text(i.subTitle,
+                              Text(i.subTitle!,
                                       style: appCss.dmDenseRegular12.textColor(
                                           appColor(context).whiteColor))
                                   .paddingSymmetric(
@@ -74,7 +74,7 @@ class BannerLayout extends StatelessWidget {
                                 color: appColor(context).primary,
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(AppRadius.r20))),
-                            child: Text(i.buttonText,
+                            child: Text(i.buttonText!,
                                     style: appCss.dmDenseMedium12.textColor(
                                         appColor(context).whiteColor))
                                 .paddingSymmetric(

@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:goapp/providers/app_pages_provider/featured_service_provider.dart';
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 import 'package:goapp/screens/menu_screens/menu_screen.dart';
@@ -10,6 +12,8 @@ import '../../models/index.dart';
 import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
 import '../../services/api_service.dart';
+import '../app_pages_provider/attractions_provider.dart';
+import '../app_pages_provider/latest_blog_details_provider.dart';
 import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
@@ -62,7 +66,19 @@ class DashboardProvider with ChangeNotifier {
   ];
 
   onInit(context) {
-    homeFeed();
+    final login = Provider.of<LoginProvider>(context, listen: false);
+    login.locationPermission();
+    getCurrentLocation();
+    homeFeed(context);
+    final searchAllList = Provider.of<SearchProvider>(context, listen: false);
+
+    searchAllList.getBusinessSearchAPI(context);
+    final blogViewAllList =
+        Provider.of<LatestBLogDetailsProvider>(context, listen: false);
+    final attractionViewAllList =
+        Provider.of<AttractionProvider>(context, listen: false);
+    attractionViewAllList.getAttractionSearchAPI(context);
+    blogViewAllList.getArticlesSearchAPI(context);
     // getBanner();
     // getCoupons();
     getCategory();
@@ -72,70 +88,53 @@ class DashboardProvider with ChangeNotifier {
     notifyListeners();
     final homeScreenPvr =
         Provider.of<HomeScreenProvider>(context, listen: false);
+
     homeScreenPvr.getBlogFilter();
   }
 
-  locationFetch() {}
+  Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  homeFeed() async {
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        log("Location services are disabled.");
-        return;
-      }
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      throw Exception('Location services are disabled.');
+    }
 
-      // Request location permission
-      LocationPermission permission = await Geolocator.checkPermission();
+    // Request permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          log("Location permission denied.");
-          return;
-        }
+        throw Exception('Location permissions are denied');
       }
+    }
 
-      if (permission == LocationPermission.deniedForever) {
-        log("Location permission is permanently denied.");
-        return;
-      }
+    if (permission == LocationPermission.deniedForever) {
+      throw Exception('Location permissions are permanently denied');
+    }
 
-      // Get last known location for faster results
-      Position? lastPosition = await Geolocator.getLastKnownPosition();
+    // Get current location
+    return await Geolocator.getCurrentPosition();
+  }
 
-      double currentLatitude = 0.0;
-      double currentLongitude = 0.0;
-
-      if (lastPosition != null) {
-        currentLatitude = lastPosition.latitude;
-        currentLongitude = lastPosition.longitude;
-        log("Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude");
-      }
-
-      // Fetch fresh location in background
-      Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.medium,
-              timeLimit: Duration(
-                  seconds: 5)) // If it takes too long, return what we have
-          .catchError((e) {
-        log("Failed to fetch fresh location: $e");
-        return lastPosition; // Use last known location if fresh location fails
-      });
-
-      if (position != null) {
-        currentLatitude = position.latitude;
-        currentLongitude = position.longitude;
-        log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
-      }
-
+  homeFeed(context) async {
+    showLoading(context);
+    Position position = await getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    hideLoading(context);
+    try {
       apiServices
           .commonApi(
-              "${api.homeFeed}?currentLongitude=$currentLongitude&currentLatitude=$currentLatitude",
+              "${api.homeFeed}?currentLongitude=$lon&currentLatitude=$lat",
               [],
               ApiType.get,
               isToken: true)
           .then((value) {
         if ((value.data['responseStatus'] == 1)) {
+          hideLoading(context);
           log("ajay hariyani ${value.data}");
 
           final ajay = HomeFeedModel.fromJson(value.data);
@@ -158,6 +157,7 @@ class DashboardProvider with ChangeNotifier {
         }
       });
     } catch (e) {
+      hideLoading(context);
       log("EEEE : homeFeed $e");
     }
   }

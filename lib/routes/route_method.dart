@@ -6,6 +6,7 @@ import '../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../screens/app_pages_screen/categories_list_screen/categories_list_screen.dart';
 import '../screens/app_pages_screen/category_detail_screen/category_detail_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
+import '../screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
 import '../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../screens/app_pages_screen/featured_service_screen/featured_service_screen.dart';
 import '../screens/app_pages_screen/latest_blog_details/latest_blog_details.dart';
@@ -43,9 +44,10 @@ class AppRoute {
     routeName.categoriesDetailsScreen: (p0) => const CategoryDetailScreen(),
     routeName.categoriesListScreen: (p0) => const CategoriesListScreen(),
     routeName.notifications: (p0) => const NotificationScreen(),
-    routeName.featuredBusinessScreen: (p0) => const FeaturedBusinessScreen(),
+    // routeName.featuredBusinessScreen: (p0) => const FeaturedBusinessScreen(),
     routeName.attractionScreen: (p0) => const AttractionScreen(),
     routeName.profileDetails: (p0) => ProfileDetailScreen(),
+    routeName.contactUs: (p0) => const ContactUsScreen(),
     // routeName.providerDetailsScreen: (p0) => const ProviderDetailsScreen(),
     routeName.latestBlogDetails: (p0) => const LatestBlogDetailsScreen(),
     routeName.commonGeneralInfoLayout: (p0) => const CommonGeneralInfoLayout(),

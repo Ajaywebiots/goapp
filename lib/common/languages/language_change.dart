@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../config.dart';
 import 'language_helper.dart';
 
 class LanguageProvider with ChangeNotifier {
@@ -56,6 +57,12 @@ class LanguageProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  setIndex(index) {
+    selectedIndex = index;
+    changeLocale(appArray.languageList[selectedIndex]["title"].toString());
+    notifyListeners();
+  }
+
   String? getLocal() {
     return sharedPreferences.getString("selectedLocale");
   }
@@ -67,13 +74,17 @@ class LanguageProvider with ChangeNotifier {
             Localizations.localeOf(context).languageCode);
   }
 
-  onRadioChange(index, value) async {
+  Future<void> onRadioChange(int index, Map<String, dynamic> value) async {
     selectedIndex = index;
+
+    String selectedLocale = value['locale'].toString();
+    setVal(selectedLocale);
+    locale = Locale(selectedLocale);
+    sharedPreferences.setString('selectedLocale', selectedLocale);
+
+    await sharedPreferences.setInt('selectedLanguageIndex', index);
+
     notifyListeners();
-    changeLocale(currentLanguage);
-    notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('selectedLanguageIndex', index);
   }
 
   void setVal(String value) {

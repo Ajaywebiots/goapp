@@ -120,25 +120,23 @@ class Attraction {
   dynamic attractionCategories;
   bool isFavourite;
 
-  Attraction({
-    required this.id,
-    required this.name,
-    required this.rating,
-    required this.image,
-    required this.location,
-    required this.attractionCategories,
-    required this.isFavourite,
-  });
+  Attraction(
+      {required this.id,
+      required this.name,
+      required this.rating,
+      required this.image,
+      required this.location,
+      required this.attractionCategories,
+      required this.isFavourite});
 
   factory Attraction.fromJson(Map<String, dynamic> json) => Attraction(
-        id: json["id"],
-        name: json["name"],
-        rating: json["rating"],
-        image: Media.fromJson(json["image"]),
-        location: Location.fromJson(json["location"]),
-        attractionCategories: json["attractionCategories"],
-        isFavourite: json["isFavourite"],
-      );
+      id: json["id"],
+      name: json["name"],
+      rating: json["rating"],
+      image: Media.fromJson(json["image"]),
+      location: Location.fromJson(json["location"]),
+      attractionCategories: json["attractionCategories"],
+      isFavourite: json["isFavourite"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -147,7 +145,7 @@ class Attraction {
         "image": image.toJson(),
         "location": location.toJson(),
         "attractionCategories": attractionCategories,
-        "isFavourite": isFavourite,
+        "isFavourite": isFavourite
       };
 }
 
@@ -155,7 +153,7 @@ class Location {
   String address;
   String longitude;
   String latitude;
-  double selfLocationDistance;
+  dynamic selfLocationDistance;
 
   Location({
     required this.address,
@@ -186,23 +184,21 @@ class TopBanner {
   String buttonText;
   String tagText;
 
-  TopBanner({
-    required this.image,
-    required this.link,
-    required this.title,
-    required this.subTitle,
-    required this.buttonText,
-    required this.tagText,
-  });
+  TopBanner(
+      {required this.image,
+      required this.link,
+      required this.title,
+      required this.subTitle,
+      required this.buttonText,
+      required this.tagText});
 
   factory TopBanner.fromJson(Map<String, dynamic> json) => TopBanner(
-        image: Media.fromJson(json["image"]),
-        link: json["link"],
-        title: json["title"],
-        subTitle: json["subTitle"],
-        buttonText: json["buttonText"],
-        tagText: json["tagText"],
-      );
+      image: Media.fromJson(json["image"]),
+      link: json["link"],
+      title: json["title"],
+      subTitle: json["subTitle"],
+      buttonText: json["buttonText"],
+      tagText: json["tagText"]);
 
   Map<String, dynamic> toJson() => {
         "image": image.toJson(),
@@ -210,7 +206,7 @@ class TopBanner {
         "title": title,
         "subTitle": subTitle,
         "buttonText": buttonText,
-        "tagText": tagText,
+        "tagText": tagText
       };
 }
 
@@ -350,6 +346,7 @@ class Contact {
 
 class Offer {
   int id;
+  String name;
   String title;
   String tag;
   Media image;
@@ -359,6 +356,7 @@ class Offer {
 
   Offer({
     required this.id,
+    required this.name,
     required this.title,
     required this.tag,
     required this.image,
@@ -369,6 +367,7 @@ class Offer {
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
       id: json["id"],
+      name: json["name"],
       title: json["title"],
       tag: json["tag"],
       image: Media.fromJson(json["image"]),
@@ -378,6 +377,7 @@ class Offer {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "name": name,
         "title": title,
         "tag": tag,
         "image": image.toJson(),

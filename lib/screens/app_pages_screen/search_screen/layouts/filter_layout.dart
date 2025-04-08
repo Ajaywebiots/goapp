@@ -126,63 +126,19 @@ class FilterLayout extends StatelessWidget {
   }
 }
 
-class FilterLayout1 extends StatelessWidget {
-  final blogPvr;
-
-  const FilterLayout1(this.blogPvr, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final value = Provider.of<SearchProvider>(context, listen: true);
-    final blogFilter = Provider.of<HomeScreenProvider>(context, listen: true);
-
-    return SizedBox(
-        height: MediaQuery.of(context).size.height / 1.14,
-        child: Stack(children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(language(context, appFonts.filterBy),
-                  style: appCss.dmDenseMedium18
-                      .textColor(appColor(context).darkText)),
-              const Icon(CupertinoIcons.multiply)
-                  .inkWell(onTap: () => route.pop(context))
-            ]).paddingSymmetric(horizontal: Insets.i20),
-            VSpace(23),
-            Text(language(context, appFonts.blogCategoryList),
-                    style: appCss.dmDenseRegular14
-                        .textColor(appColor(context).lightText))
-                .paddingSymmetric(horizontal: Insets.i20),
-            VSpace(15),
-            Expanded(
-                child: Column(children: [
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: blogPvr.categoryList.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return ListTileLayout(
-                            data: blogPvr.categoryList[index],
-                            selectedCategory: blogFilter.selectedCategory,
-                            onTap: () => blogFilter.onCategoryChange(context,
-                                blogPvr.categoryList[index].categoryId));
-                      }))
-            ]))
-          ])
-              .paddingSymmetric(vertical: Insets.i20)
-              .marginOnly(bottom: Insets.i50),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: BottomSheetButtonCommon(
-                  textOne: appFonts.clearAll,
-                  textTwo: appFonts.apply,
-                  applyTap: () {
-                    value.searchService(context, isPop: true);
-                  },
-                  clearTap: () => value.clearFilter(context)))
-        ])).bottomSheetExtension(context);
-  }
-}
+// class FilterLayout1 extends StatelessWidget {
+//   final blogPvr;
+//
+//   const FilterLayout1(this.blogPvr, {super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+// final value = Provider.of<SearchProvider>(context, listen: true);
+// final blogFilter = Provider.of<HomeScreenProvider>(context, listen: true);
+//
+//     return ;
+//   }
+// }
 
 class FilterLayout2 extends StatelessWidget {
   const FilterLayout2({super.key});

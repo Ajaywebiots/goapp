@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   children: dash.couponOfferList
                                       .asMap()
                                       .entries
-                                      .take(2)
                                       .map((e) => CouponLayout(
                                           data: e.value,
                                           onTap: () => route.pushNamed(context,
@@ -86,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     "description":
                                                         e.value.description,
                                                     "imageUrl":
-                                                        e.value.image.source,
+                                                        e.value.image!.source,
                                                     "expirationDate":
                                                         e.value.expirationDate,
                                                     "isFavourite":
@@ -122,7 +121,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           children: dash.firstTwoBlogList
                                               .asMap()
                                               .entries
-                                              .take(2)
                                               .map((e) => LatestBlogLayout(
                                                   data: e.value))
                                               .toList())

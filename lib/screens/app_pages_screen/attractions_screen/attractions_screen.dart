@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/attractions_provider.dart';
 import '../../../providers/app_pages_provider/search_provider.dart';
@@ -24,11 +26,12 @@ class _AttractionScreenState extends State<AttractionScreen>
     // final value1 = Provider.of<CategoriesListProvider>(context, listen: true);
 
     return Consumer<AttractionProvider>(builder: (context1, attraction, child) {
+      log("ajay haaaa ${attraction.attractionsSearchList}");
       return StatefulWrapper(
-          onInit: () => Future.delayed(DurationClass.ms50).then((_) {
-                search.onAnimate(context, this);
-                attraction.onReady(context, this);
-              }),
+          onInit: () => Future.delayed(
+                Duration(milliseconds: 150),
+                () => attraction.onReady(context),
+              ),
           child: DirectionalityRtl(
               child: Scaffold(
                   appBar: AppBarCommon(
@@ -64,8 +67,8 @@ class _AttractionScreenState extends State<AttractionScreen>
                         : attraction.searchList.isNotEmpty
                         ?*/
                     Column(children: [
-                      ...dash.firstTwoHighRateList.asMap().entries.map((e) =>
-                          FeatureAttractionLayout(
+                      ...attraction.attractionsSearchList.asMap().entries.map(
+                          (e) => FeatureAttractionLayout(
                               data: e.value,
                               isHome: true,
                               onTap: () => route.pushNamed(

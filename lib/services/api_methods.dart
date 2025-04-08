@@ -23,6 +23,11 @@ class ApiMethods {
   ///attractionCategories
   String attractionCategories = "/Attraction/categories";
 
+  ////
+  String attractionSearch = "/Attraction/search";
+  String businessSearch = "/business/search";
+  String blogSearch = "/blog/search";
+
 // //
   // String homeFeed = '/api/App/home/feed';
   // String countries = '/api/App/countries';

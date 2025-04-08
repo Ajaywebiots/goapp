@@ -1232,7 +1232,7 @@ class AppArray {
   var selectErrorList = [
     "Purchase error",
     "Technical error",
-    "App error",
+    "Question",
     "Feedback"
   ];
 
