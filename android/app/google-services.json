@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1023162809872",
+    "project_id": "gosalamina-b581d",
+    "storage_bucket": "gosalamina-b581d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023162809872:android:1e61a9c498a19178881495",
+        "android_client_info": {
+          "package_name": "com.goventures.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY0pCOWr1-zz0uX6gL52buqBkgAsI8LY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
