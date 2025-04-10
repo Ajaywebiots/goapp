@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../../../config.dart';
 
 class ServiceImageLayout extends StatelessWidget {
@@ -7,7 +5,7 @@ class ServiceImageLayout extends StatelessWidget {
   final bool isAttraction;
   final String? logo;
 
-  ServiceImageLayout(
+  const ServiceImageLayout(
       {super.key, this.image, this.isAttraction = false, this.logo});
 
   @override
@@ -32,8 +30,12 @@ class ServiceImageLayout extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: Sizes.s230,
             decoration: ShapeDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(image!), fit: BoxFit.cover),
+                image: image == null
+                    ? DecorationImage(
+                        image: AssetImage(eImageAssets.noImageFound2),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        image: NetworkImage(image!), fit: BoxFit.cover),
                 shape: const SmoothRectangleBorder(
                     borderRadius: SmoothBorderRadius.only(
                         bottomRight: SmoothRadius(
@@ -70,14 +72,18 @@ class ServiceImageLayout extends StatelessWidget {
             ? Container()
             : Padding(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.205),
+                    top: MediaQuery.of(context).size.height * 0.225),
                 child: Container(
+                    height: 82,
                     decoration: BoxDecoration(
-                        color: Colors.grey,
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 2, color: Colors.white),
-                        image: DecorationImage(image: NetworkImage(logo!))),
-                    height: 82))
+                      color: Colors.grey,
+                      shape: BoxShape.circle,
+                      border: Border.all(width: 2, color: Colors.white),
+                      image: logo == null
+                          ? DecorationImage(
+                              image: AssetImage(eImageAssets.img1))
+                          : DecorationImage(image: NetworkImage(logo!)),
+                    )))
       ])
     ]);
   }

@@ -3,10 +3,9 @@ import 'package:goapp/models/api_model/business_details_model.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../config.dart';
-import '../../../../models/service_model.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
-import '../../../../widgets/divider_common.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescription extends StatelessWidget {
@@ -16,7 +15,7 @@ class ServiceDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Contact? contact = businessData!.contact;
+    final Contact? contact = businessData?.contact;
     final List<Map<String, dynamic>> contactItems = [
       {
         'icon': eSvgAssets.calling,

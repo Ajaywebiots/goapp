@@ -16,6 +16,7 @@ class RouteName {
   final String categoriesDetailsScreen = '/categoriesDetailsScreen';
   final String categoriesListScreen = '/CategoriesListScreen';
   final String notifications = '/notifications';
+
   // final String featuredBusinessScreen = '/featuredBusinessScreen';
   final String couponListScreen = '/couponListScreen';
   final String attractionScreen = '/attractionScreen';
@@ -35,4 +36,6 @@ class RouteName {
   final String appSetting = '/appSetting';
   final String favScreenList = '/favScreenList';
   final String reviewScreen = '/reviewScreen';
+  final String subscriptionPlanScreen = '/subscriptionPlanScreen';
+  final String changePassInApp = '/changePassInApp';
 }

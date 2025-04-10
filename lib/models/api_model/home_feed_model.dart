@@ -133,7 +133,7 @@ class Attraction {
 
   final int id;
   final String name;
-  final dynamic rating;
+  final Rating? rating;
   final Media? image;
   final Location? location;
   final dynamic attractionCategories;
@@ -144,7 +144,7 @@ class Attraction {
     return Attraction(
       id: json["id"] ?? 0,
       name: json["name"] ?? "",
-      rating: json["rating"],
+      rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),
       image: json["image"] == null ? null : Media.fromJson(json["image"]),
       location:
           json["location"] == null ? null : Location.fromJson(json["location"]),

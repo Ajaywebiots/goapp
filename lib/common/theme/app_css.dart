@@ -77,6 +77,7 @@ class AppCss {
   TextStyle dmDenseBold38 = dmDense(fontWeight: bold, fontsize: FontSizes.f38);
   TextStyle dmDenseBold35 = dmDense(fontWeight: bold, fontsize: FontSizes.f35);
   TextStyle dmDenseBold24 = dmDense(fontWeight: bold, fontsize: FontSizes.f24);
+  TextStyle dmDenseBold22 = dmDense(fontWeight: bold, fontsize: FontSizes.f22);
   TextStyle dmDenseBold20 = dmDense(fontWeight: bold, fontsize: FontSizes.f20);
   TextStyle dmDenseBold18 = dmDense(fontWeight: bold, fontsize: FontSizes.f18);
   TextStyle dmDenseBold16 = dmDense(fontWeight: bold, fontsize: FontSizes.f16);

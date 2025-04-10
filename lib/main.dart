@@ -2,11 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:goapp/providers/app_pages_provider/app_setting_provider.dart';
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
 import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart';
+import 'package:goapp/providers/app_pages_provider/in_app_forgot_pass_provider.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/my_review_provider.dart';
 import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
@@ -26,6 +27,7 @@ import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
+
 import 'common/theme/app_theme.dart';
 import 'config.dart';
 import 'firebase_options.dart';
@@ -88,6 +90,8 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(
                       create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => InAppForgotPassProvider()),
                   ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
                   ChangeNotifierProvider(create: (_) => AttractionProvider()),
                   ChangeNotifierProvider(

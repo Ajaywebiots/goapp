@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../providers/bottom_providers/dashboard_provider.dart';
@@ -29,7 +30,7 @@ class CouponLayout extends StatelessWidget {
                       data!.image == null
                           ? CircleAvatar(
                                   backgroundImage:
-                                      AssetImage(eImageAssets.img3))
+                                      AssetImage(eImageAssets.noImageFound2))
                               .padding(right: Insets.i10)
                           : CircleAvatar(
                                   backgroundImage:

@@ -1,16 +1,16 @@
-import 'package:goapp/screens/app_pages_screen/app_setting_screen/layouts/app_setting_layout.dart';
-import 'package:goapp/screens/auth_screens/social_register_screen/social_reg_screen.dart';
 import 'package:goapp/config.dart';
+import 'package:goapp/screens/auth_screens/social_register_screen/social_reg_screen.dart';
+
 import '../screens/app_pages_screen/app_setting_screen/app_setting_screen.dart';
 import '../screens/app_pages_screen/attractions_details_screen/attraction_detail_screen.dart';
 import '../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../screens/app_pages_screen/categories_list_screen/categories_list_screen.dart';
 import '../screens/app_pages_screen/category_detail_screen/category_detail_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
+import '../screens/app_pages_screen/change_pass_in_app/change_pass_in_app.dart';
 import '../screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
 import '../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../screens/app_pages_screen/fav_screen/fav_screen_list.dart';
-import '../screens/app_pages_screen/featured_service_screen/featured_service_screen.dart';
 import '../screens/app_pages_screen/latest_blog_details/latest_blog_details.dart';
 import '../screens/app_pages_screen/latest_blog_view_all/latest_blog_view_all.dart';
 import '../screens/app_pages_screen/notification_screen/notification_screen.dart';
@@ -20,6 +20,7 @@ import '../screens/app_pages_screen/review_screen/review_screen.dart';
 import '../screens/app_pages_screen/search_screen/search_screen.dart';
 import '../screens/app_pages_screen/service_review_screen/service_review_screen.dart';
 import '../screens/app_pages_screen/services_details_screen/business_details_screen.dart';
+import '../screens/app_pages_screen/subscription_plan_screen/subscription_plan_screen.dart';
 import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.dart';
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
@@ -61,7 +62,9 @@ class AppRoute {
     routeName.serviceReviewScreen: (p0) => const ServiceReviewScreen(),
     routeName.offerDetailsScreen: (p0) => const OfferDetailsScreen(),
     routeName.appSetting: (p0) => const AppSettingScreen(),
-    routeName.favScreenList: (p0) => const FavScreenList(),
+    routeName.favScreenList: (p0) => FavScreenList(),
     routeName.reviewScreen: (p0) => const ReviewScreen(),
+    routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
+    routeName.changePassInApp: (p0) => const ChangePassInApp(),
   };
 }

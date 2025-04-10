@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 
-import '../../../common_tap.dart';
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/favourite_list_provider.dart';
 import '../../../providers/app_pages_provider/rate_app_provider.dart';
 import '../../../providers/app_pages_provider/services_details_provider.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
@@ -12,7 +10,6 @@ import '../../../widgets/dotted_line.dart';
 import '../../../widgets/edit_review_layout.dart';
 import '../../../widgets/heading_row_common.dart';
 import '../coupon_list_screen/layouts/coupon_layout.dart' show CouponLayout;
-import 'layouts/read_more_layout.dart';
 import 'layouts/service_description.dart';
 import 'layouts/service_image_layout.dart';
 import 'layouts/service_review_layout.dart';
@@ -42,12 +39,10 @@ class BusinessDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                 ServiceImageLayout(
-                                    image: business!.image == null
-                                        ? ""
-                                        : business.image,
-                                    logo: business.logo?.source),
+                                    image: business?.image,
+                                    logo: business?.logo?.source),
                                 VSpace(Insets.i12),
-                                Text(business.name.toString(),
+                                Text(business?.name.toString() ?? "",
                                     style: appCss.dmDenseBold14),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +50,7 @@ class BusinessDetailsScreen extends StatelessWidget {
                                       RatingBar.builder(
                                           glow: false,
                                           initialRating:
-                                              (business.rating?.starts ?? 0.0),
+                                              (business?.rating?.starts ?? 0.0),
                                           minRating: 1,
                                           ignoreGestures: true,
                                           itemSize: 13,
@@ -66,7 +61,7 @@ class BusinessDetailsScreen extends StatelessWidget {
                                               horizontal: 1.0),
                                           itemBuilder: (context, index) {
                                             double rating =
-                                                business.rating?.starts ?? 0.0;
+                                                business?.rating?.starts ?? 0.0;
                                             return SvgPicture.asset(rating >
                                                     index
                                                 ? eSvgAssets.star
@@ -76,22 +71,23 @@ class BusinessDetailsScreen extends StatelessWidget {
                                           onRatingUpdate: (rating) {
                                             print(rating);
                                           }),
-                                      Text(" ${business.rating!.starts}",
+                                      Text(" ${business?.rating!.starts}",
                                           style: appCss.dmDenseRegular13),
                                       Text(
-                                          "  (${business.rating!.reviewCount} reviews)",
+                                          "  (${business?.rating!.reviewCount} reviews)",
                                           style: appCss.dmDenseRegular11)
                                     ]),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                          business.businessCategories[0].name
-                                              .toString(),
+                                          business?.businessCategories[0].name
+                                                  .toString() ??
+                                              "",
                                           style: appCss.dmDenseRegular13),
                                       SvgPicture.asset('assets/svg/divider.svg')
                                           .paddingSymmetric(horizontal: 10),
-                                      Text("€ ${business.priceRange}",
+                                      Text("€ ${business?.priceRange}",
                                           style: appCss.dmDenseMedium12)
                                     ]),
                                 VSpace(Insets.i15),
@@ -99,7 +95,7 @@ class BusinessDetailsScreen extends StatelessWidget {
                                   ServiceDescription(businessData: business)
                                 ]).paddingSymmetric(horizontal: Insets.i20),
                                 // if (services!.reviews!.isNotEmpty)
-                                business.offers.isEmpty
+                                (business?.offers.isEmpty ?? true)
                                     ? Container()
                                     : Column(children: [
                                         HeadingRowCommon(
@@ -115,7 +111,7 @@ class BusinessDetailsScreen extends StatelessWidget {
                                             .paddingOnly(
                                                 top: Insets.i20,
                                                 bottom: Insets.i12),
-                                        ...business.offers
+                                        ...business!.offers
                                             .asMap()
                                             .entries
                                             .map((e) => CouponLayout(
@@ -127,7 +123,6 @@ class BusinessDetailsScreen extends StatelessWidget {
                                                           .offerDetailsScreen);
                                                 }))
                                       ]).paddingSymmetric(horizontal: 20),
-
                                 HeadingRowCommon(
                                     isNotStatic: true,
                                     style: appCss.dmDenseMedium16
@@ -141,15 +136,16 @@ class BusinessDetailsScreen extends StatelessWidget {
 
                                 // if (services!.reviews!.isNotEmpty)
                                 Column(
-                                  children: business.reviews
-                                      .asMap()
-                                      .entries
-                                      .map((e) => ServiceReviewLayout(
-                                          data: e.value,
-                                          index: e.key,
-                                          list: business.reviews))
-                                      .toList(),
-                                ).paddingSymmetric(horizontal: 20),
+                                        children: (business?.reviews ?? [])
+                                            .asMap()
+                                            .entries
+                                            .map((e) => ServiceReviewLayout(
+                                                  data: e.value,
+                                                  index: e.key,
+                                                  list: business?.reviews,
+                                                ))
+                                            .toList())
+                                    .paddingSymmetric(horizontal: 20),
                                 ButtonCommon(
                                         margin: Insets.i20,
                                         title: appFonts.addReview,

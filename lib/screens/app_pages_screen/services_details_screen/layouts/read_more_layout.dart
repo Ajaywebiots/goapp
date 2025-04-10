@@ -8,7 +8,7 @@ class ReadMoreLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReadMoreText(text!,
+    return ReadMoreText(text ?? "",
         trimLines: trimLines ?? 2,
         style: TextStyle(
             color: appColor(context).darkText,

@@ -1,8 +1,10 @@
 import 'dart:developer';
+
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/screens/bottom_screens/home_screen/layouts/top_categories_layout.dart';
+
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/categories_list_provider.dart';
-import '../../../../providers/bottom_providers/cart_provider.dart';
 import '../../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/heading_row_common.dart';
@@ -73,15 +75,20 @@ class HomeBody extends StatelessWidget {
                 ? Container()
                 : const VSpace(Sizes.s15),
             if (dash.firstTwoFeaturedServiceList.isNotEmpty)
-              ...dash.firstTwoFeaturedServiceList.asMap().entries.map((e) =>
-                  dash.firstTwoFeaturedServiceList.isEmpty
+              ...dash.firstTwoFeaturedServiceList
+                  .asMap()
+                  .entries
+                  .map((e) => dash.firstTwoFeaturedServiceList.isEmpty
                       ? Container()
                       : FeaturedBusinessLayout(
-                              data: e.value,
-                              inCart: isInCart(context, e.value.id),
-                              onTap: () => route.pushNamed(
-                                  context, routeName.businessDetailsScreen))
-                          .paddingSymmetric(horizontal: Insets.i20)),
+                          data: e.value,
+                          inCart: isInCart(context, e.value.id),
+                          onTap: () {
+                            final searchPvr = Provider.of<SearchProvider>(
+                                context,
+                                listen: false);
+                            searchPvr.businessDetailsAPI(context, e.value.id);
+                          }).paddingSymmetric(horizontal: Insets.i20)),
           ]),
           dash.firstTwoHighRateList.isEmpty
               ? Container()

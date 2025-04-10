@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import '../../config.dart';
 import '../../models/review_model.dart';
 
@@ -8,6 +9,29 @@ class MyReviewProvider extends ChangeNotifier {
   bool isAnimateOver = false;
   AnimationController? controller;
   Animation<Offset>? offsetAnimation;
+  int selectedIndex = 3;
+  TextEditingController rateController = TextEditingController();
+  final FocusNode rateFocus = FocusNode();
+
+  GlobalKey<FormState> rateKey = GlobalKey<FormState>();
+
+  onSubmit(context) {
+    route.pop(context);
+    // FocusScope.of(context).requestFocus(FocusNode());
+    // // if (rateKey.currentState!.validate()) {
+    //   if (isServiceRate) {
+    //     rateService(context);
+    //   } else {
+    //     if (selectedIndex == 4) {
+    //       //  rateBuilder(context);
+    //       rateApp(context);
+    //     } else {
+    //       // route.pushNamed(context, routeName.contactUs,
+    //       //     arg: {'rate': selectedIndex, "desc": rateController.text});
+    //     }
+    //   }
+    // }
+  }
 
   getMyReview(context) async {
     reviews = appArray.reviewList.map((e) => Reviews.fromJson(e)).toList();
@@ -39,6 +63,11 @@ log("reviews :${reviews.length}");
       log("getMyReview :$e");
       notifyListeners();
     }*/
+  }
+
+  onTapEmoji(index) {
+    selectedIndex = index;
+    notifyListeners();
   }
 
   deleteAccountConfirmation(context, sync, id, {isBack = false}) {

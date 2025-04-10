@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/screens/menu_screens/layouts/profile_option_layout.dart';
-import 'package:nb_utils/nb_utils.dart';
+
 import '../../../../config.dart';
 import '../../../providers/bottom_providers/profile_provider.dart';
 
@@ -91,25 +91,24 @@ class ProfileOptionsLayout extends StatelessWidget {
                                           if (s.value.title == "My Profile") {
                                             route.pushNamed(context,
                                                 routeName.profileDetails);
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "Favourite List") {
                                             route.pushNamed(context,
                                                 routeName.favScreenList);
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "My Reviews") {
                                             route.pushNamed(context,
                                                 routeName.reviewScreen);
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "App Settings") {
                                             route.pushNamed(
                                                 context, routeName.appSetting);
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "Subscription Plans") {
-                                            log("true eee");
+                                            route.pushNamed(
+                                                context,
+                                                routeName
+                                                    .subscriptionPlanScreen);
                                           } else if (s.value.title ==
                                               "About Us") {
                                             route.pushNamed(
@@ -130,7 +129,6 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   "aboutDescription3":
                                                       appFonts.aboutDescription3
                                                 });
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "Privacy Policy") {
                                             route.pushNamed(
@@ -152,7 +150,6 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   "aboutDescription3":
                                                       appFonts.aboutDescription3
                                                 });
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "Cancellation Policy") {
                                             route.pushNamed(
@@ -174,12 +171,10 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   "aboutDescription3":
                                                       appFonts.aboutDescription3
                                                 });
-                                            log("true eee");
                                           } else if (s.value.title ==
                                               "Contact Us") {
                                             route.pushNamed(
                                                 context, routeName.contactUs);
-                                            log("true eee");
                                           } else if (s.value.title == "FAQ") {
                                             route.pushNamed(
                                                 context,
@@ -239,9 +234,6 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                                     .login);
                                                       });
                                                 });
-
-                                            log("logout ===> ");
-                                            log("true eee loggg ");
                                           }
                                         }))
                               ]).paddingAll(Insets.i15))

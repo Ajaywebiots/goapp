@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
-import 'package:goapp/config.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
-import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 
 import '../../common_tap.dart';
 import '../../models/api_model/business_details_model.dart';
@@ -17,7 +14,6 @@ import '../../models/api_model/home_feed_model.dart';
 import '../../models/category_model.dart';
 import '../../models/service_model.dart';
 import '../../screens/app_pages_screen/search_screen/filter_tap_layout.dart';
-import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/third_filter.dart';
@@ -53,7 +49,6 @@ class SearchProvider with ChangeNotifier {
     log("idid:$id");
     // getServiceByCategoryId(context, id);
   }
-
 
   ui.FrameInfo? image, image1;
   double slider = 0.0,
@@ -126,9 +121,7 @@ class SearchProvider with ChangeNotifier {
   }
 
   Future<ui.FrameInfo> loadImage(String assetPath) async {
-    ByteData data = await rootBundle.load(
-      assetPath,
-    );
+    ByteData data = await rootBundle.load(assetPath);
     ui.Codec codec = await ui.instantiateImageCodec(
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
         targetWidth: 25);
@@ -159,7 +152,7 @@ class SearchProvider with ChangeNotifier {
     // pref = await SharedPreferences.getInstance();
 
     notifyListeners();
-    getRecentSearch();
+    // getRecentSearch();
     // animationController = AnimationController(
     //     vsync: sync, duration: const Duration(milliseconds: 1200));
     // FrameInfo fi = await loadImage(eImageAssets.userSlider);
@@ -199,19 +192,19 @@ class SearchProvider with ChangeNotifier {
     // notifyListeners();
   }*/
 
-  getRecentSearch() {
-    dynamic save = pref!.getString(session.recentSearch);
-    log("PREE :$save");
-    if (save != null) {
-      final List<dynamic> jsonData =
-          jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
-      log("jsonData :${jsonData.length}");
-      recentSearchList = jsonData.map<Services>((jsonList) {
-        return Services.fromJson(jsonList);
-      }).toList();
-      notifyListeners();
-    }
-  }
+  // getRecentSearch() {
+  //   dynamic save = pref!.getString(session.recentSearch);
+  //   log("PREE :$save");
+  //   if (save != null) {
+  //     final List<dynamic> jsonData =
+  //         jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
+  //     log("jsonData :${jsonData.length}");
+  //     recentSearchList = jsonData.map<Services>((jsonList) {
+  //       return Services.fromJson(jsonList);
+  //     }).toList();
+  //     notifyListeners();
+  //   }
+  // }
 
   onBottomSheet(context, value1) {
     showModalBottomSheet(

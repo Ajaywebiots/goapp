@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import '../../config.dart';
 
 class AppSettingProvider with ChangeNotifier {
@@ -18,11 +19,11 @@ class AppSettingProvider with ChangeNotifier {
   }
 
   onTapData(context, index) {
-    log("dsf");
+    log("dsf ssss${index}");
     if (index == 0) {
       route.pushNamed(context, routeName.changeLanguage);
     } else {
-      route.pushNamed(context, routeName.changePass);
+      route.pushNamed(context, routeName.changePassInApp);
     }
   }
 

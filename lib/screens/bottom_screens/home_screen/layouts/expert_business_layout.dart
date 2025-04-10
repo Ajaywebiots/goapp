@@ -1,5 +1,6 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/models/api_model/home_feed_model.dart';
+
 import '../../../../config.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 
@@ -7,9 +8,14 @@ class FeatureAttractionLayout extends StatelessWidget {
   final Attraction data;
   final GestureTapCallback? onTap;
   final bool isHome;
+  final Color? bColor;
 
   const FeatureAttractionLayout(
-      {super.key, required this.data, this.onTap, this.isHome = false});
+      {super.key,
+      required this.data,
+      this.onTap,
+      this.isHome = false,
+      this.bColor});
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +184,7 @@ class FeatureAttractionLayout extends StatelessWidget {
           ])
           .paddingAll(Insets.i15)
           .boxBorderExtension(context,
-              isShadow: isHome, bColor: appColor(context).trans)
+              isShadow: isHome, bColor: bColor ?? appColor(context).trans)
           .inkWell(onTap: onTap)
           .paddingOnly(bottom: Insets.i15);
     });

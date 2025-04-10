@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
@@ -34,7 +37,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image:
-                                            NetworkImage(data!.logo!.source))))
+                                            NetworkImage(data.logo!.source))))
                             : Container(
                                 height: Sizes.s30,
                                 width: Sizes.s30,
@@ -44,7 +47,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                         image: AssetImage(
                                             eImageAssets.noImageFound3)))),
                         const HSpace(Sizes.s10),
-                        Text(language(context, data!.name ?? ""),
+                        Text(language(context, data.name),
                             style: appCss.dmDenseMedium15
                                 .textColor(appColor(context).darkText))
                       ])
@@ -55,13 +58,13 @@ class FeaturedBusinessLayout extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(data!.image!.source),
+                              image: NetworkImage(data.image!.source),
                               fit: BoxFit.cover))),
                   // if (data!.discount != "")
-                  data?.topOffer == null
+                  data.topOffer == null
                       ? SizedBox.shrink()
                       : SizedBox(
-                              child: Text(data?.topOffer,
+                              child: Text(data.topOffer,
                                       style: appCss.dmDenseMedium12.textColor(
                                           appColor(context).whiteColor))
                                   .padding(
@@ -82,7 +85,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         Row(children: [
                           RatingBar.builder(
                               glow: false,
-                              initialRating: (data?.rating?.starts ?? 0.0),
+                              initialRating: (data.rating?.starts ?? 0.0),
                               minRating: 1,
                               ignoreGestures: true,
                               itemSize: 13,
@@ -92,21 +95,21 @@ class FeaturedBusinessLayout extends StatelessWidget {
                               itemPadding:
                                   EdgeInsets.symmetric(horizontal: 1.0),
                               itemBuilder: (context, index) {
-                                double rating = data?.rating?.starts ?? 0.0;
+                                double rating = data.rating?.starts ?? 0.0;
                                 return SvgPicture.asset(rating > index
                                     ? eSvgAssets.star
                                     : 'assets/svg/starWithout.svg');
                               },
                               updateOnDrag: true,
                               onRatingUpdate: (rating) {
-                                print(rating);
+                                log("rating $rating");
                               }),
                           const HSpace(Sizes.s3),
-                          Text("(${data?.rating?.reviewCount} Reviews)",
+                          Text("(${data.rating?.reviewCount} Reviews)",
                               style: appCss.dmDenseRegular12
                                   .textColor(appColor(context).darkText))
                         ]),
-                        SvgPicture.asset(data!.isFavourite
+                        SvgPicture.asset(data.isFavourite
                                 ? 'assets/svg/fav.svg'
                                 : "assets/svg/dislike.svg")
                             .inkWell(onTap: () {
@@ -122,7 +125,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         colorFilter: ColorFilter.mode(
                             appColor(context).darkText, BlendMode.srcIn)),
                     const HSpace(Sizes.s5),
-                    Text(data!.contact!.phoneNumber,
+                    Text(data.contact!.phoneNumber,
                         style: appCss.dmDenseRegular12
                             .textColor(appColor(context).darkText))
                   ])),
@@ -149,7 +152,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                           SvgPicture.asset('assets/svg/locator.svg'),
                           const HSpace(Sizes.s3),
                           Text(
-                              "${(data?.location?.selfLocationdistance as num).toStringAsFixed(2)} km",
+                              "${(data.location?.selfLocationdistance as num).toStringAsFixed(2)} km",
                               style: appCss.dmDenseMedium10
                                   .textColor(appColor(context).whiteColor))
                         ]))
@@ -166,11 +169,14 @@ class FeaturedBusinessLayout extends StatelessWidget {
                   Wrap(
                       children: data.businessCategories.map<Widget>((category) {
                     return Container(
+                        margin: EdgeInsets.only(right: Insets.i8),
                         padding:
                             EdgeInsets.symmetric(vertical: 4, horizontal: 7),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(6)),
-                            color: appColor(context).primary.withOpacity(0.1)),
+                            color: appColor(context)
+                                .primary
+                                .withValues(alpha: 0.1)),
                         child: Text(category.name,
                             style: appCss.dmDenseMedium13
                                 .textColor(appColor(context).primary)));
