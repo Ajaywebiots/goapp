@@ -1,3 +1,5 @@
+import 'home_feed_model.dart';
+
 class BusinessSearchModel {
   BusinessSearchModel({
     required this.businesses,
@@ -17,57 +19,6 @@ class BusinessSearchModel {
                 json["businesses"]!.map((x) => Business.fromJson(x))),
         responseStatus: json["responseStatus"],
         responseMessage: json["responseMessage"]);
-  }
-}
-
-class Business {
-  Business({
-    required this.id,
-    required this.name,
-    required this.businessCategories,
-    required this.rating,
-    required this.image,
-    required this.logo,
-    required this.location,
-    required this.topOffer,
-    required this.contact,
-    required this.isFavourite,
-    required this.appObject,
-  });
-
-  final int? id;
-  final String? name;
-  final List<BusinessCategory> businessCategories;
-  final Rating? rating;
-  final Image? image;
-  final Image? logo;
-  final Location? location;
-  final dynamic topOffer;
-  final Contact? contact;
-  final bool? isFavourite;
-  final AppObject? appObject;
-
-  factory Business.fromJson(Map<String, dynamic> json) {
-    return Business(
-      id: json["id"],
-      name: json["name"],
-      businessCategories: json["businessCategories"] == null
-          ? []
-          : List<BusinessCategory>.from(json["businessCategories"]!
-              .map((x) => BusinessCategory.fromJson(x))),
-      rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),
-      image: json["image"] == null ? null : Image.fromJson(json["image"]),
-      logo: json["logo"] == null ? null : Image.fromJson(json["logo"]),
-      location:
-          json["location"] == null ? null : Location.fromJson(json["location"]),
-      topOffer: json["topOffer"],
-      contact:
-          json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-      isFavourite: json["isFavourite"],
-      appObject: json["appObject"] == null
-          ? null
-          : AppObject.fromJson(json["appObject"]),
-    );
   }
 }
 

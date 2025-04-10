@@ -20,9 +20,7 @@ class LatestBlogDetailsScreen extends StatelessWidget {
                     child: Column(children: [
                   SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: value.data != null
-                              ? const BlogDetailsLayout()
-                              : Container())
+                          child: const BlogDetailsLayout())
                       .decorated(
                           color: appColor(context).whiteBg,
                           boxShadow: [

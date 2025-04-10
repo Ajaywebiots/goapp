@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/screens/menu_screens/layouts/profile_option_layout.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../../../../config.dart';
 import '../../../providers/bottom_providers/profile_provider.dart';
 
@@ -97,9 +94,13 @@ class ProfileOptionsLayout extends StatelessWidget {
                                             log("true eee");
                                           } else if (s.value.title ==
                                               "Favourite List") {
+                                            route.pushNamed(context,
+                                                routeName.favScreenList);
                                             log("true eee");
                                           } else if (s.value.title ==
                                               "My Reviews") {
+                                            route.pushNamed(context,
+                                                routeName.reviewScreen);
                                             log("true eee");
                                           } else if (s.value.title ==
                                               "App Settings") {

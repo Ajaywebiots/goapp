@@ -21,7 +21,7 @@ class CategoriesListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onReady(context, DashboardProvider dash) {
+  onReady(context) {
     //final dash = Provider.of<DashboardProvider>(context, listen: false);
     // categoryList = dash.categoryList;
 

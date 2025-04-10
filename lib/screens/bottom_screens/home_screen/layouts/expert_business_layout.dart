@@ -1,17 +1,15 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/models/api_model/home_feed_model.dart';
-
 import '../../../../config.dart';
-import '../../../../models/provider_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 
 class FeatureAttractionLayout extends StatelessWidget {
-  final data;
+  final Attraction data;
   final GestureTapCallback? onTap;
   final bool isHome;
 
   const FeatureAttractionLayout(
-      {super.key, this.data, this.onTap, this.isHome = false});
+      {super.key, required this.data, this.onTap, this.isHome = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class FeatureAttractionLayout extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
             Row(children: [
-              data != null && data!.image.source.isNotEmpty
+              data.image!.source.isNotEmpty
                   ? Container(
                           height: Sizes.s75,
                           width: Sizes.s75,
@@ -30,7 +28,7 @@ class FeatureAttractionLayout extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: NetworkImage(data!.image.source))))
+                                  image: NetworkImage(data.image!.source))))
                       .boxShapeExtension()
                   : Container(
                       height: Sizes.s75,
@@ -43,7 +41,7 @@ class FeatureAttractionLayout extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(
                     width: 176,
-                    child: Text(language(context, data?.name),
+                    child: Text(language(context, data.name),
                         overflow: TextOverflow.fade,
                         maxLines: 2,
                         style: appCss.dmDenseMedium14
@@ -51,8 +49,7 @@ class FeatureAttractionLayout extends StatelessWidget {
                 Row(children: [
                   RatingBar.builder(
                       glow: false,
-                      initialRating:
-                          ((data?.rating ?? {})['starts'] ?? 0).toDouble(),
+                      initialRating: (data.rating?.starts ?? 0.0),
                       minRating: 0,
                       ignoreGestures: true,
                       itemSize: 13,
@@ -61,8 +58,7 @@ class FeatureAttractionLayout extends StatelessWidget {
                       itemCount: 5,
                       itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                       itemBuilder: (context, index) {
-                        double rating =
-                            ((data?.rating ?? {})['starts'] ?? 0).toDouble();
+                        double rating = data?.rating?.starts ?? 0.0;
                         return SvgPicture.asset(rating > index
                             ? eSvgAssets.star
                             : 'assets/svg/starWithout.svg');
@@ -71,7 +67,7 @@ class FeatureAttractionLayout extends StatelessWidget {
                       onRatingUpdate: (rating) {
                         print(rating);
                       }),
-                  Text(" (${data?.rating ?? 0} Reviews)",
+                  Text(" (${data?.rating?.reviewCount ?? 0} Reviews)",
                       style: appCss.dmDenseRegular12
                           .textColor(appColor(context).darkText))
                 ]),
@@ -97,7 +93,8 @@ class FeatureAttractionLayout extends StatelessWidget {
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
                         SvgPicture.asset('assets/svg/locator.svg'),
                         const HSpace(Sizes.s3),
-                        Text("sss",
+                        Text(
+                            "${(data?.location?.selfLocationdistance ?? 0).toStringAsFixed(2)} km",
                             /*language(context,
                                 "${(data?.location.selfLocationDistance as num?)?.toStringAsFixed(2)} km"),*/
                             style: appCss.dmDenseMedium10
@@ -170,12 +167,12 @@ class FeatureAttractionLayout extends StatelessWidget {
                     ])
                   ]).paddingOnly(left: Insets.i10)*/
             ]),
-            SvgPicture.asset(data?.isFavourite == true
+            SvgPicture.asset(data.isFavourite == true
                     ? 'assets/svg/fav.svg'
                     : "assets/svg/dislike.svg")
                 .inkWell(onTap: () {
               // value.setState();
-              data!.isFavourite = !data!.isFavourite;
+              // data!.isFavourite = !data!.isFavourite;
               // value.setState();
             })
           ])

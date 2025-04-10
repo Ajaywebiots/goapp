@@ -27,6 +27,9 @@ class ApiMethods {
   String attractionSearch = "/Attraction/search";
   String businessSearch = "/business/search";
   String blogSearch = "/blog/search";
+  String offerSearch = "/Offer/search";
+  String blogDetails = "/blog/";
+  String businessDetails = "/business/";
 
 // //
   // String homeFeed = '/api/App/home/feed';

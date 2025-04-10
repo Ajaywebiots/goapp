@@ -5,10 +5,8 @@ import '../../../../config.dart';
 class ServiceImageLayout extends StatelessWidget {
   final String? image;
   final bool isAttraction;
-  final String? logo;
 
-  ServiceImageLayout(
-      {super.key, this.image, this.isAttraction = false, this.logo});
+  ServiceImageLayout({super.key, this.image, this.isAttraction = false});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,8 @@ class ServiceImageLayout extends StatelessWidget {
             height: Sizes.s230,
             decoration: ShapeDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(image!), fit: BoxFit.cover),
+                    image: AssetImage("assets/images/companyImage.png"),
+                    fit: BoxFit.cover),
                 shape: const SmoothRectangleBorder(
                     borderRadius: SmoothBorderRadius.only(
                         bottomRight: SmoothRadius(
@@ -73,10 +72,11 @@ class ServiceImageLayout extends StatelessWidget {
                     top: MediaQuery.of(context).size.height * 0.205),
                 child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.green,
                         shape: BoxShape.circle,
                         border: Border.all(width: 2, color: Colors.white),
-                        image: DecorationImage(image: NetworkImage(logo!))),
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/coupon1.png"))),
                     height: 82))
       ])
     ]);

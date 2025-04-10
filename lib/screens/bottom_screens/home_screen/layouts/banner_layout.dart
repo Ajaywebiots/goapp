@@ -1,11 +1,10 @@
 import 'dart:ffi';
 
 import '../../../../config.dart';
-import '../../../../models/api_model/home_feed_model.dart';
-import '../../../../models/banner_model.dart';
+import '../../../../models/api_model/home_feed_model.dart' as model;
 
 class BannerLayout extends StatelessWidget {
-  final List<TopBanner>? bannerList;
+  final List<model.Banner>? bannerList;
   final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
   final Function(String, String)? onTap;
 

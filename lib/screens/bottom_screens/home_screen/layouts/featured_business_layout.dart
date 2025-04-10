@@ -5,16 +5,15 @@ import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class FeaturedBusinessLayout extends StatelessWidget {
-  final data;
-  final GestureTapCallback? onTap, addTap;
+  final Business data;
+  final GestureTapCallback? onTap;
   final bool? isProvider, inCart;
 
   const FeaturedBusinessLayout(
       {super.key,
-      this.data,
+      required this.data,
       this.onTap,
       this.isProvider = true,
-      this.addTap,
       this.inCart = false});
 
   @override
@@ -27,7 +26,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
-                        data?.logo.source != ""
+                        data.logo?.source != ""
                             ? Container(
                                 height: Sizes.s30,
                                 width: Sizes.s30,
@@ -35,7 +34,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image:
-                                            NetworkImage(data!.logo.source))))
+                                            NetworkImage(data!.logo!.source))))
                             : Container(
                                 height: Sizes.s30,
                                 width: Sizes.s30,
@@ -56,7 +55,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(data!.image.source),
+                              image: NetworkImage(data!.image!.source),
                               fit: BoxFit.cover))),
                   // if (data!.discount != "")
                   data?.topOffer == null
@@ -83,11 +82,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         Row(children: [
                           RatingBar.builder(
                               glow: false,
-                              initialRating:
-                                  0 /*((data?.rating ?? {})['starts'] ??
-                                      data?.rating.starts)
-                                  .toDouble()*/
-                              ,
+                              initialRating: (data?.rating?.starts ?? 0.0),
                               minRating: 1,
                               ignoreGestures: true,
                               itemSize: 13,
@@ -97,10 +92,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                               itemPadding:
                                   EdgeInsets.symmetric(horizontal: 1.0),
                               itemBuilder: (context, index) {
-                                double rating = 0
-                                    /*((data?.rating ?? {})['starts'] ?? 0)
-                                        .toDouble()*/
-                                    ;
+                                double rating = data?.rating?.starts ?? 0.0;
                                 return SvgPicture.asset(rating > index
                                     ? eSvgAssets.star
                                     : 'assets/svg/starWithout.svg');
@@ -110,7 +102,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                 print(rating);
                               }),
                           const HSpace(Sizes.s3),
-                          Text("( Reviews)",
+                          Text("(${data?.rating?.reviewCount} Reviews)",
                               style: appCss.dmDenseRegular12
                                   .textColor(appColor(context).darkText))
                         ]),
@@ -130,7 +122,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         colorFilter: ColorFilter.mode(
                             appColor(context).darkText, BlendMode.srcIn)),
                     const HSpace(Sizes.s5),
-                    Text(data!.contact.phoneNumber,
+                    Text(data!.contact!.phoneNumber,
                         style: appCss.dmDenseRegular12
                             .textColor(appColor(context).darkText))
                   ])),
@@ -156,9 +148,8 @@ class FeaturedBusinessLayout extends StatelessWidget {
                         child: Row(children: [
                           SvgPicture.asset('assets/svg/locator.svg'),
                           const HSpace(Sizes.s3),
-                          Text("1",
-                              /* language(context,
-                                  "${(data?.location['selfLocationdistance'] as num?)?.toStringAsFixed(2)} km"),*/
+                          Text(
+                              "${(data?.location?.selfLocationdistance as num).toStringAsFixed(2)} km",
                               style: appCss.dmDenseMedium10
                                   .textColor(appColor(context).whiteColor))
                         ]))
@@ -173,8 +164,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                             appColor(context).stroke, BlendMode.srcIn))
                   ]).paddingSymmetric(vertical: 10),
                   Wrap(
-                      children:
-                          data!.businessCategories.map<Widget>((category) {
+                      children: data.businessCategories.map<Widget>((category) {
                     return Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 4, horizontal: 7),

@@ -38,11 +38,20 @@ class AttractionProvider with ChangeNotifier {
 
   List attractionsSearchList = [];
 
-  getAttractionSearchAPI(context) {
+  getAttractionSearchAPI(context) async {
+    final dashboard = Provider.of<DashboardProvider>(context, listen: false);
+
+    Position position = await dashboard.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
     try {
       log("hello  kjhdfjkdfjsd  sssss ");
       apiServices
-          .commonApi(api.attractionSearch, [], ApiType.get, isToken: true)
+          .commonApi(
+              "${api.attractionSearch}?currentLongitude=$lon&currentLatitude=$lat",
+              [],
+              ApiType.get,
+              isToken: true)
           .then((value) {
         log("value.data ${value.data}");
         if (value.data['responseStatus'] == 1) {
@@ -95,7 +104,6 @@ class AttractionProvider with ChangeNotifier {
         }).then((value) {
       log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);
-
       dash.notifyListeners();
       filterSearchCtrl.text = "";
     });

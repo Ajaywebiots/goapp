@@ -1,65 +1,166 @@
-class BusinessList {
-  List<Businesses>? businesses;
-  int? responseStatus;
-  String? responseMessage;
+import 'business_search_model.dart';
+import 'home_feed_model.dart';
 
-  BusinessList({this.businesses, this.responseStatus, this.responseMessage});
+class BusinessSearchModel {
+  BusinessSearchModel({
+    required this.businesses,
+    required this.responseStatus,
+    required this.responseMessage,
+  });
 
-  BusinessList.fromJson(Map<String, dynamic> json) {
-    if (json['businesses'] != null) {
-      businesses = <Businesses>[];
-      json['businesses'].forEach((v) {
-        businesses!.add(Businesses.fromJson(v));
-      });
-    }
-    responseStatus = json['responseStatus'];
-    responseMessage = json['responseMessage'];
-  }
+  final List<Business> businesses;
+  final int? responseStatus;
+  final String? responseMessage;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (businesses != null) {
-      data['businesses'] = businesses!.map((v) => v.toJson()).toList();
-    }
-    data['responseStatus'] = responseStatus;
-    data['responseMessage'] = responseMessage;
-    return data;
+  factory BusinessSearchModel.fromJson(Map<String, dynamic> json) {
+    return BusinessSearchModel(
+      businesses: json["businesses"] == null
+          ? []
+          : List<Business>.from(
+              json["businesses"]!.map((x) => Business.fromJson(x))),
+      responseStatus: json["responseStatus"],
+      responseMessage: json["responseMessage"],
+    );
   }
 }
 
-class Businesses {
-  int? id;
-  String? name;
-  int? businessCategory;
-  int? reviewCount;
-  int? rating;
-  Null? image;
+class AppObject {
+  AppObject({
+    required this.appObjectType,
+    required this.appObjectId,
+  });
 
-  Businesses(
-      {this.id,
-      this.name,
-      this.businessCategory,
-      this.reviewCount,
-      this.rating,
-      this.image});
+  final dynamic appObjectType;
+  final dynamic appObjectId;
 
-  Businesses.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    businessCategory = json['businessCategory'];
-    reviewCount = json['reviewCount'];
-    rating = json['rating'];
-    image = json['image'];
+  factory AppObject.fromJson(Map<String, dynamic> json) {
+    return AppObject(
+      appObjectType: json["appObjectType"],
+      appObjectId: json["appObjectId"],
+    );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['businessCategory'] = businessCategory;
-    data['reviewCount'] = reviewCount;
-    data['rating'] = rating;
-    data['image'] = image;
-    return data;
+class BusinessCategory {
+  BusinessCategory({
+    required this.categoryId,
+    required this.icon,
+    required this.name,
+    required this.translatedValue,
+    required this.language,
+    required this.businessCategoryType,
+  });
+
+  final int? categoryId;
+  final String? icon;
+  final String? name;
+  final String? translatedValue;
+  final int? language;
+  final int? businessCategoryType;
+
+  factory BusinessCategory.fromJson(Map<String, dynamic> json) {
+    return BusinessCategory(
+      categoryId: json["categoryId"],
+      icon: json["icon"],
+      name: json["name"],
+      translatedValue: json["translatedValue"],
+      language: json["language"],
+      businessCategoryType: json["businessCategoryType"],
+    );
+  }
+}
+
+class Contact {
+  Contact({
+    required this.phoneNumber,
+    required this.email,
+    required this.address,
+    required this.website,
+    required this.facebookPage,
+    required this.instagramPage,
+    required this.tiktokPage,
+    required this.youtubePage,
+  });
+
+  final String? phoneNumber;
+  final String? email;
+  final String? address;
+  final String? website;
+  final String? facebookPage;
+  final String? instagramPage;
+  final String? tiktokPage;
+  final String? youtubePage;
+
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      phoneNumber: json["phoneNumber"],
+      email: json["email"],
+      address: json["address"],
+      website: json["website"],
+      facebookPage: json["facebookPage"],
+      instagramPage: json["instagramPage"],
+      tiktokPage: json["tiktokPage"],
+      youtubePage: json["youtubePage"],
+    );
+  }
+}
+
+class Image {
+  Image({
+    required this.mediaType,
+    required this.source,
+    required this.mediaStatus,
+  });
+
+  final int? mediaType;
+  final String? source;
+  final int? mediaStatus;
+
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      mediaType: json["mediaType"],
+      source: json["source"],
+      mediaStatus: json["mediaStatus"],
+    );
+  }
+}
+
+class Location {
+  Location({
+    required this.address,
+    required this.longitude,
+    required this.latitude,
+    required this.selfLocationdistance,
+  });
+
+  final String? address;
+  final String? longitude;
+  final String? latitude;
+  final double? selfLocationdistance;
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      address: json["address"],
+      longitude: json["longitude"],
+      latitude: json["latitude"],
+      selfLocationdistance: json["selfLocationdistance"],
+    );
+  }
+}
+
+class Rating {
+  Rating({
+    required this.starts,
+    required this.reviewCount,
+  });
+
+  final double? starts;
+  final int? reviewCount;
+
+  factory Rating.fromJson(Map<String, dynamic> json) {
+    return Rating(
+      starts: json["starts"],
+      reviewCount: json["reviewCount"],
+    );
   }
 }

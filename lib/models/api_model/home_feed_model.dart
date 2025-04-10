@@ -1,64 +1,54 @@
-// To parse this JSON data, do
-//
-//     final homeFeedModel = homeFeedModelFromJson(jsonString);
-
 class HomeFeedModel {
-  List<TopBanner> banners;
-  List<Offer> offers;
-  List<Business> businesses;
-  List<Article> articles;
-  List<Category> categories;
-  List<Attraction> attractions;
-  int responseStatus;
-  String responseMessage;
+  HomeFeedModel(
+      {required this.banners,
+      required this.offers,
+      required this.businesses,
+      required this.articles,
+      required this.categories,
+      required this.attractions,
+      required this.responseStatus,
+      required this.responseMessage});
 
-  HomeFeedModel({
-    required this.banners,
-    required this.offers,
-    required this.businesses,
-    required this.articles,
-    required this.categories,
-    required this.attractions,
-    required this.responseStatus,
-    required this.responseMessage,
-  });
+  final List<Banner> banners;
+  final List<Offer> offers;
+  final List<Business> businesses;
+  final List<Article> articles;
+  final List<Category> categories;
+  final List<Attraction> attractions;
+  final int responseStatus;
+  final String responseMessage;
 
-  factory HomeFeedModel.fromJson(Map<String, dynamic> json) => HomeFeedModel(
-        banners: List<TopBanner>.from(
-            json["banners"].map((x) => TopBanner.fromJson(x))),
-        offers: List<Offer>.from(json["offers"].map((x) => Offer.fromJson(x))),
-        businesses: List<Business>.from(
-            json["businesses"].map((x) => Business.fromJson(x))),
-        articles: List<Article>.from(
-            json["articles"].map((x) => Article.fromJson(x))),
-        categories: List<Category>.from(
-            json["categories"].map((x) => Category.fromJson(x))),
-        attractions: List<Attraction>.from(
-            json["attractions"].map((x) => Attraction.fromJson(x))),
-        responseStatus: json["responseStatus"],
-        responseMessage: json["responseMessage"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-        "offers": List<dynamic>.from(offers.map((x) => x.toJson())),
-        "businesses": List<dynamic>.from(businesses.map((x) => x.toJson())),
-        "articles": List<dynamic>.from(articles.map((x) => x.toJson())),
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
-        "attractions": List<dynamic>.from(attractions.map((x) => x.toJson())),
-        "responseStatus": responseStatus,
-        "responseMessage": responseMessage,
-      };
+  factory HomeFeedModel.fromJson(Map<String, dynamic> json) {
+    return HomeFeedModel(
+      banners: json["banners"] == null
+          ? []
+          : List<Banner>.from(json["banners"]!.map((x) => Banner.fromJson(x))),
+      offers: json["offers"] == null
+          ? []
+          : List<Offer>.from(json["offers"]!.map((x) => Offer.fromJson(x))),
+      businesses: json["businesses"] == null
+          ? []
+          : List<Business>.from(
+              json["businesses"]!.map((x) => Business.fromJson(x))),
+      articles: json["articles"] == null
+          ? []
+          : List<Article>.from(
+              json["articles"]!.map((x) => Article.fromJson(x))),
+      categories: json["categories"] == null
+          ? []
+          : List<Category>.from(
+              json["categories"]!.map((x) => Category.fromJson(x))),
+      attractions: json["attractions"] == null
+          ? []
+          : List<Attraction>.from(
+              json["attractions"]!.map((x) => Attraction.fromJson(x))),
+      responseStatus: json["responseStatus"] ?? 0,
+      responseMessage: json["responseMessage"] ?? "",
+    );
+  }
 }
 
 class Article {
-  int id;
-  String title;
-  DateTime createdDate;
-  Media media;
-  String category;
-  bool isFavourite;
-
   Article({
     required this.id,
     required this.title,
@@ -66,162 +56,169 @@ class Article {
     required this.media,
     required this.category,
     required this.isFavourite,
+    required this.appObject,
   });
 
-  factory Article.fromJson(Map<String, dynamic> json) => Article(
-        id: json["id"],
-        title: json["title"],
-        createdDate: DateTime.parse(json["createdDate"]),
-        media: Media.fromJson(json["media"]),
-        category: json["category"],
-        isFavourite: json["isFavourite"],
-      );
+  final int id;
+  final String title;
+  final DateTime? createdDate;
+  final Media? media;
+  final String category;
+  final bool isFavourite;
+  final AppObject? appObject;
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "createdDate": createdDate.toIso8601String(),
-        "media": media.toJson(),
-        "category": category,
-        "isFavourite": isFavourite,
-      };
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+      id: json["id"] ?? 0,
+      title: json["title"] ?? "",
+      createdDate: DateTime.tryParse(json["createdDate"] ?? ""),
+      media: json["media"] == null ? null : Media.fromJson(json["media"]),
+      category: json["category"] ?? "",
+      isFavourite: json["isFavourite"] ?? false,
+      appObject: json["appObject"] == null
+          ? null
+          : AppObject.fromJson(json["appObject"]),
+    );
+  }
+}
+
+class AppObject {
+  AppObject({
+    required this.appObjectType,
+    required this.appObjectId,
+  });
+
+  final int appObjectType;
+  final int appObjectId;
+
+  factory AppObject.fromJson(Map<String, dynamic> json) {
+    return AppObject(
+      appObjectType: json["appObjectType"] ?? 0,
+      appObjectId: json["appObjectId"] ?? 0,
+    );
+  }
 }
 
 class Media {
-  int mediaType;
-  String source;
-  int mediaStatus;
-
   Media({
     required this.mediaType,
     required this.source,
     required this.mediaStatus,
   });
 
-  factory Media.fromJson(Map<String, dynamic> json) => Media(
-        mediaType: json["mediaType"],
-        source: json["source"],
-        mediaStatus: json["mediaStatus"],
-      );
+  final int mediaType;
+  final String source;
+  final int mediaStatus;
 
-  Map<String, dynamic> toJson() => {
-        "mediaType": mediaType,
-        "source": source,
-        "mediaStatus": mediaStatus,
-      };
+  factory Media.fromJson(Map<String, dynamic> json) {
+    return Media(
+      mediaType: json["mediaType"] ?? 0,
+      source: json["source"] ?? "",
+      mediaStatus: json["mediaStatus"] ?? 0,
+    );
+  }
 }
 
 class Attraction {
-  int id;
-  String name;
-  dynamic rating;
-  Media image;
-  Location location;
-  dynamic attractionCategories;
-  bool isFavourite;
+  Attraction({
+    required this.id,
+    required this.name,
+    required this.rating,
+    required this.image,
+    required this.location,
+    required this.attractionCategories,
+    required this.isFavourite,
+    required this.appObject,
+  });
 
-  Attraction(
-      {required this.id,
-      required this.name,
-      required this.rating,
-      required this.image,
-      required this.location,
-      required this.attractionCategories,
-      required this.isFavourite});
+  final int id;
+  final String name;
+  final dynamic rating;
+  final Media? image;
+  final Location? location;
+  final dynamic attractionCategories;
+  final bool isFavourite;
+  final AppObject? appObject;
 
-  factory Attraction.fromJson(Map<String, dynamic> json) => Attraction(
-      id: json["id"],
-      name: json["name"],
+  factory Attraction.fromJson(Map<String, dynamic> json) {
+    return Attraction(
+      id: json["id"] ?? 0,
+      name: json["name"] ?? "",
       rating: json["rating"],
-      image: Media.fromJson(json["image"]),
-      location: Location.fromJson(json["location"]),
+      image: json["image"] == null ? null : Media.fromJson(json["image"]),
+      location:
+          json["location"] == null ? null : Location.fromJson(json["location"]),
       attractionCategories: json["attractionCategories"],
-      isFavourite: json["isFavourite"]);
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "rating": rating,
-        "image": image.toJson(),
-        "location": location.toJson(),
-        "attractionCategories": attractionCategories,
-        "isFavourite": isFavourite
-      };
+      isFavourite: json["isFavourite"] ?? false,
+      appObject: json["appObject"] == null
+          ? null
+          : AppObject.fromJson(json["appObject"]),
+    );
+  }
 }
 
 class Location {
-  String address;
-  String longitude;
-  String latitude;
-  dynamic selfLocationDistance;
-
   Location({
     required this.address,
     required this.longitude,
     required this.latitude,
-    required this.selfLocationDistance,
+    required this.selfLocationdistance,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-      address: json["address"],
-      longitude: json["longitude"],
-      latitude: json["latitude"],
-      selfLocationDistance: json['selfLocationdistance']);
+  final String address;
+  final String longitude;
+  final String latitude;
+  final dynamic selfLocationdistance;
 
-  Map<String, dynamic> toJson() => {
-        "address": address,
-        "longitude": longitude,
-        "latitude": latitude,
-        "selfLocationdistance": selfLocationDistance
-      };
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+        address: json["address"] ?? "",
+        longitude: json["longitude"] ?? "",
+        latitude: json["latitude"] ?? "",
+        selfLocationdistance: (json["selfLocationdistance"] is num)
+            ? (json['selfLocationdistance'] as num).toDouble()
+            : null);
+  }
 }
 
-class TopBanner {
-  Media image;
-  String link;
-  String title;
-  String subTitle;
-  String buttonText;
-  String tagText;
+class Banner {
+  Banner({
+    required this.image,
+    required this.link,
+    required this.title,
+    required this.subTitle,
+    required this.buttonText,
+    required this.tagText,
+    required this.isFavourite,
+    required this.appObject,
+  });
 
-  TopBanner(
-      {required this.image,
-      required this.link,
-      required this.title,
-      required this.subTitle,
-      required this.buttonText,
-      required this.tagText});
+  final Media? image;
+  final String link;
+  final String title;
+  final String subTitle;
+  final String buttonText;
+  final String tagText;
+  final bool isFavourite;
+  final AppObject? appObject;
 
-  factory TopBanner.fromJson(Map<String, dynamic> json) => TopBanner(
-      image: Media.fromJson(json["image"]),
-      link: json["link"],
-      title: json["title"],
-      subTitle: json["subTitle"],
-      buttonText: json["buttonText"],
-      tagText: json["tagText"]);
-
-  Map<String, dynamic> toJson() => {
-        "image": image.toJson(),
-        "link": link,
-        "title": title,
-        "subTitle": subTitle,
-        "buttonText": buttonText,
-        "tagText": tagText
-      };
+  factory Banner.fromJson(Map<String, dynamic> json) {
+    return Banner(
+      image: json["image"] == null ? null : Media.fromJson(json["image"]),
+      link: json["link"] ?? "",
+      title: json["title"] ?? "",
+      subTitle: json["subTitle"] ?? "",
+      buttonText: json["buttonText"] ?? "",
+      tagText: json["tagText"] ?? "",
+      isFavourite: json["isFavourite"] ?? false,
+      appObject: json["appObject"] == null
+          ? null
+          : AppObject.fromJson(json["appObject"]),
+    );
+  }
 }
 
 class Business {
-  int id;
-  String name;
-  List<Category> businessCategories;
-  dynamic rating;
-  Media image;
-  Media logo;
-  dynamic location;
-  dynamic topOffer;
-  Contact contact;
-  bool isFavourite;
-
   Business({
     required this.id,
     required this.name,
@@ -233,45 +230,46 @@ class Business {
     required this.topOffer,
     required this.contact,
     required this.isFavourite,
+    required this.appObject,
   });
 
-  factory Business.fromJson(Map<String, dynamic> json) => Business(
-        id: json["id"],
-        name: json["name"],
-        businessCategories: List<Category>.from(
-            json["businessCategories"].map((x) => Category.fromJson(x))),
-        rating: json["rating"],
-        image: Media.fromJson(json["image"]),
-        logo: Media.fromJson(json["logo"]),
-        location: json["location"],
-        topOffer: json["topOffer"],
-        contact: Contact.fromJson(json["contact"]),
-        isFavourite: json["isFavourite"],
-      );
+  final int id;
+  final String name;
+  final List<Category> businessCategories;
+  final Rating? rating;
+  final Media? image;
+  final Media? logo;
+  final Location? location;
+  final dynamic topOffer;
+  final Contact? contact;
+  final bool isFavourite;
+  final AppObject? appObject;
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "businessCategories":
-            List<dynamic>.from(businessCategories.map((x) => x.toJson())),
-        "rating": rating,
-        "image": image.toJson(),
-        "logo": logo.toJson(),
-        "location": location,
-        "topOffer": topOffer,
-        "contact": contact.toJson(),
-        "isFavourite": isFavourite,
-      };
+  factory Business.fromJson(Map<String, dynamic> json) {
+    return Business(
+      id: json["id"] ?? 0,
+      name: json["name"] ?? "",
+      businessCategories: json["businessCategories"] == null
+          ? []
+          : List<Category>.from(
+              json["businessCategories"]!.map((x) => Category.fromJson(x))),
+      rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),
+      image: json["image"] == null ? null : Media.fromJson(json["image"]),
+      logo: json["logo"] == null ? null : Media.fromJson(json["logo"]),
+      location:
+          json["location"] == null ? null : Location.fromJson(json["location"]),
+      topOffer: json["topOffer"],
+      contact:
+          json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+      isFavourite: json["isFavourite"] ?? false,
+      appObject: json["appObject"] == null
+          ? null
+          : AppObject.fromJson(json["appObject"]),
+    );
+  }
 }
 
 class Category {
-  int categoryId;
-  String icon;
-  String name;
-  String translatedValue;
-  int language;
-  int businessCategoryType;
-
   Category({
     required this.categoryId,
     required this.icon,
@@ -281,35 +279,26 @@ class Category {
     required this.businessCategoryType,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-        categoryId: json["categoryId"],
-        icon: json["icon"],
-        name: json["name"],
-        translatedValue: json["translatedValue"],
-        language: json["language"],
-        businessCategoryType: json["businessCategoryType"],
-      );
+  final int categoryId;
+  final String icon;
+  final String name;
+  final String translatedValue;
+  final int language;
+  final int businessCategoryType;
 
-  Map<String, dynamic> toJson() => {
-        "categoryId": categoryId,
-        "icon": icon,
-        "name": name,
-        "translatedValue": translatedValue,
-        "language": language,
-        "businessCategoryType": businessCategoryType,
-      };
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      categoryId: json["categoryId"] ?? 0,
+      icon: json["icon"] ?? "",
+      name: json["name"] ?? "",
+      translatedValue: json["translatedValue"] ?? "",
+      language: json["language"] ?? 0,
+      businessCategoryType: json["businessCategoryType"] ?? 0,
+    );
+  }
 }
 
 class Contact {
-  String phoneNumber;
-  String email;
-  String address;
-  String website;
-  String facebookPage;
-  String instagramPage;
-  String tiktokPage;
-  String youtubePage;
-
   Contact({
     required this.phoneNumber,
     required this.email,
@@ -321,68 +310,82 @@ class Contact {
     required this.youtubePage,
   });
 
-  factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-        phoneNumber: json["phoneNumber"],
-        email: json["email"],
-        address: json["address"],
-        website: json["website"],
-        facebookPage: json["facebookPage"],
-        instagramPage: json["instagramPage"],
-        tiktokPage: json["tiktokPage"],
-        youtubePage: json["youtubePage"],
-      );
+  final String phoneNumber;
+  final String email;
+  final String address;
+  final String website;
+  final String facebookPage;
+  final String instagramPage;
+  final String tiktokPage;
+  final String youtubePage;
 
-  Map<String, dynamic> toJson() => {
-        "phoneNumber": phoneNumber,
-        "email": email,
-        "address": address,
-        "website": website,
-        "facebookPage": facebookPage,
-        "instagramPage": instagramPage,
-        "tiktokPage": tiktokPage,
-        "youtubePage": youtubePage,
-      };
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      phoneNumber: json["phoneNumber"] ?? "",
+      email: json["email"] ?? "",
+      address: json["address"] ?? "",
+      website: json["website"] ?? "",
+      facebookPage: json["facebookPage"] ?? "",
+      instagramPage: json["instagramPage"] ?? "",
+      tiktokPage: json["tiktokPage"] ?? "",
+      youtubePage: json["youtubePage"] ?? "",
+    );
+  }
+}
+
+class Rating {
+  Rating({
+    this.starts,
+    this.reviewCount,
+  });
+
+  final dynamic starts;
+  final int? reviewCount;
+
+  factory Rating.fromJson(Map<String, dynamic> json) {
+    return Rating(
+        starts:
+            (json["starts"] is num) ? (json["starts"] as num).toDouble() : null,
+        reviewCount: json["reviewCount"] ?? 0);
+  }
 }
 
 class Offer {
-  int id;
-  String name;
-  String title;
-  String tag;
-  Media image;
-  DateTime expirationDate;
-  bool isFavourite;
-  String description;
-
   Offer({
     required this.id,
-    required this.name,
     required this.title,
     required this.tag,
+    required this.name,
+    required this.description,
     required this.image,
     required this.expirationDate,
     required this.isFavourite,
-    required this.description,
+    required this.appObject,
   });
 
-  factory Offer.fromJson(Map<String, dynamic> json) => Offer(
-      id: json["id"],
-      name: json["name"],
-      title: json["title"],
-      tag: json["tag"],
-      image: Media.fromJson(json["image"]),
-      expirationDate: DateTime.parse(json["expirationDate"]),
-      isFavourite: json["isFavourite"],
-      description: json["description"]);
+  final int id;
+  final String title;
+  final String tag;
+  final String name;
+  final String description;
+  final Media? image;
+  final DateTime? expirationDate;
+  final bool isFavourite;
+  final AppObject? appObject;
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "title": title,
-        "tag": tag,
-        "image": image.toJson(),
-        "expirationDate": expirationDate.toIso8601String(),
-        "isFavourite": isFavourite,
-        "description": description,
-      };
+  factory Offer.fromJson(Map<String, dynamic> json) {
+    return Offer(
+      id: json["id"] ?? 0,
+      title: json["title"] ?? "",
+      tag: json["tag"] ?? "",
+      name: json["name"] ?? "",
+      description: json["description"] ?? "",
+      image: json["image"] == null ? null : Media.fromJson(json["image"]),
+      expirationDate: DateTime.tryParse(json["expirationDate"] ?? ""),
+      isFavourite: json["isFavourite"] ?? false,
+      appObject: json["appObject"] == null
+          ? null
+          : AppObject.fromJson(json["appObject"]),
+    );
+  }
 }

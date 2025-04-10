@@ -78,9 +78,6 @@ class HomeBody extends StatelessWidget {
                       ? Container()
                       : FeaturedBusinessLayout(
                               data: e.value,
-                              addTap: () => dash.onFeatured(
-                                  context, e.value, e.key,
-                                  inCart: isInCart(context, e.value.id)),
                               inCart: isInCart(context, e.value.id),
                               onTap: () => route.pushNamed(
                                   context, routeName.businessDetailsScreen))

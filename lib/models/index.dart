@@ -1,6 +1,5 @@
 export 'package:goapp/models/media_model.dart';
 export 'package:goapp/models/category_model.dart';
-export 'package:goapp/models/banner_model.dart';
 export 'package:goapp/models/service_package_model.dart';
 export 'package:goapp/models/country_model.dart';
 export 'package:goapp/models/service_model.dart';

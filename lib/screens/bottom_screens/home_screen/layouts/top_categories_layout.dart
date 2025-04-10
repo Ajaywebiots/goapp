@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config.dart';
@@ -24,66 +25,74 @@ class TopCategoriesLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-          height: Sizes.s60,
-          width: Sizes.s60,
-          decoration: isHomeScreen
-              ? ShapeDecoration(
-                  shape: SmoothRectangleBorder(
-                      borderAlign: BorderAlign.outside,
-                      borderRadius: SmoothBorderRadius.all(SmoothRadius(
-                          cornerRadius: AppRadius.r10, cornerSmoothing: 1)),
-                      side: BorderSide(
-                          width: 1, color: appColor(context).darkText)))
-              : ShapeDecoration(
-                  color: selectedIndex == index
-                      ? appColor(context).primary.withOpacity(0.2)
-                      : appColor(context).fieldCardBg,
-                  shape: SmoothRectangleBorder(
-                      side: BorderSide(
-                          color: selectedIndex == index
-                              ? appColor(context).primary
-                              : appColor(context).trans),
-                      borderRadius: SmoothBorderRadius(
-                          cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
-          child: Image.network(data.icon,
-              cacheHeight:
-                  25) /*data!.media != null && data!.media!.isNotEmpty
-              ? SvgPicture.asset(data!.media![0].originalUrl!,
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == index
-                              ? appColor(context).primary
-                              : appColor(context).darkText,
-                          BlendMode.srcIn),
-                      fit: BoxFit.fill,
-                      height: Sizes.s24,
-                      width: Sizes.s24)
-                  .paddingAll(Insets.i17)
-              : selectedIndex == index
-                  ? Image.asset(eImageAssets.noImageFound1,
-                          color: appColor(context).primary,
-                          fit: BoxFit.cover,
+    return Consumer<SearchProvider>(builder: (context, searchPvr, child) {
+      return Column(children: [
+        Container(
+            height: Sizes.s60,
+            width: Sizes.s60,
+            decoration: isHomeScreen
+                ? ShapeDecoration(
+                    shape: SmoothRectangleBorder(
+                        borderAlign: BorderAlign.outside,
+                        borderRadius: SmoothBorderRadius.all(SmoothRadius(
+                            cornerRadius: AppRadius.r10, cornerSmoothing: 1)),
+                        side: BorderSide(
+                            width: 1, color: appColor(context).darkText)))
+                : ShapeDecoration(
+                    color: selectedIndex == index
+                        ? searchPvr.popular == true
+                            ? appColor(context).fieldCardBg
+                            : appColor(context).primary.withOpacity(0.2)
+                        : appColor(context).fieldCardBg,
+                    shape: SmoothRectangleBorder(
+                        side: BorderSide(
+                            color: selectedIndex == index
+                                ? searchPvr.popular == true
+                                    ? appColor(context).trans
+                                    : appColor(context).primary
+                                : appColor(context).trans),
+                        borderRadius: SmoothBorderRadius(
+                            cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
+            child: Image.network(data.icon,
+                cacheHeight:
+                    25) /*data!.media != null && data!.media!.isNotEmpty
+                  ? SvgPicture.asset(data!.media![0].originalUrl!,
+                          colorFilter: ColorFilter.mode(
+                              selectedIndex == index
+                                  ? appColor(context).primary
+                                  : appColor(context).darkText,
+                              BlendMode.srcIn),
+                          fit: BoxFit.fill,
                           height: Sizes.s24,
                           width: Sizes.s24)
-                      .paddingAll(Insets.i18)
-                  : Image.asset(eImageAssets.noImageFound1,
-                          fit: BoxFit.cover,
-                          height: Sizes.s24,
-                          width: Sizes.s24)
-                      .paddingAll(Insets.i18)*/
-          ),
-      const VSpace(Sizes.s8),
-      Marquee(
-          directionMarguee: DirectionMarguee.oneDirection,
-          animationDuration: const Duration(milliseconds: 1500),
-          pauseDuration: const Duration(milliseconds: 1000),
-          child: Text(language(context, data?.translatedValue ?? ""),
-              textAlign: TextAlign.center,
-              style: appCss.dmDenseRegular13.textColor(selectedIndex == index
-                  ? appColor(context).primary
-                  : appColor(context).darkText))),
-    ]).width(Sizes.s68).inkWell(onTap: onTap);
+                      .paddingAll(Insets.i17)
+                  : selectedIndex == index
+                      ? Image.asset(eImageAssets.noImageFound1,
+                              color: appColor(context).primary,
+                              fit: BoxFit.cover,
+                              height: Sizes.s24,
+                              width: Sizes.s24)
+                          .paddingAll(Insets.i18)
+                      : Image.asset(eImageAssets.noImageFound1,
+                              fit: BoxFit.cover,
+                              height: Sizes.s24,
+                              width: Sizes.s24)
+                          .paddingAll(Insets.i18)*/
+            ),
+        const VSpace(Sizes.s8),
+        Marquee(
+            directionMarguee: DirectionMarguee.oneDirection,
+            animationDuration: const Duration(milliseconds: 1500),
+            pauseDuration: const Duration(milliseconds: 1000),
+            child: Text(language(context, data?.translatedValue ?? ""),
+                textAlign: TextAlign.center,
+                style: appCss.dmDenseRegular13.textColor(selectedIndex == index
+                    ? searchPvr.popular
+                        ? appColor(context).darkText
+                        : appColor(context).primary
+                    : appColor(context).darkText)))
+      ]).width(Sizes.s68).inkWell(onTap: onTap);
+    });
   }
 }
 

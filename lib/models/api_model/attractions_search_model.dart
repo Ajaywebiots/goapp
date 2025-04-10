@@ -1,3 +1,5 @@
+import 'home_feed_model.dart';
+
 class AttractionsSearchModel {
   AttractionsSearchModel({
     required this.attractions,
@@ -11,51 +13,12 @@ class AttractionsSearchModel {
 
   factory AttractionsSearchModel.fromJson(Map<String, dynamic> json) {
     return AttractionsSearchModel(
-      attractions: json["attractions"] == null
-          ? []
-          : List<Attraction>.from(
-              json["attractions"]!.map((x) => Attraction.fromJson(x))),
-      responseStatus: json["responseStatus"],
-      responseMessage: json["responseMessage"],
-    );
-  }
-}
-
-class Attraction {
-  Attraction({
-    required this.id,
-    required this.name,
-    required this.rating,
-    required this.image,
-    required this.location,
-    required this.attractionCategories,
-    required this.isFavourite,
-    required this.appObject,
-  });
-
-  final int? id;
-  final String? name;
-  final dynamic rating;
-  final Image? image;
-  final Location? location;
-  final dynamic attractionCategories;
-  final bool? isFavourite;
-  final AppObject? appObject;
-
-  factory Attraction.fromJson(Map<String, dynamic> json) {
-    return Attraction(
-      id: json["id"],
-      name: json["name"],
-      rating: json["rating"],
-      image: json["image"] == null ? null : Image.fromJson(json["image"]),
-      location:
-          json["location"] == null ? null : Location.fromJson(json["location"]),
-      attractionCategories: json["attractionCategories"],
-      isFavourite: json["isFavourite"],
-      appObject: json["appObject"] == null
-          ? null
-          : AppObject.fromJson(json["appObject"]),
-    );
+        attractions: json["attractions"] == null
+            ? []
+            : List<Attraction>.from(
+                json["attractions"]!.map((x) => Attraction.fromJson(x))),
+        responseStatus: json["responseStatus"],
+        responseMessage: json["responseMessage"]);
   }
 }
 

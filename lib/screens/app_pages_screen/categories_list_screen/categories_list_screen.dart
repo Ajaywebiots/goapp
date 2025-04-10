@@ -15,7 +15,7 @@ class CategoriesListScreen extends StatelessWidget {
     return Consumer<CategoriesListProvider>(builder: (context1, value, child) {
       return StatefulWrapper(
           onInit: () => Future.delayed(DurationClass.ms50)
-              .then((vaj) => value.onReady(context, dash)),
+              .then((vaj) => value.onReady(context)),
           child: DirectionalityRtl(
               child: Scaffold(
                   appBar: AppBar(

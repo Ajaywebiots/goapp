@@ -36,7 +36,7 @@ class Services {
   PrimaryAddress? primaryAddress;
   int? totalReviewRating;
   bool? isFav;
-  String? distance;
+  double? distance;
 
   Services(
       {this.id,

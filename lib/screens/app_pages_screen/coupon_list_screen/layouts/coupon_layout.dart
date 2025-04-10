@@ -26,10 +26,15 @@ class CouponLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(data!.image!.source!))
-                          .padding(right: Insets.i10),
+                      data!.image == null
+                          ? CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage(eImageAssets.img3))
+                              .padding(right: Insets.i10)
+                          : CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(data!.image!.source))
+                              .padding(right: Insets.i10),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(

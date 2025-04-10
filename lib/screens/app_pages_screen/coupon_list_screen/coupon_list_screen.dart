@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 
 import '../../../config.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
@@ -22,40 +23,41 @@ class _CouponListScreenState extends State<CouponListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DashboardProvider>(builder: (context3, dash, child) {
-      return DirectionalityRtl(
-          child: Scaffold(
-              appBar: AppBarCommon(title: appFonts.offers),
-              body: SingleChildScrollView(
-                  child: Column(children: [
-                SearchTextFieldCommon(
-                    controller: dash.searchCtrl,
-                    focusNode: dash.searchFocus,
-                    suffixIcon: FilterIconCommon(
-                        selectedFilter: "",
-                        onTap: () {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return const FilterLayout2();
-                              }).then((value) {
-                            log("DDDD");
-                            final dash = Provider.of<SearchProvider>(context,
-                                listen: false);
-                            dash.getCategory();
-                            dash.notifyListeners();
-                            dash.filterSearchCtrl.text = "";
-                          });
-                        })),
-                VSpace(Insets.i22),
-                ...dash.couponOfferList.asMap().entries.map((e) => CouponLayout(
-                    data: e.value,
-                    onTap: () {
-                      route.pushNamed(context, routeName.offerDetailsScreen);
-                      // route.pop(context, arg: e.value);
-                    }))
-              ]).paddingSymmetric(horizontal: Insets.i20))));
+    return Consumer<OfferProvider>(builder: (context3, offerPvr, child) {
+      return StatefulWrapper(
+        onInit: () => Future.delayed(
+            Duration(milliseconds: 150), () => offerPvr.onReady()),
+        child: DirectionalityRtl(
+            child: Scaffold(
+                appBar: AppBarCommon(title: appFonts.offers),
+                body: SingleChildScrollView(
+                    child: Column(children: [
+                  SearchTextFieldCommon(
+                      controller: offerPvr.searchCtrl,
+                      focusNode: offerPvr.searchFocus,
+                      suffixIcon: FilterIconCommon(
+                          selectedFilter: "",
+                          onTap: () {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  return const FilterLayout2();
+                                });
+                          })),
+                  VSpace(Insets.i22),
+                  ...offerPvr.offerViewAllList
+                      .asMap()
+                      .entries
+                      .map((e) => CouponLayout(
+                          data: e.value,
+                          onTap: () {
+                            route.pushNamed(
+                                context, routeName.offerDetailsScreen);
+                            // route.pop(context, arg: e.value);
+                          }))
+                ]).paddingSymmetric(horizontal: Insets.i20)))),
+      );
     });
   }
 }

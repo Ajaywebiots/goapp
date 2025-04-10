@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/layouts/coupon_layout.dart';
 
 import '../../../config.dart';
@@ -114,27 +117,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ? Container()
                           : SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: dash.firstTwoBlogList.isNotEmpty
-                                  ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: dash.firstTwoBlogList
-                                              .asMap()
-                                              .entries
-                                              .map((e) => LatestBlogLayout(
-                                                  data: e.value))
-                                              .toList())
-                                      .paddingOnly(left: Insets.i20)
-                                  : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: dash.firstTwoBlogList
-                                              .asMap()
-                                              .entries
-                                              .map((e) => LatestBlogLayout(
-                                                  data: e.value))
-                                              .toList())
-                                      .paddingOnly(left: Insets.i20)),
+                              child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: dash.firstTwoBlogList
+                                          .asMap()
+                                          .entries
+                                          .map((e) => LatestBlogLayout(
+                                              onTap: () {
+                                                final sss = Provider.of<
+                                                        LatestBLogDetailsProvider>(
+                                                    context,
+                                                    listen: false);
+                                                sss.detailsDataAPI(
+                                                    context, e.value.id);
+                                              },
+                                              data: e.value))
+                                          .toList())
+                                  .paddingOnly(left: Insets.i20)),
                       const VSpace(Sizes.s50)
                     ]))));
       });

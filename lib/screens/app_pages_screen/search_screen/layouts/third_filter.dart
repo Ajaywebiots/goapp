@@ -36,9 +36,9 @@ class ThirdFilter extends StatelessWidget {
                             style: appCss.dmDenseMedium14
                                 .textColor(appColor(context).darkText))
                       ])),
-                      FilterRadioLayout(
+                      /*     FilterRadioLayout(
                           isCheck: value.isSelect,
-                          onTap: () => value.onChange1())
+                          onTap: () => value.onChange1())*/
                     ]),
                 /*  FutureBuilder<FrameInfo>(
                       future: value.loadImage(eImageAssets.userSlider),

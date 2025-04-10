@@ -20,6 +20,7 @@ class Reviews {
   List<Media>? media;
   UserModel? consumer;
   Services? service;
+  String? category;
   ServicemanModel? serviceman;
   ProviderModel? provider;
 
@@ -37,6 +38,7 @@ class Reviews {
       this.media,
       this.consumer,
       this.service,
+      this.category,
       this.serviceman,
       this.provider});
 
@@ -51,6 +53,7 @@ class Reviews {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    category = json['category'];
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
@@ -81,6 +84,7 @@ class Reviews {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    data['category'] = category;
     if (media != null) {
       data['media'] = media!.map((v) => v.toJson()).toList();
     }

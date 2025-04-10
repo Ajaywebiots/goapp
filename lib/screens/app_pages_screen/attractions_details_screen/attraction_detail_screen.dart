@@ -64,7 +64,7 @@ class AttractionDetailScreen extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text("Monument",
-                                            style: appCss.dmDenseRegular13),
+                                            style: appCss.dmDenseRegular13)
                                       ]),
                                   VSpace(Insets.i15),
                                   Column(children: [

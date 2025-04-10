@@ -8,6 +8,7 @@ import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
 import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/my_review_provider.dart';
 import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
 import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
@@ -21,6 +22,7 @@ import 'package:goapp/providers/bottom_providers/booking_provider.dart';
 import 'package:goapp/providers/bottom_providers/cart_provider.dart';
 import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
+import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
@@ -80,6 +82,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => RegisterProvider()),
                   ChangeNotifierProvider(create: (_) => SocialRegProvider()),
                   ChangeNotifierProvider(create: (_) => SearchProvider()),
+                  ChangeNotifierProvider(create: (_) => MyReviewProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LatestBLogDetailsProvider()),
                   ChangeNotifierProvider(
@@ -103,6 +106,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => NotificationProvider()),
                   ChangeNotifierProvider(create: (_) => RateAppProvider()),
                   ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
+                  ChangeNotifierProvider(create: (_) => OfferProvider()),
                   ChangeNotifierProvider(
                       create: (_) => ProfileDetailProvider()),
                   ChangeNotifierProvider(

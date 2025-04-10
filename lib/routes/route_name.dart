@@ -33,4 +33,6 @@ class RouteName {
   final String serviceReviewScreen = '/serviceReviewScreen';
   final String offerDetailsScreen = '/offerDetailsScreen';
   final String appSetting = '/appSetting';
+  final String favScreenList = '/favScreenList';
+  final String reviewScreen = '/reviewScreen';
 }

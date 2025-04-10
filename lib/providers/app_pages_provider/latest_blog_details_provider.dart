@@ -1,27 +1,46 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:goapp/models/api_model/articles_detail_model.dart';
 
 import '../../config.dart';
 import '../../models/api_model/articles_search_model.dart';
 import '../../models/api_model/blog_categories_model.dart';
 import '../../models/api_model/home_feed_model.dart';
-import '../../models/blog_model.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import '../../services/api_service.dart';
-import '../bottom_providers/dashboard_provider.dart';
 
 class LatestBLogDetailsProvider with ChangeNotifier {
-  Article? data;
+  // Article? data;
+  ArticlesDetailModel? articleDetail;
 
   onReady(context) {
     getArticlesSearchAPI(context);
-    dynamic data1 = ModalRoute.of(context)!.settings.arguments;
-    data = data1;
+    // dynamic data1 = ModalRoute.of(context)!.settings.arguments;
+    // data = data1;
     blogCategoriesData(context);
     notifyListeners();
 
     notifyListeners();
+  }
+
+  detailsDataAPI(context, value) {
+    try {
+      apiServices
+          .commonApi("${api.blogDetails}${value}/details", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.data['responseStatus'] == 1) {
+          ArticlesDetailModel articlesDetailModel =
+              ArticlesDetailModel.fromJson(value.data);
+          articleDetail = articlesDetailModel;
+
+          route.pushNamed(context, routeName.latestBlogDetails);
+        }
+      });
+    } catch (e) {
+      log("detailsDataAPI :: $e");
+    }
   }
 
   List selectedCategory = [];

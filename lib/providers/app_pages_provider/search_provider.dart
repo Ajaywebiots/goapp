@@ -2,18 +2,25 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:goapp/config.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
+import 'package:goapp/models/api_model/business_category_model.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 
 import '../../common_tap.dart';
+import '../../models/api_model/business_details_model.dart';
 import '../../models/api_model/business_search_model.dart';
 import '../../models/api_model/home_feed_model.dart';
 import '../../models/category_model.dart';
 import '../../models/service_model.dart';
+import '../../screens/app_pages_screen/search_screen/filter_tap_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
+import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
+import '../../screens/app_pages_screen/search_screen/layouts/second_filter.dart';
+import '../../screens/app_pages_screen/search_screen/layouts/third_filter.dart';
 import '../../services/api_service.dart';
 import '../bottom_providers/dashboard_provider.dart';
 import 'categories_details_provider.dart';
@@ -32,6 +39,21 @@ class SearchProvider with ChangeNotifier {
   List selectedRates = [];
   List<Services> searchList = [];
   List<Services> recentSearchList = [];
+
+  int selectedIndex = 0;
+
+  onSubCategories(context, index, id) {
+    selectedIndex = index;
+    popular = false;
+    businessSearchList.clear();
+    log("cateeee ${id}");
+    getBusinessSearchAPI(context, id: id, isFilter: true);
+    // onSubCategoriesStored(context, index, id);
+    notifyListeners();
+    log("idid:$id");
+    // getServiceByCategoryId(context, id);
+  }
+
 
   ui.FrameInfo? image, image1;
   double slider = 0.0,
@@ -53,6 +75,27 @@ class SearchProvider with ChangeNotifier {
     isSearch = false;
     searchCtrl.text = "";
     notifyListeners();
+  }
+
+  BusinessDetailModel? businessDetail;
+
+  businessDetailsAPI(context, id) {
+    try {
+      apiServices
+          .commonApi("${api.businessDetails}$id/details", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.data['responseStatus'] == 1) {
+          BusinessDetailModel businessDetailModel =
+              BusinessDetailModel.fromJson(value.data);
+          businessDetail = businessDetailModel;
+
+          route.pushNamed(context, routeName.businessDetailsScreen);
+        }
+      });
+    } catch (e) {
+      log("detailsDataAPI :: $e");
+    }
   }
 
   onTapRating(id) {
@@ -112,25 +155,49 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onAnimate(context, TickerProvider sync) async {
-    pref = await SharedPreferences.getInstance();
+  onAnimate(context) async {
+    // pref = await SharedPreferences.getInstance();
 
     notifyListeners();
     getRecentSearch();
-    animationController = AnimationController(
-        vsync: sync, duration: const Duration(milliseconds: 1200));
-    _runAnimation();
-    FrameInfo fi = await loadImage(eImageAssets.userSlider);
-    customImage = fi.image;
+    // animationController = AnimationController(
+    //     vsync: sync, duration: const Duration(milliseconds: 1200));
+    // FrameInfo fi = await loadImage(eImageAssets.userSlider);
+    // customImage = fi.image;
     final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
     final cat = Provider.of<CategoriesDetailsProvider>(context, listen: false);
     categoryList = dashCtrl.categoryList;
-    recentSearchList =
-        appArray.recentSearch.map((e) => Services.fromJson(e)).toList();
+    // recentSearchList =
+    //     appArray.recentSearch.map((e) => Services.fromJson(e)).toList();
     cat.onReady(context);
     notifyListeners();
     log("CATEG :${categoryList.length}");
   }
+
+  List<Categories> cachedServiceList = [];
+
+  /*onSubCategoriesStored(context, index, id) async {
+    cachedServiceList = [];
+    selectedIndex = index;
+    notifyListeners();
+    log("cachedServiceList :${selectedIndex}///$index//$id");
+
+    // Store last 3 selected list data
+    int val = cachedServiceList.indexWhere(
+        (element) => element.categoryId.toString() == id.toString());
+    log("index :$val");
+    if (val >= 0) {
+      businessSearchList = cachedServiceList[val].categoryId! as List<Business>;
+    } else {
+      getBusinessSearchAPI(context, id: id);
+    }
+
+    log("STORED LIST::${businessSearchList.length}");
+    log("STORED LIST::${cachedServiceList[val]}");
+    // await getServiceByCategoryId(context, id);
+    // hideLoading(context);
+    // notifyListeners();
+  }*/
 
   getRecentSearch() {
     dynamic save = pref!.getString(session.recentSearch);
@@ -146,19 +213,129 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
-  void _runAnimation() async {
-    for (int i = 0; i < 300; i++) {
-      await animationController!.forward();
-      await animationController!.reverse();
-    }
-  }
-
   onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return FilterLayout(value1);
+          return Consumer<SearchProvider>(builder: (context, value, child) {
+            return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.14,
+                child: Stack(children: [
+                  Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(language(context, appFonts.filterBy),
+                                  style: appCss.dmDenseMedium18
+                                      .textColor(appColor(context).darkText)),
+                              const Icon(CupertinoIcons.multiply)
+                                  .inkWell(onTap: () => route.pop(context))
+                            ]).paddingSymmetric(horizontal: Insets.i20),
+                        Container(
+                                alignment: Alignment.center,
+                                height: Sizes.s50,
+                                decoration: BoxDecoration(
+                                    color: appColor(context).fieldCardBg,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(AppRadius.r30))),
+                                child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: appArray.filterList
+                                            .asMap()
+                                            .entries
+                                            .map((e) => FilterTapLayout(
+                                                data: e.value,
+                                                index: e.key,
+                                                selectedIndex:
+                                                    value.selectIndex,
+                                                onTap: () =>
+                                                    value.onFilter(e.key)))
+                                            .toList())
+                                    .paddingAll(Insets.i5))
+                            .paddingOnly(
+                                top: Insets.i25,
+                                bottom: (value.selectIndex == 0 ||
+                                        value.selectIndex == 2)
+                                    ? Insets.i20
+                                    : 0,
+                                left: Insets.i20,
+                                right: Insets.i20),
+                        if (value.selectIndex == 0)
+                          Text(language(context, appFonts.categoryList),
+                                  style: appCss.dmDenseRegular14
+                                      .textColor(appColor(context).lightText))
+                              .paddingSymmetric(horizontal: Insets.i20),
+                        if (value.selectIndex == 0) const VSpace(Sizes.s15),
+                        // if (value.selectIndex == 0)
+                        //   SearchTextFieldCommon(
+                        //       controller: value.filterSearchCtrl,
+                        //       focusNode: value.filterSearchFocus,
+                        //       onChanged: (v) {
+                        //         if (v.isEmpty) {
+                        //           log("v.isEmpty:${v.isEmpty}");
+                        //           if (value.selectIndex == 0) {
+                        //             value.getCategory();
+                        //           }
+                        //         }
+                        //       },
+                        //       onFieldSubmitted: (v) {
+                        //         if (value.selectIndex == 0) {
+                        //           value.getCategory(search: value.filterSearchCtrl.text);
+                        //         }
+                        //       }).paddingSymmetric(horizontal: Insets.i20),
+                        if (value.selectIndex == 0) const VSpace(Sizes.s15),
+                        Expanded(
+                            child: Column(children: [
+                          value.selectIndex == 0
+                              ? Expanded(
+                                  child: ListView.builder(
+                                      itemCount: value1.categoryList.length,
+                                      //physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      itemBuilder: (context, index) {
+                                        return ListTileLayout(
+                                            data: value1.categoryList[index],
+                                            selectedCategory:
+                                                value.selectedCategory,
+                                            onTap: () {
+                                              value.onCategoryChange(
+                                                  context,
+                                                  value.categoryList[index]
+                                                      .categoryId);
+                                            });
+                                      }))
+                              : value.selectIndex == 1
+                                  ? SecondFilter(
+                                      min: value.minPrice,
+                                      max: value.maxPrice,
+                                      lowerVal: value.lowerVal,
+                                      upperVal: value.upperVal,
+                                      selectIndex: value.ratingIndex,
+                                      onDragging: (handlerIndex, lowerValue,
+                                              upperValue) =>
+                                          value.onSliderChange(handlerIndex,
+                                              lowerValue, upperValue))
+                                  : const ThirdFilter()
+                        ]))
+                      ])
+                      .paddingSymmetric(vertical: Insets.i20)
+                      .marginOnly(bottom: Insets.i50),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: BottomSheetButtonCommon(
+                          textOne: appFonts.clearAll,
+                          textTwo: appFonts.apply,
+                          applyTap: () {
+                            value.searchService(context, isPop: true);
+                          },
+                          clearTap: () => value.clearFilter(context)))
+                ])).bottomSheetExtension(context);
+          });
         }).then((value) {
       log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);
@@ -175,8 +352,6 @@ class SearchProvider with ChangeNotifier {
     type = appArray.type.map((e) => CategoryModel.fromJson(e)).toList();
     notifyListeners();
   }
-
-
 
   onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
@@ -447,30 +622,39 @@ class SearchProvider with ChangeNotifier {
 
     notifyListeners();
   }
-  List businessSearchList = [];
-  getBusinessSearchAPI(context) async {
+
+  bool popular = true;
+  List<Business> businessSearchList = [];
+
+  getBusinessSearchAPI(context, {int? id, bool? isFilter}) async {
     final dashboard = Provider.of<DashboardProvider>(context, listen: false);
     Position position = await dashboard.getCurrentLocation();
     double lat = position.latitude;
     double lon = position.longitude;
+
+    final filterList =
+        "${api.businessSearch}?categories=$id&currentLongitude=$lon&currentLatitude=$lat";
     try {
       log("hello  kjhdfjkdfjsd  sssss ");
       apiServices
           .commonApi(
-          '${api.businessSearch}?currentLongitude=$lon&currentLatitude=$lat',
-          [],
-          ApiType.get,
-          isToken: true)
+              isFilter == true
+                  ? filterList
+                  : "${api.businessSearch}?currentLongitude=$lon&currentLatitude=$lat",
+              [],
+              ApiType.get,
+              isToken: true)
           .then((value) {
         log("value.data ${value.data}");
         if (value.data['responseStatus'] == 1) {
           hideLoading(context);
           businessSearchList.clear();
+          notifyListeners();
           BusinessSearchModel businessSearchModel =
-          BusinessSearchModel.fromJson(value.data);
-
+              BusinessSearchModel.fromJson(value.data);
+          notifyListeners();
           businessSearchList.addAll(businessSearchModel.businesses);
-
+          notifyListeners();
           log("businessSearchList $businessSearchList");
         }
       });

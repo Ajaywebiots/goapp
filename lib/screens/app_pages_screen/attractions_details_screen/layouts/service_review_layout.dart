@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import '../../../../config.dart';
+import '../../../../models/review_model.dart';
 
 class ServiceReviewLayout extends StatelessWidget {
-  final data;
+  final Reviews? data;
   final List? list;
   final int? index;
 
@@ -9,23 +12,34 @@ class ServiceReviewLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("DTTT :${data!.consumer!.media}");
     return SizedBox(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       ListTile(
           dense: true,
           contentPadding: EdgeInsets.zero,
-          leading: Container(
-              height: Sizes.s40,
-              width: Sizes.s40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage(eImageAssets.noImageFound3)))),
-          title: Text(data!.ownerName!,
+          leading:
+              data!.consumer!.media != null && data!.consumer!.media!.isNotEmpty
+                  ? Container(
+                      height: Sizes.s40,
+                      width: Sizes.s40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: AssetImage(eImageAssets.noImageFound3))))
+                  : Container(
+                      height: Sizes.s40,
+                      width: Sizes.s40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: AssetImage(eImageAssets.noImageFound3),
+                              fit: BoxFit.contain))),
+          title: Text(data!.consumer!.name!,
               style:
                   appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
           subtitle: data!.createdAt != null
-              ? Text(getTime(DateTime.parse(data!.createdAt!.toString())),
+              ? Text(getTime(DateTime.parse(data!.createdAt!)),
                   style: appCss.dmDenseMedium12
                       .textColor(appColor(context).lightText))
               : Container(),

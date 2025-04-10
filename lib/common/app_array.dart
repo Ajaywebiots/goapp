@@ -223,92 +223,92 @@ class AppArray {
     },
   ];
 
-  var featuredList = [
-    {
-      "id": 4,
-      "title": appFonts.cleaningBathroom,
-      "price": "40.56",
-      "status": "1",
-      "duration": "00:30",
-      "distance": "2 km",
-      "duration_unit": "minute",
-      "service_rate": "30",
-      "discount": "10.00",
-      "description": "Restaurants",
-      "user_id": "2",
-      "required_servicemen": "1",
-      "created_by_id": "1",
-      "review_ratings": [0, 0, 0, 0, 1],
-      "total_review_ratings": 81,
-      "rating_count": 5,
-      "isFav": true,
-      "phoneNum": '+30 210 4652115',
-      "location": "Ag.Nikolaou 11, 18900",
-      "media": [
-        {"id": 34, "original_url": eImageAssets.fs1}
-      ],
-      "user": {
-        "id": 2,
-        "name": "Belair All Day Bar And Resto",
-        "email": "provider@example.com",
-        "served": "3",
-        "phone": "3696566666",
-        "code": "93",
-        "provider_id": null,
-        "experience_interval": "year",
-        "experience_duration": "5",
-        "description": "Loren Description",
-        "review_ratings": 5,
-        "media": [
-          {"id": 1, "original_url": eImageAssets.fsProfile1}
-        ],
-      }
-    },
-    {
-      "id": 3,
-      "title": "",
-      "price": "15.23",
-      "status": "1",
-      "duration": "02:00",
-      "duration_unit": "hour",
-      "distance": "0.5 km",
-      "service_rate": "15.23",
-      "discount": "Free Drink",
-      "description": "Restaurants",
-      "user_id": "2",
-      "required_servicemen": "1",
-      "review_ratings": [0, 0, 0, 0, 0],
-      "total_review_ratings": 810,
-      "rating_count": 3,
-      "isFav": false,
-      "phoneNum": '+30 210 4657587',
-      "location": "Akti Karaiskaki 56, Salamina 189 00",
-      "media": [
-        {
-          "id": 32,
-          "original_url": eImageAssets.fs2,
-        }
-      ],
-      "user": {
-        "id": 2,
-        "name": "Ouzeri Paralia",
-        "email": "provider@example.com",
-        "served": "3",
-        "phone": "9537670615",
-        "code": "93",
-        "provider_id": null,
-        "experience_interval": "year",
-        "experience_duration": "5",
-        "created_by": null,
-        "description": "Loren Description",
-        "review_ratings": 5,
-        "ServicemanReviewRatings": null,
-        "media": [
-          {"id": 1, "original_url": eImageAssets.fsProfile2}
-        ]
-      }
-    }
-  ];
+  // var featuredList = [
+  //   {
+  //     "id": 4,
+  //     "title": appFonts.cleaningBathroom,
+  //     "price": "40.56",
+  //     "status": "1",
+  //     "duration": "00:30",
+  //     "distance": "2 km",
+  //     "duration_unit": "minute",
+  //     "service_rate": "30",
+  //     "discount": "10.00",
+  //     "description": "Restaurants",
+  //     "user_id": "2",
+  //     "required_servicemen": "1",
+  //     "created_by_id": "1",
+  //     "review_ratings": [0, 0, 0, 0, 1],
+  //     "total_review_ratings": 81,
+  //     "rating_count": 5,
+  //     "isFav": true,
+  //     "phoneNum": '+30 210 4652115',
+  //     "location": "Ag.Nikolaou 11, 18900",
+  //     "media": [
+  //       {"id": 34, "original_url": eImageAssets.fs1}
+  //     ],
+  //     "user": {
+  //       "id": 2,
+  //       "name": "Belair All Day Bar And Resto",
+  //       "email": "provider@example.com",
+  //       "served": "3",
+  //       "phone": "3696566666",
+  //       "code": "93",
+  //       "provider_id": null,
+  //       "experience_interval": "year",
+  //       "experience_duration": "5",
+  //       "description": "Loren Description",
+  //       "review_ratings": 5,
+  //       "media": [
+  //         {"id": 1, "original_url": eImageAssets.fsProfile1}
+  //       ],
+  //     }
+  //   },
+  //   {
+  //     "id": 3,
+  //     "title": "",
+  //     "price": "15.23",
+  //     "status": "1",
+  //     "duration": "02:00",
+  //     "duration_unit": "hour",
+  //     "distance": "0.5 km",
+  //     "service_rate": "15.23",
+  //     "discount": "Free Drink",
+  //     "description": "Restaurants",
+  //     "user_id": "2",
+  //     "required_servicemen": "1",
+  //     "review_ratings": [0, 0, 0, 0, 0],
+  //     "total_review_ratings": 810,
+  //     "rating_count": 3,
+  //     "isFav": false,
+  //     "phoneNum": '+30 210 4657587',
+  //     "location": "Akti Karaiskaki 56, Salamina 189 00",
+  //     "media": [
+  //       {
+  //         "id": 32,
+  //         "original_url": eImageAssets.fs2,
+  //       }
+  //     ],
+  //     "user": {
+  //       "id": 2,
+  //       "name": "Ouzeri Paralia",
+  //       "email": "provider@example.com",
+  //       "served": "3",
+  //       "phone": "9537670615",
+  //       "code": "93",
+  //       "provider_id": null,
+  //       "experience_interval": "year",
+  //       "experience_duration": "5",
+  //       "created_by": null,
+  //       "description": "Loren Description",
+  //       "review_ratings": 5,
+  //       "ServicemanReviewRatings": null,
+  //       "media": [
+  //         {"id": 1, "original_url": eImageAssets.fsProfile2}
+  //       ]
+  //     }
+  //   }
+  // ];
 
   var featureAttractions = [
     {
@@ -1094,6 +1094,7 @@ class AppArray {
     {
       "id": 5,
       "service_id": 4,
+      "category": "Restaurant",
       "consumer_id": 53,
       "provider_id": 2,
       "serviceman_id": null,
@@ -1118,6 +1119,7 @@ class AppArray {
     {
       "id": 8,
       "service_id": null,
+      "category": "Bar",
       "consumer_id": 53,
       "provider_id": null,
       "serviceman_id": 34,
@@ -1142,6 +1144,7 @@ class AppArray {
     {
       "id": 5,
       "service_id": 4,
+      "category": "Hotel",
       "consumer_id": 53,
       "provider_id": 2,
       "serviceman_id": null,
@@ -1175,6 +1178,7 @@ class AppArray {
     {
       "id": 8,
       "service_id": null,
+      "category": "Restaurant",
       "consumer_id": 53,
       "provider_id": null,
       "serviceman_id": 34,
@@ -1808,6 +1812,7 @@ class AppArray {
   ];
 
   var filterList = [appFonts.category, appFonts.rating, appFonts.distance];
+  var favList = ["Offers", "Businesses", "Attractions"];
 
   var filterList1 = ["Category", "Type", appFonts.distance];
 

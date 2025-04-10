@@ -1,10 +1,13 @@
+import 'dart:developer';
+
 import 'package:goapp/models/blog_model.dart';
 import 'package:intl/intl.dart';
 import '../../../../config.dart';
+import '../../../../models/api_model/articles_search_model.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 
 class LatestBlogLayout extends StatelessWidget {
-  final data;
+  final Article? data;
   final GestureTapCallback? onTap;
   final double? rPadding;
   final bool? isView;
@@ -28,7 +31,7 @@ class LatestBlogLayout extends StatelessWidget {
             child: Column(children: [
               ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                  child: Image.network(data!.media.source,
+                  child: Image.network(data!.media!.source,
                       width: isView!
                           ? MediaQuery.of(context).size.width
                           : MediaQuery.of(context).size.width > 500
@@ -80,9 +83,7 @@ class LatestBlogLayout extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(AppRadius.r8),
             border: Border.all(color: appColor(context).stroke))
-        .inkWell(
-            onTap: () => route.pushNamed(context, routeName.latestBlogDetails,
-                arg: data))
+        .inkWell(onTap: onTap)
         .padding(right: rPadding ?? Insets.i15, vertical: Insets.i10);
   }
 }

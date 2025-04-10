@@ -1,3 +1,5 @@
+import 'home_feed_model.dart';
+
 class ArticlesSearchModel {
   ArticlesSearchModel({
     required this.articles,
@@ -5,7 +7,7 @@ class ArticlesSearchModel {
     required this.responseMessage,
   });
 
-  final List<Articles> articles;
+  final List<Article> articles;
   final int? responseStatus;
   final String? responseMessage;
 
@@ -13,44 +15,10 @@ class ArticlesSearchModel {
     return ArticlesSearchModel(
       articles: json["articles"] == null
           ? []
-          : List<Articles>.from(
-              json["articles"]!.map((x) => Articles.fromJson(x))),
+          : List<Article>.from(
+              json["articles"]!.map((x) => Article.fromJson(x))),
       responseStatus: json["responseStatus"],
       responseMessage: json["responseMessage"],
-    );
-  }
-}
-
-class Articles {
-  Articles({
-    required this.id,
-    required this.title,
-    required this.createdDate,
-    required this.media,
-    required this.category,
-    required this.isFavourite,
-    required this.appObject,
-  });
-
-  final int? id;
-  final String? title;
-  final DateTime? createdDate;
-  final Media? media;
-  final String? category;
-  final bool? isFavourite;
-  final AppObject? appObject;
-
-  factory Articles.fromJson(Map<String, dynamic> json) {
-    return Articles(
-      id: json["id"],
-      title: json["title"],
-      createdDate: DateTime.tryParse(json["createdDate"] ?? ""),
-      media: json["media"] == null ? null : Media.fromJson(json["media"]),
-      category: json["category"],
-      isFavourite: json["isFavourite"],
-      appObject: json["appObject"] == null
-          ? null
-          : AppObject.fromJson(json["appObject"]),
     );
   }
 }

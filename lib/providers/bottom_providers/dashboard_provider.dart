@@ -8,6 +8,7 @@ import 'package:goapp/screens/menu_screens/menu_screen.dart';
 
 import '../../config.dart';
 import '../../models/api_model/home_feed_model.dart';
+import '../../models/api_model/home_feed_model.dart' as model;
 import '../../models/index.dart';
 import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
@@ -17,7 +18,7 @@ import '../app_pages_provider/latest_blog_details_provider.dart';
 import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
-  List<TopBanner> bannerList = [];
+  List<model.Banner> bannerList = [];
 
   // List<OfferModel> offerList = []; ////
   List<Offer> couponOfferList = [];
@@ -81,8 +82,8 @@ class DashboardProvider with ChangeNotifier {
     blogViewAllList.getArticlesSearchAPI(context);
     // getBanner();
     // getCoupons();
-    getCategory();
-    getFeaturedPackage(1);
+    // getCategory();
+    // getFeaturedPackage(1);
     // getBlog();
     // getHighestRate();
     notifyListeners();
@@ -137,7 +138,7 @@ class DashboardProvider with ChangeNotifier {
           hideLoading(context);
           log("ajay hariyani ${value.data}");
 
-          final ajay = HomeFeedModel.fromJson(value.data);
+          HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
           bannerList = [];
           couponOfferList = [];
           categoryList = [];
@@ -145,12 +146,12 @@ class DashboardProvider with ChangeNotifier {
           firstTwoHighRateList = [];
           // businessCategories = [];
           firstTwoBlogList = [];
-          bannerList.addAll(ajay.banners);
-          couponOfferList.addAll(ajay.offers);
-          categoryList.addAll(ajay.categories);
-          firstTwoFeaturedServiceList.addAll(ajay.businesses);
-          firstTwoBlogList.addAll(ajay.articles);
-          firstTwoHighRateList.addAll(ajay.attractions);
+          bannerList.addAll(homeFeedModel.banners);
+          couponOfferList.addAll(homeFeedModel.offers);
+          categoryList.addAll(homeFeedModel.categories);
+          firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
+          firstTwoBlogList.addAll(homeFeedModel.articles);
+          firstTwoHighRateList.addAll(homeFeedModel.attractions);
           log("Updated bannerList: ${bannerList.length} items");
 
           notifyListeners();
@@ -271,35 +272,35 @@ class DashboardProvider with ChangeNotifier {
 //   }
 
   //category list
-  getCategory({search}) async {
-    /* categoryList = [];
-    // notifyListeners();
-    try {
-      String apiUrl = api.category;
-      if (search != null) {
-        apiUrl = "${api.category}?search=$search";
-      } else {
-        apiUrl = api.category;
-      }
-
-      await apiServices.getApi(apiUrl, []).then((value) {
-        if (value.isSuccess!) {
-          List category = value.data;
-          for (var data in category.reversed.toList()) {
-            if (!categoryList.contains(CategoryModel.fromJson(data))) {
-              categoryList.add(CategoryModel.fromJson(data));
-            }
-            notifyListeners();
-          }
-        }
-      });
-    } catch (e) {
-      notifyListeners();
-    }*/
-    // categoryList =
-    //     appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
-    notifyListeners();
-  }
+  // getCategory({search}) async {
+  //   /* categoryList = [];
+  //   // notifyListeners();
+  //   try {
+  //     String apiUrl = api.category;
+  //     if (search != null) {
+  //       apiUrl = "${api.category}?search=$search";
+  //     } else {
+  //       apiUrl = api.category;
+  //     }
+  //
+  //     await apiServices.getApi(apiUrl, []).then((value) {
+  //       if (value.isSuccess!) {
+  //         List category = value.data;
+  //         for (var data in category.reversed.toList()) {
+  //           if (!categoryList.contains(CategoryModel.fromJson(data))) {
+  //             categoryList.add(CategoryModel.fromJson(data));
+  //           }
+  //           notifyListeners();
+  //         }
+  //       }
+  //     });
+  //   } catch (e) {
+  //     notifyListeners();
+  //   }*/
+  //   // categoryList =
+  //   //     appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
+  //   notifyListeners();
+  // }
 
   //service package list
   getServicePackage() async {
@@ -333,36 +334,36 @@ class DashboardProvider with ChangeNotifier {
   }
 
   //featured package list
-  getFeaturedPackage(page) async {
-    featuredServiceList =
-        appArray.featuredList.map((e) => Services.fromJson(e)).toList();
-    if (featuredServiceList.length >= 2) {
-      // firstTwoFeaturedServiceList = featuredServiceList.getRange(0, 2).toList();
-    }
-    notifyListeners();
-    /* featuredServiceList = [];
-    firstTwoFeaturedServiceList = [];
-    try {
-      await apiServices.getApi(api.featuredServices, []).then((value) {
-        if (value.isSuccess!) {
-          List service = value.data;
-          for (var data in service.reversed.toList()) {
-            if (!featuredServiceList.contains(Services.fromJson(data))) {
-              featuredServiceList.add(Services.fromJson(data));
-            }
-            notifyListeners();
-          }
-          if (featuredServiceList.length >= 2) {
-            firstTwoFeaturedServiceList =
-                featuredServiceList.getRange(0, 2).toList();
-          }
-          notifyListeners();
-        }
-      });
-    } catch (e) {
-      notifyListeners();
-    }*/
-  }
+  // getFeaturedPackage(page) async {
+  //   featuredServiceList =
+  //       appArray.featuredList.map((e) => Services.fromJson(e)).toList();
+  //   if (featuredServiceList.length >= 2) {
+  //     // firstTwoFeaturedServiceList = featuredServiceList.getRange(0, 2).toList();
+  //   }
+  //   notifyListeners();
+  //   /* featuredServiceList = [];
+  //   firstTwoFeaturedServiceList = [];
+  //   try {
+  //     await apiServices.getApi(api.featuredServices, []).then((value) {
+  //       if (value.isSuccess!) {
+  //         List service = value.data;
+  //         for (var data in service.reversed.toList()) {
+  //           if (!featuredServiceList.contains(Services.fromJson(data))) {
+  //             featuredServiceList.add(Services.fromJson(data));
+  //           }
+  //           notifyListeners();
+  //         }
+  //         if (featuredServiceList.length >= 2) {
+  //           firstTwoFeaturedServiceList =
+  //               featuredServiceList.getRange(0, 2).toList();
+  //         }
+  //         notifyListeners();
+  //       }
+  //     });
+  //   } catch (e) {
+  //     notifyListeners();
+  //   }*/
+  // }
 
   //blog list
   // getBlog() async {
@@ -480,26 +481,6 @@ class DashboardProvider with ChangeNotifier {
     // booking.bookingList =
     //     appArray.bookingList.map((e) => BookingModel.fromJson(e)).toList();
     // booking.notifyListeners();
-  }
-
-  onFeatured(context, services, id, {inCart}) async {
-    if (inCart) {
-      // route.pushNamed(context, routeName.cartScreen);
-    } else {
-      // onBook(context, services!,
-      //         addTap: () => onAdd(id),
-      //         minusTap: () => onRemoveService(context, id))!
-      //     .then((e) {
-      //   featuredServiceList[id].selectedRequiredServiceMan =
-      //       featuredServiceList[id].requiredServicemen;
-      //   notifyListeners();
-      // });
-    }
-  }
-
-  onBannerTap(context, id) {
-    // final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
-    // commonApi.getCategoryById(context, id);
   }
 
   cartTap(context) async {

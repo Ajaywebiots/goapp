@@ -2,21 +2,23 @@ import 'package:goapp/screens/app_pages_screen/app_setting_screen/layouts/app_se
 import 'package:goapp/screens/auth_screens/social_register_screen/social_reg_screen.dart';
 import 'package:goapp/config.dart';
 import '../screens/app_pages_screen/app_setting_screen/app_setting_screen.dart';
+import '../screens/app_pages_screen/attractions_details_screen/attraction_detail_screen.dart';
 import '../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../screens/app_pages_screen/categories_list_screen/categories_list_screen.dart';
 import '../screens/app_pages_screen/category_detail_screen/category_detail_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
 import '../screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
 import '../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
+import '../screens/app_pages_screen/fav_screen/fav_screen_list.dart';
 import '../screens/app_pages_screen/featured_service_screen/featured_service_screen.dart';
 import '../screens/app_pages_screen/latest_blog_details/latest_blog_details.dart';
 import '../screens/app_pages_screen/latest_blog_view_all/latest_blog_view_all.dart';
 import '../screens/app_pages_screen/notification_screen/notification_screen.dart';
 import '../screens/app_pages_screen/offer_detail_screen/offer_details_screen.dart';
 import '../screens/app_pages_screen/profile_detail_screen/profile_detail_screen.dart';
+import '../screens/app_pages_screen/review_screen/review_screen.dart';
 import '../screens/app_pages_screen/search_screen/search_screen.dart';
 import '../screens/app_pages_screen/service_review_screen/service_review_screen.dart';
-import '../screens/app_pages_screen/services_details_screen/attraction_detail_screen.dart';
 import '../screens/app_pages_screen/services_details_screen/business_details_screen.dart';
 import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.dart';
 import '../screens/bottom_screens/dashboard/dashboard.dart';
@@ -59,5 +61,7 @@ class AppRoute {
     routeName.serviceReviewScreen: (p0) => const ServiceReviewScreen(),
     routeName.offerDetailsScreen: (p0) => const OfferDetailsScreen(),
     routeName.appSetting: (p0) => const AppSettingScreen(),
+    routeName.favScreenList: (p0) => const FavScreenList(),
+    routeName.reviewScreen: (p0) => const ReviewScreen(),
   };
 }

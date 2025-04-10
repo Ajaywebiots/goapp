@@ -23,7 +23,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
       final search = Provider.of<SearchProvider>(context, listen: true);
       return StatefulWrapper(
           onInit: () => Future.delayed(DurationClass.ms50).then((val) {
-                search.onAnimate(context, this);
+                search.onAnimate(context);
                 value.onReady(context);
               }),
           child: LoadingComponent(

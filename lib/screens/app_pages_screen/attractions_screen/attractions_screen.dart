@@ -29,9 +29,7 @@ class _AttractionScreenState extends State<AttractionScreen>
       log("ajay haaaa ${attraction.attractionsSearchList}");
       return StatefulWrapper(
           onInit: () => Future.delayed(
-                Duration(milliseconds: 150),
-                () => attraction.onReady(context),
-              ),
+              Duration(milliseconds: 150), () => attraction.onReady(context)),
           child: DirectionalityRtl(
               child: Scaffold(
                   appBar: AppBarCommon(

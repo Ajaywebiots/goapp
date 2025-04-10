@@ -5,6 +5,13 @@ import '../../models/favourite_model.dart';
 import '../../models/service_model.dart';
 
 class FavouriteListProvider with ChangeNotifier {
+  int selectIndex = 0;
+
+  onFilter(index) {
+    selectIndex = index;
+    notifyListeners();
+  }
+
   List<FavouriteModel> favoriteList = [];
   List<FavouriteModel> providerFavList = [];
   List<FavouriteModel> serviceFavList = [];

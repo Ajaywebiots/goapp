@@ -18,7 +18,6 @@ class LatestBlogViewAll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dash = context.read<DashboardProvider>();
     return Consumer<LatestBLogDetailsProvider>(
         builder: (context, value, child) {
       return StatefulWrapper(
@@ -44,6 +43,8 @@ class LatestBlogViewAll extends StatelessWidget {
                             VSpace(Insets.i20),
                             ...value.articlesSearchList.asMap().entries.map(
                                 (e) => LatestBlogLayout(
+                                        onTap: () => value.detailsDataAPI(
+                                            context, e.value.id),
                                         data: e.value,
                                         rPadding: 0,
                                         isView: true)
