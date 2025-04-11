@@ -11,7 +11,9 @@ import '../../bottom_screens/home_screen/layouts/expert_business_layout.dart';
 
 ///featured attractions
 class AttractionScreen extends StatefulWidget {
-  const AttractionScreen({super.key});
+  final bool isHomeScreen;
+
+  const AttractionScreen({super.key, this.isHomeScreen = false});
 
   @override
   State<AttractionScreen> createState() => _AttractionScreenState();
@@ -34,7 +36,14 @@ class _AttractionScreenState extends State<AttractionScreen>
               child: Scaffold(
                   appBar: AppBarCommon(
                       title: appFonts.featuredAttractions,
-                      onTap: () => attraction.onBack(dash, context)),
+                      onTap: () {
+                        if (widget.isHomeScreen) {
+                          dash.selectIndex = 0;
+                          dash.notifyListeners();
+                        } else {
+                          attraction.onBack(dash, context);
+                        }
+                      }),
                   body: ListView(children: [
                     SearchTextFieldCommon(
                         focusNode: attraction.searchFocus,

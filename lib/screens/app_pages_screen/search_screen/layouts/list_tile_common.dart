@@ -1,7 +1,3 @@
-import 'dart:developer';
-
-import 'package:goapp/models/api_model/attraction_categories_model.dart';
-
 import '../../../../config.dart';
 import '../../../../widgets/checkbox_common.dart';
 
@@ -9,7 +5,7 @@ class ListTileLayout extends StatelessWidget {
   final data;
   final bool? isBooking;
   final int? index;
-  final GestureTapCallback? onTap;
+  final GestureTapCallback? onTap, onClick;
   final List? selectedCategory;
   final bool isCheckBox, isHavingIcon;
   final String? icon, title;
@@ -18,6 +14,7 @@ class ListTileLayout extends StatelessWidget {
       {super.key,
       this.data,
       this.onTap,
+      this.onClick,
       this.selectedCategory,
       this.isBooking = false,
       this.index,
@@ -40,10 +37,14 @@ class ListTileLayout extends StatelessWidget {
                 color: appColor(context).stroke)
             .paddingSymmetric(horizontal: Insets.i12),
         isHavingIcon
-            ? Text(language(context, title),
-                style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).darkText))
+            ? SizedBox(
+                width: 250,
+                child: Text(language(context, title),
+                    overflow: TextOverflow.ellipsis,
+                    style: appCss.dmDenseMedium14
+                        .textColor(appColor(context).darkText)))
             : Text(language(context, data!.translatedValue),
+                overflow: TextOverflow.fade,
                 style: appCss.dmDenseMedium14
                     .textColor(appColor(context).darkText))
       ])),
@@ -54,6 +55,7 @@ class ListTileLayout extends StatelessWidget {
           : SvgPicture.asset(eSvgAssets.arrowRight,
               colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn))
     ])
+        .inkWell(onTap: onClick)
         .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
         .boxBorderExtension(context, isShadow: true, bColor: Color(0xFFF5F6F7))
         .padding(horizontal: Insets.i20, bottom: Insets.i12);

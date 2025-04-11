@@ -1,22 +1,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="GoSalamina">
         <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAmOUjKjwBkVC-U2YdqggNYT0UL4Vj5aHA" />
+        <meta-data
             android:name="android.surfaceview.max_buffers"
-            android:value="3"/>
+            android:value="3" />
         <meta-data
             android:name="io.flutter.embedding.android.SurfaceView"
-            android:value="true"/>
+            android:value="true" />
         <meta-data
             android:name="io.flutter.embedding.android.useEmbeddedSurfaceTexture"
-            android:value="true"/>
+            android:value="true" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -46,8 +52,12 @@
         <meta-data
             android:name="com.google.android.gms.auth.api.signin.v2.DefaultSignIn"
             android:value="true" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1754660718425463"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="97c2db78f0c6ebecbb2a51b26db89303"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="1754660718425463" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="97c2db78f0c6ebecbb2a51b26db89303" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
@@ -58,6 +68,17 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />
             <data android:mimeType="text/plain" />
+        </intent>
+    </queries>
+    <!-- Provide required visibility configuration for API level 30 and above -->
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="sms" />
+        </intent>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
         </intent>
     </queries>
     <queries>

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui' as ui;
@@ -663,4 +664,44 @@ class SearchProvider with ChangeNotifier {
     animationController!.dispose();
     super.dispose();
   }
+
+  /*Timer? debounceTimer;
+
+  SearchProvider() {
+    searchCtrl.addListener(onSearchChange);
+  }
+
+  onSearchChange() {
+    if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
+    log("rrrrr ssss${searchCtrl.text}");
+    // Start a new debounce timer
+    debounceTimer = Timer(Duration(milliseconds: 500), () {
+      final query = searchCtrl.text.trim();
+      log("rrrrr $query");
+      if (query.length >= 3) {
+        fetchSearchResults(query);
+      }
+    });
+  }
+
+  void fetchSearchResults(String query) {
+    try {
+      apiServices
+          .commonApi("${api.businessSearch}?name=$query", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.data['responseStatus'] == 0) {
+          businessSearchList.clear();
+          BusinessSearchModel businessSearchModel =
+              BusinessSearchModel.fromJson(value.data);
+          businessSearchList.addAll(businessSearchModel.businesses);
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      log("Search error: $e");
+    }
+  }*/
+
+  void onReady() {}
 }

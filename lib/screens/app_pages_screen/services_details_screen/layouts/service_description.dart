@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/models/api_model/business_details_model.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
@@ -16,46 +19,182 @@ class ServiceDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Contact? contact = businessData?.contact;
+    Future<void> launchURL(String url) async {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    String extractFacebookPageId(String url) {
+      return url.split('/').where((part) => part.isNotEmpty).last;
+    }
+
+    Future<void> launchFacebook(String url) async {
+      final pageId = extractFacebookPageId(url);
+      final Uri fbUri = Uri.parse('fb://page/$pageId');
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(fbUri)) {
+        await launchUrl(fbUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    String extractInstagramUsername(String url) {
+      return url.split('/').where((part) => part.isNotEmpty).last;
+    }
+
+    String extractTikTokUsername(String url) {
+      // Handles both https://www.tiktok.com/@username and trailing slashes
+      final uri = Uri.parse(url);
+      final segments = uri.pathSegments;
+      if (segments.isNotEmpty && segments.first.startsWith('@')) {
+        return segments.first.replaceAll('@', '');
+      }
+      return '';
+    }
+
+    Future<void> launchTikTok(String url) async {
+      final username = extractTikTokUsername(url);
+      final Uri tiktokAppUri = Uri.parse('snssdk1128://user/profile/$username');
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(tiktokAppUri)) {
+        await launchUrl(tiktokAppUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchInstagram(String url) async {
+      final username = extractInstagramUsername(url);
+      final Uri instaUri = Uri.parse('instagram://user?username=$username');
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(instaUri)) {
+        await launchUrl(instaUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchWebsite(String url) async {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    Future<void> launchYouTube(String url) async {
+      final Uri appUri =
+          Uri.parse(url.replaceFirst('https://', 'vnd.youtube:'));
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(appUri)) {
+        await launchUrl(appUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchGoogleMaps(String address) async {
+      final encodedAddress = Uri.encodeComponent(address);
+      final Uri mapsAppUri = Uri.parse('geo:0,0?q=$encodedAddress');
+      final Uri mapsWebUri = Uri.parse(
+          'https://www.google.com/maps/search/?api=1&query=$encodedAddress');
+
+      if (await canLaunchUrl(mapsAppUri)) {
+        await launchUrl(mapsAppUri);
+      } else {
+        await launchUrl(mapsWebUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchEmail(String email) async {
+      if (email.isEmpty) {
+        throw 'Email is empty';
+      }
+
+      final Uri mailtoUri = Uri(
+        scheme: 'mailto',
+        path: email,
+      );
+
+      // Try Gmail on Android
+      if (Platform.isAndroid) {
+        final Uri gmailUri = Uri.parse('googlegmail:///co?to=$email');
+        if (await canLaunchUrl(gmailUri)) {
+          await launchUrl(gmailUri);
+          return;
+        }
+      }
+
+      // Fallback to default mail client
+      if (await canLaunchUrl(mailtoUri)) {
+        await launchUrl(mailtoUri, mode: LaunchMode.externalApplication);
+      } else {
+        throw 'Could not launch email app for $email';
+      }
+    }
+
+    Future<void> launchGoogleMapsAtLocation(double lat, double lng) async {
+      final Uri mapsAppUri = Uri.parse('geo:$lat,$lng?q=$lat,$lng');
+      final Uri mapsWebUri = Uri.parse(
+          'https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+
+      if (await canLaunchUrl(mapsAppUri)) {
+        await launchUrl(mapsAppUri);
+      } else {
+        await launchUrl(mapsWebUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
     final List<Map<String, dynamic>> contactItems = [
       {
         'icon': eSvgAssets.calling,
         'label': contact?.phoneNumber ?? "",
-        'action': () => print("Call tapped")
+        'action': () => launchURL("tel:${contact?.phoneNumber}")
       },
       {
         'icon': eSvgAssets.mail,
         'label': contact?.email ?? "",
-        'action': () => print("Email tapped")
+        'action': () => launchEmail(contact?.email ?? "")
       },
       {
         'icon': eSvgAssets.locationOut1,
         'label': contact?.address ?? "",
-        'action': () => print("Address tapped")
+        'action': () => launchGoogleMaps(contact?.address ?? "")
       },
       {
         'icon': eSvgAssets.global,
         'label': contact?.website ?? "",
-        'action': () => print("Website tapped")
+        'action': () => launchWebsite(contact?.website ?? "")
       },
       {
         'icon': eImageAssets.fbIcon,
         'label': contact?.facebookPage ?? "",
-        'action': () => print("Facebook tapped")
+        'action': () => launchFacebook(contact?.facebookPage ?? "")
       },
       {
         'icon': eImageAssets.insta,
         'label': contact?.instagramPage ?? "",
-        'action': () => print("Instagram tapped")
+        'action': () => launchInstagram(contact?.instagramPage ?? "")
       },
       {
         'icon': eImageAssets.tiktok,
         'label': contact?.tiktokPage ?? "",
-        'action': () => print("TikTok tapped")
+        'action': () => launchTikTok(contact?.tiktokPage ?? "")
       },
       {
         'icon': eImageAssets.ytIcon,
         'label': contact?.youtubePage ?? "",
-        'action': () => print("YouTube tapped")
+        'action': () => launchYouTube(contact?.youtubePage ?? "")
       }
     ]
         .where((item) =>
@@ -79,59 +218,122 @@ class ServiceDescription extends StatelessWidget {
                         } else if (item['label'] == "Directions") {
                           showModalBottomSheet(
                               isScrollControlled: true,
+                              enableDrag: false,
                               context: context,
                               builder: (context) {
-                                return SizedBox(
-                                    height: MediaQuery.of(context).size.height /
-                                        1.5,
-                                    child: Stack(children: [
-                                      SingleChildScrollView(
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                      language(
-                                                          context, "Address"),
-                                                      style: appCss
-                                                          .dmDenseMedium18
-                                                          .textColor(
-                                                              appColor(context)
+                                return SafeArea(
+                                    child: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.5,
+                                        child: Stack(children: [
+                                          SingleChildScrollView(
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                          language(context,
+                                                              "Address"),
+                                                          style: appCss
+                                                              .dmDenseMedium18
+                                                              .textColor(appColor(
+                                                                      context)
                                                                   .darkText)),
-                                                  const Icon(CupertinoIcons
-                                                          .multiply)
-                                                      .inkWell(
-                                                          onTap: () => route
-                                                              .pop(context))
-                                                ]).paddingSymmetric(
-                                                vertical: 20,
-                                                horizontal: Insets.i20),
-                                            Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.1),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12))),
-                                                height: 450,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 20))
-                                          ])),
-                                      BottomSheetButtonCommon(
-                                              textOne: "Close",
-                                              textTwo: "Directions",
-                                              applyTap: () {},
-                                              clearTap: () {})
-                                          .backgroundColor(
-                                              appColor(context).whiteColor)
-                                          .alignment(Alignment.bottomCenter)
-                                    ])).bottomSheetExtension(context);
+                                                      const Icon(CupertinoIcons
+                                                              .multiply)
+                                                          .inkWell(
+                                                              onTap: () => route
+                                                                  .pop(context))
+                                                    ]).paddingSymmetric(
+                                                    vertical: 20,
+                                                    horizontal: Insets.i20),
+                                                Container(
+                                                    height: 450,
+                                                    margin:
+                                                        const EdgeInsets.symmetric(
+                                                            horizontal: 20),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.1),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                12)),
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                12),
+                                                        child: GoogleMap(
+                                                            initialCameraPosition: CameraPosition(
+                                                                target: LatLng(
+                                                                    (businessData!
+                                                                            .location
+                                                                            ?.latitude)
+                                                                        .toDouble(),
+                                                                    (businessData
+                                                                            ?.location
+                                                                            ?.longitude)
+                                                                        .toDouble()),
+                                                                zoom: 18.0),
+                                                            myLocationEnabled:
+                                                                true,
+                                                            myLocationButtonEnabled:
+                                                                true,
+                                                            zoomGesturesEnabled:
+                                                                true,
+                                                            scrollGesturesEnabled: true,
+                                                            rotateGesturesEnabled: true,
+                                                            tiltGesturesEnabled: true,
+                                                            markers: {
+                                                              Marker(
+                                                                  markerId:
+                                                                      MarkerId(
+                                                                          "target-location"),
+                                                                  position: LatLng(
+                                                                      (businessData!
+                                                                              .location
+                                                                              ?.latitude)
+                                                                          .toDouble(),
+                                                                      (businessData
+                                                                              ?.location
+                                                                              ?.longitude)
+                                                                          .toDouble()),
+                                                                  infoWindow:
+                                                                      InfoWindow(
+                                                                          title:
+                                                                              "Selected Location"))
+                                                            },
+                                                            zoomControlsEnabled: true)))
+                                              ])),
+                                          BottomSheetButtonCommon(
+                                                  textOne: "Close",
+                                                  textTwo: "Directions",
+                                                  applyTap: () {
+                                                    final lat = businessData
+                                                        ?.location?.latitude
+                                                        .toDouble();
+                                                    final lng = businessData
+                                                        ?.location?.longitude
+                                                        .toDouble();
+
+                                                    if (lat != null &&
+                                                        lng != null) {
+                                                      launchGoogleMapsAtLocation(
+                                                          lat, lng);
+                                                    }
+                                                  },
+                                                  clearTap: () {
+                                                    route.pop(context);
+                                                  })
+                                              .backgroundColor(
+                                                  appColor(context).whiteColor)
+                                              .alignment(Alignment.bottomCenter)
+                                        ])).bottomSheetExtension(context));
                               });
                         } else if (item['label'] == "Hours") {
                           showOpeningHoursBottomSheet(context);
@@ -140,60 +342,66 @@ class ServiceDescription extends StatelessWidget {
                               isScrollControlled: true,
                               context: context,
                               builder: (context) {
-                                return SizedBox(
-                                    height: MediaQuery.of(context).size.height /
-                                        1.4,
-                                    child: Stack(children: [
-                                      SingleChildScrollView(
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                return SafeArea(
+                                  child: SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              1.4,
+                                      child: Stack(children: [
+                                        SingleChildScrollView(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                      language(context,
-                                                          appFonts.contactUs),
-                                                      style: appCss
-                                                          .dmDenseMedium18
-                                                          .textColor(
-                                                              appColor(context)
-                                                                  .darkText)),
-                                                  const Icon(CupertinoIcons
-                                                          .multiply)
-                                                      .inkWell(
-                                                          onTap: () => route
-                                                              .pop(context))
-                                                ]).paddingSymmetric(
-                                                vertical: 20,
-                                                horizontal: Insets.i20),
-                                            ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: contactItems.length,
-                                                itemBuilder: (context, index) {
-                                                  final item =
-                                                      contactItems[index];
-                                                  return ListTileLayout(
-                                                      data: contactItems,
-                                                      isCheckBox: false,
-                                                      isHavingIcon: true,
-                                                      icon: item['icon'],
-                                                      title: item['label'],
-                                                      onTap: item['action']);
-                                                })
-                                          ])),
-                                      BottomSheetButtonCommon(
-                                              textOne: appFonts.cancel,
-                                              textTwo: appFonts.addToContacts,
-                                              applyTap: () {},
-                                              clearTap: () {})
-                                          .backgroundColor(
-                                              appColor(context).whiteColor)
-                                          .alignment(Alignment.bottomCenter),
-                                    ])).bottomSheetExtension(context);
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        language(context,
+                                                            appFonts.contactUs),
+                                                        style: appCss
+                                                            .dmDenseMedium18
+                                                            .textColor(appColor(
+                                                                    context)
+                                                                .darkText)),
+                                                    const Icon(CupertinoIcons
+                                                            .multiply)
+                                                        .inkWell(
+                                                            onTap: () => route
+                                                                .pop(context))
+                                                  ]).paddingSymmetric(
+                                                  vertical: 20,
+                                                  horizontal: Insets.i20),
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      contactItems.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final item =
+                                                        contactItems[index];
+                                                    return ListTileLayout(
+                                                        data: contactItems,
+                                                        isCheckBox: false,
+                                                        isHavingIcon: true,
+                                                        icon: item['icon'],
+                                                        title: item['label'],
+                                                        onClick:
+                                                            item['action']);
+                                                  })
+                                            ])),
+                                        BottomSheetButtonCommon(
+                                                textOne: appFonts.cancel,
+                                                textTwo: appFonts.addToContacts,
+                                                applyTap: () {},
+                                                clearTap: () {})
+                                            .backgroundColor(
+                                                appColor(context).whiteColor)
+                                            .alignment(Alignment.bottomCenter),
+                                      ])).bottomSheetExtension(context),
+                                );
                               });
                         } else if (item['label'] == "Gallery") {
                           route.pushNamed(
@@ -253,75 +461,81 @@ class ServiceDescription extends StatelessWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height / 1.3,
-              child:
-                  Consumer<TimeSlotProvider>(builder: (context, value, child) {
-                return Column(children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(language(context, "Opening Hours"),
-                            style: appCss.dmDenseMedium18
-                                .textColor(appColor(context).darkText)),
-                        const Icon(CupertinoIcons.multiply)
-                            .inkWell(onTap: () => route.pop(context))
-                      ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: Insets.i20),
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      decoration: BoxDecoration(
-                          color: appColor(context).fieldCardBg,
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                    children: timeSlotStartAtList
-                                        .asMap()
-                                        .entries
-                                        .map((e) => Text(
-                                                language(context, e.value),
-                                                style: appCss.dmDenseMedium12
-                                                    .textColor(appColor(context)
-                                                        .lightText))
-                                            .paddingOnly(
-                                                left:
-                                                    e.key == 0 ? Insets.i5 : 30,
-                                                right: e.key == 0
-                                                    ? Insets.i50
-                                                    : 20))
-                                        .toList())
-                                .paddingSymmetric(horizontal: Insets.i15),
-                            const VSpace(Sizes.s15),
-                            ...timeSlotList.asMap().entries.map((e) =>
-                                AllTimeSlotLayout(
-                                    data: e.value,
-                                    index: e.key,
-                                    list: timeSlotList,
-                                    onTapSecond: e.value["status"] == true
-                                        ? () => value.selectTimeBottomSheet(
-                                            context, e.value, e.key, "end")
-                                        : () {},
-                                    onTap: e.value["status"] == true
-                                        ? () => value.selectTimeBottomSheet(
-                                            context, e.value, e.key, "start")
-                                        : () {},
-                                    onToggle: (val) =>
-                                        value.onToggle(e.value, val)))
-                          ])),
-                  VSpace(Insets.i22),
-                  BottomSheetButtonCommon(
-                          isRateComplete: true,
-                          textOne: appFonts.cancel,
-                          textTwo: appFonts.addToContacts,
-                          applyTap: () {},
-                          clearTap: () {})
-                      .marginSymmetric(horizontal: 80)
-                      .backgroundColor(appColor(context).whiteColor)
-                      .alignment(Alignment.bottomCenter)
-                ]);
-              }));
+          return SafeArea(
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Consumer<TimeSlotProvider>(
+                    builder: (context, value, child) {
+                  return Column(children: [
+                    Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                          Text(language(context, "Opening Hours"),
+                              style: appCss.dmDenseMedium18
+                                  .textColor(appColor(context).darkText)),
+                          const Icon(CupertinoIcons.multiply)
+                              .inkWell(onTap: () => route.pop(context))
+                        ])
+                        .paddingSymmetric(vertical: 20, horizontal: Insets.i20),
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: Insets.i20),
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        decoration: BoxDecoration(
+                            color: appColor(context).fieldCardBg,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12))),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                      children: timeSlotStartAtList
+                                          .asMap()
+                                          .entries
+                                          .map((e) => Text(
+                                                  language(context, e.value),
+                                                  style: appCss.dmDenseMedium12
+                                                      .textColor(
+                                                          appColor(context)
+                                                              .lightText))
+                                              .paddingOnly(
+                                                  left: e.key == 0
+                                                      ? Insets.i5
+                                                      : 30,
+                                                  right: e.key == 0
+                                                      ? Insets.i50
+                                                      : 20))
+                                          .toList())
+                                  .paddingSymmetric(horizontal: Insets.i15),
+                              const VSpace(Sizes.s15),
+                              ...timeSlotList.asMap().entries.map((e) =>
+                                  AllTimeSlotLayout(
+                                      data: e.value,
+                                      index: e.key,
+                                      list: timeSlotList,
+                                      onTapSecond: e.value["status"] == true
+                                          ? () => value.selectTimeBottomSheet(
+                                              context, e.value, e.key, "end")
+                                          : () {},
+                                      onTap: e.value["status"] == true
+                                          ? () => value.selectTimeBottomSheet(
+                                              context, e.value, e.key, "start")
+                                          : () {},
+                                      onToggle: (val) =>
+                                          value.onToggle(e.value, val)))
+                            ])),
+                    VSpace(Insets.i22),
+                    BottomSheetButtonCommon(
+                            isRateComplete: true,
+                            textOne: appFonts.cancel,
+                            textTwo: appFonts.addToContacts,
+                            applyTap: () {},
+                            clearTap: () {})
+                        .marginSymmetric(horizontal: 80)
+                        .backgroundColor(appColor(context).whiteColor)
+                        .alignment(Alignment.bottomCenter)
+                  ]);
+                })),
+          );
         });
   }
 

@@ -1,14 +1,13 @@
 import 'dart:developer';
 
-import 'package:goapp/providers/app_pages_provider/featured_service_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 import 'package:goapp/screens/menu_screens/menu_screen.dart';
 
 import '../../config.dart';
-import '../../models/api_model/home_feed_model.dart';
 import '../../models/api_model/home_feed_model.dart' as model;
+import '../../models/api_model/home_feed_model.dart';
 import '../../models/index.dart';
 import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
@@ -57,9 +56,9 @@ class DashboardProvider with ChangeNotifier {
 
   final List<Widget> pages = [
     const HomeScreen(),
-    SearchScreen(),
-    AttractionScreen(),
-    CouponListScreen(),
+    SearchScreen(isHomeScreen: true),
+    AttractionScreen(isHomeScreen: true),
+    CouponListScreen(isHomeScreen: true),
     MenuScreen()
     // const BookingScreen(),
     // const OfferScreen(),
@@ -72,7 +71,6 @@ class DashboardProvider with ChangeNotifier {
     getCurrentLocation();
     homeFeed(context);
     final searchAllList = Provider.of<SearchProvider>(context, listen: false);
-
     searchAllList.getBusinessSearchAPI(context);
     final blogViewAllList =
         Provider.of<LatestBLogDetailsProvider>(context, listen: false);
@@ -125,7 +123,7 @@ class DashboardProvider with ChangeNotifier {
     Position position = await getCurrentLocation();
     double lat = position.latitude;
     double lon = position.longitude;
-    hideLoading(context);
+
     try {
       apiServices
           .commonApi(
@@ -135,7 +133,6 @@ class DashboardProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         if ((value.data['responseStatus'] == 1)) {
-          hideLoading(context);
           log("ajay hariyani ${value.data}");
 
           HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
@@ -153,7 +150,7 @@ class DashboardProvider with ChangeNotifier {
           firstTwoBlogList.addAll(homeFeedModel.articles);
           firstTwoHighRateList.addAll(homeFeedModel.attractions);
           log("Updated bannerList: ${bannerList.length} items");
-
+          hideLoading(context);
           notifyListeners();
         }
       });

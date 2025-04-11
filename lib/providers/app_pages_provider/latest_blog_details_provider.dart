@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -6,7 +7,6 @@ import 'package:goapp/models/api_model/articles_detail_model.dart';
 import '../../config.dart';
 import '../../models/api_model/articles_search_model.dart';
 import '../../models/api_model/blog_categories_model.dart';
-import '../../models/api_model/home_feed_model.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import '../../services/api_service.dart';
 
@@ -269,5 +269,47 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   likeDislike() {
     // data!.isFavourite = !data!.isFavourite;
     notifyListeners();
+  }
+
+  Timer? debounceTimer;
+
+  LatestBLogDetailsProvider() {
+    searchCtrl.addListener(onSearchChange);
+  }
+
+  onSearchChange() {
+    if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
+    log("rrrrr ssss${searchCtrl.text}");
+    // Start a new debounce timer
+    debounceTimer = Timer(Duration(milliseconds: 500), () {
+      final query = searchCtrl.text.trim();
+      log("rrrrr $query");
+      if (query.isEmpty) {
+        BuildContext? context;
+        getArticlesSearchAPI(context);
+      } else if (query.length >= 3) {
+        log("ddd ${query}");
+        fetchSearchResults(query);
+      }
+    });
+  }
+
+  void fetchSearchResults(String query) {
+    try {
+      apiServices
+          .commonApi("${api.blogSearch}?title=$query", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.data['responseStatus'] == 1) {
+          articlesSearchList.clear();
+          ArticlesSearchModel articlesSearchModel =
+              ArticlesSearchModel.fromJson(value.data);
+          articlesSearchList.addAll(articlesSearchModel.articles);
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      log("Search error: $e");
+    }
   }
 }

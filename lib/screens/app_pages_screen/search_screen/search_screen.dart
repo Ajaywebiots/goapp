@@ -1,16 +1,19 @@
-import 'dart:developer';
 import 'package:goapp/config.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/bottom_providers/cart_provider.dart';
+import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 import 'package:goapp/widgets/filter_icon_common.dart';
+
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/top_categories_layout.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final bool isHomeScreen;
+
+  const SearchScreen({super.key, this.isHomeScreen = false});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -26,6 +29,7 @@ class _SearchScreenState extends State<SearchScreen>
           onInit: () => Future.delayed(const Duration(milliseconds: 100), () {
                 searchPvr.onAnimate(context);
                 categoryListPvr.onReady(context);
+                searchPvr.onReady();
               }),
           child: PopScope(
               canPop: true,
@@ -35,8 +39,16 @@ class _SearchScreenState extends State<SearchScreen>
                       appBar: AppBarCommon(
                           title: language(context, appFonts.search),
                           onTap: () {
-                            searchPvr.onBack();
-                            route.pop(context);
+                            final dashPvr = Provider.of<DashboardProvider>(
+                                context,
+                                listen: false);
+                            if (widget.isHomeScreen == true) {
+                              dashPvr.selectIndex = 0;
+                              dashPvr.notifyListeners();
+                            } else {
+                              searchPvr.onBack();
+                              route.pop(context);
+                            }
                           }),
                       body: SingleChildScrollView(child: Consumer<CartProvider>(
                           builder: (context2, cart, child) {

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../config.dart';
 import '../../../../models/service_model.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
-import '../../../../widgets/divider_common.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescription extends StatelessWidget {
@@ -19,155 +19,176 @@ class ServiceDescription extends StatelessWidget {
       const VSpace(Sizes.s14),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
-          spacing: 3,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(appArray.buttonItems.length, (index) {
-            final item = appArray.buttonItems[index];
-
-            return Flexible(
-              child: GestureDetector(
-                onTap: () {
-                  if (item['label'] == "Call") {
-                    String call = "9999988888";
-                    makePhoneCall(call);
-                  } else if (item['label'] == "Directions") {
-                    showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          return SizedBox(
-                              height: MediaQuery.of(context).size.height / 1.5,
-                              child: Stack(children: [
-                                SingleChildScrollView(
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(language(context, "Address"),
-                                              style: appCss.dmDenseMedium18
-                                                  .textColor(appColor(context)
-                                                      .darkText)),
-                                          const Icon(CupertinoIcons.multiply)
-                                              .inkWell(
-                                                  onTap: () =>
-                                                      route.pop(context))
-                                        ],
-                                      ).paddingSymmetric(
-                                          vertical: 20, horizontal: Insets.i20),
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  Colors.grey.withOpacity(0.1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(12))),
-                                          height: 450,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 20))
-                                    ])),
-                                BottomSheetButtonCommon(
-                                        textOne: "Close",
-                                        textTwo: "Directions",
-                                        applyTap: () {},
-                                        clearTap: () {})
-                                    .backgroundColor(
-                                        appColor(context).whiteColor)
-                                    .alignment(Alignment.bottomCenter)
-                              ])).bottomSheetExtension(context);
-                        });
-                  } else if (item['label'] == "Hours") {
-                    showOpeningHoursBottomSheet(context);
-                  } else if (item['label'] == "Contact") {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height / 1.4,
-                          child: Stack(
-                            children: [
-                              SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                            language(
-                                                context, appFonts.contactUs),
-                                            style: appCss.dmDenseMedium18
-                                                .textColor(appColor(context)
-                                                    .darkText)),
-                                        const Icon(CupertinoIcons.multiply)
-                                            .inkWell(
-                                                onTap: () => route.pop(context))
-                                      ],
-                                    ).paddingSymmetric(
-                                        vertical: 20, horizontal: Insets.i20),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: appArray.contactItems.length,
-                                      itemBuilder: (context, index) {
-                                        final items =
-                                            appArray.contactItems[index];
-                                        return ListTileLayout(
-                                          data: appArray.contactItems,
-                                          isCheckBox: false,
-                                          isHavingIcon: true,
-                                          icon: items['icon'],
-                                          title: items['label'],
-                                          onTap: () {},
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              BottomSheetButtonCommon(
-                                textOne: appFonts.cancel,
-                                textTwo: appFonts.addToContacts,
-                                applyTap: () {},
-                                clearTap: () {},
-                              )
-                                  .backgroundColor(appColor(context).whiteColor)
-                                  .alignment(Alignment.bottomCenter),
-                            ],
-                          ),
-                        ).bottomSheetExtension(context);
+            spacing: 3,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(appArray.buttonItems.length, (index) {
+              final item = appArray.buttonItems[index];
+              return Flexible(
+                  child: GestureDetector(
+                      onTap: () {
+                        if (item['label'] == "Call") {
+                          String call = "9999988888";
+                          makePhoneCall(call);
+                        } else if (item['label'] == "Directions") {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return SafeArea(
+                                    child: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.5,
+                                        child: Stack(children: [
+                                          SingleChildScrollView(
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                          language(context,
+                                                              "Address"),
+                                                          style: appCss
+                                                              .dmDenseMedium18
+                                                              .textColor(appColor(
+                                                                      context)
+                                                                  .darkText)),
+                                                      const Icon(CupertinoIcons
+                                                              .multiply)
+                                                          .inkWell(
+                                                              onTap: () => route
+                                                                  .pop(context))
+                                                    ]).paddingSymmetric(
+                                                    vertical: 20,
+                                                    horizontal: Insets.i20),
+                                                Container(
+                                                    height: 450,
+                                                    margin:
+                                                        const EdgeInsets.symmetric(
+                                                            horizontal: 20),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.1),
+                                                        borderRadius:
+                                                            const BorderRadius.all(
+                                                                Radius.circular(
+                                                                    12))),
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                12),
+                                                        child: GoogleMap(
+                                                            zoomGesturesEnabled:
+                                                                true,
+                                                            initialCameraPosition:
+                                                                CameraPosition(
+                                                                    target: const LatLng(20.5937, 78.9629),
+                                                                    zoom: 18.0),
+                                                            myLocationEnabled: true,
+                                                            myLocationButtonEnabled: true)))
+                                              ])),
+                                          BottomSheetButtonCommon(
+                                                  textOne: "Close",
+                                                  textTwo: "Directions",
+                                                  applyTap: () {},
+                                                  clearTap: () {})
+                                              .backgroundColor(
+                                                  appColor(context).whiteColor)
+                                              .alignment(Alignment.bottomCenter)
+                                        ])).bottomSheetExtension(context));
+                              });
+                        } else if (item['label'] == "Hours") {
+                          showOpeningHoursBottomSheet(context);
+                        } else if (item['label'] == "Contact") {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return SizedBox(
+                                    height: MediaQuery.of(context).size.height /
+                                        1.4,
+                                    child: Stack(children: [
+                                      SingleChildScrollView(
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                      language(context,
+                                                          appFonts.contactUs),
+                                                      style: appCss
+                                                          .dmDenseMedium18
+                                                          .textColor(
+                                                              appColor(context)
+                                                                  .darkText)),
+                                                  const Icon(CupertinoIcons
+                                                          .multiply)
+                                                      .inkWell(
+                                                          onTap: () => route
+                                                              .pop(context))
+                                                ]).paddingSymmetric(
+                                                vertical: 20,
+                                                horizontal: Insets.i20),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: appArray
+                                                    .contactItems.length,
+                                                itemBuilder: (context, index) {
+                                                  final items = appArray
+                                                      .contactItems[index];
+                                                  return ListTileLayout(
+                                                      data:
+                                                          appArray.contactItems,
+                                                      isCheckBox: false,
+                                                      isHavingIcon: true,
+                                                      icon: items['icon'],
+                                                      title: items['label'],
+                                                      onTap: () {});
+                                                })
+                                          ])),
+                                      BottomSheetButtonCommon(
+                                              textOne: appFonts.cancel,
+                                              textTwo: appFonts.addToContacts,
+                                              applyTap: () {},
+                                              clearTap: () {})
+                                          .backgroundColor(
+                                              appColor(context).whiteColor)
+                                          .alignment(Alignment.bottomCenter)
+                                    ])).bottomSheetExtension(context);
+                              });
+                        } else if (item['label'] == "Gallery") {
+                          route.pushNamed(
+                              context, routeName.commonGalleryScreen);
+                        }
                       },
-                    );
-                  } else if (item['label'] == "Gallery") {
-                    route.pushNamed(context, routeName.commonGalleryScreen);
-                  }
-                },
-                child: Container(
-                  height: 46,
-                  alignment: Alignment.center,
-                  width: 46,
-                  padding: EdgeInsets.symmetric(vertical: 7),
-                  decoration: BoxDecoration(
-                      color: Color(0xffFDB813),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(item['icon'],
-                          height: Insets.i20, width: Insets.i20),
-                      Text(item['label'],
-                          style: appCss.dmDenseMedium7
-                              .textColor(appColor(context).darkText)),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }),
-        ),
+                      child: Container(
+                          height: 46,
+                          alignment: Alignment.center,
+                          width: 46,
+                          padding: EdgeInsets.symmetric(vertical: 7),
+                          decoration: BoxDecoration(
+                              color: Color(0xffFDB813),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SvgPicture.asset(item['icon'],
+                                    height: Insets.i20, width: Insets.i20),
+                                Text(item['label'],
+                                    style: appCss.dmDenseMedium7
+                                        .textColor(appColor(context).darkText))
+                              ]))));
+            })),
         VSpace(Insets.i30),
         Text(language(context, appFonts.description),
             style:

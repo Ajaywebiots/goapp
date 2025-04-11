@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import '../../config.dart';
 import '../../models/api_model/attraction_categories_model.dart';
 import '../../models/api_model/attractions_search_model.dart';
@@ -20,25 +21,14 @@ class AttractionProvider with ChangeNotifier {
     notifyListeners();
     getCategoriesData(context);
     notifyListeners();
-
-    notifyListeners();
-    // animationController = AnimationController(
-    //     vsync: sync, duration: const Duration(milliseconds: 1200));
-    // _runAnimation();
   }
-
-  // void _runAnimation() async {
-  //   for (int i = 0; i < 300; i++) {
-  //     await animationController!.forward();
-  //     await animationController!.reverse();
-  //   }
-  // }
 
   List categoryList = [];
 
   List attractionsSearchList = [];
 
   getAttractionSearchAPI(context) async {
+    showLoading(context);
     final dashboard = Provider.of<DashboardProvider>(context, listen: false);
 
     Position position = await dashboard.getCurrentLocation();
@@ -55,13 +45,12 @@ class AttractionProvider with ChangeNotifier {
           .then((value) {
         log("value.data ${value.data}");
         if (value.data['responseStatus'] == 1) {
-          hideLoading(context);
           attractionsSearchList.clear();
           AttractionsSearchModel attractionsSearchModel =
               AttractionsSearchModel.fromJson(value.data);
 
           attractionsSearchList.addAll(attractionsSearchModel.attractions);
-
+          hideLoading(context);
           log("attractionsSearchList $attractionsSearchList");
         }
       });
@@ -74,23 +63,29 @@ class AttractionProvider with ChangeNotifier {
   getCategoriesData(context) {
     showLoading(context);
     notifyListeners();
-    apiServices
-        .commonApi(api.attractionCategories, [], ApiType.get)
-        .then((value) {
-      if (value.data['responseStatus'] == 1) {
-        notifyListeners();
-        hideLoading(context);
-        log("API Response: attractionCategories ${value.data}");
-        AttractionsCategoriesModel categoryModel =
-            AttractionsCategoriesModel.fromJson(value.data);
-        notifyListeners();
-        // Clear old list and add new parsed categories
-        categoryList.clear();
-        notifyListeners();
-        categoryList.addAll(categoryModel.categories ?? []);
-        notifyListeners();
-      }
-    });
+    try {
+      apiServices
+          .commonApi(api.attractionCategories, [], ApiType.get)
+          .then((value) {
+        if (value.data['responseStatus'] == 1) {
+          notifyListeners();
+
+          log("API Response: attractionCategories ${value.data}");
+          AttractionsCategoriesModel categoryModel =
+              AttractionsCategoriesModel.fromJson(value.data);
+          notifyListeners();
+          // Clear old list and add new parsed categories
+          categoryList.clear();
+          notifyListeners();
+          categoryList.addAll(categoryModel.categories ?? []);
+          hideLoading(context);
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("getCategoriesData $e");
+    }
   }
 
   TextEditingController filterSearchCtrl = TextEditingController();

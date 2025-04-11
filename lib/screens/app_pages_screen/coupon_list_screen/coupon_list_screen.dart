@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 
 import '../../../config.dart';
@@ -12,7 +9,9 @@ import '../search_screen/layouts/filter_layout.dart';
 import 'layouts/coupon_layout.dart';
 
 class CouponListScreen extends StatefulWidget {
-  const CouponListScreen({super.key});
+  final bool isHomeScreen;
+
+  const CouponListScreen({super.key, this.isHomeScreen = false});
 
   @override
   State<CouponListScreen> createState() => _CouponListScreenState();
@@ -29,7 +28,18 @@ class _CouponListScreenState extends State<CouponListScreen> {
             Duration(milliseconds: 150), () => offerPvr.onReady()),
         child: DirectionalityRtl(
             child: Scaffold(
-                appBar: AppBarCommon(title: appFonts.offers),
+                appBar: AppBarCommon(
+                    title: appFonts.offers,
+                    onTap: () {
+                      if (widget.isHomeScreen) {
+                        final dash = Provider.of<DashboardProvider>(context,
+                            listen: false);
+                        dash.selectIndex = 0;
+                        dash.notifyListeners();
+                      } else {
+                        route.pop(context);
+                      }
+                    }),
                 body: SingleChildScrollView(
                     child: Column(children: [
                   SearchTextFieldCommon(

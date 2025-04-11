@@ -53,7 +53,7 @@ class BusinessSec {
   final String? name;
   final List<BusinessCategory> businessCategories;
   final Rating? rating;
-  final dynamic image;
+  final Media? image;
   final Logo? logo;
   final Location? location;
   final dynamic topOffer;
@@ -85,7 +85,7 @@ class BusinessSec {
           : List<BusinessCategory>.from(json["businessCategories"]!
               .map((x) => BusinessCategory.fromJson(x))),
       rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),
-      image: json["image"],
+      image: json["image"] == null ? null : Media.fromJson(json["image"]),
       logo: json["logo"] == null ? null : Logo.fromJson(json["logo"]),
       location:
           json["location"] == null ? null : Location.fromJson(json["location"]),
