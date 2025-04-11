@@ -8,6 +8,8 @@ import '../screens/app_pages_screen/categories_list_screen/categories_list_scree
 import '../screens/app_pages_screen/category_detail_screen/category_detail_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
 import '../screens/app_pages_screen/change_pass_in_app/change_pass_in_app.dart';
+import '../screens/app_pages_screen/change_pass_in_app/reset_password_screen_in_app.dart';
+import '../screens/app_pages_screen/change_pass_in_app/verify_otp_in_app.dart';
 import '../screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
 import '../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../screens/app_pages_screen/fav_screen/fav_screen_list.dart';
@@ -66,5 +68,8 @@ class AppRoute {
     routeName.reviewScreen: (p0) => const ReviewScreen(),
     routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
     routeName.changePassInApp: (p0) => const ChangePassInApp(),
+    routeName.verifyOtpInApp: (p0) => const VerifyOtpInApp(),
+    routeName.resetPasswordScreenInApp: (p0) =>
+        const ResetPasswordScreenInApp(),
   };
 }

@@ -38,4 +38,6 @@ class RouteName {
   final String reviewScreen = '/reviewScreen';
   final String subscriptionPlanScreen = '/subscriptionPlanScreen';
   final String changePassInApp = '/changePassInApp';
+  final String verifyOtpInApp = '/verifyPassInApp';
+  final String resetPasswordScreenInApp = '/resetPasswordScreenInApp';
 }

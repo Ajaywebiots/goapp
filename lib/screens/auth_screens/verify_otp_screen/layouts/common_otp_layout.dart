@@ -4,14 +4,16 @@ import '../../../../config.dart';
 import '../../../../providers/auth_providers/verify_reset_password_provider.dart';
 
 class CommonOtpLayout extends StatelessWidget {
-  const CommonOtpLayout({super.key});
+  final TextEditingController? controller;
+
+  const CommonOtpLayout({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<VerifyResetPasswordProvider>(
         builder: (context1, value, child) {
       return OtpLayout(
-              controller: value.otpController,
+              controller: controller ?? value.otpController,
               validator: (value) => Validation().otpValidation(context, value),
               onSubmitted: (val) {
                 value.otpController.text = val;
