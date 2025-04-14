@@ -141,7 +141,7 @@ final arabic = {
   "off30": "خصم 30%",
   "provider": "المزود",
   "review": "مراجعة",
-  "reviews": "أحدث المراجعات",
+  "latestReviews": "أحدث المراجعات",
   "activeOffers": "العروض النشطة",
   "latestArticles": "أحدث المقالات",
   "whatDoYouThink": "ما رأيك في الخدمة التي يقدمها عملنا؟",
@@ -181,5 +181,50 @@ final arabic = {
   "lowestRate": "أقل معدل",
   "highestRate": "أعلى معدل",
   "sorry":
-      "عذرًا، لم نتمكن من العثور على أي نتائج. يرجى تغيير بحثك والمحاولة مرة أخرى."
+      "عذرًا، لم نتمكن من العثور على أي نتائج. يرجى تغيير بحثك والمحاولة مرة أخرى.",
+  "validUntil": "صالح حتى", // ar
+  "reviews": "المراجعات", // ar
+  "viewOnMap": "عرض على الخريطة", // ar
+  "km": "كم", // ar
+  "offers": "عروض", // ar
+  "category": "فئة", // ar
+  "type": "نوع", // ar
+  "popular": "شائع", // ar
+  "categories": "فئات", // ar
+  "fiveRate": "تقييم 5", // ar
+  "fourRate": "تقييم 4", // ar
+  "threeRate": "تقييم 3", // ar
+  "twoRate": "تقييم 2", // ar
+  "oneRate": "تقييم 1", // ar
+  "myAccount": "حسابي", // ar
+
+  "myProfile": "ملفي الشخصي",
+  "favouriteList": "قائمة المفضلة",
+  "myReviews": "مراجعاتي",
+  "appSettings": "إعدادات التطبيق",
+  "subscriptionPlans": "خطط الاشتراك",
+  "registerYourBusiness": "سجّل نشاطك التجاري",
+  "generalInfo": "معلومات عامة",
+  "aboutUs": "معلومات عنا",
+  "privacyPolicy": "سياسة الخصوصية",
+  "cancellationPolicy": "سياسة الإلغاء",
+  "contactUs": "اتصل بنا",
+  "faq": "الأسئلة الشائعة",
+  "logout": "تسجيل الخروج",
+  "changeLanguage": "تغيير اللغة",
+  "profileDetails": "تفاصيل الملف الشخصي",
+  "update": "تحديث",
+  "logoutConfirmation":
+      "هل أنت متأكد أنك تريد تسجيل الخروج من هذا التطبيق الآن؟",
+  "close": "إغلاق",
+  "directions": "الاتجاهات",
+  "address": "العنوان",
+  "call": "اتصال",
+  "contact": "اتصل",
+  "hours": "ساعات",
+  "gallery": "معرض الصور",
+  "save": "حفظ",
+  "openingHours": "ساعات العمل",
+  "accountType": "نوع الحساب",
+  "membershipStatus": "حالة العضوية"
 };

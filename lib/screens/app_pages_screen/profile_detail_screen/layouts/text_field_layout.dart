@@ -9,11 +9,11 @@ class TextFieldLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      ContainerWithTextLayout(title: "First Name"),
+      ContainerWithTextLayout(title: language(context, appFonts.firstName)),
       const VSpace(Sizes.s8),
       TextFieldCommon(
               controller: value!.txtFName,
-              hintText: "Enter First Name",
+              hintText: language(context, appFonts.enterFName),
               focusNode: value!.nameFocus,
               onFieldSubmitted: (values) => validation.fieldFocusChange(
                   context, value!.nameFocus, value!.emailFocus),
@@ -21,11 +21,11 @@ class TextFieldLayout extends StatelessWidget {
               validator: (value) => validation.nameValidation(context, value))
           .paddingSymmetric(horizontal: Insets.i20),
       const VSpace(Sizes.s15),
-      ContainerWithTextLayout(title: language(context, "Last Name")),
+      ContainerWithTextLayout(title: language(context, appFonts.lastName)),
       const VSpace(Sizes.s8),
       TextFieldCommon(
               controller: value!.txtLName,
-              hintText: language(context, "Enter Last Name"),
+              hintText: language(context, appFonts.enterLName),
               focusNode: value!.emailFocus,
               onFieldSubmitted: (values) => validation.fieldFocusChange(
                   context, value!.emailFocus, value!.phoneFocus),
@@ -33,11 +33,11 @@ class TextFieldLayout extends StatelessWidget {
               validator: (value) => validation.emailValidation(context, value))
           .paddingSymmetric(horizontal: Insets.i20),
       const VSpace(Sizes.s15),
-      ContainerWithTextLayout(title: language(context, "Email")),
+      ContainerWithTextLayout(title: language(context, appFonts.email)),
       const VSpace(Sizes.s8),
       TextFieldCommon(
               controller: value!.txtEmail,
-              hintText: language(context, "Enter Email"),
+              hintText: language(context, appFonts.enterEmail),
               focusNode: value!.emailFocus,
               onFieldSubmitted: (values) => validation.fieldFocusChange(
                   context, value!.emailFocus, value!.phoneFocus),

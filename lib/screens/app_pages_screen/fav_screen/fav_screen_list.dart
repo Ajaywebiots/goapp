@@ -2,6 +2,7 @@ import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart'
 
 import '../../../config.dart';
 import '../../../models/api_model/home_feed_model.dart';
+import '../../../widgets/DirectionalityRtl.dart';
 import '../../bottom_screens/home_screen/layouts/expert_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
 import '../coupon_list_screen/layouts/coupon_layout.dart';
@@ -13,72 +14,83 @@ class FavScreenList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FavouriteListProvider>(builder: (context, favPvr, child) {
-      return Scaffold(
-          appBar: AppBarCommon(title: "Favourite list"),
-          body: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                Container(
-                        alignment: Alignment.center,
-                        height: Sizes.s50,
-                        decoration: BoxDecoration(
-                            color: appColor(context).fieldCardBg,
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(AppRadius.r30))),
-                        child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: appArray.favList
-                                    .asMap()
-                                    .entries
-                                    .map((e) => FilterTapLayout(
-                                        data: e.value,
-                                        index: e.key,
-                                        selectedIndex: favPvr.selectIndex,
-                                        onTap: () => favPvr.onFilter(e.key)))
-                                    .toList())
-                            .paddingAll(Insets.i5))
-                    .paddingOnly(
-                        bottom: Insets.i20,
-                        left: Insets.i20,
-                        right: Insets.i20),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                      favPvr.selectIndex == 0
-                          ? "Offer list"
-                          : favPvr.selectIndex == 1
-                              ? "Business list"
-                              : "Attraction list",
-                      style: appCss.dmDenseRegular14
-                          .textColor(appColor(context).lightText)),
-                  VSpace(Insets.i22),
-                  ...(favPvr.selectIndex == 0
-                      ? offerList
-                          .asMap()
-                          .entries
-                          .map((e) => CouponLayout(data: e.value, onTap: () {}))
-                          .toList()
-                      : favPvr.selectIndex == 1
-                          ? businessList
-                              .asMap()
-                              .entries
-                              .map((e) => FeaturedBusinessLayout(
-                                  data: e.value,
-                                  inCart: isInCart(context, e.value.id),
-                                  onTap: () {}))
-                              .toList()
-                          : attractionList
-                              .asMap()
-                              .entries
-                              .map((e) => FeatureAttractionLayout(
-                                  bColor: appColor(context).borderStroke,
-                                  isHome: true,
-                                  data: e.value,
-                                  onTap: () => route.pushNamed(context,
-                                      routeName.attractionDetailScreen)))
-                              .toList())
-                ]).marginSymmetric(horizontal: 20)
-              ])));
+      return DirectionalityRtl(
+        child: Scaffold(
+            appBar: AppBarCommon(title: "Favourite list"),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Container(
+                            alignment: Alignment.center,
+                            height: Sizes.s50,
+                            decoration: BoxDecoration(
+                                color: appColor(context).fieldCardBg,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(AppRadius.r30))),
+                            child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: appArray.favList
+                                        .asMap()
+                                        .entries
+                                        .map((e) => FilterTapLayout(
+                                            data: e.value,
+                                            index: e.key,
+                                            selectedIndex: favPvr.selectIndex,
+                                            onTap: () =>
+                                                favPvr.onFilter(e.key)))
+                                        .toList())
+                                .paddingAll(Insets.i5))
+                        .paddingOnly(
+                            bottom: Insets.i20,
+                            left: Insets.i20,
+                            right: Insets.i20),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              favPvr.selectIndex == 0
+                                  ? "Offer list"
+                                  : favPvr.selectIndex == 1
+                                      ? "Business list"
+                                      : "Attraction list",
+                              style: appCss.dmDenseRegular14
+                                  .textColor(appColor(context).lightText)),
+                          VSpace(Insets.i22),
+                          ...(favPvr.selectIndex == 0
+                              ? offerList
+                                  .asMap()
+                                  .entries
+                                  .map((e) =>
+                                      CouponLayout(data: e.value, onTap: () {}))
+                                  .toList()
+                              : favPvr.selectIndex == 1
+                                  ? businessList
+                                      .asMap()
+                                      .entries
+                                      .map((e) => FeaturedBusinessLayout(
+                                          data: e.value,
+                                          inCart: isInCart(context, e.value.id),
+                                          onTap: () {}))
+                                      .toList()
+                                  : attractionList
+                                      .asMap()
+                                      .entries
+                                      .map((e) => FeatureAttractionLayout(
+                                          bColor:
+                                              appColor(context).borderStroke,
+                                          isHome: true,
+                                          data: e.value,
+                                          onTap: () => route.pushNamed(
+                                              context,
+                                              routeName
+                                                  .attractionDetailScreen)))
+                                      .toList())
+                        ]).marginSymmetric(horizontal: 20)
+                  ])),
+            )),
+      );
     });
   }
 
@@ -228,7 +240,7 @@ class FavScreenList extends StatelessWidget {
       {
         "id": 1,
         "name": "Monastery of Faneromeni",
-        "rating": {"starts": 5, "reviewCount": 5},
+        "rating": {"starts": 4, "reviewCount": 5},
         "image": {
           "mediaType": 1,
           "source": "https://assets.goventures.gr/goapp/poi/faneromeni.jpg",
@@ -239,9 +251,18 @@ class FavScreenList extends StatelessWidget {
           "address": "Faneromeni Monastery, Salamina 189 00, Greece",
           "longitude": "23.435532",
           "latitude": "37.984260",
-          "selfLocationdistance": 5057.912261670589
+          "selfLocationdistance": 20.912261670589
         },
-        "attractionCategories": null,
+        "attractionCategories": [
+          {
+            "categoryId": 4,
+            "icon": "",
+            "name": "Churches",
+            "translatedValue": "",
+            "language": 0,
+            "attractionCategoryType": 0
+          }
+        ],
         "isFavourite": true,
         "appObject": {"appObjectType": null, "appObjectId": null}
       },
@@ -261,9 +282,18 @@ class FavScreenList extends StatelessWidget {
         "address": "Ambelakia area, Salamina 189 00, Greece",
         "longitude": "23.507200",
         "latitude": "37.968900",
-        "selfLocationdistance": 5051.466464553031
+        "selfLocationdistance": 40.466464553031
       },
-      "attractionCategories": null,
+      "attractionCategories": [
+        {
+          "categoryId": 10,
+          "icon": "",
+          "name": "Archaeology",
+          "translatedValue": "",
+          "language": 0,
+          "attractionCategoryType": 0
+        }
+      ],
       "isFavourite": true,
       "appObject": {"appObjectType": null, "appObjectId": null}
     })

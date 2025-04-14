@@ -29,7 +29,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
         child: DirectionalityRtl(
             child: Scaffold(
                 appBar: AppBarCommon(
-                    title: appFonts.offers,
+                    title: language(context, appFonts.offers),
                     onTap: () {
                       if (widget.isHomeScreen) {
                         final dash = Provider.of<DashboardProvider>(context,

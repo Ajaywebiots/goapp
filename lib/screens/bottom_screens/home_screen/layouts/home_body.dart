@@ -7,6 +7,7 @@ import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/categories_list_provider.dart';
 import '../../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
+import '../../../../providers/common_providers/common_api_provider.dart';
 import '../../../../widgets/heading_row_common.dart';
 import 'expert_business_layout.dart';
 import 'featured_business_layout.dart';
@@ -83,6 +84,16 @@ class HomeBody extends StatelessWidget {
                       : FeaturedBusinessLayout(
                           data: e.value,
                           inCart: isInCart(context, e.value.id),
+                          addOrRemoveTap: () {
+                            final common = Provider.of<CommonApiProvider>(
+                                context,
+                                listen: false);
+                            common.toggleFavAPI(
+                                context,
+                                e.value.isFavourite,
+                                e.value.appObject!.appObjectType,
+                                e.value.appObject!.appObjectId);
+                          },
                           onTap: () {
                             final searchPvr = Provider.of<SearchProvider>(
                                 context,
@@ -103,6 +114,16 @@ class HomeBody extends StatelessWidget {
                   ...dash.firstTwoHighRateList.asMap().entries.map((e) =>
                       FeatureAttractionLayout(
                           data: e.value,
+                          addOrRemoveTap: () {
+                            final common = Provider.of<CommonApiProvider>(
+                                context,
+                                listen: false);
+                            common.toggleFavAPI(
+                                context,
+                                e.value.isFavourite,
+                                e.value.appObject!.appObjectType,
+                                e.value.appObject!.appObjectId);
+                          },
                           onTap: () => route.pushNamed(
                               context, routeName.attractionDetailScreen))),
                   // if (dash.firstTwoHighRateList.isEmpty)

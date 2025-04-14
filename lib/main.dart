@@ -25,6 +25,7 @@ import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/providers/bottom_providers/profile_provider.dart';
+import 'package:goapp/providers/common_providers/common_api_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -85,6 +86,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => SocialRegProvider()),
                   ChangeNotifierProvider(create: (_) => SearchProvider()),
                   ChangeNotifierProvider(create: (_) => MyReviewProvider()),
+                  ChangeNotifierProvider(create: (_) => CommonApiProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LatestBLogDetailsProvider()),
                   ChangeNotifierProvider(

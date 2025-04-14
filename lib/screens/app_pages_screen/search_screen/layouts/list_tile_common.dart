@@ -29,24 +29,22 @@ class ListTileLayout extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       IntrinsicHeight(
           child: Row(children: [
-        isHavingIcon ? getImageWidget(icon) : getImageWidget(data.icon),
+        getImageWidget(isHavingIcon ? icon : data?.icon),
         VerticalDivider(
                 indent: 1,
                 endIndent: 1,
                 width: 1,
                 color: appColor(context).stroke)
             .paddingSymmetric(horizontal: Insets.i12),
-        isHavingIcon
-            ? SizedBox(
-                width: 250,
-                child: Text(language(context, title),
-                    overflow: TextOverflow.ellipsis,
-                    style: appCss.dmDenseMedium14
-                        .textColor(appColor(context).darkText)))
-            : Text(language(context, data!.translatedValue),
-                overflow: TextOverflow.fade,
+        SizedBox(
+            width: Insets.i150,
+            child: Text(
+                isHavingIcon
+                    ? language(context, title)
+                    : language(context, data?.translatedValue ?? ''),
+                overflow: TextOverflow.ellipsis,
                 style: appCss.dmDenseMedium14
-                    .textColor(appColor(context).darkText))
+                    .textColor(appColor(context).darkText)))
       ])),
       isCheckBox
           ? CheckBoxCommon(

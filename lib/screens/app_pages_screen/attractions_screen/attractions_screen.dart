@@ -35,7 +35,7 @@ class _AttractionScreenState extends State<AttractionScreen>
           child: DirectionalityRtl(
               child: Scaffold(
                   appBar: AppBarCommon(
-                      title: appFonts.featuredAttractions,
+                      title: language(context, appFonts.featuredAttractions),
                       onTap: () {
                         if (widget.isHomeScreen) {
                           dash.selectIndex = 0;
@@ -44,79 +44,83 @@ class _AttractionScreenState extends State<AttractionScreen>
                           attraction.onBack(dash, context);
                         }
                       }),
-                  body: ListView(children: [
-                    SearchTextFieldCommon(
-                        focusNode: attraction.searchFocus,
-                        controller: search.searchCtrl,
-                        onChanged: (v) {
-                          if (v.isEmpty) {
-                            attraction.searchList = [];
-                            attraction.notifyListeners();
-                          }
-                        },
-                        onFieldSubmitted: (v) => search.searchService(context),
-                        suffixIcon: FilterIconCommon(
-                            selectedFilter:
-                                search.totalCountFilter().toString(),
-                            onTap: () =>
-                                attraction.onBottomSheet(context, attraction))),
-                    const VSpace(Sizes.s20),
-                    /* */ /* attraction.txtFeaturedSearch.text.isEmpty
-                        ? */ /*Column(children: [
-                            ...dash.firstTwoBlogList.asMap().entries.map((e) =>
-                                FeatureAttractionLayout(
-                                    // data: e.value,
-                                    isHome: true,
-                                    onTap: () => route.pushNamed(context,
-                                        routeName.attractionDetailScreen,
-                                        arg: e.value.id)))
-                          ])
-                        : attraction.searchList.isNotEmpty
-                        ?*/
-                    Column(children: [
-                      ...attraction.attractionsSearchList.asMap().entries.map(
-                          (e) => FeatureAttractionLayout(
-                              data: e.value,
-                              isHome: true,
-                              onTap: () => route.pushNamed(
-                                  context, routeName.attractionDetailScreen,
-                                  arg: e.value.id)))
-                    ])
-                    /* : Column(children: [
-                                Stack(children: [
-                                  Image.asset(eImageAssets.noSearch,
-                                          height: Sizes.s346)
-                                      .paddingOnly(top: Insets.i40),
-                                  if (attraction.animationController != null)
-                                    Positioned(
-                                        left: 40,
-                                        top: 0,
-                                        child: RotationTransition(
-                                            turns: Tween(begin: 0.01, end: -.01)
-                                                .chain(CurveTween(
-                                                    curve: Curves.easeIn))
-                                                .animate(attraction
-                                                    .animationController!),
-                                            child: Image.asset(
-                                                eImageAssets.mGlass,
-                                                height: Sizes.s190,
-                                                width: Sizes.s178)))
-                                ]),
-                                const VSpace(Sizes.s25),
-                                Text(language(context, appFonts.noMatching),
-                                    style: appCss.dmDenseBold18
-                                        .textColor(appColor(context).darkText)),
-                                const VSpace(Sizes.s8),
-                                Text(
-                                        language(context,
-                                            appFonts.attemptYourSearch),
-                                        textAlign: TextAlign.center,
-                                        style: appCss.dmDenseRegular14
-                                            .textColor(
-                                                appColor(context).lightText))
-                                    .paddingSymmetric(horizontal: Insets.i10)
-                              ])*/
-                  ]).paddingSymmetric(horizontal: Insets.i20))));
+                  body: SafeArea(
+                    child: ListView(children: [
+                      SearchTextFieldCommon(
+                          focusNode: attraction.searchFocus,
+                          controller: search.searchCtrl,
+                          onChanged: (v) {
+                            if (v.isEmpty) {
+                              attraction.searchList = [];
+                              attraction.notifyListeners();
+                            }
+                          },
+                          onFieldSubmitted: (v) =>
+                              search.searchService(context),
+                          suffixIcon: FilterIconCommon(
+                              selectedFilter:
+                                  search.totalCountFilter().toString(),
+                              onTap: () => attraction.onBottomSheet(
+                                  context, attraction))),
+                      const VSpace(Sizes.s20),
+                      /* */ /* attraction.txtFeaturedSearch.text.isEmpty
+                          ? */ /*Column(children: [
+                              ...dash.firstTwoBlogList.asMap().entries.map((e) =>
+                                  FeatureAttractionLayout(
+                                      // data: e.value,
+                                      isHome: true,
+                                      onTap: () => route.pushNamed(context,
+                                          routeName.attractionDetailScreen,
+                                          arg: e.value.id)))
+                            ])
+                          : attraction.searchList.isNotEmpty
+                          ?*/
+                      Column(children: [
+                        ...attraction.attractionsSearchList.asMap().entries.map(
+                            (e) => FeatureAttractionLayout(
+                                bColor: appColor(context).borderStroke,
+                                data: e.value,
+                                isHome: true,
+                                onTap: () => route.pushNamed(
+                                    context, routeName.attractionDetailScreen,
+                                    arg: e.value.id)))
+                      ])
+                      /* : Column(children: [
+                                  Stack(children: [
+                                    Image.asset(eImageAssets.noSearch,
+                                            height: Sizes.s346)
+                                        .paddingOnly(top: Insets.i40),
+                                    if (attraction.animationController != null)
+                                      Positioned(
+                                          left: 40,
+                                          top: 0,
+                                          child: RotationTransition(
+                                              turns: Tween(begin: 0.01, end: -.01)
+                                                  .chain(CurveTween(
+                                                      curve: Curves.easeIn))
+                                                  .animate(attraction
+                                                      .animationController!),
+                                              child: Image.asset(
+                                                  eImageAssets.mGlass,
+                                                  height: Sizes.s190,
+                                                  width: Sizes.s178)))
+                                  ]),
+                                  const VSpace(Sizes.s25),
+                                  Text(language(context, appFonts.noMatching),
+                                      style: appCss.dmDenseBold18
+                                          .textColor(appColor(context).darkText)),
+                                  const VSpace(Sizes.s8),
+                                  Text(
+                                          language(context,
+                                              appFonts.attemptYourSearch),
+                                          textAlign: TextAlign.center,
+                                          style: appCss.dmDenseRegular14
+                                              .textColor(
+                                                  appColor(context).lightText))
+                                      .paddingSymmetric(horizontal: Insets.i10)
+                                ])*/
+                    ]).paddingSymmetric(horizontal: Insets.i20),
+                  ))));
     });
   }
 }

@@ -10,6 +10,7 @@ class ProfileOptionsLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final value = Provider.of<ProfileProvider>(context, listen: true);
+    final lang = Provider.of<LanguageProvider>(context, listen: true);
     return Consumer<ThemeService>(builder: (context, theme, child) {
       return Column(
           children: value.profileLists
@@ -39,13 +40,18 @@ class ProfileOptionsLayout extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                        Text(
-                                            language(context, e.value.title)
-                                                .toString(),
-                                            style: appCss.dmDenseMedium16
-                                                .textColor(appColor(context)
-                                                    .darkText)),
-                                        SvgPicture.asset(eSvgAssets.arrowRight,
+                                        Expanded(
+                                            child: Text(
+                                                overflow: TextOverflow.fade,
+                                                language(context, e.value.title)
+                                                    .toString(),
+                                                style: appCss.dmDenseMedium16
+                                                    .textColor(appColor(context)
+                                                        .darkText))),
+                                        SvgPicture.asset(
+                                            rtl(context)
+                                                ? eSvgAssets.arrowLeft
+                                                : eSvgAssets.arrowRight,
                                             colorFilter: ColorFilter.mode(
                                                 appColor(context).darkText,
                                                 BlendMode.srcIn))
@@ -88,36 +94,39 @@ class ProfileOptionsLayout extends StatelessWidget {
                                         index: s.key,
                                         list: e.value.data,
                                         onTap: () async {
-                                          if (s.value.title == "My Profile") {
+                                          if (s.value.title ==
+                                              appFonts.myProfile) {
                                             route.pushNamed(context,
                                                 routeName.profileDetails);
                                           } else if (s.value.title ==
-                                              "Favourite List") {
+                                              appFonts.favouriteList) {
                                             route.pushNamed(context,
                                                 routeName.favScreenList);
                                           } else if (s.value.title ==
-                                              "My Reviews") {
+                                              appFonts.myReviews) {
                                             route.pushNamed(context,
                                                 routeName.reviewScreen);
                                           } else if (s.value.title ==
-                                              "App Settings") {
+                                              appFonts.appSettings) {
                                             route.pushNamed(
                                                 context, routeName.appSetting);
                                           } else if (s.value.title ==
-                                              "Subscription Plans") {
+                                              appFonts.subscriptionPlans) {
                                             route.pushNamed(
                                                 context,
                                                 routeName
                                                     .subscriptionPlanScreen);
                                           } else if (s.value.title ==
-                                              "About Us") {
+                                              appFonts.aboutUs) {
                                             route.pushNamed(
                                                 context,
                                                 routeName
                                                     .commonGeneralInfoLayout,
                                                 arg: {
                                                   "image": eImageAssets.img1,
-                                                  "appBarTitle": "About Us",
+                                                  "appBarTitle": language(
+                                                      context,
+                                                      appFonts.aboutUs),
                                                   "title1": "Section Title",
                                                   "aboutDescription":
                                                       appFonts.aboutDescription,
@@ -130,15 +139,16 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       appFonts.aboutDescription3
                                                 });
                                           } else if (s.value.title ==
-                                              "Privacy Policy") {
+                                              appFonts.privacyPolicy) {
                                             route.pushNamed(
                                                 context,
                                                 routeName
                                                     .commonGeneralInfoLayout,
                                                 arg: {
                                                   "image": eImageAssets.img1,
-                                                  "appBarTitle":
-                                                      "Privacy Policy",
+                                                  "appBarTitle": language(
+                                                      context,
+                                                      appFonts.privacyPolicy),
                                                   "title1": "Section Title",
                                                   "aboutDescription":
                                                       appFonts.aboutDescription,
@@ -151,15 +161,17 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       appFonts.aboutDescription3
                                                 });
                                           } else if (s.value.title ==
-                                              "Cancellation Policy") {
+                                              appFonts.cancellationPolicy) {
                                             route.pushNamed(
                                                 context,
                                                 routeName
                                                     .commonGeneralInfoLayout,
                                                 arg: {
                                                   "image": eImageAssets.img1,
-                                                  "appBarTitle":
-                                                      "Cancellation Policy",
+                                                  "appBarTitle": language(
+                                                      context,
+                                                      appFonts
+                                                          .cancellationPolicy),
                                                   "title1": "Section Title",
                                                   "aboutDescription":
                                                       appFonts.aboutDescription,
@@ -172,17 +184,19 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       appFonts.aboutDescription3
                                                 });
                                           } else if (s.value.title ==
-                                              "Contact Us") {
+                                              appFonts.contactUs) {
                                             route.pushNamed(
                                                 context, routeName.contactUs);
-                                          } else if (s.value.title == "FAQ") {
+                                          } else if (s.value.title ==
+                                              appFonts.faq) {
                                             route.pushNamed(
                                                 context,
                                                 routeName
                                                     .commonGeneralInfoLayout,
                                                 arg: {
                                                   "image": eImageAssets.img1,
-                                                  "appBarTitle": "FAQ",
+                                                  "appBarTitle": language(
+                                                      context, appFonts.faq),
                                                   "title1":
                                                       "The first question",
                                                   "aboutDescription":
@@ -197,12 +211,13 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       appFonts.aboutDescription3
                                                 });
                                           } else if (s.value.title ==
-                                              "Logout") {
+                                              appFonts.logout) {
                                             showCupertinoDialog(
                                                 context: context,
                                                 builder: (context1) {
                                                   return AlertDialogCommon(
-                                                      title: "Logout",
+                                                      title: language(context,
+                                                          appFonts.logout),
                                                       fit: BoxFit.contain,
                                                       vertical: 0,
                                                       subtextVSpace: 28,
@@ -212,10 +227,16 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       isTwoButton: true,
                                                       image:
                                                           'assets/images/logout.png',
-                                                      subtext: language(context,
-                                                          "Are you sure you want to logout from this application , now ?"),
-                                                      secondBText: "Yes",
-                                                      firstBText: "Cancel",
+                                                      subtext: language(
+                                                          context,
+                                                          appFonts
+                                                              .logoutConfirmation),
+                                                      secondBText: language(
+                                                          context,
+                                                          appFonts.yes),
+                                                      firstBText: language(
+                                                          context,
+                                                          appFonts.cancel),
                                                       firstBTap: () {
                                                         route.pop(context);
                                                       },
@@ -224,7 +245,6 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                             prefs =
                                                             await SharedPreferences
                                                                 .getInstance();
-
                                                         await prefs.clear();
 
                                                         route

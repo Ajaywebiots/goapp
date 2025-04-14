@@ -142,7 +142,7 @@ final spanish = {
   "off30": "30% de descuento",
   "provider": "Proveedor",
   "review": "Reseña",
-  "reviews": "Últimas reseñas",
+  "latestReviews": "Últimas reseñas",
   "activeOffers": "Ofertas activas",
   "latestArticles": "Últimos artículos",
   "whatDoYouThink":
@@ -183,5 +183,50 @@ final spanish = {
   "highestRate": "Tarifa más alta",
   "articles": "artículos",
   "sorry":
-      "Lo sentimos, no pudimos encontrar resultados. Por favor, cambia tu búsqueda y vuelve a intentarlo."
+      "Lo sentimos, no pudimos encontrar resultados. Por favor, cambia tu búsqueda y vuelve a intentarlo.",
+  "validUntil": "Válido hasta", // es
+  "reviews": "Reseñas", // es
+  "viewOnMap": "Ver en el mapa", // es
+  "km": "km", // es
+  "offers": "Ofertas", // es
+  "category": "Categoría", // es
+  "type": "Tipo", // es
+  "popular": "Popular", // es
+  "categories": "Categorías", // es
+  "fiveRate": "Calificación 5", // es
+  "fourRate": "Calificación 4", // es
+  "threeRate": "Calificación 3", // es
+  "twoRate": "Calificación 2", // es
+  "oneRate": "Calificación 1", // es
+  "myAccount": "MI CUENTA", // es
+
+  "myProfile": "Mi perfil",
+  "favouriteList": "Lista de favoritos",
+  "myReviews": "Mis reseñas",
+  "appSettings": "Configuración de la app",
+  "subscriptionPlans": "Planes de suscripción",
+  "registerYourBusiness": "Registra tu negocio",
+  "generalInfo": "Información general",
+  "aboutUs": "Sobre nosotros",
+  "privacyPolicy": "Política de privacidad",
+  "cancellationPolicy": "Política de cancelación",
+  "contactUs": "Contáctanos",
+  "faq": "Preguntas frecuentes",
+  "logout": "Cerrar sesión",
+  "changeLanguage": "Cambiar idioma",
+  "profileDetails": "Detalles del perfil",
+  "update": "Actualizar",
+  "logoutConfirmation":
+      "¿Estás seguro de que deseas cerrar sesión en esta aplicación ahora?",
+  "close": "Cerrar",
+  "directions": "Direcciones",
+  "address": "Dirección",
+  "call": "Llamar",
+  "contact": "Contacto",
+  "hours": "Horario",
+  "gallery": "Galería",
+  "save": "Guardar",
+  "openingHours": "Horario de apertura",
+  "accountType": "Tipo de cuenta",
+  "membershipStatus": "Estado de membresía"
 };

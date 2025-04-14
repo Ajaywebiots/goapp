@@ -95,7 +95,7 @@ class AttractionProvider with ChangeNotifier {
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return FilterLayout(value1);
+          return SafeArea(child: FilterLayout(value1));
         }).then((value) {
       log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);

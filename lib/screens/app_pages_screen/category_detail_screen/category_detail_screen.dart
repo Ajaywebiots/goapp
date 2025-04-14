@@ -93,7 +93,9 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
                                                       width: Sizes.s24)
                                                   .paddingAll(Insets.i17)),
                                           VSpace(Insets.i8),
-                                          Text(appFonts.popular,
+                                          Text(
+                                              language(
+                                                  context, appFonts.popular),
                                               style: appCss.dmDenseRegular13
                                                   .textColor(appColor(context)
                                                       .darkText))

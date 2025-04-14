@@ -144,7 +144,7 @@ class AppFonts {
   final off30 = "off30";
   final provider = "provider";
   final review = "review";
-  final reviews = "reviews";
+  final latestReviews = "latestReviews";
   final activeOffers = "activeOffers";
   final latestArticles = "latestArticles";
   final whatDoYouThink = "whatDoYouThink";
@@ -244,7 +244,7 @@ class AppFonts {
   final selectServicemenAs = "selectServicemenAs";
   final dateTime = "dateTime";
   final date = "date";
-  final offers = "Offers";
+  final offers = "offers";
   final experience = "experience";
   final bookingStatus = "bookingStatus";
   final selectDateOnly = "selectDateOnly";
@@ -290,4 +290,49 @@ class AppFonts {
       "With regards to air conditioning repair, there’s another kind of insurance that home owners can purchase.";
   final aboutDescription3 =
       "This insurance was advertised in the media and could be obtained on-line, or you could also ask your agent insurance agent about it.";
+
+  ///
+  ///
+
+  final validUntil = "validUntil";
+  final reviews = "reviews";
+  final viewOnMap = "viewOnMap";
+  final km = "km";
+  final type = "type";
+  final fiveRate = "fiveRate";
+  final fourRate = "fourRate";
+  final threeRate = "threeRate";
+  final twoRate = "twoRate";
+  final oneRate = "oneRate";
+  final myAccount = "myAccount";
+  final myProfile = "myProfile";
+  // final favouriteList = "favouriteList";
+  // final myReviews = "myReviews";
+  final appSettings = "appSettings";
+  final subscriptionPlans = "subscriptionPlans";
+  final registerYourBusiness = "registerYourBusiness";
+  final generalInfo = "generalInfo";
+  // final aboutUs = "aboutUs";
+  // final privacyPolicy = "privacyPolicy";
+  // final cancellationPolicy = "cancellationPolicy";
+  // final contactUs = "contactUs";
+  final faq = "faq";
+  final logout = "logout";
+  final update = "update";
+  final logoutConfirmation = "logoutConfirmation";
+  final close = "close";
+  final directions = "directions";
+  final address = "address";
+  // final call = "call";
+  final contact = "contact";
+  // final hours = "hours";
+  // final gallery = "gallery";
+  final save = "save";
+  final accountType = "accountType";
+  final membershipStatus = "membershipStatus";
+
+// final openingHours = "openingHours";
+
+// final changeLanguage = "changeLanguage";
+  // final profileDetails = "profileDetails";
 }

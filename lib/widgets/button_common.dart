@@ -6,8 +6,9 @@ class ButtonCommon extends StatelessWidget {
   final GestureTapCallback? onTap;
   final TextStyle? style;
   final Color? color, fontColor, borderColor;
-  final Widget? icon;
+  final Widget? icon, rightIcon;
   final FontWeight? fontWeight;
+  final bool? isRightIcon;
 
   const ButtonCommon(
       {super.key,
@@ -22,9 +23,11 @@ class ButtonCommon extends StatelessWidget {
       this.color,
       this.fontColor,
       this.icon,
+      this.rightIcon,
       this.borderColor,
       this.width,
-      this.fontWeight = FontWeight.w700});
+      this.fontWeight = FontWeight.w700,
+      this.isRightIcon = false});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,9 @@ class ButtonCommon extends StatelessWidget {
                 borderRadius: SmoothBorderRadius(
                     cornerRadius: radius!, cornerSmoothing: 1))),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          isRightIcon == true
+              ? Row(children: [rightIcon!, const HSpace(Sizes.s10)])
+              : Container(),
           Text(language(context, title),
               textAlign: TextAlign.center,
               style: style ??

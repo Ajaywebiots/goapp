@@ -41,9 +41,11 @@ class ResetPasswordScreenInApp extends StatelessWidget {
                                 child: AuthTopLayout(
                                     isResetPass: true,
                                     image: eImageAssets.resetPassword,
-                                    title: language(context, "CHANGE PASSWORD"),
+                                    title: language(
+                                            context, appFonts.changePassword)
+                                        .toUpperCase(),
                                     subTitle: language(
-                                        context, "Enter your new password."),
+                                        context, appFonts.resetPasswordDesc),
                                     isNumber: true)),
                             Stack(clipBehavior: Clip.none, children: [
                               const FieldsBackground(),

@@ -12,8 +12,9 @@ class ApiClass {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String locale = pref.getString("selectedLocale") ?? "en";
     if (locale == "el") {
-      locale = "gr";
+      locale = "el";
     }
+    log("ajaaaaaa aaaa aaa ${locale}");
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ class ApiClass {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String locale = pref.getString("selectedLocale") ?? "en";
     if (locale == "el") {
-      locale = "gr";
+      locale = "el";
     }
 
     return {

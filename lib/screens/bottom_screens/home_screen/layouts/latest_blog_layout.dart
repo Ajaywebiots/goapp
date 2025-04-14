@@ -8,7 +8,7 @@ import '../../../../models/api_model/home_feed_model.dart';
 
 class LatestBlogLayout extends StatelessWidget {
   final Article? data;
-  final GestureTapCallback? onTap;
+  final GestureTapCallback? onTap, addOrRemoveTap;
   final double? rPadding;
   final bool? isView;
 
@@ -18,6 +18,7 @@ class LatestBlogLayout extends StatelessWidget {
     this.data,
     this.rPadding,
     this.isView = false,
+    this.addOrRemoveTap,
   });
 
   @override
@@ -49,8 +50,9 @@ class LatestBlogLayout extends StatelessWidget {
                               style: appCss.dmDenseMedium15
                                   .textColor(appColor(context).darkText))),
                       SvgPicture.asset(data!.isFavourite == true
-                          ? 'assets/svg/fav.svg'
-                          : "assets/svg/dislike.svg")
+                              ? 'assets/svg/fav.svg'
+                              : "assets/svg/dislike.svg")
+                          .inkWell(onTap: addOrRemoveTap)
                     ]),
                 Text(
                     DateFormat("dd MMM, yyyy")

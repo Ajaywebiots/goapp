@@ -30,7 +30,8 @@ class ChangePassInApp extends StatelessWidget {
                   alignment: Alignment.center,
                   child: AuthTopLayout(
                       image: eImageAssets.forgetPass,
-                      title: language(context, "CHANGE PASSWORD"),
+                      title: language(context, appFonts.changePassword)
+                          .toUpperCase(),
                       subTitle: language(context, appFonts.enterYourRegister),
                       isNumber: false))
             ]),

@@ -5,6 +5,7 @@ import '../../../../config.dart';
 class RatingLayout extends StatelessWidget {
   final double? initialRating;
   final Color? color;
+
   const RatingLayout({super.key, this.initialRating, this.color});
 
   @override

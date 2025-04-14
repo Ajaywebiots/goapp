@@ -143,7 +143,7 @@ final russian = {
   "off30": "Скидка 30%",
   "provider": "Поставщик",
   "review": "Отзыв",
-  "reviews": "Последние отзывы",
+  "latestReviews": "Последние отзывы",
   "activeOffers": "Активные предложения",
   "latestArticles": "Последние статьи",
   "whatDoYouThink": "Что вы думаете об услуге, предоставленной нашим бизнесом?",
@@ -182,5 +182,50 @@ final russian = {
   "lowestRate": "Самая низкая ставка",
   "highestRate": "Самая высокая ставка",
   "sorry":
-      "Извините, мы не смогли найти результаты. Пожалуйста, измените запрос и попробуйте снова."
+      "Извините, мы не смогли найти результаты. Пожалуйста, измените запрос и попробуйте снова.",
+  "validUntil": "Действительно до", // ru
+  "reviews": "Отзывы", // ru
+  "viewOnMap": "Посмотреть на карте", // ru
+  "km": "км", // ru
+  "offers": "Предложения", // ru
+  "category": "Категория", // ru
+  "type": "Тип", // ru
+  "popular": "Популярное", // ru
+  "categories": "Категории", // ru
+  "fiveRate": "Оценка 5", // ru
+  "fourRate": "Оценка 4", // ru
+  "threeRate": "Оценка 3", // ru
+  "twoRate": "Оценка 2", // ru
+  "oneRate": "Оценка 1", // ru
+  "myAccount": "МОЙ АККАУНТ", // ru
+
+  "myProfile": "Мой профиль",
+  "favouriteList": "Список избранного",
+  "myReviews": "Мои отзывы",
+  "appSettings": "Настройки приложения",
+  "subscriptionPlans": "Планы подписки",
+  "registerYourBusiness": "Зарегистрируйте свой бизнес",
+  "generalInfo": "Общая информация",
+  "aboutUs": "О нас",
+  "privacyPolicy": "Политика конфиденциальности",
+  "cancellationPolicy": "Политика отмены",
+  "contactUs": "Связаться с нами",
+  "faq": "Часто задаваемые вопросы",
+  "logout": "Выйти",
+  "changeLanguage": "Сменить язык",
+  "profileDetails": "Детали профиля",
+  "update": "Обновить",
+  "logoutConfirmation":
+      "Вы уверены, что хотите выйти из этого приложения прямо сейчас?",
+  "close": "Закрыть",
+  "directions": "Маршрут",
+  "address": "Адрес",
+  "call": "Позвонить",
+  "contact": "Контакт",
+  "hours": "Часы",
+  "gallery": "Галерея",
+  "save": "Сохранить",
+  "openingHours": "Часы работы",
+  "accountType": "Тип аккаунта",
+  "membershipStatus": "Статус членства"
 };

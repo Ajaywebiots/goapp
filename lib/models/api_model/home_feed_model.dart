@@ -136,7 +136,7 @@ class Attraction {
   final Rating? rating;
   final Media? image;
   final Location? location;
-  final dynamic attractionCategories;
+  final List<Category> attractionCategories;
   final bool isFavourite;
   final AppObject? appObject;
 
@@ -148,7 +148,10 @@ class Attraction {
       image: json["image"] == null ? null : Media.fromJson(json["image"]),
       location:
           json["location"] == null ? null : Location.fromJson(json["location"]),
-      attractionCategories: json["attractionCategories"],
+      attractionCategories: json["attractionCategories"] == null
+          ? []
+          : List<Category>.from(
+              json["attractionCategories"]!.map((x) => Category.fromJson(x))),
       isFavourite: json["isFavourite"] ?? false,
       appObject: json["appObject"] == null
           ? null

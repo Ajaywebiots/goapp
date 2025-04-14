@@ -142,7 +142,7 @@ final hebrew = {
   "off30": "הנחה 30%",
   "provider": "ספק",
   "review": "סקירה",
-  "reviews": "ביקורות אחרונות",
+  "latestReviews": "ביקורות אחרונות",
   "activeOffers": "הצעות פעילות",
   "latestArticles": "מאמרים אחרונים",
   "whatDoYouThink": "מה דעתך על השירות שניתן על ידי העסק שלנו?",
@@ -181,5 +181,49 @@ final hebrew = {
   "lowestRate": "דירוג נמוך ביותר",
   "highestRate": "דירוג גבוה ביותר",
   "sorry": "מצטערים, לא הצלחנו למצוא תוצאות. אנא שנה את החיפוש ונסה שוב.",
-  "articles": "מאמרים"
+  "articles": "מאמרים",
+  "validUntil": "בתוקף עד", // he
+  "reviews": "ביקורות", // he
+  "viewOnMap": "צפייה במפה", // he
+  "km": "ק\"מ", // he
+  "offers": "הצעות", // he
+  "category": "קטגוריה", // he
+  "type": "סוג", // he
+  "popular": "פופולרי", // he
+  "categories": "קטגוריות", // he
+  "fiveRate": "דירוג 5", // he
+  "fourRate": "דירוג 4", // he
+  "threeRate": "דירוג 3", // he
+  "twoRate": "דירוג 2", // he
+  "oneRate": "דירוג 1", // he
+  "myAccount": "החשבון שלי", // he
+
+  "myProfile": "הפרופיל שלי",
+  "favouriteList": "רשימת מועדפים",
+  "myReviews": "הביקורות שלי",
+  "appSettings": "הגדרות אפליקציה",
+  "subscriptionPlans": "תוכניות מנוי",
+  "registerYourBusiness": "רשום את העסק שלך",
+  "generalInfo": "מידע כללי",
+  "aboutUs": "עלינו",
+  "privacyPolicy": "מדיניות פרטיות",
+  "cancellationPolicy": "מדיניות ביטולים",
+  "contactUs": "צור קשר",
+  "faq": "שאלות נפוצות",
+  "logout": "התנתק",
+  "changeLanguage": "שנה שפה",
+  "profileDetails": "פרטי פרופיל",
+  "update": "עדכן",
+  "logoutConfirmation": "האם אתה בטוח שברצונך להתנתק מהאפליקציה הזו כעת?",
+  "close": "סגור",
+  "directions": "הוראות הגעה",
+  "address": "כתובת",
+  "call": "התקשר",
+  "contact": "צור קשר",
+  "hours": "שעות",
+  "gallery": "גלריה",
+  "save": "שמור",
+  "openingHours": "שעות פתיחה",
+  "accountType": "סוג חשבון",
+  "membershipStatus": "סטטוס חברות"
 };

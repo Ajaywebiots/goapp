@@ -132,9 +132,11 @@ class LoginProvider with ChangeNotifier {
         if (value.data['responseStatus'] == 1) {
           hideLoading(context);
           log("login data ${value.data}");
-          log("token  ${value.data['token']}");
+
           SharedPreferences pref = await SharedPreferences.getInstance();
+          await pref.setInt(session.id, value.data['user']['id']);
           await pref.setString(session.accessToken, value.data['token']);
+          log("token session.id ${pref.getInt(session.id)}");
           log("accessToken ${pref.getString(session.accessToken)}");
 
           route.pushNamed(context, routeName.dashboard);

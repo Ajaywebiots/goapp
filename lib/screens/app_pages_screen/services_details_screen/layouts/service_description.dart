@@ -212,10 +212,10 @@ class ServiceDescription extends StatelessWidget {
               return Flexible(
                   child: GestureDetector(
                       onTap: () {
-                        if (item['label'] == "Call") {
+                        if (item['label'] == appFonts.call) {
                           String? call = businessData?.contact?.phoneNumber;
                           makePhoneCall(call);
-                        } else if (item['label'] == "Directions") {
+                        } else if (item['label'] == appFonts.directions) {
                           showModalBottomSheet(
                               isScrollControlled: true,
                               enableDrag: false,
@@ -239,7 +239,7 @@ class ServiceDescription extends StatelessWidget {
                                                     children: [
                                                       Text(
                                                           language(context,
-                                                              "Address"),
+                                                              appFonts.address),
                                                           style: appCss
                                                               .dmDenseMedium18
                                                               .textColor(appColor(
@@ -311,8 +311,8 @@ class ServiceDescription extends StatelessWidget {
                                                             zoomControlsEnabled: true)))
                                               ])),
                                           BottomSheetButtonCommon(
-                                                  textOne: "Close",
-                                                  textTwo: "Directions",
+                                                  textOne: appFonts.close,
+                                                  textTwo: appFonts.directions,
                                                   applyTap: () {
                                                     final lat = businessData
                                                         ?.location?.latitude
@@ -335,9 +335,9 @@ class ServiceDescription extends StatelessWidget {
                                               .alignment(Alignment.bottomCenter)
                                         ])).bottomSheetExtension(context));
                               });
-                        } else if (item['label'] == "Hours") {
+                        } else if (item['label'] == appFonts.hours) {
                           showOpeningHoursBottomSheet(context);
-                        } else if (item['label'] == "Contact") {
+                        } else if (item['label'] == appFonts.contact) {
                           showModalBottomSheet(
                               isScrollControlled: true,
                               context: context,
@@ -403,7 +403,7 @@ class ServiceDescription extends StatelessWidget {
                                       ])).bottomSheetExtension(context),
                                 );
                               });
-                        } else if (item['label'] == "Gallery") {
+                        } else if (item['label'] == appFonts.gallery) {
                           route.pushNamed(
                               context, routeName.commonGalleryScreen,
                               arg: businessData);
@@ -422,7 +422,7 @@ class ServiceDescription extends StatelessWidget {
                               children: [
                                 SvgPicture.asset(item['icon'],
                                     height: Insets.i20, width: Insets.i20),
-                                Text(item['label'],
+                                Text(language(context, item['label']),
                                     style: appCss.dmDenseMedium7
                                         .textColor(appColor(context).darkText))
                               ]))));
@@ -462,80 +462,92 @@ class ServiceDescription extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
           return SafeArea(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Consumer<TimeSlotProvider>(
-                    builder: (context, value, child) {
-                  return Column(children: [
-                    Row(
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.3,
+                  child: Consumer<TimeSlotProvider>(
+                      builder: (context, value, child) {
+                    return SingleChildScrollView(
+                      child: Column(children: [
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                          Text(language(context, "Opening Hours"),
-                              style: appCss.dmDenseMedium18
-                                  .textColor(appColor(context).darkText)),
-                          const Icon(CupertinoIcons.multiply)
-                              .inkWell(onTap: () => route.pop(context))
-                        ])
-                        .paddingSymmetric(vertical: 20, horizontal: Insets.i20),
-                    Container(
-                        margin: EdgeInsets.symmetric(horizontal: Insets.i20),
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                            color: appColor(context).fieldCardBg,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                      children: timeSlotStartAtList
-                                          .asMap()
-                                          .entries
-                                          .map((e) => Text(
-                                                  language(context, e.value),
-                                                  style: appCss.dmDenseMedium12
-                                                      .textColor(
-                                                          appColor(context)
-                                                              .lightText))
-                                              .paddingOnly(
-                                                  left: e.key == 0
-                                                      ? Insets.i5
-                                                      : 30,
-                                                  right: e.key == 0
-                                                      ? Insets.i50
-                                                      : 20))
-                                          .toList())
-                                  .paddingSymmetric(horizontal: Insets.i15),
-                              const VSpace(Sizes.s15),
-                              ...timeSlotList.asMap().entries.map((e) =>
-                                  AllTimeSlotLayout(
-                                      data: e.value,
-                                      index: e.key,
-                                      list: timeSlotList,
-                                      onTapSecond: e.value["status"] == true
-                                          ? () => value.selectTimeBottomSheet(
-                                              context, e.value, e.key, "end")
-                                          : () {},
-                                      onTap: e.value["status"] == true
-                                          ? () => value.selectTimeBottomSheet(
-                                              context, e.value, e.key, "start")
-                                          : () {},
-                                      onToggle: (val) =>
-                                          value.onToggle(e.value, val)))
-                            ])),
-                    VSpace(Insets.i22),
-                    BottomSheetButtonCommon(
-                            isRateComplete: true,
-                            textOne: appFonts.cancel,
-                            textTwo: appFonts.addToContacts,
-                            applyTap: () {},
-                            clearTap: () {})
-                        .marginSymmetric(horizontal: 80)
-                        .backgroundColor(appColor(context).whiteColor)
-                        .alignment(Alignment.bottomCenter)
-                  ]);
-                })),
-          );
+                              Text(language(context, appFonts.openingHours),
+                                  style: appCss.dmDenseMedium18
+                                      .textColor(appColor(context).darkText)),
+                              const Icon(CupertinoIcons.multiply)
+                                  .inkWell(onTap: () => route.pop(context))
+                            ]).paddingSymmetric(
+                            vertical: 20, horizontal: Insets.i20),
+                        Container(
+                            margin:
+                                EdgeInsets.symmetric(horizontal: Insets.i20),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            decoration: BoxDecoration(
+                                color: appColor(context).fieldCardBg,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12))),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                          children: timeSlotStartAtList
+                                              .asMap()
+                                              .entries
+                                              .map((e) => Text(
+                                                      language(
+                                                          context, e.value),
+                                                      style: appCss
+                                                          .dmDenseMedium12
+                                                          .textColor(
+                                                              appColor(context)
+                                                                  .lightText))
+                                                  .paddingOnly(
+                                                      left: e.key == 0
+                                                          ? Insets.i5
+                                                          : 30,
+                                                      right: e.key == 0
+                                                          ? Insets.i50
+                                                          : 20))
+                                              .toList())
+                                      .paddingSymmetric(horizontal: Insets.i15),
+                                  const VSpace(Sizes.s15),
+                                  ...timeSlotList.asMap().entries.map((e) =>
+                                      AllTimeSlotLayout(
+                                          data: e.value,
+                                          index: e.key,
+                                          list: timeSlotList,
+                                          onTapSecond: e.value["status"] == true
+                                              ? () =>
+                                                  value.selectTimeBottomSheet(
+                                                      context,
+                                                      e.value,
+                                                      e.key,
+                                                      "end")
+                                              : () {},
+                                          onTap: e.value["status"] == true
+                                              ? () =>
+                                                  value.selectTimeBottomSheet(
+                                                      context,
+                                                      e.value,
+                                                      e.key,
+                                                      "start")
+                                              : () {},
+                                          onToggle: (val) =>
+                                              value.onToggle(e.value, val)))
+                                ])),
+                        VSpace(Insets.i22),
+                        BottomSheetButtonCommon(
+                                isRateComplete: true,
+                                textOne: appFonts.cancel,
+                                textTwo: appFonts.addToContacts,
+                                applyTap: () {},
+                                clearTap: () {})
+                            .marginSymmetric(horizontal: 80)
+                            .backgroundColor(appColor(context).whiteColor)
+                            .alignment(Alignment.bottomCenter)
+                      ]),
+                    );
+                  })));
         });
   }
 
@@ -565,7 +577,7 @@ class ServiceDescription extends StatelessWidget {
         "days": weekDays[index],
         "start_at": hour.openTime ?? "00:00",
         "end_at": hour.closeTime ?? "00:00",
-        "status": !(hour.isClosed ?? true), // if isClosed true => status false
+        "status": !(hour.isClosed ?? true)
       };
     });
   }

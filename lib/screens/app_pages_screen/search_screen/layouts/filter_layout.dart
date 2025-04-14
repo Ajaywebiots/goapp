@@ -25,8 +25,10 @@ class FilterLayout extends StatelessWidget {
                 Text(language(context, appFonts.filterBy),
                     style: appCss.dmDenseMedium18
                         .textColor(appColor(context).darkText)),
-                const Icon(CupertinoIcons.multiply)
-                    .inkWell(onTap: () => route.pop(context))
+                Icon(
+                  CupertinoIcons.multiply,
+                  color: appColor(context).darkText,
+                ).inkWell(onTap: () => route.pop(context))
               ]).paddingSymmetric(horizontal: Insets.i20),
               Container(
                       alignment: Alignment.center,

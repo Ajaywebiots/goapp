@@ -144,7 +144,7 @@ final english = {
   "off30": "Off 30%",
   "provider": "Provider",
   "review": "Review",
-  "reviews": "Latest Reviews",
+  "latestReviews": "Latest Reviews",
   "activeOffers": "Active Offers",
   "latestArticles": "Latest Articles",
   "whatDoYouThink":
@@ -185,5 +185,51 @@ final english = {
   "highestRate": "Highest Rate",
   "articles": "Articles",
   "sorry":
-      "Sorry, we could not find any results. Please change your search and try again."
+      "Sorry, we could not find any results. Please change your search and try again.",
+  "validUntil": "Valid until", // en
+  "reviews": "Reviews", // en
+  "viewOnMap": "View on map", // en
+  "km": "km", // en
+  "offers": "Offers", // en
+  "category": "Category", // en
+  "type": "Type", // en
+  "popular": "Popular", // en
+  "categories": "Categories", // en
+  "fiveRate": "5 rate", // en
+  "fourRate": "4 rate", // en
+  "threeRate": "3 rate", // en
+  "twoRate": "2 rate", // en
+  "oneRate": "1 rate", // en
+  "myAccount": "MY ACCOUNT", // en
+
+  "myProfile": "My Profile",
+  "favouriteList": "Favourite List",
+  "myReviews": "My Reviews",
+  "appSettings": "App Settings",
+  "subscriptionPlans": "Subscription Plans",
+  "registerYourBusiness": "Register your business",
+  "generalInfo": "General Info",
+  "aboutUs": "About Us",
+  "privacyPolicy": "Privacy Policy",
+  "cancellationPolicy": "Cancellation Policy",
+  "contactUs": "Contact Us",
+  "faq": "FAQ",
+  "logout": "Logout",
+  "changeLanguage": "Change Language",
+  "profileDetails": "Profile details",
+  "update": "Update",
+  "logoutConfirmation":
+      "Are you sure you want to logout from this application, now?",
+  "close": "Close",
+  "directions": "Directions",
+  "address": "Address",
+  // "call": "Call",
+  "contact": "Contact",
+  "hours": "Hours",
+  // "gallery": "Gallery",
+  "save": "Save",
+  "accountType": "Account Type",
+  "membershipStatus": "Membership Status"
+
+  // "openingHours": "Opening Hours"
 };

@@ -533,44 +533,56 @@ class AppArray {
 
   var profileList = [
     {
-      "title": "MY ACCOUNT",
+      "title": appFonts.myAccount,
       "data": [
-        {"icon": eSvgAssets.like, "title": "My Profile", "isArrow": true},
-        {"icon": eSvgAssets.like, "title": "Favourite List", "isArrow": true},
-        {"icon": eSvgAssets.like, "title": "My Reviews", "isArrow": true},
-        {"icon": eSvgAssets.like, "title": "App Settings", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": appFonts.myProfile, "isArrow": true},
         {
           "icon": eSvgAssets.like,
-          "title": "Subscription Plans",
+          "title": appFonts.favouriteList,
+          "isArrow": true
+        },
+        {"icon": eSvgAssets.like, "title": appFonts.myReviews, "isArrow": true},
+        {
+          "icon": eSvgAssets.like,
+          "title": appFonts.appSettings,
+          "isArrow": true
+        },
+        {
+          "icon": eSvgAssets.like,
+          "title": appFonts.subscriptionPlans,
           "isArrow": true
         }
       ]
     },
-    {"title": "Register your business"},
+    {"title": appFonts.registerYourBusiness},
     {
-      "title": "General Info",
+      "title": appFonts.generalInfo,
       "data": [
-        {"icon": eSvgAssets.like, "title": "About Us", "isArrow": true},
-        {"icon": eSvgAssets.like, "title": "Privacy Policy", "isArrow": true},
+        {"icon": eSvgAssets.like, "title": appFonts.aboutUs, "isArrow": true},
         {
           "icon": eSvgAssets.like,
-          "title": "Cancellation Policy",
+          "title": appFonts.privacyPolicy,
           "isArrow": true
         },
-        {"icon": eSvgAssets.like, "title": "Contact Us", "isArrow": true},
-        {"icon": eSvgAssets.like, "title": "FAQ", "isArrow": true},
+        {
+          "icon": eSvgAssets.like,
+          "title": appFonts.cancellationPolicy,
+          "isArrow": true
+        },
+        {"icon": eSvgAssets.like, "title": appFonts.contactUs, "isArrow": true},
+        {"icon": eSvgAssets.like, "title": appFonts.faq, "isArrow": true},
       ]
     },
     {
       "data": [
-        {"icon": eSvgAssets.logout, "title": "Logout", "isArrow": false}
+        {"icon": eSvgAssets.logout, "title": appFonts.logout, "isArrow": false}
       ]
     }
   ];
 
   //app setting
   List appSetting() => [
-        {'title': "Change Language", 'icon': eSvgAssets.translate},
+        {'title': appFonts.changeLanguage, 'icon': eSvgAssets.translate},
         {'title': appFonts.changePassword, 'icon': eSvgAssets.lock}
       ];
 
@@ -1804,17 +1816,17 @@ class AppArray {
   ];
 
   var ratingList = [
-    {"rate": "5 rate", "icon": eSvgAssets.star5, "value": 5},
-    {"rate": "4 rate", "icon": eSvgAssets.star4, "value": 4},
-    {"rate": "3 rate", "icon": eSvgAssets.star3, "value": 3},
-    {"rate": "2 rate", "icon": eSvgAssets.star2, "value": 2},
-    {"rate": "1 rate", "icon": eSvgAssets.star1, "value": 1},
+    {"rate": appFonts.fiveRate, "icon": eSvgAssets.star5, "value": 5},
+    {"rate": appFonts.fourRate, "icon": eSvgAssets.star4, "value": 4},
+    {"rate": appFonts.threeRate, "icon": eSvgAssets.star3, "value": 3},
+    {"rate": appFonts.twoRate, "icon": eSvgAssets.star2, "value": 2},
+    {"rate": appFonts.oneRate, "icon": eSvgAssets.star1, "value": 1},
   ];
 
   var filterList = [appFonts.category, appFonts.rating, appFonts.distance];
   var favList = ["Offers", "Businesses", "Attractions"];
 
-  var filterList1 = ["Category", "Type", appFonts.distance];
+  var filterList1 = [appFonts.category, appFonts.type, appFonts.distance];
 
   List experienceList = [
     {
@@ -3446,32 +3458,32 @@ class AppArray {
   final List<Map<String, dynamic>> buttonItems = [
     {
       'icon': eSvgAssets.calling,
-      'label': 'Call',
+      'label': appFonts.call,
       'action': () => print('Call tapped')
     },
     {
       'icon': eSvgAssets.direction,
-      'label': 'Directions',
+      'label': appFonts.directions,
       'action': () => print('Directions tapped')
     },
     {
       'icon': "assets/svg/contact.svg",
-      'label': 'Contact',
+      'label': appFonts.contact,
       'action': () => print('Website tapped')
     },
     {
       'icon': eSvgAssets.time,
-      'label': 'Hours',
+      'label': appFonts.hours,
       'action': () => print('Hours tapped')
     },
     {
       'icon': "assets/svg/gallery1.svg",
-      'label': 'Gallery',
+      'label': appFonts.gallery,
       'action': () => print('Share tapped')
     },
     {
       'icon': eSvgAssets.like,
-      'label': 'Save',
+      'label': appFonts.save,
       'action': () => print('Save tapped')
     },
   ];

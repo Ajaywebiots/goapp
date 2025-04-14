@@ -8,12 +8,12 @@ class BottomLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(title ?? '',
+      Text(language(context, title ?? ''),
           style:
               appCss.dmDenseSemiBold20.textColor(appColor(context).darkText)),
       const VSpace(Sizes.s15),
       Expanded(
-          child: Text(subText ?? '',
+          child: Text(language(context, subText ?? ''),
                   textAlign: TextAlign.center,
                   style: appCss.dmDenseRegular15
                       .textColor(appColor(context).lightText)

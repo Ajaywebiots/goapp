@@ -30,6 +30,8 @@ class ApiMethods {
   String offerSearch = "/Offer/search";
   String blogDetails = "/blog/";
   String businessDetails = "/business/";
+  String addFav = "/user/";
+  String removeFav = "/user/";
 
 // //
   // String homeFeed = '/api/App/home/feed';

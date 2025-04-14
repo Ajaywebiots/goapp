@@ -7,9 +7,9 @@ import '../../../../widgets/DirectionalityRtl.dart';
 
 class CouponLayout extends StatelessWidget {
   final Offer? data;
-  final GestureTapCallback? onTap;
+  final GestureTapCallback? onTap, addOrRemoveTap;
 
-  const CouponLayout({super.key, this.data, this.onTap});
+  const CouponLayout({super.key, this.data, this.onTap, this.addOrRemoveTap});
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +66,14 @@ class CouponLayout extends StatelessWidget {
               VSpace(Insets.i12),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                    "Valid until ${data?.expirationDate != null ? DateFormat('dd/MM/yyyy').format(data!.expirationDate!) : ''}",
+                    "${language(context, appFonts.validUntil)} ${data?.expirationDate != null ? DateFormat('dd/MM/yyyy').format(data!.expirationDate!) : ''}",
                     style: appCss.dmDenseRegular12
                         .textColor(appColor(context).darkText)),
-                SvgPicture.asset(data?.isFavourite == true
+                SvgPicture.asset(data!.isFavourite == true
                         ? "assets/svg/fav.svg"
                         : "assets/svg/dislike.svg")
-                    .inkWell(onTap: () {
-                  dash.notifyListeners();
-                  isFav = !isFav;
-                  dash.notifyListeners();
-                })
-              ]).padding(horizontal: 15, top: 5)
+                    .inkWell(onTap: addOrRemoveTap)
+              ]).padding(horizontal: Insets.i15, top: Insets.i5)
             ])).paddingOnly(bottom: Insets.i20));
   }
 }

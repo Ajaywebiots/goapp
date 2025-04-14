@@ -218,91 +218,104 @@ class ServiceDescription extends StatelessWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height / 1.3,
-              child:
-                  Consumer<TimeSlotProvider>(builder: (context, value, child) {
-                return Column(children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(language(context, "Opening Hours"),
-                            style: appCss.dmDenseMedium18
-                                .textColor(appColor(context).darkText)),
-                        const Icon(CupertinoIcons.multiply)
-                            .inkWell(onTap: () => route.pop(context))
-                      ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: Insets.i20),
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      decoration: BoxDecoration(
-                          color: appColor(context).fieldCardBg,
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+          return SafeArea(
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Consumer<TimeSlotProvider>(
+                    builder: (context, value, child) {
+                  return SingleChildScrollView(
+                    child: Column(children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                                    children: appArray.timeSlotStartAtList
-                                        .asMap()
-                                        .entries
-                                        .map((e) => Text(
-                                                language(context, e.value),
-                                                style: appCss.dmDenseMedium12
-                                                    .textColor(appColor(context)
-                                                        .lightText))
-                                            .paddingOnly(
-                                                left:
-                                                    e.key == 0 ? Insets.i5 : 30,
-                                                right:
-                                                    e.key == 0 ? Insets.i50 : 20
-                                                /* left: rtl(context)
-                                                    ? 32
-                                                    : e.key == 0
+                            Text(language(context, appFonts.openingHours),
+                                style: appCss.dmDenseMedium18
+                                    .textColor(appColor(context).darkText)),
+                            const Icon(CupertinoIcons.multiply)
+                                .inkWell(onTap: () => route.pop(context))
+                          ]).paddingSymmetric(
+                          vertical: 20, horizontal: Insets.i20),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: Insets.i20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                              color: appColor(context).fieldCardBg,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                        children: appArray.timeSlotStartAtList
+                                            .asMap()
+                                            .entries
+                                            .map((e) => Text(
+                                                    language(context, e.value),
+                                                    style: appCss
+                                                        .dmDenseMedium12
+                                                        .textColor(
+                                                            appColor(context)
+                                                                .lightText))
+                                                .paddingOnly(
+                                                    left: e.key == 0
                                                         ? Insets.i5
-                                                        : rtl(context)
-                                                            ? 44
+                                                        : 30,
+                                                    right: e.key == 0
+                                                        ? Insets.i50
+                                                        : 20
+                                                    /* left: rtl(context)
+                                                        ? 32
+                                                        : e.key == 0
+                                                            ? Insets.i5
+                                                            : rtl(context)
+                                                                ? 44
+                                                                : e.key == 1
+                                                                    ? 0
+                                                                    : 0,
+                                                    right: rtl(context)
+                                                        ? Insets.i10
+                                                        : e.key == 0
+                                                            ? Insets.i28
                                                             : e.key == 1
-                                                                ? 0
-                                                                : 0,
-                                                right: rtl(context)
-                                                    ? Insets.i10
-                                                    : e.key == 0
-                                                        ? Insets.i28
-                                                        : e.key == 1
-                                                            ? Insets.i42
-                                                            : 0*/
-                                                ))
-                                        .toList())
-                                .paddingSymmetric(horizontal: Insets.i15),
-                            const VSpace(Sizes.s15),
-                            ...appArray.timeSlotList.asMap().entries.map((e) =>
-                                AllTimeSlotLayout(
-                                    data: e.value,
-                                    index: e.key,
-                                    list: appArray.timeSlotList,
-                                    onTapSecond: e.value["status"] == true
-                                        ? () => value.selectTimeBottomSheet(
-                                            context, e.value, e.key, "end")
-                                        : () {},
-                                    onTap: e.value["status"] == true
-                                        ? () => value.selectTimeBottomSheet(
-                                            context, e.value, e.key, "start")
-                                        : () {},
-                                    onToggle: (val) =>
-                                        value.onToggle(e.value, val)))
-                          ])),
-                  VSpace(Insets.i22),
-                  BottomSheetButtonCommon(
-                          isRateComplete: true,
-                          textOne: appFonts.cancel,
-                          textTwo: appFonts.addToContacts,
-                          applyTap: () {},
-                          clearTap: () {})
-                      .marginSymmetric(horizontal: 80)
-                      .backgroundColor(appColor(context).whiteColor)
-                      .alignment(Alignment.bottomCenter)
-                ]);
-              }));
+                                                                ? Insets.i42
+                                                                : 0*/
+                                                    ))
+                                            .toList())
+                                    .paddingSymmetric(horizontal: Insets.i15),
+                                const VSpace(Sizes.s15),
+                                ...appArray.timeSlotList.asMap().entries.map(
+                                    (e) => AllTimeSlotLayout(
+                                        data: e.value,
+                                        index: e.key,
+                                        list: appArray.timeSlotList,
+                                        onTapSecond: e.value["status"] == true
+                                            ? () => value.selectTimeBottomSheet(
+                                                context, e.value, e.key, "end")
+                                            : () {},
+                                        onTap: e.value["status"] == true
+                                            ? () => value.selectTimeBottomSheet(
+                                                context,
+                                                e.value,
+                                                e.key,
+                                                "start")
+                                            : () {},
+                                        onToggle: (val) =>
+                                            value.onToggle(e.value, val)))
+                              ])),
+                      VSpace(Insets.i22),
+                      BottomSheetButtonCommon(
+                              isRateComplete: true,
+                              textOne: appFonts.cancel,
+                              textTwo: appFonts.addToContacts,
+                              applyTap: () {},
+                              clearTap: () {})
+                          .marginSymmetric(horizontal: 80)
+                          .backgroundColor(appColor(context).whiteColor)
+                          .alignment(Alignment.bottomCenter)
+                    ]),
+                  );
+                })),
+          );
         });
   }
 }

@@ -144,7 +144,7 @@ final greek = {
   "off30": "έκπτωση 30%",
   "provider": "Πάροχος",
   "review": "Κριτική",
-  "reviews": "Τελευταίες κριτικές",
+  "latestReviews": "Τελευταίες κριτικές",
   "activeOffers": "Ενεργές προσφορές",
   "latestArticles": "Τελευταία άρθρα",
   "whatDoYouThink":
@@ -185,5 +185,50 @@ final greek = {
   "highestRate": "Υψηλότερη βαθμολογία",
   "sorry":
       "Συγγνώμη, δεν μπορέσαμε να βρούμε κανένα αποτέλεσμα. Παρακαλώ αλλάξτε την αναζήτησή σας και δοκιμάστε ξανά.",
-  "articles": "Άρθρα"
+  "articles": "Άρθρα",
+  "validUntil": "Ισχύει μέχρι", // el
+  "reviews": "Κριτικές", // el
+  "viewOnMap": "Προβολή στο χάρτη", // el
+  "km": "χλμ", // el
+  "offers": "Προσφορές", // el
+  "category": "Κατηγορία", // el
+  "type": "Τύπος", // el
+  "popular": "Δημοφιλές", // el
+  "categories": "Κατηγορίες", // el
+  "fiveRate": "Βαθμολογία 5", // el
+  "fourRate": "Βαθμολογία 4", // el
+  "threeRate": "Βαθμολογία 3", // el
+  "twoRate": "Βαθμολογία 2", // el
+  "oneRate": "Βαθμολογία 1", // el
+  "myAccount": "Ο Λογαριασμός μου", // el
+
+  "myProfile": "Το προφίλ μου",
+  "favouriteList": "Λίστα αγαπημένων",
+  "myReviews": "Οι κριτικές μου",
+  "appSettings": "Ρυθμίσεις εφαρμογής",
+  "subscriptionPlans": "Σχέδια συνδρομής",
+  "registerYourBusiness": "Καταχωρήστε την επιχείρησή σας",
+  "generalInfo": "Γενικές πληροφορίες",
+  "aboutUs": "Σχετικά με εμάς",
+  "privacyPolicy": "Πολιτική απορρήτου",
+  "cancellationPolicy": "Πολιτική ακύρωσης",
+  "contactUs": "Επικοινωνήστε μαζί μας",
+  "faq": "Συχνές ερωτήσεις",
+  "logout": "Αποσύνδεση",
+  "changeLanguage": "Αλλαγή γλώσσας",
+  "profileDetails": "Λεπτομέρειες προφίλ",
+  "update": "Ενημέρωση",
+  "logoutConfirmation":
+      "Είστε σίγουροι ότι θέλετε να αποσυνδεθείτε από αυτήν την εφαρμογή τώρα;",
+  "close": "Κλείσιμο",
+  "directions": "Οδηγίες",
+  "address": "Διεύθυνση",
+  "call": "Κλήση",
+  "contact": "Επικοινωνία",
+  "hours": "Ώρες",
+  "gallery": "Συλλογή",
+  "save": "Αποθήκευση",
+  "openingHours": "Ώρες λειτουργίας",
+  "accountType": "Τύπος λογαριασμού",
+  "membershipStatus": "Κατάσταση συνδρομής"
 };
