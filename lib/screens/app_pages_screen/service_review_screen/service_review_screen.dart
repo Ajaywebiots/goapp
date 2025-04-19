@@ -212,18 +212,25 @@ class ServiceReviewScreen extends StatelessWidget {
                                 );
                               });
                         }).paddingOnly(bottom: 25),
-                    Row(children: [
-                      Expanded(
-                          child: Text(language(context, appFonts.review),
-                              style: appCss.dmDenseMedium16
-                                  .textColor(appColor(context).darkText))),
-                      Expanded(
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(language(context, appFonts.review),
+                                style: appCss.dmDenseMedium16
+                                    .textColor(appColor(context).darkText))
+                            .paddingOnly(bottom: 40),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: DropDownLayout(
-                              isIcon: false,
-                              val: serviceCtrl.exValue,
-                              categoryList: appArray.reviewLowHighList,
-                              onChanged: (val) => serviceCtrl.onReview(val)))
-                    ]),
+                            isIcon: false,
+                            val: serviceCtrl.exValue,
+                            categoryList: appArray.reviewLowHighList,
+                            onChanged: (val) => serviceCtrl.onReview(val),
+                          ),
+                        )
+                      ],
+                    ),
                     const VSpace(Sizes.s15),
                     ...serviceCtrl.reviewList.asMap().entries.map((e) =>
                         ServiceReviewLayout(

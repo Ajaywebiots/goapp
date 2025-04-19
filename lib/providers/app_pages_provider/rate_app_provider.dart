@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/services/api_service.dart';
 import 'package:in_app_review/in_app_review.dart';
 
@@ -25,30 +26,37 @@ class RateAppProvider with ChangeNotifier {
   );
 */
   onTapEmoji(index) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
     selectedIndex = index;
-    log("shasgdhjasds ${selectedIndex}");
-    apiServices.commonApi("${api.addReview}/",
-        {"rate": 2, "title": "ajay dev", "content": "good"}, ApiType.get);
+
     notifyListeners();
   }
 
-  onSubmit(context) {
+  onSubmit(context, {appObjectId, appObjectType, int? id}) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final body = {
+      "rate": selectedIndex,
+      "title": "ajay dev",
+      "content": rateController.text
+    };
+    log("body $body");
+    apiServices
+        .commonApi(
+            "${api.addReview}${pref.getInt(session.id)}/review/$appObjectType/$appObjectId",
+            body,
+            ApiType.post,
+            isToken: true)
+        .then((value) {
+      log("value.data ${value.data}");
+      if (value.data['responseStatus'] == 1) {
+        route.pop(context);
+        Provider.of<SearchProvider>(context, listen: false)
+            .businessDetailsAPI(context, id);
+      }
+    });
+  }
+
+  clearAll(context) {
     route.pop(context);
-    // FocusScope.of(context).requestFocus(FocusNode());
-    // // if (rateKey.currentState!.validate()) {
-    //   if (isServiceRate) {
-    //     rateService(context);
-    //   } else {
-    //     if (selectedIndex == 4) {
-    //       //  rateBuilder(context);
-    //       rateApp(context);
-    //     } else {
-    //       // route.pushNamed(context, routeName.contactUs,
-    //       //     arg: {'rate': selectedIndex, "desc": rateController.text});
-    //     }
-    //   }
-    // }
   }
 
   rateBuilder(context) async {

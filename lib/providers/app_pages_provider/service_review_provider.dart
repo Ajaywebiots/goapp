@@ -30,4 +30,8 @@ class ServiceReviewProvider with ChangeNotifier {
     notifyListeners();
     log("REV :${reviewList.length}");
   }
+
+  List businessReviewList = [];
+
+  businessReviewListAPI() {}
 }

@@ -38,6 +38,7 @@ class ApiMethods {
   String offersDetails = "/Offer/";
   String qrGenerate = "/Offer/";
   String addReview = "/user/";
+  String businessReviewsList = "/business/";
 
 // //
 // String homeFeed = '/api/App/home/feed';
