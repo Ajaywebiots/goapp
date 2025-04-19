@@ -7,6 +7,7 @@ import 'package:goapp/screens/menu_screens/menu_screen.dart';
 
 import '../../config.dart';
 import '../../models/api_model/home_feed_model.dart' as model;
+// import '../../models/api_model/home_feed_model.dart';
 import '../../models/api_model/home_feed_model.dart';
 import '../../models/index.dart';
 import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
@@ -17,19 +18,6 @@ import '../app_pages_provider/latest_blog_details_provider.dart';
 import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
-  List<model.Banner> bannerList = [];
-
-  // List<OfferModel> offerList = []; ////
-  List<Offer> couponOfferList = [];
-
-  List<ProviderModel> highestRateList = [];
-  List<CurrencyModel> currencyList = [];
-
-  // List<CouponModel> couponList = [];
-  List<Category> categoryList = [];
-  List<ServicePackageModel> servicePackagesList = [];
-  List<ServicePackageModel> firstThreeServiceList = [];
-  List<Services> featuredServiceList = [];
   static const pageSize = 1;
   SharedPreferences? pref;
   bool isFav = false;
@@ -37,13 +25,9 @@ class DashboardProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
   final FocusNode searchFocus = FocusNode();
 
-  List<Business> firstTwoFeaturedServiceList = [];
-  List<Attraction> firstTwoHighRateList = [];
-
   // List<Category> businessCategories = [];
 
   // List<BlogModel> blogList = [];
-  List<Article> firstTwoBlogList = [];
 
   // List<BlogModel> firstTwoBlogList = [];
   List<ProviderModel> providerList = [];
@@ -60,104 +44,26 @@ class DashboardProvider with ChangeNotifier {
     AttractionScreen(isHomeScreen: true),
     CouponListScreen(isHomeScreen: true),
     MenuScreen()
-    // const BookingScreen(),
-    // const OfferScreen(),
-    // ProfileScreen()
   ];
 
   onInit(context) {
-    final login = Provider.of<LoginProvider>(context, listen: false);
-    login.locationPermission();
-    getCurrentLocation();
-    homeFeed(context);
-    final searchAllList = Provider.of<SearchProvider>(context, listen: false);
-    searchAllList.getBusinessSearchAPI(context);
-    final blogViewAllList =
-        Provider.of<LatestBLogDetailsProvider>(context, listen: false);
-    final attractionViewAllList =
-        Provider.of<AttractionProvider>(context, listen: false);
-    attractionViewAllList.getAttractionSearchAPI(context);
-    blogViewAllList.getArticlesSearchAPI(context);
-    // getBanner();
-    // getCoupons();
-    // getCategory();
-    // getFeaturedPackage(1);
-    // getBlog();
-    // getHighestRate();
-    notifyListeners();
-    final homeScreenPvr =
-        Provider.of<HomeScreenProvider>(context, listen: false);
-
-    homeScreenPvr.getBlogFilter();
-  }
-
-  Future<Position> getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Check if location services are enabled
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      throw Exception('Location services are disabled.');
-    }
-
-    // Request permission
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        throw Exception('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      throw Exception('Location permissions are permanently denied');
-    }
-
-    // Get current location
-    return await Geolocator.getCurrentPosition();
-  }
-
-  homeFeed(context) async {
-    showLoading(context);
-    Position position = await getCurrentLocation();
-    double lat = position.latitude;
-    double lon = position.longitude;
-
-    try {
-      apiServices
-          .commonApi(
-              "${api.homeFeed}?currentLongitude=$lon&currentLatitude=$lat",
-              [],
-              ApiType.get,
-              isToken: true)
-          .then((value) {
-        if ((value.data['responseStatus'] == 1)) {
-          log("ajay hariyani ${value.data}");
-
-          HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
-          bannerList = [];
-          couponOfferList = [];
-          categoryList = [];
-          firstTwoFeaturedServiceList = [];
-          firstTwoHighRateList = [];
-          // businessCategories = [];
-          firstTwoBlogList = [];
-          bannerList.addAll(homeFeedModel.banners);
-          couponOfferList.addAll(homeFeedModel.offers);
-          categoryList.addAll(homeFeedModel.categories);
-          firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
-          firstTwoBlogList.addAll(homeFeedModel.articles);
-          firstTwoHighRateList.addAll(homeFeedModel.attractions);
-          log("Updated bannerList: ${bannerList.length} items");
-          hideLoading(context);
-          notifyListeners();
-        }
-      });
-    } catch (e) {
-      hideLoading(context);
-      log("EEEE : homeFeed $e");
-    }
+    // final login = Provider.of<LoginProvider>(context, listen: false);
+    // login.locationPermission();
+    // getCurrentLocation();
+    // homeFeed(context);
+    // final searchAllList = Provider.of<SearchProvider>(context, listen: false);
+    // searchAllList.getBusinessSearchAPI(context);
+    // final blogViewAllList =
+    //     Provider.of<LatestBLogDetailsProvider>(context, listen: false);
+    // final attractionViewAllList =
+    //     Provider.of<AttractionProvider>(context, listen: false);
+    // attractionViewAllList.getAttractionSearchAPI(context);
+    // blogViewAllList.getArticlesSearchAPI(context);
+    // notifyListeners();
+    // final homeScreenPvr =
+    //     Provider.of<HomeScreenProvider>(context, listen: false);
+    //
+    // homeScreenPvr.getBlogFilter();
   }
 
   void refreshData() {
@@ -243,11 +149,11 @@ class DashboardProvider with ChangeNotifier {
   // }
 
 //currency list
-  getCurrency() async {
-    currencyList =
-        appArray.currencyList.map((e) => CurrencyModel.fromJson(e)).toList();
-    notifyListeners();
-  }
+//   getCurrency() async {
+//     currencyList =
+//         appArray.currencyList.map((e) => CurrencyModel.fromJson(e)).toList();
+//     notifyListeners();
+//   }
 
 //coupons list
 //   getCoupons() async {
@@ -300,35 +206,35 @@ class DashboardProvider with ChangeNotifier {
   // }
 
   //service package list
-  getServicePackage() async {
-    /*  try {
-      await apiServices.getApi(api.servicePackages, []).then((value) {
-        if (value.isSuccess!) {
-          List service = value.data;
-          for (var data in service.reversed.toList()) {
-            servicePackagesList.add(ServicePackageModel.fromJson(data));
-            notifyListeners();
-          }
-          if (servicePackagesList.length >= 3) {
-            firstThreeServiceList = servicePackagesList.getRange(0, 3).toList();
-          }
-          notifyListeners();
-
-          log("servicePackagesList LEN: ${servicePackagesList.length}");
-        }
-      });
-    } catch (e) {
-      notifyListeners();
-    }*/
-
-    servicePackagesList = appArray.servicePackageList
-        .map((e) => ServicePackageModel.fromJson(e))
-        .toList();
-    if (servicePackagesList.length >= 3) {
-      firstThreeServiceList = servicePackagesList.getRange(0, 3).toList();
-    }
-    notifyListeners();
-  }
+  // getServicePackage() async {
+  //   /*  try {
+  //     await apiServices.getApi(api.servicePackages, []).then((value) {
+  //       if (value.isSuccess!) {
+  //         List service = value.data;
+  //         for (var data in service.reversed.toList()) {
+  //           servicePackagesList.add(ServicePackageModel.fromJson(data));
+  //           notifyListeners();
+  //         }
+  //         if (servicePackagesList.length >= 3) {
+  //           firstThreeServiceList = servicePackagesList.getRange(0, 3).toList();
+  //         }
+  //         notifyListeners();
+  //
+  //         log("servicePackagesList LEN: ${servicePackagesList.length}");
+  //       }
+  //     });
+  //   } catch (e) {
+  //     notifyListeners();
+  //   }*/
+  //
+  //   servicePackagesList = appArray.servicePackageList
+  //       .map((e) => ServicePackageModel.fromJson(e))
+  //       .toList();
+  //   if (servicePackagesList.length >= 3) {
+  //     firstThreeServiceList = servicePackagesList.getRange(0, 3).toList();
+  //   }
+  //   notifyListeners();
+  // }
 
   //featured package list
   // getFeaturedPackage(page) async {
@@ -439,14 +345,14 @@ class DashboardProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  onAdd(index) {
-    int count =
-        int.parse(featuredServiceList[index].selectedRequiredServiceMan!);
-    count++;
-    featuredServiceList[index].selectedRequiredServiceMan = count.toString();
-
-    notifyListeners();
-  }
+  // onAdd(index) {
+  //   int count =
+  //       int.parse(featuredServiceList[index].selectedRequiredServiceMan!);
+  //   count++;
+  //   featuredServiceList[index].selectedRequiredServiceMan = count.toString();
+  //
+  //   notifyListeners();
+  // }
 
   onAddTap(context, Services? service, index, inCart) {
     if (inCart) {

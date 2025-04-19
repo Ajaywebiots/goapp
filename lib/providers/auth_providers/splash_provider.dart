@@ -1,6 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
+import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
+import 'package:goapp/providers/bottom_providers/offer_provider.dart';
+
 import '../../config.dart';
 
 class SplashProvider extends ChangeNotifier {
@@ -19,9 +25,23 @@ class SplashProvider extends ChangeNotifier {
           Provider.of<SplashProvider>(context, listen: false).dispose();
           onDispose();
           log("isIntro::$isIntro");
+          final homePvr =
+              Provider.of<HomeScreenProvider>(context, listen: false);
+          final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+          final attractionPvr =
+              Provider.of<AttractionProvider>(context, listen: false);
+          final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+          final catListPvr =
+              Provider.of<CategoriesListProvider>(context, listen: false);
 
           if (isIntro) {
             if (token != null) {
+              homePvr.homeFeed(context);
+              searchPvr.getBusinessSearchAPI(context, isFilter: false);
+              attractionPvr.getAttractionSearchAPI(context);
+              offerPvr.getViewAllOfferAPI();
+              catListPvr.getCategoriesData(context);
+              offerPvr.getCategoriesData(context);
               route.pushReplacementNamed(context, routeName.dashboard);
             } else {
               route.pushReplacementNamed(context, routeName.login);

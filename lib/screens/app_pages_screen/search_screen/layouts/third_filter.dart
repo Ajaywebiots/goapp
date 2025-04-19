@@ -35,76 +35,8 @@ class ThirdFilter extends StatelessWidget {
                         Text(language(context, appFonts.distanceLocation),
                             style: appCss.dmDenseMedium14
                                 .textColor(appColor(context).darkText))
-                      ])),
-                      /*     FilterRadioLayout(
-                          isCheck: value.isSelect,
-                          onTap: () => value.onChange1())*/
+                      ]))
                     ]),
-                /*  FutureBuilder<FrameInfo>(
-                      future: value.loadImage(eImageAssets.userSlider),
-                      builder: (context, snapshot) {
-
-                        if (snapshot.hasData && snapshot.data != null) {
-                          return SfSliderTheme(
-                              data: SfSliderThemeData(
-                                  activeTrackHeight: 4,
-                                  inactiveTrackHeight: 4,
-                                  disabledActiveTickColor:
-                                      appColor(context).darkText,
-                                  activeTickColor:
-                                      appColor(context).darkText,
-                                  inactiveTrackColor:
-                                      appColor(context).stroke,
-                                  activeLabelStyle: appCss.dmDenseMedium14
-                                      .textColor(appColor(context)
-
-                                          .darkText),
-                                  inactiveLabelStyle: appCss.dmDenseMedium14
-                                      .textColor(appColor(context)
-
-                                          .lightText),
-                                  activeTrackColor:
-                                      appColor(context).darkText),
-                              child: SfSlider(
-                                  activeColor:
-                                      appColor(context).darkText,
-                                  min: 0.0,
-                                  max: 30.0,
-                                  interval: 5,
-
-                                  dividerShape: const SfDividerShape(),
-                                  showLabels: true,
-                                  showTicks: true,
-                                  labelFormatterCallback:
-                                      (dynamic actualValue,
-                                          String formattedText) {
-                                    switch (actualValue) {
-                                      case 0:
-                                        return '00\nKm';
-                                      case 5:
-                                        return '05\nKm';
-                                      case 10:
-                                        return '10\nKm';
-                                      case 15:
-                                        return '15\nKm';
-                                      case 20:
-                                        return '20\nKm';
-                                      case 25:
-                                        return '25\nKm';
-                                      case 30:
-                                        return '30\nKm';
-                                    }
-                                    return actualValue.toString();
-                                  },
-                                  thumbShape:
-                                      CustomThumbShape(snapshot.data!.image),
-                                  value: value.slider,
-                                  onChanged: (dynamic newValue) =>
-                                      value.slidingValue(newValue)));
-                        } else {
-                          return Container();
-                        }
-                      })*/
                 SizedBox(
                     height: Sizes.s85,
                     child: FlutterSlider(
@@ -130,30 +62,29 @@ class ThirdFilter extends StatelessWidget {
                               FlutterSliderHatchMarkLabel(
                                   percent: 0.5,
                                   label: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 4,
-                                        width: 2,
-                                        color: value.slider == 0.0 ||
-                                                value.slider == 5.0 ||
-                                                value.slider == 10.0 ||
-                                                value.slider == 15.0 ||
-                                                value.slider == 20.0 ||
-                                                value.slider == 25.0 ||
-                                                value.slider == 30.0
-                                            ? appColor(context).darkText
-                                            : appColor(context).stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('0\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(
-                                                  appColor(context).darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            height: 4,
+                                            width: 2,
+                                            color: value.slider == 0.0 ||
+                                                    value.slider == 5.0 ||
+                                                    value.slider == 10.0 ||
+                                                    value.slider == 15.0 ||
+                                                    value.slider == 20.0 ||
+                                                    value.slider == 25.0 ||
+                                                    value.slider == 30.0
+                                                ? appColor(context).darkText
+                                                : appColor(context).stroke),
+                                        const VSpace(Sizes.s3),
+                                        Text('0\nkm',
+                                            textAlign: TextAlign.center,
+                                            style: appCss.dmDenseMedium12
+                                                .textColor(
+                                                    appColor(context).darkText)
+                                                .textHeight(1))
+                                      ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 17,
                                   label: Column(children: [

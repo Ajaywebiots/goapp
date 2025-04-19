@@ -12,7 +12,6 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeScreenProvider>(builder: (context1, value, child) {
-      print("setPrimaryAddress :$setPrimaryAddress");
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         /* Row(children: [
           const HSpace(Sizes.s20),
@@ -66,18 +65,11 @@ class HomeAppBar extends StatelessWidget {
                   alignment: Alignment.center,
                   height: Sizes.s40,
                   width: Sizes.s40,
-                  child: Stack(alignment: Alignment.topRight, children: [
-                    SvgPicture.asset(eSvgAssets.notification,
-                        alignment: Alignment.center,
-                        fit: BoxFit.scaleDown,
-                        colorFilter: ColorFilter.mode(
-                            appColor(context).darkText, BlendMode.srcIn)),
-                    Positioned(
-                        top: 2,
-                        right: 2,
-                        child: Icon(Icons.circle,
-                            size: Sizes.s7, color: appColor(context).red))
-                  ]))
+                  child: SvgPicture.asset(eSvgAssets.notification,
+                      alignment: Alignment.center,
+                      fit: BoxFit.scaleDown,
+                      colorFilter: ColorFilter.mode(
+                          appColor(context).darkText, BlendMode.srcIn)))
               .decorated(
                   shape: BoxShape.circle, color: appColor(context).fieldCardBg)
               .inkWell(onTap: () => value.notificationTap(context))

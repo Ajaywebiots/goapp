@@ -1,3 +1,5 @@
+import 'package:goapp/models/api_model/business_category_model.dart';
+
 class HomeFeedModel {
   HomeFeedModel(
       {required this.banners,
@@ -13,7 +15,7 @@ class HomeFeedModel {
   final List<Offer> offers;
   final List<Business> businesses;
   final List<Article> articles;
-  final List<Category> categories;
+  final List<Categories> categories;
   final List<Attraction> attractions;
   final int responseStatus;
   final String responseMessage;
@@ -36,8 +38,8 @@ class HomeFeedModel {
               json["articles"]!.map((x) => Article.fromJson(x))),
       categories: json["categories"] == null
           ? []
-          : List<Category>.from(
-              json["categories"]!.map((x) => Category.fromJson(x))),
+          : List<Categories>.from(
+              json["categories"]!.map((x) => Categories.fromJson(x))),
       attractions: json["attractions"] == null
           ? []
           : List<Attraction>.from(
@@ -136,7 +138,7 @@ class Attraction {
   final Rating? rating;
   final Media? image;
   final Location? location;
-  final List<Category> attractionCategories;
+  final List<Categories> attractionCategories;
   final bool isFavourite;
   final AppObject? appObject;
 
@@ -150,8 +152,8 @@ class Attraction {
           json["location"] == null ? null : Location.fromJson(json["location"]),
       attractionCategories: json["attractionCategories"] == null
           ? []
-          : List<Category>.from(
-              json["attractionCategories"]!.map((x) => Category.fromJson(x))),
+          : List<Categories>.from(
+              json["attractionCategories"]!.map((x) => Categories.fromJson(x))),
       isFavourite: json["isFavourite"] ?? false,
       appObject: json["appObject"] == null
           ? null
@@ -238,7 +240,7 @@ class Business {
 
   final int id;
   final String name;
-  final List<Category> businessCategories;
+  final List<Categories> businessCategories;
   final Rating? rating;
   final Media? image;
   final Media? logo;
@@ -254,8 +256,8 @@ class Business {
       name: json["name"] ?? "",
       businessCategories: json["businessCategories"] == null
           ? []
-          : List<Category>.from(
-              json["businessCategories"]!.map((x) => Category.fromJson(x))),
+          : List<Categories>.from(
+              json["businessCategories"]!.map((x) => Categories.fromJson(x))),
       rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),
       image: json["image"] == null ? null : Media.fromJson(json["image"]),
       logo: json["logo"] == null ? null : Media.fromJson(json["logo"]),
@@ -272,34 +274,34 @@ class Business {
   }
 }
 
-class Category {
-  Category({
-    required this.categoryId,
-    required this.icon,
-    required this.name,
-    required this.translatedValue,
-    required this.language,
-    required this.businessCategoryType,
-  });
-
-  final int categoryId;
-  final String icon;
-  final String name;
-  final String translatedValue;
-  final int language;
-  final int businessCategoryType;
-
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      categoryId: json["categoryId"] ?? 0,
-      icon: json["icon"] ?? "",
-      name: json["name"] ?? "",
-      translatedValue: json["translatedValue"] ?? "",
-      language: json["language"] ?? 0,
-      businessCategoryType: json["businessCategoryType"] ?? 0,
-    );
-  }
-}
+// class Category {
+//   Category({
+//     required this.categoryId,
+//     required this.icon,
+//     required this.name,
+//     required this.translatedValue,
+//     required this.language,
+//     required this.businessCategoryType,
+//   });
+//
+//   final int categoryId;
+//   final String icon;
+//   final String name;
+//   final String translatedValue;
+//   final int language;
+//   final int businessCategoryType;
+//
+//   factory Category.fromJson(Map<String, dynamic> json) {
+//     return Category(
+//       categoryId: json["categoryId"] ?? 0,
+//       icon: json["icon"] ?? "",
+//       name: json["name"] ?? "",
+//       translatedValue: json["translatedValue"] ?? "",
+//       language: json["language"] ?? 0,
+//       businessCategoryType: json["businessCategoryType"] ?? 0,
+//     );
+//   }
+// }
 
 class Contact {
   Contact({
@@ -373,7 +375,7 @@ class Offer {
   final String description;
   final Media? image;
   final DateTime? expirationDate;
-  final bool isFavourite;
+  bool isFavourite;
   final AppObject? appObject;
 
   factory Offer.fromJson(Map<String, dynamic> json) {

@@ -1,19 +1,28 @@
+import 'dart:developer';
+
 import 'package:goapp/config.dart';
+import 'package:goapp/models/api_model/business_category_model.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/bottom_providers/cart_provider.dart';
 import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 import 'package:goapp/widgets/filter_icon_common.dart';
-
+import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/top_categories_layout.dart';
 
 class SearchScreen extends StatefulWidget {
   final bool isHomeScreen;
+  final int? selectedIndex;
+  final List<Categories>? categoryList;
 
-  const SearchScreen({super.key, this.isHomeScreen = false});
+  const SearchScreen(
+      {super.key,
+      this.isHomeScreen = false,
+      this.selectedIndex,
+      this.categoryList});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -21,15 +30,61 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen>
     with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+  int _selectedCategoryIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with the passed selectedIndex or default to 0.
+    _selectedCategoryIndex = widget.selectedIndex ?? 0;
+
+    final categoryListPvr =
+        Provider.of<CategoriesListProvider>(context, listen: false);
+    final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Optional: Find matching index by comparing translatedValue if needed.
+      final matchedIndex = categoryListPvr.categoryList.indexWhere((cat) =>
+          cat.translatedValue?.trim().toLowerCase() ==
+          categoryListPvr.categoryList[_selectedCategoryIndex].translatedValue
+              ?.trim()
+              .toLowerCase());
+
+      if (matchedIndex != -1) {
+        final matchedCategory = categoryListPvr.categoryList[matchedIndex];
+        searchPvr.onSubCategories(
+            context, matchedIndex, matchedCategory.categoryId);
+
+        // Update the local state as well so that UI reflects the selected index.
+        setState(() {
+          _selectedCategoryIndex = matchedIndex;
+        });
+
+        // Scroll to position (if needed)
+        _scrollController.animateTo(
+          matchedIndex * 80.0, // Approx width per item – adjust as needed
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<CategoriesListProvider, SearchProvider>(
         builder: (context1, categoryListPvr, searchPvr, child) {
+      // final args = ModalRoute.of(context)?.settings.arguments as Categories?;
+      // final selectedIndex = (args?.categoryId ?? 1) - 1;
+
+      // log(" SSSSSS:${searchPvr.selectedIndex}");
+      // log(" SSSSSS:${categoryListPvr.categoryList[searchPvr.selectedIndex].translatedValue}");
       return StatefulWrapper(
           onInit: () => Future.delayed(const Duration(milliseconds: 100), () {
                 searchPvr.onAnimate(context);
-                categoryListPvr.onReady(context);
-                searchPvr.onReady();
+                // categoryListPvr.onReady(context);
+                // searchPvr.onReady();
               }),
           child: PopScope(
               canPop: true,
@@ -50,163 +105,186 @@ class _SearchScreenState extends State<SearchScreen>
                               route.pop(context);
                             }
                           }),
-                      body: SingleChildScrollView(child: Consumer<CartProvider>(
-                          builder: (context2, cart, child) {
-                        return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SearchTextFieldCommon(
-                                  focusNode: searchPvr.searchFocus,
-                                  controller: searchPvr.searchCtrl,
-                                  onChanged: (v) {
-                                    if (v.isEmpty) {
-                                      searchPvr.searchList = [];
-                                      searchPvr.isSearch = v.length > 2;
-                                      searchPvr.notifyListeners();
-                                    }
-                                  },
-                                  onFieldSubmitted: (v) =>
-                                      searchPvr.searchService(context),
-                                  suffixIcon: FilterIconCommon(
-                                      selectedFilter: searchPvr
-                                          .totalCountFilter()
-                                          .toString(),
-                                      onTap: () => searchPvr.onBottomSheet(
-                                          context, categoryListPvr))),
-                              const VSpace(Sizes.s25),
-                              Text(language(context, appFonts.categories),
-                                  style: appCss.dmDenseBold16
-                                      .textColor(appColor(context).darkText)),
-                              SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          searchPvr.popular = true;
-                                          searchPvr
-                                              .getBusinessSearchAPI(context);
+                      body: SingleChildScrollView(
+                          controller: _scrollController,
+                          child: Stack(children: [
+                            SafeArea(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  SearchTextFieldCommon(
+                                      focusNode: searchPvr.searchFocus,
+                                      controller: searchPvr.searchCtrl,
+                                      onChanged: (v) {
+                                        if (v.isEmpty) {
+                                          searchPvr.searchList = [];
+                                          searchPvr.isSearch = v.length > 2;
                                           searchPvr.notifyListeners();
-                                        },
-                                        child: Column(children: [
-                                          Container(
-                                              height: Sizes.s60,
-                                              width: Sizes.s60,
-                                              decoration: ShapeDecoration(
-                                                  color: searchPvr.popular
-                                                      ? appColor(context)
-                                                          .primary
-                                                          .withOpacity(0.2)
-                                                      : appColor(context)
-                                                          .fieldCardBg,
-                                                  shape: SmoothRectangleBorder(
-                                                      side: BorderSide(
-                                                          color: searchPvr.popular
-                                                              ? appColor(context)
-                                                                  .primary
-                                                              : appColor(context)
-                                                                  .trans),
-                                                      borderRadius: SmoothBorderRadius(
-                                                          cornerRadius:
-                                                              AppRadius.r10,
-                                                          cornerSmoothing: 1))),
-                                              child: SvgPicture.asset(
-                                                      "assets/svg/all.svg",
-                                                      colorFilter: ColorFilter.mode(
-                                                          appColor(context).darkText, BlendMode.srcIn),
-                                                      fit: BoxFit.fill,
-                                                      height: Sizes.s24,
-                                                      width: Sizes.s24)
-                                                  .paddingAll(Insets.i17)),
-                                          VSpace(Insets.i8),
-                                          Text(
-                                              language(
-                                                  context, appFonts.popular),
-                                              style: appCss.dmDenseRegular13
-                                                  .textColor(searchPvr.popular
-                                                      ? appColor(context)
-                                                          .primary
-                                                      : appColor(context)
-                                                          .darkText))
-                                        ])).paddingOnly(right: Insets.i20),
-                                    ...searchPvr.categoryList
-                                        .asMap()
-                                        .entries
-                                        .map((e) => TopCategoriesLayout(
-                                                index: e.key,
-                                                data: e.value,
-                                                selectedIndex:
-                                                    searchPvr.selectedIndex,
-                                                onTap: () =>
-                                                    searchPvr.onSubCategories(
-                                                        context,
-                                                        e.key,
-                                                        e.value.categoryId))
-                                            .paddingOnly(right: Insets.i20))
-                                  ]).padding(
-                                      vertical: Insets.i15, left: Insets.i20)),
-                              const VSpace(Sizes.s15),
-                              /*dash.categoryList.isNotEmpty
-                                  ?*/
-                              searchPvr.businessSearchList.isEmpty ||
-                                      searchPvr.businessSearchList == []
-                                  ? Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                          Center(
-                                              child: Text("No Data Found",
-                                                  style: appCss.dmDenseRegular12
-                                                      .textColor(
-                                                          appColor(context)
-                                                              .darkText)))
-                                        ])
-                                  : Column(
-                                      children: searchPvr.businessSearchList
-                                          .asMap()
-                                          .entries
-                                          .map((e) => FeaturedBusinessLayout(
-                                                data: e.value,
-                                                // inCart: isInCart(
-                                                //     context, e.value.id),
-                                                onTap: () {
-                                                  searchPvr.businessDetailsAPI(
-                                                      context, e.value.id);
-                                                },
-                                                /*=> value.onTapFeatures(
-                                                  context, e.value, e.key)*/
-                                                /*value.onFeatured(
-                                                          context, e.value, e.key,
-                                                          inCart: isInCart(
-                                                              context,
-                                                              e.value.id)) */
-                                              ))
-                                          .toList())
-
-                              /*: Column(
-                                      children: value.recentSearchList
-                                          .asMap()
-                                          .entries
-                                          .map((e) => FeaturedBusinessLayout(
+                                        }
+                                      },
+                                      onFieldSubmitted: (v) =>
+                                          searchPvr.searchService(context),
+                                      suffixIcon: FilterIconCommon(
+                                          selectedFilter: searchPvr
+                                              .totalCountFilter()
+                                              .toString(),
+                                          onTap: () => searchPvr.onBottomSheet(
+                                              context, categoryListPvr))),
+                                  const VSpace(Sizes.s25),
+                                  Text(language(context, appFonts.categories),
+                                      style: appCss.dmDenseBold16.textColor(
+                                          appColor(context).darkText)),
+                                  SingleChildScrollView(
+                                      controller: _scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              searchPvr.popular = true;
+                                              searchPvr.getBusinessSearchAPI(
+                                                  context);
+                                              searchPvr.notifyListeners();
+                                            },
+                                            child: Column(children: [
+                                              Container(
+                                                  height: Sizes.s60,
+                                                  width: Sizes.s60,
+                                                  decoration: ShapeDecoration(
+                                                      color: searchPvr.popular
+                                                          ? appColor(context)
+                                                              .primary
+                                                              .withOpacity(0.2)
+                                                          : appColor(context)
+                                                              .fieldCardBg,
+                                                      shape: SmoothRectangleBorder(
+                                                          side: BorderSide(
+                                                              color: searchPvr.popular
+                                                                  ? appColor(context)
+                                                                      .primary
+                                                                  : appColor(context)
+                                                                      .trans),
+                                                          borderRadius: SmoothBorderRadius(
+                                                              cornerRadius:
+                                                                  AppRadius.r10,
+                                                              cornerSmoothing:
+                                                                  1))),
+                                                  child: SvgPicture.asset(
+                                                          "assets/svg/all.svg",
+                                                          colorFilter:
+                                                              ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
+                                                          fit: BoxFit.fill,
+                                                          height: Sizes.s24,
+                                                          width: Sizes.s24)
+                                                      .paddingAll(Insets.i17)),
+                                              VSpace(Insets.i8),
+                                              Text(
+                                                  language(context,
+                                                      appFonts.popular),
+                                                  style: appCss.dmDenseRegular13
+                                                      .textColor(searchPvr
+                                                              .popular
+                                                          ? appColor(context)
+                                                              .primary
+                                                          : appColor(context)
+                                                              .darkText))
+                                            ])).paddingOnly(right: Insets.i20),
+                                        ...categoryListPvr.categoryList
+                                            .asMap()
+                                            .entries
+                                            .map((e) {
+                                          return TopCategoriesLayout(
+                                              index: e.key,
                                               data: e.value,
-                                              inCart: isInCart(context, e.value.id),
+                                              selectedIndex:
+                                                  _selectedCategoryIndex,
+                                              // Pass the state variable
                                               onTap: () {
-                                                */ /*=>
-                                                    value.onTapFeatures(
-                                                        context,
-                                                        e.value,
-                                                        e.key) */ /*
-                                              },
-                                              addTap: () {}
-                                              */ /* =>
-                                                    value.onFeatured(
-                                                        context, e.value,
-                                                        e.key,
-                                                        inCart: isInCart(
-                                                            context,
-                                                            e.value.id)) */ /*
-                                              ))
-                                          .toList())*/
-                            ]).paddingSymmetric(horizontal: Insets.i20);
-                      }))
+                                                setState(() {
+                                                  _selectedCategoryIndex = e
+                                                      .key; // Update selected index
+                                                });
+                                                searchPvr.onSubCategories(
+                                                    context,
+                                                    e.key,
+                                                    e.value.categoryId);
+                                              }).paddingOnly(right: Insets.i20);
+                                        })
+                                      ]).padding(
+                                          vertical: Insets.i15,
+                                          left: Insets.i20)),
+                                  const VSpace(Sizes.s15),
+                                  searchPvr.businessSearchList.isEmpty
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                              // Center(
+                                              //     child: Text("No Data Found",
+                                              //         style: appCss
+                                              //             .dmDenseRegular12
+                                              //             .textColor(appColor(
+                                              //                     context)
+                                              //                 .darkText)))
+                                            ])
+                                      : Column(
+                                          children: searchPvr.businessSearchList
+                                              .asMap()
+                                              .entries
+                                              .map(
+                                                  (e) => FeaturedBusinessLayout(
+                                                      addOrRemoveTap: () {
+                                                        final common = Provider
+                                                            .of<CommonApiProvider>(
+                                                                context,
+                                                                listen: false);
+                                                        common
+                                                            .toggleFavAPI(
+                                                                context,
+                                                                e.value
+                                                                    .isFavourite,
+                                                                e
+                                                                    .value
+                                                                    .appObject!
+                                                                    .appObjectType,
+                                                                e
+                                                                    .value
+                                                                    .appObject!
+                                                                    .appObjectId,
+                                                                onSuccess: () => Provider.of<SearchProvider>(context,
+                                                                        listen:
+                                                                            false)
+                                                                    .businessDetailsAPI(
+                                                                        context,
+                                                                        e.value.id,
+                                                                        isNotRouting: true))
+                                                            .then((value) => Provider.of<SearchProvider>(context, listen: false).getBusinessSearchAPI(context, isFilter: false))
+                                                            .then((value) => Provider.of<HomeScreenProvider>(context, listen: false).homeFeed(context));
+                                                      },
+                                                      data: e.value,
+                                                      onTap: () {
+                                                        searchPvr
+                                                            .businessDetailsAPI(
+                                                                context,
+                                                                e.value.id);
+                                                      }))
+                                              .toList())
+                                ]).paddingSymmetric(horizontal: Insets.i20)),
+                            // Loader overlay: show it even if the list already has data
+                            if (searchPvr.isLoading)
+                              Container(
+                                  color: isDark(context)
+                                      ? Colors.black.withOpacity(0.3)
+                                      : appColor(context)
+                                          .darkText
+                                          .withOpacity(0.2),
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  child: Center(
+                                      child: Image.asset(eGifAssets.loader,
+                                          height: Sizes.s100)))
+                          ]))
+
                       /*: EmptyLayout(
                               title: language(
                                   context, appFonts.noResultsWereFound),

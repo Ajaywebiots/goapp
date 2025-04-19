@@ -5,14 +5,137 @@ import 'package:goapp/config.dart';
 import 'package:goapp/services/api_service.dart';
 
 import '../../models/api_model/home_feed_model.dart';
+import '../../models/api_model/offer_categories_model.dart';
 import '../../models/api_model/offer_search_model.dart';
+import '../../models/api_model/offers_details_model.dart';
 
 class OfferProvider extends ChangeNotifier {
-  List offerViewAllList = [];
-
   onReady() {
+    notifyListeners();
     getViewAllOfferAPI();
     notifyListeners();
+  }
+
+  double slider = 0.0;
+
+  slidingValue(newValue) {
+    log("slide $slider");
+    log("slidnewValuee $newValue");
+    slider = newValue;
+    notifyListeners();
+  }
+
+  List type = [];
+  List selectedCategory = [];
+
+  getCategoriesData(context) {
+    showLoading(context);
+    notifyListeners();
+    try {
+      apiServices.commonApi(api.offerCategories, [], ApiType.get).then((value) {
+        if (value.data['responseStatus'] == 1) {
+          notifyListeners();
+
+          log("API Response: attractionCategories ${value.data}");
+          OfferCategoriesModel categoryModel =
+              OfferCategoriesModel.fromJson(value.data);
+          notifyListeners();
+          // Clear old list and add new parsed categories
+          categoryList.clear();
+          notifyListeners();
+          categoryList.addAll(categoryModel.categories ?? []);
+
+          log("categoryList offers ${categoryList}");
+          hideLoading(context);
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      hideLoading(context);
+      log("getCategoriesData $e");
+    }
+  }
+
+  onCategoryChange(context, id) {
+    if (!selectedCategory.contains(id)) {
+      selectedCategory.add(id);
+    } else {
+      selectedCategory.remove(id);
+    }
+    log("SSS : $selectedCategory");
+    notifyListeners();
+  }
+
+  int selectIndex = 0;
+
+  onFilter(index) {
+    selectIndex = index;
+    notifyListeners();
+  }
+
+  List categoryList = [];
+
+  searchService(BuildContext context, {bool isPop = false}) async {
+    /* final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    try {
+      final ratingMap = {0: 5, 1: 4, 2: 3, 3: 2, 4: 1};
+      final selectedRatingValues = selectedRates
+          .map((i) => ratingMap[i])
+          .where((e) => e != null)
+          .toList();
+
+      final distanceParam = slider.toInt(); // radius
+
+      // Final query params
+      Map<String, dynamic> queryParams = {
+        "rating": selectedRatingValues,
+        "radius": distanceParam,
+        "categories": selectedCategory,
+        // "currentLongitude": lon,
+        // "currentLatitude": lat
+      };
+
+      Uri url = buildUriWithRepeatedKeys(api.businessSearch, queryParams);
+
+      log("Final API URL: $url");
+
+      apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
+        if (value.data['responseStatus'] == 1) {
+          // hideLoading(context);
+          businessSearchList.clear();
+          notifyListeners();
+          BusinessSearchModel businessSearchModel =
+          BusinessSearchModel.fromJson(value.data);
+          notifyListeners();
+          businessSearchList.addAll(businessSearchModel.businesses);
+          notifyListeners();
+          log("businessSearchList $businessSearchList");
+        }
+      });
+
+      if (isPop) {
+        route.pop(context);
+      }
+    } catch (e) {
+      log("searchService error: $e");
+    }*/
+  }
+
+  clearFilter(context) {
+    /*selectedCategory = [];
+    selectedRates = [];
+    searchList = [];
+    lowerVal = 0.0;
+    upperVal = maxPrice;
+    slider = 0;
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    categoryList = homePvr.categoryList;
+    route.pop(context);
+    notifyListeners();*/
+    route.pop(context);
   }
 
   TextEditingController searchCtrl = TextEditingController();
@@ -38,6 +161,8 @@ class OfferProvider extends ChangeNotifier {
     });
   }
 
+  List<Offer> offerViewAllList = [];
+
   void fetchSearchResults(String query) {
     try {
       apiServices
@@ -58,14 +183,17 @@ class OfferProvider extends ChangeNotifier {
   }
 
   getViewAllOfferAPI() {
+    notifyListeners();
     try {
       apiServices
           .commonApi(api.offerSearch, [], ApiType.get, isToken: true)
           .then((value) {
+        notifyListeners();
         if (value.data['responseStatus'] == 0) {
           offerViewAllList.clear();
           OfferSearchModel offerSearchModel =
               OfferSearchModel.fromJson(value.data);
+          notifyListeners();
           offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
         }
       });
@@ -73,6 +201,30 @@ class OfferProvider extends ChangeNotifier {
       log("getViewAllOfferAPI :: $e");
     }
     notifyListeners();
+  }
+
+  OffersDetailsModel? offersDetails;
+
+  void offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
+    try {
+      apiServices
+          .commonApi("${api.offersDetails}$id/details", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.data['responseStatus'] == 1) {
+          offerViewAllList.clear();
+          OffersDetailsModel offersDetailsModel =
+              OffersDetailsModel.fromJson(value.data);
+          offersDetails = offersDetailsModel;
+          notifyListeners();
+          isNotRouting == true
+              ? null
+              : route.pushNamed(context, routeName.offerDetailsScreen);
+        }
+      });
+    } catch (e) {
+      log("Search error: $e");
+    }
   }
 
   @override

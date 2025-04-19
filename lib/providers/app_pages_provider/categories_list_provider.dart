@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:goapp/services/api_service.dart';
 
 import '../../config.dart';
@@ -21,23 +22,35 @@ class CategoriesListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onReady(context) {
-    //final dash = Provider.of<DashboardProvider>(context, listen: false);
-    // categoryList = dash.categoryList;
+  Categories? _selectedCategory;
+  int? _selectedCategoryIndex;
 
-    getCategoriesData(context);
+  Categories? get selectedCategory => _selectedCategory;
+  int? get selectedCategoryIndex => _selectedCategoryIndex;
+
+  void selectCategory(Categories category, int index) {
+    _selectedCategory = category;
+    _selectedCategoryIndex = index;
     notifyListeners();
   }
 
+  /*onReady(context) {
+    //final dash = Provider.of<DashboardProvider>(context, listen: false);
+    // categoryList = dash.categoryList;
+
+    // getCategoriesData(context);
+    notifyListeners();
+  }*/
+
   getCategoriesData(context) {
-    showLoading(context);
+    // showLoading(context);
     notifyListeners();
     apiServices
         .commonApi(api.businessCategories, [], ApiType.get)
         .then((value) {
       if (value.data['responseStatus'] == 1) {
         notifyListeners();
-        hideLoading(context);
+        // hideLoading(context);
         log("API Response: ${value.data}");
         BusinessCategoriesModel categoryModel =
             BusinessCategoriesModel.fromJson(value.data);

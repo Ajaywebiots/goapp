@@ -12,12 +12,11 @@ class LoginScreen extends StatelessWidget {
       return StatefulWrapper(
         onInit: () => Future.delayed(
             DurationClass.ms150, () => value.locationPermission()),
-        child: LoadingComponent(
-            child: DirectionalityRtl(
-                child: Scaffold(
-                    body: SafeArea(
-                        child: SingleChildScrollView(
-                            child: Column(children: [
+        child: DirectionalityRtl(
+            child: Scaffold(
+                body: SafeArea(
+                    child: SingleChildScrollView(
+                        child: Column(children: [
           const VSpace(Sizes.s20),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Image.asset(eImageAssets.appLogo,
@@ -76,7 +75,7 @@ class LoginScreen extends StatelessWidget {
                             .toList()),
                     const VSpace(Sizes.s20),
                   ]).alignment(Alignment.centerLeft))
-        ]).paddingSymmetric(horizontal: Insets.i20)))))),
+        ]).paddingSymmetric(horizontal: Insets.i20))))),
       );
     });
   }

@@ -1,20 +1,208 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
-import '../../../../models/service_model.dart';
+import '../../../../models/api_model/attractions_details_model.dart';
+import '../../../../models/api_model/business_details_model.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
+import '../../../../widgets/common_gallery_screen.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
-class ServiceDescription extends StatelessWidget {
-  final Services? services;
+class ServiceDescriptions extends StatelessWidget {
+  final Attraction? attractionData;
 
-  const ServiceDescription({super.key, this.services});
+  ServiceDescriptions({super.key, this.attractionData});
 
   @override
   Widget build(BuildContext context) {
+    final Contact? contact = attractionData?.contact;
+    Future<void> launchURL(String url) async {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    String extractFacebookPageId(String url) {
+      return url.split('/').where((part) => part.isNotEmpty).last;
+    }
+
+    Future<void> launchFacebook(String url) async {
+      final pageId = extractFacebookPageId(url);
+      final Uri fbUri = Uri.parse('fb://page/$pageId');
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(fbUri)) {
+        await launchUrl(fbUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    String extractInstagramUsername(String url) {
+      return url.split('/').where((part) => part.isNotEmpty).last;
+    }
+
+    String extractTikTokUsername(String url) {
+      // Handles both https://www.tiktok.com/@username and trailing slashes
+      final uri = Uri.parse(url);
+      final segments = uri.pathSegments;
+      if (segments.isNotEmpty && segments.first.startsWith('@')) {
+        return segments.first.replaceAll('@', '');
+      }
+      return '';
+    }
+
+    Future<void> launchTikTok(String url) async {
+      final username = extractTikTokUsername(url);
+      final Uri tiktokAppUri = Uri.parse('snssdk1128://user/profile/$username');
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(tiktokAppUri)) {
+        await launchUrl(tiktokAppUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchInstagram(String url) async {
+      final username = extractInstagramUsername(url);
+      final Uri instaUri = Uri.parse('instagram://user?username=$username');
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(instaUri)) {
+        await launchUrl(instaUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchWebsite(String url) async {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    Future<void> launchYouTube(String url) async {
+      final Uri appUri =
+          Uri.parse(url.replaceFirst('https://', 'vnd.youtube:'));
+      final Uri webUri = Uri.parse(url);
+
+      if (await canLaunchUrl(appUri)) {
+        await launchUrl(appUri);
+      } else {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchGoogleMaps(String address) async {
+      final encodedAddress = Uri.encodeComponent(address);
+      final Uri mapsAppUri = Uri.parse('geo:0,0?q=$encodedAddress');
+      final Uri mapsWebUri = Uri.parse(
+          'https://www.google.com/maps/search/?api=1&query=$encodedAddress');
+
+      if (await canLaunchUrl(mapsAppUri)) {
+        await launchUrl(mapsAppUri);
+      } else {
+        await launchUrl(mapsWebUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    Future<void> launchEmail(String email) async {
+      if (email.isEmpty) {
+        throw 'Email is empty';
+      }
+
+      final Uri mailtoUri = Uri(
+        scheme: 'mailto',
+        path: email,
+      );
+
+      // Try Gmail on Android
+      if (Platform.isAndroid) {
+        final Uri gmailUri = Uri.parse('googlegmail:///co?to=$email');
+        if (await canLaunchUrl(gmailUri)) {
+          await launchUrl(gmailUri);
+          return;
+        }
+      }
+
+      // Fallback to default mail client
+      if (await canLaunchUrl(mailtoUri)) {
+        await launchUrl(mailtoUri, mode: LaunchMode.externalApplication);
+      } else {
+        throw 'Could not launch email app for $email';
+      }
+    }
+
+    Future<void> launchGoogleMapsAtLocation(double lat, double lng) async {
+      final Uri mapsAppUri = Uri.parse('geo:$lat,$lng?q=$lat,$lng');
+      final Uri mapsWebUri = Uri.parse(
+          'https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+
+      if (await canLaunchUrl(mapsAppUri)) {
+        await launchUrl(mapsAppUri);
+      } else {
+        await launchUrl(mapsWebUri, mode: LaunchMode.externalApplication);
+      }
+    }
+
+    final List<Map<String, dynamic>> contactItems = [
+      {
+        'icon': eSvgAssets.calling,
+        'label': contact?.phoneNumber ?? "",
+        'action': () => launchURL("tel:${contact?.phoneNumber}")
+      },
+      {
+        'icon': eSvgAssets.mail,
+        'label': contact?.email ?? "",
+        'action': () => launchEmail(contact?.email ?? "")
+      },
+      {
+        'icon': eSvgAssets.locationOut1,
+        'label': contact?.address ?? "",
+        'action': () => launchGoogleMaps(contact?.address ?? "")
+      },
+      {
+        'icon': eSvgAssets.global,
+        'label': contact?.website ?? "",
+        'action': () => launchWebsite(contact?.website ?? "")
+      },
+      {
+        'icon': eImageAssets.fbIcon,
+        'label': contact?.facebookPage ?? "",
+        'action': () => launchFacebook(contact?.facebookPage ?? "")
+      },
+      {
+        'icon': eImageAssets.insta,
+        'label': contact?.instagramPage ?? "",
+        'action': () => launchInstagram(contact?.instagramPage ?? "")
+      },
+      {
+        'icon': eImageAssets.tiktok,
+        'label': contact?.tiktokPage ?? "",
+        'action': () => launchTikTok(contact?.tiktokPage ?? "")
+      },
+      {
+        'icon': eImageAssets.ytIcon,
+        'label': contact?.youtubePage ?? "",
+        'action': () => launchYouTube(contact?.youtubePage ?? "")
+      }
+    ]
+        .where((item) =>
+            item['label'] != null && item['label'].toString().isNotEmpty)
+        .toList();
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const VSpace(Sizes.s14),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -26,12 +214,13 @@ class ServiceDescription extends StatelessWidget {
               return Flexible(
                   child: GestureDetector(
                       onTap: () {
-                        if (item['label'] == "Call") {
-                          String call = "9999988888";
+                        if (item['label'] == appFonts.call) {
+                          String? call = attractionData?.contact?.phoneNumber;
                           makePhoneCall(call);
-                        } else if (item['label'] == "Directions") {
+                        } else if (item['label'] == appFonts.directions) {
                           showModalBottomSheet(
                               isScrollControlled: true,
+                              enableDrag: false,
                               context: context,
                               builder: (context) {
                                 return SafeArea(
@@ -52,7 +241,7 @@ class ServiceDescription extends StatelessWidget {
                                                     children: [
                                                       Text(
                                                           language(context,
-                                                              "Address"),
+                                                              appFonts.address),
                                                           style: appCss
                                                               .dmDenseMedium18
                                                               .textColor(appColor(
@@ -75,100 +264,158 @@ class ServiceDescription extends StatelessWidget {
                                                         color: Colors.grey
                                                             .withOpacity(0.1),
                                                         borderRadius:
-                                                            const BorderRadius.all(
-                                                                Radius.circular(
-                                                                    12))),
+                                                            BorderRadius.circular(
+                                                                12)),
                                                     child: ClipRRect(
                                                         borderRadius:
                                                             BorderRadius.circular(
                                                                 12),
                                                         child: GoogleMap(
+                                                            initialCameraPosition: CameraPosition(
+                                                                target: LatLng(
+                                                                    (attractionData!
+                                                                            .location
+                                                                            ?.latitude)
+                                                                        .toDouble(),
+                                                                    (attractionData
+                                                                            ?.location
+                                                                            ?.longitude)
+                                                                        .toDouble()),
+                                                                zoom: 18.0),
+                                                            myLocationEnabled:
+                                                                true,
+                                                            myLocationButtonEnabled:
+                                                                true,
                                                             zoomGesturesEnabled:
                                                                 true,
-                                                            initialCameraPosition:
-                                                                CameraPosition(
-                                                                    target: const LatLng(20.5937, 78.9629),
-                                                                    zoom: 18.0),
-                                                            myLocationEnabled: true,
-                                                            myLocationButtonEnabled: true)))
+                                                            scrollGesturesEnabled: true,
+                                                            rotateGesturesEnabled: true,
+                                                            tiltGesturesEnabled: true,
+                                                            markers: {
+                                                              Marker(
+                                                                  markerId:
+                                                                      MarkerId(
+                                                                          "target-location"),
+                                                                  position: LatLng(
+                                                                      (attractionData!
+                                                                              .location
+                                                                              ?.latitude)
+                                                                          .toDouble(),
+                                                                      (attractionData
+                                                                              ?.location
+                                                                              ?.longitude)
+                                                                          .toDouble()),
+                                                                  infoWindow:
+                                                                      InfoWindow(
+                                                                          title:
+                                                                              "Selected Location"))
+                                                            },
+                                                            zoomControlsEnabled: true)))
                                               ])),
                                           BottomSheetButtonCommon(
-                                                  textOne: "Close",
-                                                  textTwo: "Directions",
-                                                  applyTap: () {},
-                                                  clearTap: () {})
+                                                  textOne: appFonts.close,
+                                                  textTwo: appFonts.directions,
+                                                  applyTap: () {
+                                                    final lat = attractionData
+                                                        ?.location?.latitude
+                                                        .toDouble();
+                                                    final lng = attractionData
+                                                        ?.location?.longitude
+                                                        .toDouble();
+
+                                                    if (lat != null &&
+                                                        lng != null) {
+                                                      launchGoogleMapsAtLocation(
+                                                          lat, lng);
+                                                    }
+                                                  },
+                                                  clearTap: () {
+                                                    route.pop(context);
+                                                  })
                                               .backgroundColor(
                                                   appColor(context).whiteColor)
                                               .alignment(Alignment.bottomCenter)
                                         ])).bottomSheetExtension(context));
                               });
-                        } else if (item['label'] == "Hours") {
+                        } else if (item['label'] == appFonts.hours) {
                           showOpeningHoursBottomSheet(context);
-                        } else if (item['label'] == "Contact") {
+                        } else if (item['label'] == appFonts.contact) {
                           showModalBottomSheet(
                               isScrollControlled: true,
                               context: context,
                               builder: (context) {
-                                return SizedBox(
-                                    height: MediaQuery.of(context).size.height /
-                                        1.4,
-                                    child: Stack(children: [
-                                      SingleChildScrollView(
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                      language(context,
-                                                          appFonts.contactUs),
-                                                      style: appCss
-                                                          .dmDenseMedium18
-                                                          .textColor(
-                                                              appColor(context)
+                                return SafeArea(
+                                    child: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.4,
+                                        child: Stack(children: [
+                                          SingleChildScrollView(
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                          language(
+                                                              context,
+                                                              appFonts
+                                                                  .contactUs),
+                                                          style: appCss
+                                                              .dmDenseMedium18
+                                                              .textColor(appColor(
+                                                                      context)
                                                                   .darkText)),
-                                                  const Icon(CupertinoIcons
-                                                          .multiply)
-                                                      .inkWell(
-                                                          onTap: () => route
-                                                              .pop(context))
-                                                ]).paddingSymmetric(
-                                                vertical: 20,
-                                                horizontal: Insets.i20),
-                                            ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: appArray
-                                                    .contactItems.length,
-                                                itemBuilder: (context, index) {
-                                                  final items = appArray
-                                                      .contactItems[index];
-                                                  return ListTileLayout(
-                                                      data:
-                                                          appArray.contactItems,
-                                                      isCheckBox: false,
-                                                      isHavingIcon: true,
-                                                      icon: items['icon'],
-                                                      title: items['label'],
-                                                      onTap: () {});
-                                                })
-                                          ])),
-                                      BottomSheetButtonCommon(
-                                              textOne: appFonts.cancel,
-                                              textTwo: appFonts.addToContacts,
-                                              applyTap: () {},
-                                              clearTap: () {})
-                                          .backgroundColor(
-                                              appColor(context).whiteColor)
-                                          .alignment(Alignment.bottomCenter)
-                                    ])).bottomSheetExtension(context);
+                                                      const Icon(CupertinoIcons
+                                                              .multiply)
+                                                          .inkWell(
+                                                              onTap: () => route
+                                                                  .pop(context))
+                                                    ]).paddingSymmetric(
+                                                    vertical: 20,
+                                                    horizontal: Insets.i20),
+                                                ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        contactItems.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      final item =
+                                                          contactItems[index];
+                                                      return ListTileLayout(
+                                                          data: contactItems,
+                                                          isCheckBox: false,
+                                                          isHavingIcon: true,
+                                                          icon: item['icon'],
+                                                          title: item['label'],
+                                                          onClick:
+                                                              item['action']);
+                                                    })
+                                              ])),
+                                          BottomSheetButtonCommon(
+                                                  textOne: appFonts.cancel,
+                                                  textTwo:
+                                                      appFonts.addToContacts,
+                                                  applyTap: () {},
+                                                  clearTap: () {})
+                                              .backgroundColor(
+                                                  appColor(context).whiteColor)
+                                              .alignment(
+                                                  Alignment.bottomCenter),
+                                        ])).bottomSheetExtension(context));
                               });
-                        } else if (item['label'] == "Gallery") {
-                          route.pushNamed(
-                              context, routeName.commonGalleryScreen);
+                        } else if (item['label'] == appFonts.gallery) {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CommonGalleryScreen();
+                          }));
+                          // route.pushNamed(
+                          //     context, routeName.commonGalleryScreen,
+                          //     arg: attractionData);
                         }
                       },
                       child: Container(
@@ -184,7 +431,7 @@ class ServiceDescription extends StatelessWidget {
                               children: [
                                 SvgPicture.asset(item['icon'],
                                     height: Insets.i20, width: Insets.i20),
-                                Text(item['label'],
+                                Text(language(context, item['label']),
                                     style: appCss.dmDenseMedium7
                                         .textColor(appColor(context).darkText))
                               ]))));
@@ -194,8 +441,7 @@ class ServiceDescription extends StatelessWidget {
             style:
                 appCss.dmDenseMedium12.textColor(appColor(context).lightText)),
         const VSpace(Sizes.s6),
-        if (services!.description != null)
-          ReadMoreLayout(text: services!.description!, trimLines: 10),
+        ReadMoreLayout(text: attractionData?.description, trimLines: 10),
         const VSpace(Sizes.s20),
       ]).paddingSymmetric(horizontal: Insets.i20, vertical: Insets.i20)
     ]).boxBorderExtension(context,
@@ -212,6 +458,12 @@ class ServiceDescription extends StatelessWidget {
   }
 
   void showOpeningHoursBottomSheet(BuildContext context) {
+    final business = attractionData;
+    final workingHours = business?.workingHours ?? [];
+    final List<Map<String, dynamic>> timeSlotList =
+        generateTimeSlotList(workingHours);
+    final timeSlotStartAtList = [appFonts.days, "Start at", "End at"];
+
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -219,103 +471,123 @@ class ServiceDescription extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
           return SafeArea(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Consumer<TimeSlotProvider>(
-                    builder: (context, value, child) {
-                  return SingleChildScrollView(
-                    child: Column(children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(language(context, appFonts.openingHours),
-                                style: appCss.dmDenseMedium18
-                                    .textColor(appColor(context).darkText)),
-                            const Icon(CupertinoIcons.multiply)
-                                .inkWell(onTap: () => route.pop(context))
-                          ]).paddingSymmetric(
-                          vertical: 20, horizontal: Insets.i20),
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: Insets.i20),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
-                              color: appColor(context).fieldCardBg,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12))),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                        children: appArray.timeSlotStartAtList
-                                            .asMap()
-                                            .entries
-                                            .map((e) => Text(
-                                                    language(context, e.value),
-                                                    style: appCss
-                                                        .dmDenseMedium12
-                                                        .textColor(
-                                                            appColor(context)
-                                                                .lightText))
-                                                .paddingOnly(
-                                                    left: e.key == 0
-                                                        ? Insets.i5
-                                                        : 30,
-                                                    right: e.key == 0
-                                                        ? Insets.i50
-                                                        : 20
-                                                    /* left: rtl(context)
-                                                        ? 32
-                                                        : e.key == 0
-                                                            ? Insets.i5
-                                                            : rtl(context)
-                                                                ? 44
-                                                                : e.key == 1
-                                                                    ? 0
-                                                                    : 0,
-                                                    right: rtl(context)
-                                                        ? Insets.i10
-                                                        : e.key == 0
-                                                            ? Insets.i28
-                                                            : e.key == 1
-                                                                ? Insets.i42
-                                                                : 0*/
-                                                    ))
-                                            .toList())
-                                    .paddingSymmetric(horizontal: Insets.i15),
-                                const VSpace(Sizes.s15),
-                                ...appArray.timeSlotList.asMap().entries.map(
-                                    (e) => AllTimeSlotLayout(
-                                        data: e.value,
-                                        index: e.key,
-                                        list: appArray.timeSlotList,
-                                        onTapSecond: e.value["status"] == true
-                                            ? () => value.selectTimeBottomSheet(
-                                                context, e.value, e.key, "end")
-                                            : () {},
-                                        onTap: e.value["status"] == true
-                                            ? () => value.selectTimeBottomSheet(
-                                                context,
-                                                e.value,
-                                                e.key,
-                                                "start")
-                                            : () {},
-                                        onToggle: (val) =>
-                                            value.onToggle(e.value, val)))
-                              ])),
-                      VSpace(Insets.i22),
-                      BottomSheetButtonCommon(
-                              isRateComplete: true,
-                              textOne: appFonts.cancel,
-                              textTwo: appFonts.addToContacts,
-                              applyTap: () {},
-                              clearTap: () {})
-                          .marginSymmetric(horizontal: 80)
-                          .backgroundColor(appColor(context).whiteColor)
-                          .alignment(Alignment.bottomCenter)
-                    ]),
-                  );
-                })),
-          );
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.3,
+                  child: Consumer<TimeSlotProvider>(
+                      builder: (context, value, child) {
+                    return SingleChildScrollView(
+                      child: Column(children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(language(context, appFonts.openingHours),
+                                  style: appCss.dmDenseMedium18
+                                      .textColor(appColor(context).darkText)),
+                              const Icon(CupertinoIcons.multiply)
+                                  .inkWell(onTap: () => route.pop(context))
+                            ]).paddingSymmetric(
+                            vertical: 20, horizontal: Insets.i20),
+                        Container(
+                            margin:
+                                EdgeInsets.symmetric(horizontal: Insets.i20),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            decoration: BoxDecoration(
+                                color: appColor(context).fieldCardBg,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12))),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                          children: timeSlotStartAtList
+                                              .asMap()
+                                              .entries
+                                              .map((e) => Text(
+                                                      language(
+                                                          context, e.value),
+                                                      style: appCss
+                                                          .dmDenseMedium12
+                                                          .textColor(
+                                                              appColor(context)
+                                                                  .lightText))
+                                                  .paddingOnly(
+                                                      left: e.key == 0
+                                                          ? Insets.i5
+                                                          : 30,
+                                                      right: e.key == 0
+                                                          ? Insets.i50
+                                                          : 20))
+                                              .toList())
+                                      .paddingSymmetric(horizontal: Insets.i15),
+                                  const VSpace(Sizes.s15),
+                                  ...timeSlotList.asMap().entries.map((e) =>
+                                      AllTimeSlotLayout(
+                                          data: e.value,
+                                          index: e.key,
+                                          list: timeSlotList,
+                                          onTapSecond: e.value["status"] == true
+                                              ? () =>
+                                                  value.selectTimeBottomSheet(
+                                                      context,
+                                                      e.value,
+                                                      e.key,
+                                                      "end")
+                                              : () {},
+                                          onTap: e.value["status"] == true
+                                              ? () =>
+                                                  value.selectTimeBottomSheet(
+                                                      context,
+                                                      e.value,
+                                                      e.key,
+                                                      "start")
+                                              : () {},
+                                          onToggle: (val) =>
+                                              value.onToggle(e.value, val)))
+                                ])),
+                        VSpace(Insets.i22),
+                        BottomSheetButtonCommon(
+                                isRateComplete: true,
+                                textOne: appFonts.cancel,
+                                textTwo: appFonts.addToContacts,
+                                applyTap: () {},
+                                clearTap: () {})
+                            .marginSymmetric(horizontal: 80)
+                            .backgroundColor(appColor(context).whiteColor)
+                            .alignment(Alignment.bottomCenter)
+                      ]),
+                    );
+                  })));
         });
+  }
+
+  List<String> weekDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+
+  List<Map<String, dynamic>> generateTimeSlotList(
+      List<WorkingHour> workingHours) {
+    return List.generate(7, (index) {
+      final hour = workingHours.firstWhere((w) => w.weekDay == index + 1,
+          orElse: () => WorkingHour(
+                weekDay: index + 1,
+                openTime: "00:00",
+                closeTime: "00:00",
+                remark: "",
+                isClosed: true,
+              ));
+
+      return {
+        "days": weekDays[index],
+        "start_at": hour.openTime ?? "00:00",
+        "end_at": hour.closeTime ?? "00:00",
+        "status": !(hour.isClosed ?? true)
+      };
+    });
   }
 }

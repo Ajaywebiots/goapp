@@ -240,19 +240,9 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                       firstBTap: () {
                                                         route.pop(context);
                                                       },
-                                                      secondBTap: () async {
-                                                        SharedPreferences
-                                                            prefs =
-                                                            await SharedPreferences
-                                                                .getInstance();
-                                                        await prefs.clear();
-
-                                                        route
-                                                            .pushReplacementNamed(
-                                                                context,
-                                                                routeName
-                                                                    .login);
-                                                      });
+                                                      secondBTap: () async =>
+                                                          value
+                                                              .logOut(context));
                                                 });
                                           }
                                         }))

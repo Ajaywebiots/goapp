@@ -46,7 +46,7 @@ class AppRoute {
     routeName.socialRegister: (p0) => const SocialRegScreen(),
     routeName.couponListScreen: (p0) => const CouponListScreen(),
     routeName.dashboard: (p0) => const Dashboard(),
-    routeName.categoriesDetailsScreen: (p0) => const CategoryDetailScreen(),
+    // routeName.categoriesDetailsScreen: (p0) => const CategoryDetailScreen(),
     routeName.categoriesListScreen: (p0) => const CategoriesListScreen(),
     routeName.notifications: (p0) => const NotificationScreen(),
     // routeName.featuredBusinessScreen: (p0) => const FeaturedBusinessScreen(),

@@ -4,6 +4,16 @@ import 'package:goapp/config.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:goapp/models/blog_filter_model.dart';
 
+// import '../../config.dart' as model;
+import '../../models/api_model/business_category_model.dart';
+import '../../models/api_model/home_feed_model.dart' as model;
+import '../../models/api_model/home_feed_model.dart';
+import '../../models/currency_model.dart';
+import '../../models/provider_model.dart';
+import '../../models/service_model.dart';
+import '../../models/service_package_model.dart';
+import '../../services/api_service.dart';
+
 class HomeScreenProvider with ChangeNotifier {
   int selectIndex = 0;
   int? cIndex;
@@ -15,6 +25,108 @@ class HomeScreenProvider with ChangeNotifier {
   bool? isSelected;
 
   List selectedCategory = [];
+
+  /* Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      throw Exception('Location services are disabled.');
+    }
+
+    // Request permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        throw Exception('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      throw Exception('Location permissions are permanently denied');
+    }
+
+    // Get current location
+    return await Geolocator.getCurrentPosition();
+  }*/
+
+  Future<Position> getCurrentLocation() async {
+    Position? lastKnown = await Geolocator.getLastKnownPosition();
+    if (lastKnown != null) {
+      return lastKnown;
+    }
+
+    // Fallback to full location fetching
+    return await Geolocator.getCurrentPosition(
+        locationSettings: LocationSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(milliseconds: 150)));
+  }
+
+  List<model.Banner> bannerList = [];
+
+  // List<OfferModel> offerList = []; ////
+  List<model.Offer> couponOfferList = [];
+
+  List<ProviderModel> highestRateList = [];
+  List<CurrencyModel> currencyList = [];
+
+  // List<CouponModel> couponList = [];
+  List<Categories> categoryList = [];
+  List<ServicePackageModel> servicePackagesList = [];
+  List<ServicePackageModel> firstThreeServiceList = [];
+  List<Services> featuredServiceList = [];
+
+  List<model.Business> firstTwoFeaturedServiceList = [];
+  List<model.Attraction> firstTwoHighRateList = [];
+  List<model.Article> firstTwoBlogList = [];
+  bool isLoading = false;
+
+  homeFeed(context) async {
+    // showLoading(context);
+    isLoading = true;
+    Position position = await getCurrentLocation();
+
+    try {
+      apiServices
+          .commonApi(
+              "${api.homeFeed}?currentLongitude=${position.longitude}&currentLatitude=${position.latitude}",
+              [],
+              ApiType.get,
+              isToken: true)
+          .then((value) {
+        if ((value.data['responseStatus'] == 1)) {
+          // hideLoading(context);
+          log("ajay hariyani ${value.data}");
+          isLoading = false;
+          HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
+          bannerList = [];
+          couponOfferList = [];
+          categoryList = [];
+          firstTwoFeaturedServiceList = [];
+          firstTwoHighRateList = [];
+          // businessCategories = [];
+          firstTwoBlogList = [];
+          bannerList.addAll(homeFeedModel.banners as Iterable<model.Banner>);
+          couponOfferList.addAll(homeFeedModel.offers);
+          categoryList.addAll(homeFeedModel.categories);
+          firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
+          firstTwoBlogList.addAll(homeFeedModel.articles);
+          firstTwoHighRateList.addAll(homeFeedModel.attractions);
+          log("Updated bannerList: ${bannerList.length} items");
+
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      isLoading = false;
+      // hideLoading(context);
+      log("EEEE : homeFeed $e");
+    }
+  }
 
   onCategoryChange(context, id) {
     log("id ddd $id");
@@ -79,14 +191,14 @@ class HomeScreenProvider with ChangeNotifier {
   //   });
   // }
 
-  onAnimate(TickerProvider sync) {
-    animationController = AnimationController(
-        vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
-      ..repeat();
-    rotationAnimation =
-        Tween<double>(begin: 1, end: 0).animate(animationController!);
-    //notifyListeners();
-  }
+  // onAnimate(TickerProvider sync) {
+  //   animationController = AnimationController(
+  //       vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
+  //     ..repeat();
+  //   rotationAnimation =
+  //       Tween<double>(begin: 1, end: 0).animate(animationController!);
+  //   //notifyListeners();
+  // }
 
   double turns = 0.00;
   Animation<double>? rotationAnimation;

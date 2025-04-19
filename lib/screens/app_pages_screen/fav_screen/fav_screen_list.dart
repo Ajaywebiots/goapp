@@ -70,9 +70,7 @@ class FavScreenList extends StatelessWidget {
                                       .asMap()
                                       .entries
                                       .map((e) => FeaturedBusinessLayout(
-                                          data: e.value,
-                                          inCart: isInCart(context, e.value.id),
-                                          onTap: () {}))
+                                          data: e.value, onTap: () {}))
                                       .toList()
                                   : attractionList
                                       .asMap()

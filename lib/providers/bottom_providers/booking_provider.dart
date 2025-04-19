@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/home_feed_model.dart';
 import 'package:goapp/models/booking_status_model.dart';
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../models/api_model/business_category_model.dart';
 import '../../models/booking_model.dart';
 import '../../models/category_model.dart';
 import '../../screens/bottom_screens/booking_screen/layouts/booking_filter_layout.dart';
@@ -14,12 +16,11 @@ import 'dashboard_provider.dart';
 class BookingProvider with ChangeNotifier {
   String? month;
   AnimationController? animationController;
-  List<BookingModel> bookingList = [];
   List statusList = [];
   bool isExpand = false;
   int selectIndex = 0;
   int? statusIndex;
-  List<Category> categoryList = [];
+  List<Categories> categoryList = [];
   ScrollController scrollController = ScrollController();
   List selectedCategory = [];
   dynamic slotChosenValue;
@@ -47,7 +48,6 @@ class BookingProvider with ChangeNotifier {
   bool error = false;
   bool? loading;
 
-  List<BookingModel> posts = [];
   final numberOfPostsPerRequest = 10;
 
   onTapMonth(val) {
@@ -128,8 +128,8 @@ class BookingProvider with ChangeNotifier {
     int index = appArray.monthList
         .indexWhere((element) => element['index'] == dateTime.month);
     chosenValue = appArray.monthList[index];
-    final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
-    categoryList = dashCtrl.categoryList;
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    categoryList = homePvr.categoryList;
     notifyListeners();
   }
 
@@ -162,11 +162,6 @@ class BookingProvider with ChangeNotifier {
 
   onFilter(index) {
     selectIndex = index;
-    notifyListeners();
-  }
-
-  onExpand(data, index) {
-    bookingList[index].isExpand = !bookingList[index].isExpand!;
     notifyListeners();
   }
 
@@ -207,10 +202,6 @@ class BookingProvider with ChangeNotifier {
     });
   }
 
-  onTapBookings(BookingModel data, context) {
-    final dash = Provider.of<DashboardProvider>(context, listen: false);
-  }
-
   clearTap(context, {isBack = true}) {
     statusIndex = null;
     selectedCategory = [];
@@ -221,12 +212,6 @@ class BookingProvider with ChangeNotifier {
     if (isBack) {
       route.pop(context, arg: "clear");
     }
-  }
-
-  editAddress(context, BookingModel? bookingModel) {}
-
-  editDateTimeTap(context, BookingModel? bookingModel) {
-    log("fghdfghdjhg");
   }
 
   String totalCountFilter() {

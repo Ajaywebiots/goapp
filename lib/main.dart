@@ -20,7 +20,6 @@ import 'package:goapp/providers/app_pages_provider/time_slot_provider.dart';
 import 'package:goapp/providers/auth_providers/social_register_provider.dart';
 import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
 import 'package:goapp/providers/bottom_providers/booking_provider.dart';
-import 'package:goapp/providers/bottom_providers/cart_provider.dart';
 import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
@@ -75,7 +74,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => BookingProvider()),
                   ChangeNotifierProvider(create: (_) => ContactUsProvider()),
                   // ChangeNotifierProvider(create: (_) => ProviderDetailsProvider()),
-                  ChangeNotifierProvider(create: (_) => CartProvider()),
+
                   ChangeNotifierProvider(create: (_) => DashboardProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LoginWithPhoneProvider()),

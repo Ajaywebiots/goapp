@@ -5,9 +5,15 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
+import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../services/api_service.dart';
+import '../app_pages_provider/attractions_provider.dart';
+import '../app_pages_provider/categories_list_provider.dart';
+import '../app_pages_provider/search_provider.dart';
+import '../bottom_providers/home_screen_provider.dart';
+import '../bottom_providers/offer_provider.dart';
 
 class LoginProvider with ChangeNotifier {
   TextEditingController userName = TextEditingController();
@@ -26,7 +32,7 @@ class LoginProvider with ChangeNotifier {
   }
 
   autoFetch() {
-    userName.text = "ajay2404";
+    userName.text = "apptest123";
     passwordController.text = "123456";
     notifyListeners();
   }
@@ -138,6 +144,25 @@ class LoginProvider with ChangeNotifier {
           await pref.setString(session.accessToken, value.data['token']);
           log("token session.id ${pref.getInt(session.id)}");
           log("accessToken ${pref.getString(session.accessToken)}");
+
+          final homePvr =
+              Provider.of<HomeScreenProvider>(context, listen: false);
+          final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+          final attractionPvr =
+              Provider.of<AttractionProvider>(context, listen: false);
+          final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+          final dash = Provider.of<DashboardProvider>(context, listen: false);
+          final catListPvr =
+              Provider.of<CategoriesListProvider>(context, listen: false);
+          homePvr.homeFeed(context);
+          searchPvr.getBusinessSearchAPI(context, isFilter: false);
+          attractionPvr.getAttractionSearchAPI(context);
+          offerPvr.getViewAllOfferAPI();
+
+          catListPvr.getCategoriesData(context);
+          offerPvr.getCategoriesData(context);
+
+          dash.selectIndex = 0;
 
           route.pushNamed(context, routeName.dashboard);
         } else {

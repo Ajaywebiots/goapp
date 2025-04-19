@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:intl/intl.dart';
 
 import '../../../../config.dart';
@@ -15,6 +17,7 @@ class CouponLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final dash = Provider.of<DashboardProvider>(context, listen: false);
     bool isFav = false;
+    log("DDDDD::${data!.isFavourite}");
     return DirectionalityRtl(
         child: Container(
             padding: EdgeInsets.only(bottom: Insets.i12),

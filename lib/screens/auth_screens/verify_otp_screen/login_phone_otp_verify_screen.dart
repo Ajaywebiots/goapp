@@ -11,8 +11,8 @@ class LoginPhoneOtpVerifyScreen extends StatelessWidget {
       return LoadingComponent(
           child: StatefulWrapper(
               onInit: () {
-                final args = ModalRoute.of(context)?.settings.arguments;
-                otpCtrl.getArgument(args);
+                // final args = ModalRoute.of(context1)?.settings.arguments;
+                otpCtrl.getArgument(context1);
               },
               child: DirectionalityRtl(
                   child: Scaffold(

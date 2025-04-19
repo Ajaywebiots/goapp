@@ -21,7 +21,7 @@ class ServiceReviewLayout extends StatelessWidget {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: AssetImage(eImageAssets.noImageFound3)))),
-          title: Text(data!.ownerName!,
+          title: Text(data!.ownerName! ?? "title",
               style:
                   appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
           subtitle: data!.createdAt != null

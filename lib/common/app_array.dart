@@ -6,6 +6,40 @@ import 'package:intl/intl.dart';
 import '../config.dart';
 
 class AppArray {
+  List<Map<String, dynamic>> buttonItemsB(bool isFavourite) => [
+        {
+          'icon': eSvgAssets.calling,
+          'label': appFonts.call,
+          'action': () => print('Call tapped')
+        },
+        {
+          'icon': eSvgAssets.direction,
+          'label': appFonts.directions,
+          'action': () => print('Directions tapped')
+        },
+        {
+          'icon': "assets/svg/contact.svg",
+          'label': appFonts.contact,
+          'action': () => print('Website tapped')
+        },
+        {
+          'icon': eSvgAssets.time,
+          'label': appFonts.hours,
+          'action': () => print('Hours tapped')
+        },
+        {
+          'icon': "assets/svg/gallery1.svg",
+          'label': appFonts.gallery,
+          'action': () => print('Share tapped')
+        },
+        {
+          'icon':
+              isFavourite == true ? "assets/svg/likeFill.svg" : eSvgAssets.like,
+          'label': appFonts.save,
+          'action': () => print('Save tapped')
+        }
+      ];
+
   var localList = <Locale>[
     const Locale('en'),
     const Locale('el'),
@@ -2009,14 +2043,14 @@ class AppArray {
   List<String> minList = List.generate(60, (index) {
     DateTime time = DateTime.now().add(Duration(minutes: index));
     String formattedTime = DateFormat('mm').format(time);
-    log("$time:::::::$formattedTime");
+    // log("$time:::::::$formattedTime");
     return formattedTime;
   });
 
   List<String> dayList = List.generate(2, (index) {
     DateTime time = DateTime.now().add(Duration(days: index));
     String formattedTime = DateFormat('a').format(time);
-    log("$time:::::::$formattedTime");
+    // log("$time:::::::$formattedTime");
     return formattedTime;
   });
 

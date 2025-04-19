@@ -6,8 +6,6 @@ import '../../config.dart';
 import '../../models/category_model.dart';
 import '../../models/provider_model.dart';
 import '../../models/service_model.dart';
-import '../../screens/app_pages_screen/category_detail_screen/layouts/categories_filter.dart';
-import '../bottom_providers/cart_provider.dart';
 
 class CategoriesDetailsProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();

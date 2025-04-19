@@ -1,12 +1,14 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/models/api_model/home_feed_model.dart';
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class FeatureAttractionLayout extends StatelessWidget {
-  final Attraction data;
+  final data;
   final GestureTapCallback? onTap, addOrRemoveTap;
   final bool isHome;
   final Color? bColor;
@@ -21,7 +23,8 @@ class FeatureAttractionLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeScreenProvider>(builder: (context1, value, child) {
+    return Consumer2<AttractionProvider, HomeScreenProvider>(
+        builder: (context1, att, value, child) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +116,24 @@ class FeatureAttractionLayout extends StatelessWidget {
                                   "${data.location!.selfLocationdistance!.toInt()} ${language(context, appFonts.km)}",
                                   style: appCss.dmDenseMedium10
                                       .textColor(appColor(context).whiteColor))
-                            ]))
+                            ])).inkWell(onTap: () async {
+                            final lat = data.location?.latitude;
+                            final lng = data.location?.longitude;
+
+                            if (lat != null && lng != null) {
+                              final url = Uri.parse(
+                                  "https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url,
+                                    mode: LaunchMode.externalApplication);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Could not open Maps')),
+                                );
+                              }
+                            }
+                          })
                   ])
                 ]),
 
@@ -202,7 +222,7 @@ class FeatureAttractionLayout extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(6)),
                   color: appColor(context).primary.withValues(alpha: 0.1)),
-              child: Text(category.name,
+              child: Text(category.name!,
                   style: appCss.dmDenseMedium13
                       .textColor(appColor(context).primary)));
         }).toList())

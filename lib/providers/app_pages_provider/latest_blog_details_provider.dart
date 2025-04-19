@@ -24,21 +24,27 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  detailsDataAPI(context, value) {
+  detailsDataAPI(context, value, {isNotRouting = false}) {
+    notifyListeners();
     try {
       apiServices
-          .commonApi("${api.blogDetails}${value}/details", [], ApiType.get,
+          .commonApi("${api.blogDetails}$value/details", [], ApiType.get,
               isToken: true)
           .then((value) {
         if (value.data['responseStatus'] == 1) {
+          notifyListeners();
           ArticlesDetailModel articlesDetailModel =
               ArticlesDetailModel.fromJson(value.data);
           articleDetail = articlesDetailModel;
-
-          route.pushNamed(context, routeName.latestBlogDetails);
+          notifyListeners();
+          isNotRouting == true
+              ? null
+              : route.pushNamed(context, routeName.latestBlogDetails);
+          notifyListeners();
         }
       });
     } catch (e) {
+      notifyListeners();
       log("detailsDataAPI :: $e");
     }
   }
@@ -78,26 +84,21 @@ class LatestBLogDetailsProvider with ChangeNotifier {
                         VSpace(15),
                         Expanded(
                             child: Column(children: [
-                          Expanded(
-                            child: Consumer<LatestBLogDetailsProvider>(
+                          Expanded(child: Consumer<LatestBLogDetailsProvider>(
                               builder: (context, value, _) {
-                                return ListView.builder(
-                                  itemCount: value.categoryList.length,
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  itemBuilder: (context, index) {
-                                    final category = value.categoryList[index];
-                                    return ListTileLayout(
+                            return ListView.builder(
+                                itemCount: value.categoryList.length,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  final category = value.categoryList[index];
+                                  return ListTileLayout(
                                       data: category,
                                       selectedCategory: value.selectedCategory,
                                       onTap: () => value.onCategoryChange(
-                                          context, category.categoryId),
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          )
+                                          context, category.categoryId));
+                                });
+                          }))
                         ]))
                       ])
                       .paddingSymmetric(vertical: Insets.i20)
@@ -242,25 +243,29 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   List articlesSearchList = [];
 
   getArticlesSearchAPI(context) async {
+    notifyListeners();
     showLoading(context);
     try {
       apiServices
           .commonApi(api.blogSearch, [], ApiType.get, isToken: true)
           .then((value) {
+        notifyListeners();
         log("value.data ${value.data}");
         if (value.data['responseStatus'] == 1) {
           hideLoading(context);
-
+          notifyListeners();
           articlesSearchList.clear();
           ArticlesSearchModel articlesSearchModel =
               ArticlesSearchModel.fromJson(value.data);
-
+          notifyListeners();
           articlesSearchList.addAll(articlesSearchModel.articles);
-
+          notifyListeners();
           log("articlesSearchList $articlesSearchList");
         }
+        notifyListeners();
       });
     } catch (e) {
+      notifyListeners();
       hideLoading(context);
       log("getArticlesSearchAPI :::");
     }

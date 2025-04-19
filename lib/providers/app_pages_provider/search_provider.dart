@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 
 import '../../common_tap.dart';
 import '../../models/api_model/business_details_model.dart';
@@ -27,7 +28,7 @@ class SearchProvider with ChangeNotifier {
   SharedPreferences? pref;
   TextEditingController searchCtrl = TextEditingController();
   TextEditingController filterSearchCtrl = TextEditingController();
-  List<Category> categoryList = [];
+  List<Categories> categoryList = [];
   List<CategoryModel> type = [];
   Future<ui.Image>? loadingImage;
   final FocusNode searchFocus = FocusNode();
@@ -39,11 +40,14 @@ class SearchProvider with ChangeNotifier {
 
   int selectedIndex = 0;
 
+  bool isLoading = false;
+
   onSubCategories(context, index, id) {
     selectedIndex = index;
+    notifyListeners();
     popular = false;
     businessSearchList.clear();
-    log("cateeee ${id}");
+    log("cateeee $id");
     getBusinessSearchAPI(context, id: id, isFilter: true);
     // onSubCategoriesStored(context, index, id);
     notifyListeners();
@@ -75,21 +79,27 @@ class SearchProvider with ChangeNotifier {
 
   BusinessDetailModel? businessDetail;
 
-  businessDetailsAPI(context, id) {
+  businessDetailsAPI(context, id, {isNotRouting = false}) {
+    notifyListeners();
     try {
       apiServices
           .commonApi("${api.businessDetails}$id/details", [], ApiType.get,
               isToken: true)
           .then((value) {
+        notifyListeners();
         if (value.data['responseStatus'] == 1) {
           BusinessDetailModel businessDetailModel =
               BusinessDetailModel.fromJson(value.data);
           businessDetail = businessDetailModel;
-
-          route.pushNamed(context, routeName.businessDetailsScreen);
+          notifyListeners();
+          isNotRouting == true
+              ? null
+              : route.pushNamed(context, routeName.businessDetailsScreen);
         }
+        notifyListeners();
       });
     } catch (e) {
+      notifyListeners();
       log("detailsDataAPI :: $e");
     }
   }
@@ -137,6 +147,8 @@ class SearchProvider with ChangeNotifier {
   ui.Image? customImage;
 
   slidingValue(newValue) {
+    log("slide $slider");
+    log("slidnewValuee $newValue");
     slider = newValue;
     notifyListeners();
   }
@@ -158,9 +170,9 @@ class SearchProvider with ChangeNotifier {
     //     vsync: sync, duration: const Duration(milliseconds: 1200));
     // FrameInfo fi = await loadImage(eImageAssets.userSlider);
     // customImage = fi.image;
-    final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     final cat = Provider.of<CategoriesDetailsProvider>(context, listen: false);
-    categoryList = dashCtrl.categoryList;
+    categoryList = homePvr.categoryList;
     // recentSearchList =
     //     appArray.recentSearch.map((e) => Services.fromJson(e)).toList();
     cat.onReady(context);
@@ -207,12 +219,55 @@ class SearchProvider with ChangeNotifier {
   //   }
   // }
 
+  Timer? debounceTimer;
+
+  SearchProvider() {
+    searchCtrl.addListener(onSearchChange);
+  }
+
+  void onSearchChange() {
+    if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
+    log("rrrrr ssss${searchCtrl.text}");
+    // Start a new debounce timer
+    debounceTimer = Timer(Duration(milliseconds: 500), () {
+      final query = searchCtrl.text.trim();
+      log("rrrrr $query");
+      if (query.isEmpty) {
+        onReady();
+      } else if (query.length >= 3) {
+        fetchSearchResults(query);
+      }
+    });
+  }
+
+  void fetchSearchResults(String query) {
+    try {
+      apiServices
+          .commonApi("${api.businessSearch}?name=$query", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.data['responseStatus'] == 0) {
+          businessSearchList.clear();
+          BusinessSearchModel businessSearchModel =
+              BusinessSearchModel.fromJson(value.data);
+          businessSearchList.addAll(businessSearchModel.businesses);
+
+          log("search aaaa $businessSearchList");
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      log("Search error: $e");
+    }
+  }
+
   onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return Consumer<SearchProvider>(builder: (context, value, child) {
+          return SafeArea(
+              child: Consumer<SearchProvider>(builder: (context, value, child) {
             return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.14,
                 child: Stack(children: [
@@ -299,7 +354,7 @@ class SearchProvider with ChangeNotifier {
                                             onTap: () {
                                               value.onCategoryChange(
                                                   context,
-                                                  value.categoryList[index]
+                                                  value1.categoryList[index]
                                                       .categoryId);
                                             });
                                       }))
@@ -329,7 +384,7 @@ class SearchProvider with ChangeNotifier {
                           },
                           clearTap: () => value.clearFilter(context)))
                 ])).bottomSheetExtension(context);
-          });
+          }));
         }).then((value) {
       log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);
@@ -353,31 +408,50 @@ class SearchProvider with ChangeNotifier {
     } else {
       selectedCategory.remove(id);
     }
-    log("SSS : ${selectedCategory.isEmpty}");
+    log("SSS : $selectedCategory");
     notifyListeners();
   }
 
   String totalCountFilter() {
-    int count = 0;
-    if (selectedCategory.isNotEmpty) {
-      count++;
-    }
-    if ((lowerVal != 00.0 || upperVal != maxPrice) &&
-        (lowerVal != 00.0 || upperVal != 100.0)) {
-      count++;
-    }
-    if (selectedRates.isNotEmpty) {
-      count++;
-    }
-    if (slider != 0.0) {
-      count++;
-    }
+    int categoryCount = selectedCategory.length;
+    int ratingCount = selectedRates.length;
+    int distanceCount = (slider != 0.0) ? 1 : 0;
 
-    if (isSelect != null) {
-      count++;
-    }
-    return count.toString();
+    int total = categoryCount + ratingCount + distanceCount;
+
+    log('Category Count: $categoryCount');
+    log('Rating Count: $ratingCount');
+    log('Distance Count: $distanceCount');
+    log('Total Filter Count: $total');
+
+    return total.toString();
   }
+
+  // String totalCountFilter() {
+  //   int count = 0;
+  //   if (selectedCategory.isNotEmpty) {
+  //     print('Selected Category is not empty');
+  //     count++;
+  //   }
+  //   /* if (!(lowerVal == 0.0 && (upperVal == maxPrice || upperVal == 100.0))) {
+  //     print('Price filter applied');
+  //     count++;
+  //   }*/
+  //   if (selectedRates.isNotEmpty) {
+  //     print('Selected rates is not empty');
+  //     count++;
+  //   }
+  //   if (slider != 0.0) {
+  //     print('Slider is not zero');
+  //     count++;
+  //   }
+  //   if (isSelect != null) {
+  //     print('isSelect is not null');
+  //     count++;
+  //   }
+  //   print('Total Count: $count');
+  //   return count.toString();
+  // }
 
   //clear filter
   clearFilter(context) {
@@ -387,19 +461,23 @@ class SearchProvider with ChangeNotifier {
     lowerVal = 0.0;
     upperVal = maxPrice;
     slider = 0;
-    final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
-    categoryList = dashCtrl.categoryList;
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    categoryList = homePvr.categoryList;
     route.pop(context);
     notifyListeners();
   }
 
   // search list
-  searchService(context, {isPop = false}) async {
-    if (isPop) {
-      route.pop(context);
-    }
+  /*searchService(context, {isPop = false}) async {
+    log("categoryList :::$selectedCategory");
+    log("selectedRates :::$selectedRates");
+    log("slider :::$slider");
 
-    /* final locationProvider =
+    */ /* if (isPop) {
+      route.pop(context);
+    }*/ /*
+
+    */ /* final locationProvider =
         Provider.of<LocationProvider>(context, listen: false);
     searchList = [];
     notifyListeners();
@@ -517,8 +595,8 @@ class SearchProvider with ChangeNotifier {
     } catch (e) {
       log("ERRROEEE searchService $e");
       notifyListeners();
-    }*/
-    searchList = [];
+    }*/ /*
+    */ /*searchList = [];
 
     List<Services> serviceList =
         appArray.servicesList.map((e) => Services.fromJson(e)).toList();
@@ -536,6 +614,75 @@ class SearchProvider with ChangeNotifier {
       isSearch = false;
     } else {
       isSearch = true;
+    }*/ /*
+  }*/
+
+  Uri buildUriWithRepeatedKeys(String baseUrl, Map<String, dynamic> params) {
+    List<String> queryParts = [];
+
+    params.forEach((key, value) {
+      if (value is List) {
+        for (var item in value) {
+          queryParts.add(
+              '${Uri.encodeQueryComponent(key)}=${Uri.encodeQueryComponent(item.toString())}');
+        }
+      } else {
+        queryParts.add(
+            '${Uri.encodeQueryComponent(key)}=${Uri.encodeQueryComponent(value.toString())}');
+      }
+    });
+
+    return Uri.parse('$baseUrl?${queryParts.join('&')}');
+  }
+
+  bool isFilter = false;
+
+  searchService(BuildContext context, {bool isPop = false}) async {
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    try {
+      final ratingMap = {0: 5, 1: 4, 2: 3, 3: 2, 4: 1};
+      final selectedRatingValues = selectedRates
+          .map((i) => ratingMap[i])
+          .where((e) => e != null)
+          .toList();
+
+      final distanceParam = slider.toInt(); // radius
+
+      // Final query params
+      Map<String, dynamic> queryParams = {
+        "rating": selectedRatingValues,
+        "radius": distanceParam,
+        "categories": selectedCategory,
+        // "currentLongitude": lon,
+        // "currentLatitude": lat
+      };
+
+      Uri url = buildUriWithRepeatedKeys(api.businessSearch, queryParams);
+
+      log("Final API URL: $url");
+
+      apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
+        if (value.data['responseStatus'] == 1) {
+          // hideLoading(context);
+          businessSearchList.clear();
+          notifyListeners();
+          BusinessSearchModel businessSearchModel =
+              BusinessSearchModel.fromJson(value.data);
+          notifyListeners();
+          businessSearchList.addAll(businessSearchModel.businesses);
+          notifyListeners();
+          log("businessSearchList $businessSearchList");
+        }
+      });
+
+      if (isPop) {
+        route.pop(context);
+      }
+    } catch (e) {
+      log("searchService error: $e");
     }
   }
 
@@ -621,8 +768,8 @@ class SearchProvider with ChangeNotifier {
   List<Business> businessSearchList = [];
 
   getBusinessSearchAPI(context, {int? id, bool? isFilter}) async {
-    final dashboard = Provider.of<DashboardProvider>(context, listen: false);
-    Position position = await dashboard.getCurrentLocation();
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
     double lon = position.longitude;
 
@@ -641,7 +788,7 @@ class SearchProvider with ChangeNotifier {
           .then((value) {
         log("value.data ${value.data}");
         if (value.data['responseStatus'] == 1) {
-          hideLoading(context);
+          // hideLoading(context);
           businessSearchList.clear();
           notifyListeners();
           BusinessSearchModel businessSearchModel =
@@ -653,7 +800,7 @@ class SearchProvider with ChangeNotifier {
         }
       });
     } catch (e) {
-      hideLoading(context);
+      // hideLoading(context);
       log("getBusinessSearchAPI :::");
     }
   }

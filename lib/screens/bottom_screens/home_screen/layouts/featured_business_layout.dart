@@ -1,4 +1,5 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
@@ -7,15 +8,9 @@ import '../../../../widgets/dotted_line.dart';
 class FeaturedBusinessLayout extends StatelessWidget {
   final Business data;
   final GestureTapCallback? onTap, addOrRemoveTap;
-  final bool? isProvider, inCart;
 
   const FeaturedBusinessLayout(
-      {super.key,
-      required this.data,
-      this.onTap,
-      this.isProvider = true,
-      this.inCart = false,
-      this.addOrRemoveTap});
+      {super.key, required this.data, this.onTap, this.addOrRemoveTap});
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +101,13 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                   empty: SvgPicture.asset(
                                       'assets/svg/starWithout.svg'))),
                           const HSpace(Sizes.s3),
-                          Text(
-                              "(${data.rating?.reviewCount} ${language(context, appFonts.reviews)})",
-                              style: appCss.dmDenseRegular12
-                                  .textColor(appColor(context).darkText))
+                          data.rating == null ||
+                                  data.rating?.reviewCount == null
+                              ? Container()
+                              : Text(
+                                  "(${data.rating?.reviewCount} ${language(context, appFonts.reviews)})",
+                                  style: appCss.dmDenseRegular12
+                                      .textColor(appColor(context).darkText))
                         ]),
                         SvgPicture.asset(data.isFavourite == true
                                 ? 'assets/svg/fav.svg'
@@ -153,7 +151,24 @@ class FeaturedBusinessLayout extends StatelessWidget {
                               "${(data.location?.selfLocationdistance).toInt()} ${language(context, appFonts.km)}",
                               style: appCss.dmDenseMedium10
                                   .textColor(appColor(context).whiteColor))
-                        ]))
+                        ])).inkWell(onTap: () async {
+                      final lat = data.location?.latitude;
+                      final lng = data.location?.longitude;
+
+                      if (lat != null && lng != null) {
+                        final url = Uri.parse(
+                            "https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url,
+                              mode: LaunchMode.externalApplication);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Could not open Maps')),
+                          );
+                        }
+                      }
+                    })
                   ])),
                   const HSpace(Sizes.s10),
                   Row(children: [
@@ -175,12 +190,13 @@ class FeaturedBusinessLayout extends StatelessWidget {
                             color: appColor(context)
                                 .primary
                                 .withValues(alpha: 0.1)),
-                        child: Text(category.name,
+                        child: Text(category.name!,
                             style: appCss.dmDenseMedium13
                                 .textColor(appColor(context).primary)));
                   }).toList())
                 ]).padding(horizontal: Insets.i14, vertical: Insets.i13)
               ]))
+          .inkWell(onTap: onTap)
           .decorated(
               color: appColor(context).whiteBg,
               boxShadow: [
@@ -192,7 +208,6 @@ class FeaturedBusinessLayout extends StatelessWidget {
               ],
               borderRadius: BorderRadius.circular(AppRadius.r8),
               border: Border.all(color: appColor(context).stroke))
-          .inkWell(onTap: onTap)
           .paddingOnly(bottom: Insets.i15);
     });
   }

@@ -6,8 +6,6 @@ import 'package:goapp/config.dart';
 import 'package:intl/intl.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
-import '../providers/bottom_providers/cart_provider.dart';
-
 String monthCondition(String? text) {
   if (text == '1') {
     return "JAN";
@@ -57,17 +55,6 @@ Future<bool> isNetworkConnection() async {
       return false;
     }
   }
-}
-
-bool isInCart(context, id) {
-  final cart = Provider.of<CartProvider>(context, listen: false);
-  print("cart.cartList. :${cart.cartList.length}");
-  return cart.cartList.isNotEmpty
-      ? cart.cartList
-          .where((element) =>
-              element.isPackage == false && element.serviceList!.id == id)
-          .isNotEmpty
-      : false;
 }
 
 String? getDistance(context, lat1, long1) {

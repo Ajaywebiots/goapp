@@ -39,18 +39,25 @@ class TopCategoriesLayout extends StatelessWidget {
                         side: BorderSide(
                             width: 1, color: appColor(context).darkText)))
                 : ShapeDecoration(
-                    color: selectedIndex == index
-                        ? searchPvr.popular == true
-                            ? appColor(context).fieldCardBg
-                            : appColor(context).primary.withOpacity(0.2)
-                        : appColor(context).fieldCardBg,
+                    color: searchPvr.selectedCategory.isNotEmpty &&
+                            searchPvr.selectedCategory.contains(data.categoryId)
+                        ? appColor(context).primary.withOpacity(0.2)
+                        : selectedIndex == index
+                            ? searchPvr.popular == true
+                                ? appColor(context).fieldCardBg
+                                : appColor(context).primary.withOpacity(0.2)
+                            : appColor(context).fieldCardBg,
                     shape: SmoothRectangleBorder(
                         side: BorderSide(
-                            color: selectedIndex == index
-                                ? searchPvr.popular == true
-                                    ? appColor(context).trans
-                                    : appColor(context).primary
-                                : appColor(context).trans),
+                            color: searchPvr.selectedCategory.isNotEmpty &&
+                                    searchPvr.selectedCategory
+                                        .contains(data.categoryId)
+                                ? appColor(context).primary
+                                : selectedIndex == index
+                                    ? searchPvr.popular == true
+                                        ? appColor(context).trans
+                                        : appColor(context).primary
+                                    : appColor(context).trans),
                         borderRadius: SmoothBorderRadius(
                             cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
             child: Image.network(data.icon,

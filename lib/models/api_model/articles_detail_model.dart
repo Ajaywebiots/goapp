@@ -40,7 +40,7 @@ class Articles {
   final DateTime? createdDate;
   final Media? media;
   final String? category;
-  final bool? isFavourite;
+  late final bool? isFavourite;
   final AppObject? appObject;
 
   factory Articles.fromJson(Map<String, dynamic> json) {

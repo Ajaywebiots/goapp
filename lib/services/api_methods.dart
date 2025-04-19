@@ -33,6 +33,10 @@ class ApiMethods {
   String addFav = "/user/";
   String removeFav = "/user/";
 
+  String attractionsDetails = "/Attraction/";
+  String offersDetails = "/Offer/";
+  String qrGenerate = "/Offer/";
+
 // //
   // String homeFeed = '/api/App/home/feed';
   // String countries = '/api/App/countries';

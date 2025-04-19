@@ -30,9 +30,12 @@ class ServiceImageLayout extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: Sizes.s230,
             decoration: ShapeDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/companyImage.png"),
-                    fit: BoxFit.cover),
+                image: image == null
+                    ? DecorationImage(
+                        image: AssetImage(eImageAssets.noImageFound2),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        image: NetworkImage(image!), fit: BoxFit.cover),
                 shape: const SmoothRectangleBorder(
                     borderRadius: SmoothBorderRadius.only(
                         bottomRight: SmoothRadius(

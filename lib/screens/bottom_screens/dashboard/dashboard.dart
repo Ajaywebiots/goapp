@@ -6,7 +6,6 @@ import '../../../config.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 import '../../../providers/bottom_providers/booking_provider.dart';
-import '../../../providers/bottom_providers/cart_provider.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/no_internet_layout.dart';
@@ -50,44 +49,6 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
             },
             child: DirectionalityRtl(
               child: Scaffold(
-                  /* floatingActionButton: MediaQuery.of(context)
-                                  .viewInsets
-                                  .bottom !=
-                              0 &&
-                          value.isTap == true
-                      ? null
-                      : FloatingActionButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppRadius.r50)),
-                          onPressed: () => value.cartTap(context),
-                          child: Consumer<CartProvider>(
-                              builder: (context4, cart, child) {
-                            return Stack(alignment: Alignment.center, children: [
-                              SvgPicture.asset(cart.cartList.isEmpty
-                                  ? eSvgAssets.cart
-                                  : eSvgAssets.cartFill),
-                              if (cart.cartList.isNotEmpty)
-                                Positioned(
-                                    top: -4.4,
-                                    right: 0,
-                                    child: Container(
-                                            child: Text(
-                                                    cart.cartList.length
-                                                        .toString(),
-                                                    style: appCss.dmDenseMedium8
-                                                        .textColor(
-                                                            appColor(context)
-                                                                .whiteColor))
-                                                .paddingAll(Insets.i5))
-                                        .decorated(
-                                            color: appColor(context).red,
-                                            shape: BoxShape.circle)
-                                        .paddingOnly(
-                                            top: Insets.i2, left: Insets.i2))
-                            ]).height(Sizes.s38).width(Sizes.s30);
-                          })),*/
-                  // floatingActionButtonLocation:
-                  //     FloatingActionButtonLocation.centerDocked,
                   extendBody: true,
                   bottomNavigationBar: Consumer<ThemeService>(
                       builder: (themeContext, theme, child) {

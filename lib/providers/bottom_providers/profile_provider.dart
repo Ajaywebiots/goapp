@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:goapp/config.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,20 @@ class ProfileProvider with ChangeNotifier {
 
   onFloatImage() {
     notifyListeners();
+  }
+
+  Future<void> logOut(context) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await Future.wait([
+      prefs.remove(session.id),
+      prefs.remove(session.locale),
+      prefs.remove(session.accessToken),
+      prefs.remove(session.isLogin)
+    ]).then((value) {
+      log("prefs.remove(session.id) ${prefs.remove(session.id)}");
+      route.pushReplacementNamed(context, routeName.login);
+    });
   }
 
   onReady() {

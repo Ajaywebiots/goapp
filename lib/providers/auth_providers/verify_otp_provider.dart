@@ -60,7 +60,7 @@ class VerifyOtpProvider with ChangeNotifier {
   }
 
   getArgument(context) {
-    dynamic data = ModalRoute.of(context)!.settings.arguments;
+    dynamic data = ModalRoute.of(context)?.settings.arguments;
     phone = data["phone"].toString();
     dialCode = data["dialCode"].toString();
     verificationCode = data["code"].toString();

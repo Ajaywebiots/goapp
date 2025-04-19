@@ -6,6 +6,7 @@ import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/latest_blog_details_provider.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
+import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/filter_icon_common.dart';
 import '../../../widgets/search_text_filed_common.dart';
@@ -41,14 +42,32 @@ class LatestBlogViewAll extends StatelessWidget {
                                     onTap: () =>
                                         value.showBottomBlogFilter(context))),
                             VSpace(Insets.i20),
-                            ...value.articlesSearchList.asMap().entries.map(
-                                (e) => LatestBlogLayout(
-                                        onTap: () => value.detailsDataAPI(
-                                            context, e.value.id),
-                                        data: e.value,
-                                        rPadding: 0,
-                                        isView: true)
-                                    .width(MediaQuery.of(context).size.width))
+                            ...value.articlesSearchList
+                                .asMap()
+                                .entries
+                                .map((e) => LatestBlogLayout(
+                                      onTap: () => value.detailsDataAPI(
+                                          context, e.value.id),
+                                      data: e.value,
+                                      rPadding: 0,
+                                      isView: true,
+                                      addOrRemoveTap: () {
+                                        final common =
+                                            Provider.of<CommonApiProvider>(
+                                                context,
+                                                listen: false);
+                                        common.toggleFavAPI(
+                                            onSuccess: () => Provider.of<
+                                                        LatestBLogDetailsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .getArticlesSearchAPI(context),
+                                            context,
+                                            e.value.isFavourite,
+                                            e.value.appObject!.appObjectType,
+                                            e.value.appObject!.appObjectId);
+                                      },
+                                    ).width(MediaQuery.of(context).size.width))
                           ])
                               .paddingSymmetric(horizontal: Insets.i20)
                               .marginOnly(bottom: Insets.i15))))));

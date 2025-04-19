@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 import 'package:goapp/screens/bottom_screens/home_screen/layouts/top_categories_layout.dart';
 
 import '../../../../config.dart';
@@ -17,15 +19,17 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<DashboardProvider, CategoriesListProvider>(
-        builder: (context3, dash, catList, child) {
+    return Consumer3<SearchProvider, DashboardProvider, CategoriesListProvider>(
+        builder: (context3, searchPvr, dash, catList, child) {
       return Consumer<HomeScreenProvider>(builder: (context1, value, child) {
+        final attraction =
+            Provider.of<AttractionProvider>(context, listen: false);
         return Column(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             /*dash.categoryList.isEmpty
                 ? Container()
                 :*/
-            dash.categoryList.isEmpty
+            value.categoryList.isEmpty
                 ? SizedBox.shrink()
                 : HeadingRowCommon(
                         title: appFonts.topCategories,
@@ -33,15 +37,15 @@ class HomeBody extends StatelessWidget {
                         onTap: () => route.pushNamed(
                             context, routeName.categoriesListScreen))
                     .paddingSymmetric(horizontal: Insets.i20),
-            dash.categoryList.isEmpty
+            value.categoryList.isEmpty
                 ? SizedBox.shrink()
                 : const VSpace(Sizes.s15),
-            dash.categoryList.isEmpty
+            value.categoryList.isEmpty
                 ? SizedBox.shrink()
                 : Wrap(
                     alignment: WrapAlignment.center,
                     direction: Axis.horizontal,
-                    children: dash.categoryList
+                    children: value.categoryList
                         .take(8)
                         .toList()
                         .asMap()
@@ -49,6 +53,11 @@ class HomeBody extends StatelessWidget {
                         .map((element) {
                       return TopCategoriesLayout(
                               isHomeScreen: true,
+                              // onTap: () {
+                              //   route.pushNamed(context, routeName.search);
+                              //   search.onSubCategories(context, element.key,
+                              //       element.value.categoryId);
+                              // },
                               data: element.value,
                               selectedIndex: value.cIndex,
                               index: element.key)
@@ -57,38 +66,53 @@ class HomeBody extends StatelessWidget {
                               horizontal:
                                   MediaQuery.of(context).size.width / 35)
                           .inkWell(onTap: () {
-                        route.pushNamed(
-                            context, routeName.categoriesDetailsScreen);
-                        log("DATA PASS : ${element.value}");
+                        final selectedCategory = element.value;
+                        final selectedIndex = selectedCategory.categoryId;
+
+                        log("selectedIndex ss ${selectedCategory.translatedValue}");
+                        // Navigate to the second screen and pass data
+                        log("value.categoryList::${selectedCategory.categoryId}");
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SearchScreen(
+                                        selectedIndex: selectedIndex! - 1)))
+                            .then((value) {
+                          searchPvr.onSubCategories(
+                              context, element.key, element.value.categoryId!);
+                        });
                       });
                     }).toList()),
-            dash.firstTwoFeaturedServiceList.isEmpty
+            value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : const VSpace(Sizes.s25),
-            dash.firstTwoFeaturedServiceList.isEmpty
+            value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : HeadingRowCommon(
                         title: appFonts.featuredService,
                         isTextSize: true,
                         onTap: () => route.pushNamed(context, routeName.search))
                     .paddingSymmetric(horizontal: Insets.i20),
-            dash.firstTwoFeaturedServiceList.isEmpty
+            value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : const VSpace(Sizes.s15),
-            if (dash.firstTwoFeaturedServiceList.isNotEmpty)
-              ...dash.firstTwoFeaturedServiceList
+            if (value.firstTwoFeaturedServiceList.isNotEmpty)
+              ...value.firstTwoFeaturedServiceList
                   .asMap()
                   .entries
-                  .map((e) => dash.firstTwoFeaturedServiceList.isEmpty
+                  .map((e) => value.firstTwoFeaturedServiceList.isEmpty
                       ? Container()
                       : FeaturedBusinessLayout(
                           data: e.value,
-                          inCart: isInCart(context, e.value.id),
                           addOrRemoveTap: () {
                             final common = Provider.of<CommonApiProvider>(
                                 context,
                                 listen: false);
                             common.toggleFavAPI(
+                                onSuccess: () =>
+                                    Provider.of<HomeScreenProvider>(context,
+                                            listen: false)
+                                        .homeFeed(context),
                                 context,
                                 e.value.isFavourite,
                                 e.value.appObject!.appObjectType,
@@ -98,10 +122,11 @@ class HomeBody extends StatelessWidget {
                             final searchPvr = Provider.of<SearchProvider>(
                                 context,
                                 listen: false);
+                            searchPvr.notifyListeners();
                             searchPvr.businessDetailsAPI(context, e.value.id);
-                          }).paddingSymmetric(horizontal: Insets.i20)),
+                          }).paddingSymmetric(horizontal: Insets.i20))
           ]),
-          dash.firstTwoHighRateList.isEmpty
+          value.firstTwoHighRateList.isEmpty
               ? Container()
               : Column(children: [
                   HeadingRowCommon(
@@ -111,7 +136,7 @@ class HomeBody extends StatelessWidget {
                           route.pushNamed(context, routeName.attractionScreen)),
                   const VSpace(Sizes.s15),
                   // if (dash.firstTwoHighRateList.isNotEmpty)
-                  ...dash.firstTwoHighRateList.asMap().entries.map((e) =>
+                  ...value.firstTwoHighRateList.asMap().entries.map((e) =>
                       FeatureAttractionLayout(
                           data: e.value,
                           addOrRemoveTap: () {
@@ -119,13 +144,17 @@ class HomeBody extends StatelessWidget {
                                 context,
                                 listen: false);
                             common.toggleFavAPI(
+                                onSuccess: () =>
+                                    Provider.of<HomeScreenProvider>(context,
+                                            listen: false)
+                                        .homeFeed(context),
                                 context,
                                 e.value.isFavourite,
                                 e.value.appObject!.appObjectType,
                                 e.value.appObject!.appObjectId);
                           },
-                          onTap: () => route.pushNamed(
-                              context, routeName.attractionDetailScreen))),
+                          onTap: () => attraction.attractionsDetailsAPI(
+                              context, e.value.id))),
                   // if (dash.firstTwoHighRateList.isEmpty)
                   //   ...dash.highestRateList.asMap().entries.map((e) =>
                   //       FeatureAttractionLayout(

@@ -2,6 +2,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/latest_blog_details_provider.dart';
+import '../../../../providers/common_providers/common_api_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class BlogDetailsLayout extends StatelessWidget {
@@ -13,7 +14,12 @@ class BlogDetailsLayout extends StatelessWidget {
         builder: (context, latestBlogPvr, child) {
       final article = latestBlogPvr.articleDetail?.article;
       if (article == null) {
-        return const Center(child: Text("No data found."));
+        return Container(
+            color: appColor(context).darkText.withValues(alpha: 0.2),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Center(
+                child: Image.asset(eGifAssets.loader, height: Sizes.s100)));
       }
       return Column(children: [
         if (article.media?.source != null)
@@ -30,7 +36,19 @@ class BlogDetailsLayout extends StatelessWidget {
             SvgPicture.asset(article.isFavourite!
                     ? "assets/svg/fav.svg"
                     : "assets/svg/dislike.svg")
-                .inkWell(onTap: () {})
+                .inkWell(onTap: () {
+              Provider.of<CommonApiProvider>(context, listen: false)
+                  .toggleFavAPI(
+                      context,
+                      article.isFavourite,
+                      article.appObject!.appObjectType,
+                      article.appObject!.appObjectId,
+                      onSuccess: () => Provider.of<LatestBLogDetailsProvider>(
+                              context,
+                              listen: false)
+                          .detailsDataAPI(context, article.id,
+                              isNotRouting: true));
+            })
           ]),
           // Row(children: [
           //   Expanded(
@@ -66,12 +84,37 @@ class BlogDetailsLayout extends StatelessWidget {
                       .textHeight(0))
               .padding(horizontal: Insets.i10),
           const VSpace(Sizes.s10),
-          Html(data: "" /*"value.data!.title"*/, style: {
-            "body": Style(
-                fontFamily: GoogleFonts.dmSans().fontFamily,
-                fontSize: FontSize(12),
-                fontWeight: FontWeight.w400)
-          })
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: article.sections.map((section) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Html(data: section.title, style: {
+                        "body": Style(
+                            fontFamily: GoogleFonts.dmSans().fontFamily,
+                            fontSize: FontSize(14),
+                            color: appColor(context).darkText,
+                            fontWeight: FontWeight.w700)
+                      }),
+                      const VSpace(Sizes.s5),
+                      Html(data: section.text, style: {
+                        "body": Style(
+                            fontFamily: GoogleFonts.dmSans().fontFamily,
+                            fontSize: FontSize(14),
+                            color: appColor(context).darkText,
+                            fontWeight: FontWeight.w400)
+                      }),
+                      const VSpace(Sizes.s10)
+                    ]);
+              }).toList())
+
+          // Html(data: "" /*"value.data!.title"*/, style: {
+          //   "body": Style(
+          //       fontFamily: GoogleFonts.dmSans().fontFamily,
+          //       fontSize: FontSize(12),
+          //       fontWeight: FontWeight.w400)
+          // })
         ]).paddingAll(Insets.i15)
       ]);
     });

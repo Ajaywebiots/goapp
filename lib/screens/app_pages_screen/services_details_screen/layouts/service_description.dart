@@ -3,22 +3,39 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/models/api_model/business_details_model.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
+import 'package:goapp/screens/app_pages_screen/services_details_screen/business_details_screen.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
+import 'package:goapp/widgets/common_gallery_screen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
+import '../../../../providers/app_pages_provider/search_provider.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
+import '../../../../providers/common_providers/common_api_provider.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
-class ServiceDescription extends StatelessWidget {
+class ServiceDescription extends StatefulWidget {
   final BusinessSec? businessData;
 
   ServiceDescription({super.key, this.businessData});
 
   @override
+  State<ServiceDescription> createState() => _ServiceDescriptionState();
+}
+
+class _ServiceDescriptionState extends State<ServiceDescription> {
+  bool? isFavLocal;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavLocal = widget.businessData?.isFavourite;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Contact? contact = businessData?.contact;
+    final Contact? contact = widget.businessData?.contact;
     Future<void> launchURL(String url) async {
       final Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
@@ -121,10 +138,7 @@ class ServiceDescription extends StatelessWidget {
         throw 'Email is empty';
       }
 
-      final Uri mailtoUri = Uri(
-        scheme: 'mailto',
-        path: email,
-      );
+      final Uri mailtoUri = Uri(scheme: 'mailto', path: email);
 
       // Try Gmail on Android
       if (Platform.isAndroid) {
@@ -201,31 +215,163 @@ class ServiceDescription extends StatelessWidget {
             item['label'] != null && item['label'].toString().isNotEmpty)
         .toList();
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const VSpace(Sizes.s14),
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-            spacing: 3,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(appArray.buttonItems.length, (index) {
-              final item = appArray.buttonItems[index];
-              return Flexible(
-                  child: GestureDetector(
-                      onTap: () {
-                        if (item['label'] == appFonts.call) {
-                          String? call = businessData?.contact?.phoneNumber;
-                          makePhoneCall(call);
-                        } else if (item['label'] == appFonts.directions) {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              enableDrag: false,
-                              context: context,
-                              builder: (context) {
-                                return SafeArea(
+    return Consumer<SearchProvider>(builder: (context, search, child) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const VSpace(Sizes.s14),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(
+              spacing: 3,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                  appArray
+                      .buttonItemsB(widget.businessData!.isFavourite!)
+                      .length, (index) {
+                final item = appArray
+                    .buttonItemsB(widget.businessData!.isFavourite!)[index];
+                return Flexible(
+                    child: GestureDetector(
+                        onTap: () {
+                          if (item['label'] == appFonts.call) {
+                            String? call =
+                                widget.businessData?.contact?.phoneNumber;
+                            makePhoneCall(call);
+                          } else if (item['label'] == appFonts.directions) {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                enableDrag: false,
+                                context: context,
+                                builder: (context) {
+                                  return SafeArea(
+                                      child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              1.5,
+                                          child: Stack(children: [
+                                            SingleChildScrollView(
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            language(
+                                                                context,
+                                                                appFonts
+                                                                    .address),
+                                                            style: appCss
+                                                                .dmDenseMedium18
+                                                                .textColor(appColor(
+                                                                        context)
+                                                                    .darkText)),
+                                                        const Icon(
+                                                                CupertinoIcons
+                                                                    .multiply)
+                                                            .inkWell(
+                                                                onTap: () =>
+                                                                    route.pop(
+                                                                        context))
+                                                      ]).paddingSymmetric(
+                                                      vertical: 20,
+                                                      horizontal: Insets.i20),
+                                                  Container(
+                                                      height: 450,
+                                                      margin: const EdgeInsets.symmetric(
+                                                          horizontal: 20),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.1),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  12)),
+                                                      child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  12),
+                                                          child: GoogleMap(
+                                                              initialCameraPosition: CameraPosition(
+                                                                  target: LatLng(
+                                                                      (widget.businessData!.location?.latitude)
+                                                                          .toDouble(),
+                                                                      (widget.businessData?.location?.longitude)
+                                                                          .toDouble()),
+                                                                  zoom: 18.0),
+                                                              myLocationEnabled:
+                                                                  true,
+                                                              myLocationButtonEnabled:
+                                                                  true,
+                                                              zoomGesturesEnabled:
+                                                                  true,
+                                                              scrollGesturesEnabled:
+                                                                  true,
+                                                              rotateGesturesEnabled:
+                                                                  true,
+                                                              tiltGesturesEnabled: true,
+                                                              markers: {
+                                                                Marker(
+                                                                    markerId:
+                                                                        MarkerId(
+                                                                            "target-location"),
+                                                                    position: LatLng(
+                                                                        (widget.businessData!.location?.latitude)
+                                                                            .toDouble(),
+                                                                        (widget.businessData?.location?.longitude)
+                                                                            .toDouble()),
+                                                                    infoWindow:
+                                                                        InfoWindow(
+                                                                            title:
+                                                                                "Selected Location"))
+                                                              },
+                                                              zoomControlsEnabled: true)))
+                                                ])),
+                                            BottomSheetButtonCommon(
+                                                    textOne: appFonts.close,
+                                                    textTwo: appFonts.directions,
+                                                    applyTap: () {
+                                                      final lat = widget
+                                                          .businessData
+                                                          ?.location
+                                                          ?.latitude
+                                                          .toDouble();
+                                                      final lng = widget
+                                                          .businessData
+                                                          ?.location
+                                                          ?.longitude
+                                                          .toDouble();
+
+                                                      if (lat != null &&
+                                                          lng != null) {
+                                                        launchGoogleMapsAtLocation(
+                                                            lat, lng);
+                                                      }
+                                                    },
+                                                    clearTap: () {
+                                                      route.pop(context);
+                                                    })
+                                                .backgroundColor(
+                                                    appColor(context)
+                                                        .whiteColor)
+                                                .alignment(
+                                                    Alignment.bottomCenter)
+                                          ])).bottomSheetExtension(context));
+                                });
+                          } else if (item['label'] == appFonts.hours) {
+                            showOpeningHoursBottomSheet(context);
+                          } else if (item['label'] == appFonts.contact) {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  return SafeArea(
                                     child: SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height /
-                                                1.5,
+                                                1.4,
                                         child: Stack(children: [
                                           SingleChildScrollView(
                                               child: Column(
@@ -238,8 +384,10 @@ class ServiceDescription extends StatelessWidget {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                          language(context,
-                                                              appFonts.address),
+                                                          language(
+                                                              context,
+                                                              appFonts
+                                                                  .contactUs),
                                                           style: appCss
                                                               .dmDenseMedium18
                                                               .textColor(appColor(
@@ -253,190 +401,98 @@ class ServiceDescription extends StatelessWidget {
                                                     ]).paddingSymmetric(
                                                     vertical: 20,
                                                     horizontal: Insets.i20),
-                                                Container(
-                                                    height: 450,
-                                                    margin:
-                                                        const EdgeInsets.symmetric(
-                                                            horizontal: 20),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.1),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                12)),
-                                                    child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                12),
-                                                        child: GoogleMap(
-                                                            initialCameraPosition: CameraPosition(
-                                                                target: LatLng(
-                                                                    (businessData!
-                                                                            .location
-                                                                            ?.latitude)
-                                                                        .toDouble(),
-                                                                    (businessData
-                                                                            ?.location
-                                                                            ?.longitude)
-                                                                        .toDouble()),
-                                                                zoom: 18.0),
-                                                            myLocationEnabled:
-                                                                true,
-                                                            myLocationButtonEnabled:
-                                                                true,
-                                                            zoomGesturesEnabled:
-                                                                true,
-                                                            scrollGesturesEnabled: true,
-                                                            rotateGesturesEnabled: true,
-                                                            tiltGesturesEnabled: true,
-                                                            markers: {
-                                                              Marker(
-                                                                  markerId:
-                                                                      MarkerId(
-                                                                          "target-location"),
-                                                                  position: LatLng(
-                                                                      (businessData!
-                                                                              .location
-                                                                              ?.latitude)
-                                                                          .toDouble(),
-                                                                      (businessData
-                                                                              ?.location
-                                                                              ?.longitude)
-                                                                          .toDouble()),
-                                                                  infoWindow:
-                                                                      InfoWindow(
-                                                                          title:
-                                                                              "Selected Location"))
-                                                            },
-                                                            zoomControlsEnabled: true)))
+                                                ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        contactItems.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      final item =
+                                                          contactItems[index];
+                                                      return ListTileLayout(
+                                                          data: contactItems,
+                                                          isCheckBox: false,
+                                                          isHavingIcon: true,
+                                                          icon: item['icon'],
+                                                          title: item['label'],
+                                                          onClick:
+                                                              item['action']);
+                                                    })
                                               ])),
                                           BottomSheetButtonCommon(
-                                                  textOne: appFonts.close,
-                                                  textTwo: appFonts.directions,
-                                                  applyTap: () {
-                                                    final lat = businessData
-                                                        ?.location?.latitude
-                                                        .toDouble();
-                                                    final lng = businessData
-                                                        ?.location?.longitude
-                                                        .toDouble();
-
-                                                    if (lat != null &&
-                                                        lng != null) {
-                                                      launchGoogleMapsAtLocation(
-                                                          lat, lng);
-                                                    }
-                                                  },
-                                                  clearTap: () {
-                                                    route.pop(context);
-                                                  })
+                                                  textOne: appFonts.cancel,
+                                                  textTwo:
+                                                      appFonts.addToContacts,
+                                                  applyTap: () {},
+                                                  clearTap: () {})
                                               .backgroundColor(
                                                   appColor(context).whiteColor)
-                                              .alignment(Alignment.bottomCenter)
-                                        ])).bottomSheetExtension(context));
-                              });
-                        } else if (item['label'] == appFonts.hours) {
-                          showOpeningHoursBottomSheet(context);
-                        } else if (item['label'] == appFonts.contact) {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return SafeArea(
-                                  child: SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              1.4,
-                                      child: Stack(children: [
-                                        SingleChildScrollView(
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                        language(context,
-                                                            appFonts.contactUs),
-                                                        style: appCss
-                                                            .dmDenseMedium18
-                                                            .textColor(appColor(
-                                                                    context)
-                                                                .darkText)),
-                                                    const Icon(CupertinoIcons
-                                                            .multiply)
-                                                        .inkWell(
-                                                            onTap: () => route
-                                                                .pop(context))
-                                                  ]).paddingSymmetric(
-                                                  vertical: 20,
-                                                  horizontal: Insets.i20),
-                                              ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount:
-                                                      contactItems.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    final item =
-                                                        contactItems[index];
-                                                    return ListTileLayout(
-                                                        data: contactItems,
-                                                        isCheckBox: false,
-                                                        isHavingIcon: true,
-                                                        icon: item['icon'],
-                                                        title: item['label'],
-                                                        onClick:
-                                                            item['action']);
-                                                  })
-                                            ])),
-                                        BottomSheetButtonCommon(
-                                                textOne: appFonts.cancel,
-                                                textTwo: appFonts.addToContacts,
-                                                applyTap: () {},
-                                                clearTap: () {})
-                                            .backgroundColor(
-                                                appColor(context).whiteColor)
-                                            .alignment(Alignment.bottomCenter),
-                                      ])).bottomSheetExtension(context),
-                                );
-                              });
-                        } else if (item['label'] == appFonts.gallery) {
-                          route.pushNamed(
-                              context, routeName.commonGalleryScreen,
-                              arg: businessData);
-                        }
-                      },
-                      child: Container(
-                          height: 46,
-                          alignment: Alignment.center,
-                          width: 46,
-                          padding: EdgeInsets.symmetric(vertical: 7),
-                          decoration: BoxDecoration(
-                              color: Color(0xffFDB813),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset(item['icon'],
-                                    height: Insets.i20, width: Insets.i20),
-                                Text(language(context, item['label']),
-                                    style: appCss.dmDenseMedium7
-                                        .textColor(appColor(context).darkText))
-                              ]))));
-            })),
-        VSpace(Insets.i30),
-        Text(language(context, appFonts.description),
-            style:
-                appCss.dmDenseMedium12.textColor(appColor(context).lightText)),
-        const VSpace(Sizes.s6),
-        ReadMoreLayout(text: businessData?.description, trimLines: 10),
-        const VSpace(Sizes.s20),
-      ]).paddingSymmetric(horizontal: Insets.i20, vertical: Insets.i20)
-    ]).boxBorderExtension(context,
-        isShadow: true, bColor: appColor(context).fieldCardBg);
+                                              .alignment(
+                                                  Alignment.bottomCenter),
+                                        ])).bottomSheetExtension(context),
+                                  );
+                                });
+                          } else if (item['label'] == appFonts.gallery) {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CommonGalleryScreen(
+                                galleryUrls: widget.businessData,
+                              );
+                            }));
+                            /*route.pushNamed(
+                                  context, routeName.commonGalleryScreen,
+                                  arg: businessData);*/
+                          } else if (item['label'] == appFonts.save) {
+                            search.notifyListeners();
+                            item;
+                            Provider.of<CommonApiProvider>(context,
+                                    listen: false)
+                                .toggleFavAPI(
+                                    context,
+                                    widget.businessData?.isFavourite,
+                                    widget
+                                        .businessData?.appObject!.appObjectType,
+                                    widget.businessData?.appObject!.appObjectId,
+                                    onSuccess: () {
+                              Provider.of<SearchProvider>(context,
+                                      listen: false)
+                                  .businessDetailsAPI(
+                                      context, widget.businessData?.id,
+                                      isNotRouting: true);
+                            });
+                            search.notifyListeners();
+                          }
+                        },
+                        child: Container(
+                            height: 46,
+                            alignment: Alignment.center,
+                            width: 46,
+                            padding: EdgeInsets.symmetric(vertical: 7),
+                            decoration: BoxDecoration(
+                                color: Color(0xffFDB813),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SvgPicture.asset(item['icon'],
+                                      height: Insets.i20, width: Insets.i20),
+                                  Text(language(context, item['label']),
+                                      style: appCss.dmDenseMedium7.textColor(
+                                          appColor(context).darkText))
+                                ]))));
+              })),
+          VSpace(Insets.i30),
+          Text(language(context, appFonts.description),
+              style: appCss.dmDenseMedium12
+                  .textColor(appColor(context).lightText)),
+          const VSpace(Sizes.s6),
+          ReadMoreLayout(text: widget.businessData?.description, trimLines: 10),
+          const VSpace(Sizes.s20),
+        ]).paddingSymmetric(horizontal: Insets.i20, vertical: Insets.i20)
+      ]).boxBorderExtension(context,
+          isShadow: true, bColor: appColor(context).fieldCardBg);
+    });
   }
 
   Future<void> makePhoneCall(phoneNumber) async {
@@ -449,7 +505,7 @@ class ServiceDescription extends StatelessWidget {
   }
 
   void showOpeningHoursBottomSheet(BuildContext context) {
-    final business = businessData;
+    final business = widget.businessData;
     final workingHours = business?.workingHours ?? [];
     final List<Map<String, dynamic>> timeSlotList =
         generateTimeSlotList(workingHours);

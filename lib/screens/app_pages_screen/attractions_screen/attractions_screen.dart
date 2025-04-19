@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
+
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/attractions_provider.dart';
 import '../../../providers/app_pages_provider/search_provider.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
+import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/filter_icon_common.dart';
 import '../../../widgets/search_text_filed_common.dart';
@@ -22,13 +25,25 @@ class AttractionScreen extends StatefulWidget {
 class _AttractionScreenState extends State<AttractionScreen>
     with TickerProviderStateMixin {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Use Future.microtask to ensure the context is fully built
+    Future.microtask(() {
+      final attractionProvider =
+          Provider.of<AttractionProvider>(context, listen: false);
+      attractionProvider.initSearchListener(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final dash = Provider.of<DashboardProvider>(context, listen: true);
     final search = Provider.of<SearchProvider>(context, listen: true);
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: true);
     // final value1 = Provider.of<CategoriesListProvider>(context, listen: true);
 
     return Consumer<AttractionProvider>(builder: (context1, attraction, child) {
-      log("ajay haaaa ${attraction.attractionsSearchList}");
       return StatefulWrapper(
           onInit: () => Future.delayed(
               Duration(milliseconds: 150), () => attraction.onReady(context)),
@@ -38,32 +53,48 @@ class _AttractionScreenState extends State<AttractionScreen>
                       title: language(context, appFonts.featuredAttractions),
                       onTap: () {
                         if (widget.isHomeScreen) {
+                          final dash = Provider.of<DashboardProvider>(context,
+                              listen: false);
                           dash.selectIndex = 0;
                           dash.notifyListeners();
+                          homePvr.notifyListeners();
                         } else {
-                          attraction.onBack(dash, context);
+                          attraction.onBack(homePvr, context);
                         }
                       }),
-                  body: SafeArea(
-                    child: ListView(children: [
-                      SearchTextFieldCommon(
-                          focusNode: attraction.searchFocus,
-                          controller: search.searchCtrl,
-                          onChanged: (v) {
-                            if (v.isEmpty) {
-                              attraction.searchList = [];
-                              attraction.notifyListeners();
-                            }
-                          },
-                          onFieldSubmitted: (v) =>
-                              search.searchService(context),
-                          suffixIcon: FilterIconCommon(
-                              selectedFilter:
-                                  search.totalCountFilter().toString(),
-                              onTap: () => attraction.onBottomSheet(
-                                  context, attraction))),
-                      const VSpace(Sizes.s20),
-                      /* */ /* attraction.txtFeaturedSearch.text.isEmpty
+                  body: attraction.isLoading
+                      ? Container(
+                          color: isDark(context)
+                              ? Colors.black.withValues(alpha: .3)
+                              : appColor(context)
+                                  .darkText
+                                  .withValues(alpha: 0.2),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: Center(
+                              child: Image.asset(eGifAssets.loader,
+                                  height: Sizes.s100)))
+                      : SafeArea(
+                          child: ListView(children: [
+                            SearchTextFieldCommon(
+                                focusNode: attraction.searchFocus,
+                                controller: attraction.searchCtrl,
+                                onChanged: (v) {
+                                  if (v.isEmpty) {
+                                    attraction.searchList = [];
+                                    attraction.notifyListeners();
+                                  }
+                                },
+                                onFieldSubmitted: (v) =>
+                                    search.searchService(context),
+                                suffixIcon: FilterIconCommon(
+                                    selectedFilter:
+                                        /*search.totalCountFilter()*/ 0
+                                            .toString(),
+                                    onTap: () => attraction.onBottomSheet(
+                                        context, attraction))),
+                            const VSpace(Sizes.s20),
+                            /* */ /* attraction.txtFeaturedSearch.text.isEmpty
                           ? */ /*Column(children: [
                               ...dash.firstTwoBlogList.asMap().entries.map((e) =>
                                   FeatureAttractionLayout(
@@ -75,17 +106,43 @@ class _AttractionScreenState extends State<AttractionScreen>
                             ])
                           : attraction.searchList.isNotEmpty
                           ?*/
-                      Column(children: [
-                        ...attraction.attractionsSearchList.asMap().entries.map(
-                            (e) => FeatureAttractionLayout(
-                                bColor: appColor(context).borderStroke,
-                                data: e.value,
-                                isHome: true,
-                                onTap: () => route.pushNamed(
-                                    context, routeName.attractionDetailScreen,
-                                    arg: e.value.id)))
-                      ])
-                      /* : Column(children: [
+                            Consumer<AttractionProvider>(
+                                builder: (context, value, child) {
+                              return Column(children: [
+                                ...attraction.attractionsSearchList
+                                    .asMap()
+                                    .entries
+                                    .map((e) => FeatureAttractionLayout(
+                                        bColor: appColor(context).borderStroke,
+                                        data: e.value,
+                                        isHome: true,
+                                        addOrRemoveTap: () {
+                                          Provider.of<CommonApiProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .toggleFavAPI(
+                                                  context,
+                                                  e.value.isFavourite,
+                                                  e.value.appObject!
+                                                      .appObjectType,
+                                                  e.value.appObject!
+                                                      .appObjectId,
+                                                  onSuccess: () => Provider.of<
+                                                              AttractionProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAttractionSearchAPI(
+                                                          context));
+
+                                          value.notifyListeners();
+                                        },
+                                        onTap: () {
+                                          attraction.attractionsDetailsAPI(
+                                              context, e.value.id);
+                                        }))
+                              ]);
+                            })
+                            /* : Column(children: [
                                   Stack(children: [
                                     Image.asset(eImageAssets.noSearch,
                                             height: Sizes.s346)
@@ -119,8 +176,8 @@ class _AttractionScreenState extends State<AttractionScreen>
                                                   appColor(context).lightText))
                                       .paddingSymmetric(horizontal: Insets.i10)
                                 ])*/
-                    ]).paddingSymmetric(horizontal: Insets.i20),
-                  ))));
+                          ]).paddingSymmetric(horizontal: Insets.i20),
+                        ))));
     });
   }
 }
