@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:intl/intl.dart';
 
 import '../../../config.dart';
 import '../../../providers/common_providers/common_api_provider.dart';
-import '../../../services/api_service.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 
 class OfferDetailsScreen extends StatefulWidget {
@@ -75,39 +76,40 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                     ]),
                     DottedLine(dashColor: Color(0xffE5E8EA))
                         .paddingDirectional(top: 15, bottom: 20),
-                    /* isActive == true
+                    isActive == true
                         ? qrBase64 != null
                             ? Image.memory(base64Decode(qrBase64!),
                                 height: 140, width: 140, fit: BoxFit.contain)
                             : CircularProgressIndicator()
-                        :*/
-                    ButtonCommon(
-                        margin: 20,
-                        title: 'Activate Offer Now',
-                        onTap: () async {
-                          SharedPreferences pref =
-                              await SharedPreferences.getInstance();
-                          try {
-                            apiServices
-                                .commonApi(
-                                    "${api.qrGenerate}${offers?.id}/QR/${pref.getInt(session.id)}",
-                                    [],
-                                    ApiType.get,
-                                    isToken: true)
-                                .then((value) {
-                              qrBase64 = value.data.toString();
-                              log("value.data ${value.data}");
-                              // isActive = true;
-                            });
-                          } catch (e) {
-                            log("Search error: $e");
-                          }
+                        : ButtonCommon(
+                            margin: 20,
+                            title: 'Activate Offer Now',
+                            onTap: () async {
+                              SharedPreferences pref =
+                                  await SharedPreferences.getInstance();
+                              try {
+                                final dio = Dio();
+                                Response response = await dio.get(
+                                    '${apiClass.baseUrl}${api.qrGenerate}${offers?.id}/QR/${pref.getInt(session.id)}',
+                                    options: Options(headers: {
+                                      'X-GoApp-Api-Key':
+                                          'ba16106c-2d7b-4a13-bdb2-b15b19691280',
+                                      'Authorization':
+                                          'Bearer ${pref.getString(session.accessToken)}',
+                                      'Content-Type': 'application/json'
+                                    }));
 
-                          log("aaaa ");
-                          setState(() {
-                            isActive = true;
-                          });
-                        }).paddingOnly(bottom: 5),
+                                print(response.data);
+                                qrBase64 = response.data.toString();
+                                log("value.data ${qrBase64}");
+
+                                setState(() {
+                                  isActive = true;
+                                });
+                              } catch (e, s) {
+                                log("Search error: $e $s");
+                              }
+                            }),
                     VSpace(20),
                     Column(children: [
                       Container(

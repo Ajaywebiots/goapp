@@ -12,6 +12,7 @@ class ApiMethods {
 
   /// business api
   String businessCategories = "/Business/categories";
+
   // String businessList = "/business/list";
 
   ///Offer/categories
@@ -36,8 +37,9 @@ class ApiMethods {
   String attractionsDetails = "/Attraction/";
   String offersDetails = "/Offer/";
   String qrGenerate = "/Offer/";
+  String addReview = "/user/";
 
 // //
-  // String homeFeed = '/api/App/home/feed';
-  // String countries = '/api/App/countries';
+// String homeFeed = '/api/App/home/feed';
+// String countries = '/api/App/countries';
 }

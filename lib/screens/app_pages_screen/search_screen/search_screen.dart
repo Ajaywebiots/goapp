@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
@@ -8,6 +6,7 @@ import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 import 'package:goapp/widgets/filter_icon_common.dart';
+
 import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
@@ -31,13 +30,13 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
-  int _selectedCategoryIndex = 0;
+  int? _selectedCategoryIndex;
 
   @override
   void initState() {
     super.initState();
     // Initialize with the passed selectedIndex or default to 0.
-    _selectedCategoryIndex = widget.selectedIndex ?? 0;
+    _selectedCategoryIndex = widget.selectedIndex;
 
     final categoryListPvr =
         Provider.of<CategoriesListProvider>(context, listen: false);
@@ -47,7 +46,7 @@ class _SearchScreenState extends State<SearchScreen>
       // Optional: Find matching index by comparing translatedValue if needed.
       final matchedIndex = categoryListPvr.categoryList.indexWhere((cat) =>
           cat.translatedValue?.trim().toLowerCase() ==
-          categoryListPvr.categoryList[_selectedCategoryIndex].translatedValue
+          categoryListPvr.categoryList[_selectedCategoryIndex!].translatedValue
               ?.trim()
               .toLowerCase());
 

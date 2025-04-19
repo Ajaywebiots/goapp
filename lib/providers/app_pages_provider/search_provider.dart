@@ -38,7 +38,7 @@ class SearchProvider with ChangeNotifier {
   List<Services> searchList = [];
   List<Services> recentSearchList = [];
 
-  int selectedIndex = 0;
+  int selectedIndex = -1;
 
   bool isLoading = false;
 

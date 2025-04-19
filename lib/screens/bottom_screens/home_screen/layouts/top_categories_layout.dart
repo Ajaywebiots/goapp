@@ -4,8 +4,6 @@ import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config.dart';
-import '../../../../models/api_model/business_category_model.dart';
-import '../../../../models/category_model.dart';
 
 class TopCategoriesLayout extends StatelessWidget {
   final data;
@@ -26,6 +24,7 @@ class TopCategoriesLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SearchProvider>(builder: (context, searchPvr, child) {
+      log("searchPvr.popular ${searchPvr.popular}");
       return Column(children: [
         Container(
             height: Sizes.s60,
@@ -60,9 +59,8 @@ class TopCategoriesLayout extends StatelessWidget {
                                     : appColor(context).trans),
                         borderRadius: SmoothBorderRadius(
                             cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
-            child: Image.network(data.icon,
-                cacheHeight:
-                    25) /*data!.media != null && data!.media!.isNotEmpty
+            child: Image.network(data.icon, cacheHeight: 25)
+            /*data!.media != null && data!.media!.isNotEmpty
                   ? SvgPicture.asset(data!.media![0].originalUrl!,
                           colorFilter: ColorFilter.mode(
                               selectedIndex == index

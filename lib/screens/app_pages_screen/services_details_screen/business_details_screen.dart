@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/rate_app_provider.dart';
 import '../../../providers/app_pages_provider/services_details_provider.dart';
@@ -224,24 +225,17 @@ class BusinessDetailsScreen extends StatelessWidget {
                                                                       .editReviewList
                                                                       .asMap()
                                                                       .entries
-                                                                      .map((e) =>
-                                                                          EditReviewLayout(
-                                                                              data: e
-                                                                                  .value,
-                                                                              index: e
-                                                                                  .key,
-                                                                              selectIndex: rate
-                                                                                  .selectedIndex,
-                                                                              onTap:
-                                                                                  () {
-                                                                                rate.onTapEmoji(e.key);
-                                                                              }))
+                                                                      .map((e) => EditReviewLayout(
+                                                                          data: e
+                                                                              .value,
+                                                                          index: e
+                                                                              .key,
+                                                                          selectIndex: rate
+                                                                              .selectedIndex,
+                                                                          onTap: () =>
+                                                                              rate.onTapEmoji(e.key)))
                                                                       .toList())
-                                                              .width(MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.3));
+                                                              .width(MediaQuery.of(context).size.width / 1.3));
                                                     }),
                                                     const VSpace(Sizes.s25),
                                                     Text(

@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:dio/dio.dart' as dio;
+import 'package:goapp/services/api_service.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 import '../../config.dart';
@@ -26,8 +24,12 @@ class RateAppProvider with ChangeNotifier {
       remindLaunches: 5
   );
 */
-  onTapEmoji(index) {
+  onTapEmoji(index) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     selectedIndex = index;
+    log("shasgdhjasds ${selectedIndex}");
+    apiServices.commonApi("${api.addReview}/",
+        {"rate": 2, "title": "ajay dev", "content": "good"}, ApiType.get);
     notifyListeners();
   }
 
