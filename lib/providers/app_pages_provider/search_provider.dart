@@ -666,8 +666,8 @@ class SearchProvider with ChangeNotifier {
         "rating": selectedRatingValues,
         "radius": distanceParam,
         "categories": selectedCategory,
-        // "currentLongitude": lon,
-        // "currentLatitude": lat
+        "currentLongitude": lon,
+        "currentLatitude": lat
       };
 
       Uri url = buildUriWithRepeatedKeys(api.businessSearch, queryParams);

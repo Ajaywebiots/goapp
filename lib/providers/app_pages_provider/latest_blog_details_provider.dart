@@ -316,7 +316,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
         BuildContext? context;
         getArticlesSearchAPI(context);
       } else if (query.length >= 3) {
-        log("ddd ${query}");
+        log("ddd $query");
         fetchSearchResults(query);
       }
     });

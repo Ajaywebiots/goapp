@@ -1,11 +1,14 @@
 import 'dart:developer';
+
+import 'package:goapp/models/api_model/articles_search_model.dart';
+import 'package:goapp/models/api_model/attractions_search_model.dart';
 import 'package:goapp/models/api_model/business_list_model.dart';
+import 'package:goapp/models/api_model/offer_search_model.dart';
 import 'package:goapp/services/api_service.dart';
 
-import '../../common_tap.dart';
 import '../../config.dart';
-import '../../models/favourite_model.dart';
-import '../../models/service_model.dart';
+import '../../models/api_model/home_feed_model.dart';
+import '../bottom_providers/home_screen_provider.dart';
 
 class FavouriteListProvider with ChangeNotifier {
   int selectIndex = 0;
@@ -15,212 +18,181 @@ class FavouriteListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<FavouriteModel> favoriteList = [];
-  List<FavouriteModel> providerFavList = [];
-  List<FavouriteModel> serviceFavList = [];
-  TextEditingController providerCtrl = TextEditingController();
-  TextEditingController serviceCtrl = TextEditingController();
-  final FocusNode searchFocus = FocusNode();
-  final FocusNode serviceSearchFocus = FocusNode();
-  int selectedIndex = 0;
+  List<Offer> offerList = [];
 
-  onChangeList(index) {
-    selectedIndex = index;
+  final List<Business> businessList = [];
+  final List<Attraction> attractionList = [];
+  final List<Article> blogList = [];
+
+  favOfferListDataAPI(context) async {
     notifyListeners();
-  }
-
-  //favorite list
-  getFavourite() async {
-    favoriteList = [];
-    log("DDD:$favoriteList");
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
     notifyListeners();
-
-    String apiUrlName = "";
-    if (providerCtrl.text.isNotEmpty || serviceCtrl.text.isNotEmpty) {
-      log("favoriteList :${favoriteList.length}");
-      if (selectedIndex == 0) {
-        List<FavouriteModel> searchList = providerFavList;
-        providerFavList = [];
-        notifyListeners();
-        for (var data in searchList) {
-          if (data.provider!.name!
-              .toLowerCase()
-              .contains(providerCtrl.text.toLowerCase())) {
-            if (!providerFavList.contains(data)) {
-              providerFavList.add(data);
-            }
-            notifyListeners();
-          }
-        }
-      } else {
-        List<FavouriteModel> searchList = serviceFavList;
-        serviceFavList = [];
-        log("searchList :$searchList");
-        notifyListeners();
-        for (var data in searchList) {
-          if (data.service!.title!
-              .replaceAll(" ", "")
-              .toLowerCase()
-              .contains(serviceCtrl.text.toLowerCase())) {
-            if (!serviceFavList.contains(data)) {
-              serviceFavList.add(data);
-            }
-            notifyListeners();
-          }
-        }
-        log("searchList :${serviceFavList.length}");
-      }
-    } else {
-      providerFavList = [];
-      serviceFavList = [];
-      try {
-        favoriteList = appArray.favouriteProviderList
-            .map((e) => FavouriteModel.fromJson(e))
-            .toList();
-        log("favoriteList :${favoriteList.length}");
-        for (var favouriteModel in favoriteList) {
-          if (favouriteModel.serviceId != null) {
-            log("SER : ${favouriteModel.serviceId}");
-            if (!serviceFavList.contains(favouriteModel)) {
-              serviceFavList.add(favouriteModel);
-            } else {
-              serviceFavList.remove(favouriteModel);
-            }
-            notifyListeners();
-          } else {
-            if (!providerFavList.contains(favouriteModel)) {
-              providerFavList.add(favouriteModel);
-            } else {
-              providerFavList.remove(favouriteModel);
-            }
-            notifyListeners();
-          }
-        }
-      } catch (e) {
-        log("ERRor getFavourite: E4$e");
-      }
-    }
-  }
-
-  // add to favourite api
-  addToFav(context, id, type, data) async {
-    if (type == "service") {
-      FavouriteModel fav = FavouriteModel();
-      fav.serviceId = id.toString();
-      fav.service = data;
-      int index = favoriteList.indexWhere(
-          (element) => element.serviceId.toString() == id.toString());
-
-      log("INDEX :$index");
-      if (index == -1) {
-        favoriteList.add(fav);
-        serviceFavList.add(fav);
-      } else {
-        favoriteList.removeWhere(
-            (element) => element.serviceId.toString() == id.toString());
-        serviceFavList.removeWhere(
-            (element) => element.serviceId.toString() == id.toString());
-      }
-      notifyListeners();
-      notifyListeners();
-    } else {
-      FavouriteModel fav = FavouriteModel();
-      fav.providerId = id.toString();
-      fav.provider = data;
-      int index = favoriteList.indexWhere(
-          (element) => element.providerId.toString() == id.toString());
-
-      log("INDEX :$index");
-      if (index == -1) {
-        favoriteList.add(fav);
-        providerFavList.add(fav);
-      } else {
-        favoriteList.removeWhere(
-            (element) => element.providerId.toString() == id.toString());
-        providerFavList.removeWhere(
-            (element) => element.providerId.toString() == id.toString());
-      }
-      notifyListeners();
-    }
-    // route.pushNamed(context, routeName.favoriteList);
-  }
-
-  //remove from favourite api
-  deleteToFav(context, id, type) async {
-    int index = 0;
-
-    if (type == "service") {
-      /*providerFavList.removeWhere(
-              (element) => element.serviceId.toString() == id.toString());
-      notifyListeners();
-      index = favoriteList
-          .indexWhere((element) =>
-      element.serviceId.toString() == id.toString());
-      log("OD :$index");
-      favoriteList.removeAt(index);
-      notifyListeners();*/
-      log("serviceId :$id");
-      favoriteList.removeWhere(
-          (element) => element.serviceId.toString() == id.toString());
-      serviceFavList.removeWhere(
-          (element) => element.serviceId.toString() == id.toString());
-      log("favoriteList :${favoriteList.length}");
-      notifyListeners();
-    } else {
-      providerFavList.removeWhere(
-          (element) => element.providerId.toString() == id.toString());
-      notifyListeners();
-      index = favoriteList.indexWhere(
-          (element) => element.providerId.toString() == id.toString());
-    }
-
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
     notifyListeners();
-  }
-
-  onFeatured(context, Services? services, id) async {
-    onBook(context, services!,
-            addTap: () => onAdd(id: id),
-            minusTap: () => onRemoveService(context, id: id))!
-        .then((e) {
-      serviceFavList[id].service!.selectedRequiredServiceMan =
-          serviceFavList[id].service!.requiredServicemen;
-      notifyListeners();
-    });
-  }
-
-  onRemoveService(context, {id}) {
-    if (int.parse(serviceFavList[id].service!.selectedRequiredServiceMan!) ==
-        1) {
-      route.pop(context);
-    } else {
-      serviceFavList[id].service!.selectedRequiredServiceMan =
-          (int.parse(serviceFavList[id].service!.selectedRequiredServiceMan!) -
-                  1)
-              .toString();
-    }
-    notifyListeners();
-  }
-
-  onAdd({id}) {
-    int count =
-        int.parse(serviceFavList[id].service!.selectedRequiredServiceMan!);
-    count++;
-    serviceFavList[id].service!.selectedRequiredServiceMan = count.toString();
-    notifyListeners();
-  }
-
-  BusinessSearchModel? businessSearch;
-
-  favListDataAPI(context) {
     try {
       apiServices
-          .commonApi(api.favList, [], ApiType.get, isToken: true)
+          .commonApi(
+              "${api.favList}$userId/favorites/offers?currentLongitude=$lon&currentLatitude=$lat",
+              [],
+              ApiType.get,
+              isToken: true)
           .then((value) {
+        notifyListeners();
         if (value.isSuccess == true) {
           if (value.data['responseStatus'] == 1) {
+            offerList.clear();
+
+            notifyListeners();
+            OfferSearchModel offerSearchModel =
+                OfferSearchModel.fromJson(value.data);
+            offerList.addAll(offerSearchModel.offers as List<Offer>);
+            notifyListeners();
+            log("offerList $offerList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
+        }
+      });
+    } catch (e) {
+      log("EEEE favListDataAPI::: $e");
+    }
+  }
+
+  bool isExpanded = false;
+  String selectedOption = 'Offer List';
+  final List options = [
+    'Offer List',
+    'Business List',
+    'Points of Interest List',
+    'Article List'
+  ];
+
+  void toggleDropdown() {
+    isExpanded = !isExpanded;
+    notifyListeners();
+  }
+
+  void selectOption(String option) {
+    selectedOption = option;
+    isExpanded = false;
+    notifyListeners();
+  }
+
+  favBusinessListDataAPI(context) async {
+    notifyListeners();
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    notifyListeners();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+    notifyListeners();
+    try {
+      apiServices
+          .commonApi(
+              "${api.favList}$userId/favorites/businesses?currentLongitude=$lon&currentLatitude=$lat",
+              [],
+              ApiType.get,
+              isToken: true)
+          .then((value) {
+        notifyListeners();
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            businessList.clear();
+
+            notifyListeners();
             BusinessSearchModel businessSearchModel =
                 BusinessSearchModel.fromJson(value.data);
-            businessSearch = businessSearchModel;
+            businessList.addAll(businessSearchModel.businesses);
+            notifyListeners();
+            log("offerList $businessList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
+        }
+      });
+    } catch (e) {
+      log("EEEE favListDataAPI::: $e");
+    }
+  }
+
+  favAttractionsListDataAPI(context) async {
+    notifyListeners();
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    notifyListeners();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+    notifyListeners();
+    try {
+      apiServices
+          .commonApi(
+              "${api.favList}$userId/favorites/attractions?currentLongitude=$lon&currentLatitude=$lat",
+              [],
+              ApiType.get,
+              isToken: true)
+          .then((value) {
+        notifyListeners();
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            attractionList.clear();
+
+            notifyListeners();
+            AttractionsSearchModel businessSearchModel =
+                AttractionsSearchModel.fromJson(value.data);
+            attractionList.addAll(businessSearchModel.attractions);
+            notifyListeners();
+            log("offerList $attractionList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
+        }
+      });
+    } catch (e) {
+      log("EEEE favListDataAPI::: $e");
+    }
+  }
+
+  favBlogListDataAPI(context) async {
+    notifyListeners();
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    notifyListeners();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+    notifyListeners();
+    try {
+      apiServices
+          .commonApi(
+              "${api.favList}$userId/favorites/blogs?currentLongitude=$lon&currentLatitude=$lat",
+              [],
+              ApiType.get,
+              isToken: true)
+          .then((value) {
+        notifyListeners();
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            blogList.clear();
+
+            notifyListeners();
+            ArticlesSearchModel blogSearchModel =
+                ArticlesSearchModel.fromJson(value.data);
+            blogList.addAll(blogSearchModel.articles);
+            notifyListeners();
+            log("offerList $blogList");
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(

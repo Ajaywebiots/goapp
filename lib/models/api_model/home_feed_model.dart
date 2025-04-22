@@ -71,16 +71,15 @@ class Article {
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      id: json["id"] ?? 0,
-      title: json["title"] ?? "",
-      createdDate: DateTime.tryParse(json["createdDate"] ?? ""),
-      media: json["media"] == null ? null : Media.fromJson(json["media"]),
-      category: json["category"] ?? "",
-      isFavourite: json["isFavourite"] ?? false,
-      appObject: json["appObject"] == null
-          ? null
-          : AppObject.fromJson(json["appObject"]),
-    );
+        id: json["id"] ?? 0,
+        title: json["title"] ?? "",
+        createdDate: DateTime.tryParse(json["createdDate"] ?? ""),
+        media: json["media"] == null ? null : Media.fromJson(json["media"]),
+        category: json["category"] ?? "",
+        isFavourite: json["isFavourite"] ?? false,
+        appObject: json["appObject"] == null
+            ? null
+            : AppObject.fromJson(json["appObject"]));
   }
 }
 
