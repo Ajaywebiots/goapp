@@ -103,7 +103,8 @@ extension StyledTextSpan<T extends TextSpan> on T {
         ),
       );
 
-  double _elevationOpacityCurve(double x) => pow(x, 1 / 16) / sqrt(pow(x, 2) + 2) + 0.2;
+  double _elevationOpacityCurve(double x) =>
+      pow(x, 1 / 16) / sqrt(pow(x, 2) + 2) + 0.2;
 
   T textElevation(
     double elevation, {

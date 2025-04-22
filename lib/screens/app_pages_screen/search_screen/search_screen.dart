@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
@@ -61,11 +63,8 @@ class _SearchScreenState extends State<SearchScreen>
         });
 
         // Scroll to position (if needed)
-        _scrollController.animateTo(
-          matchedIndex * 80.0, // Approx width per item – adjust as needed
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
+        _scrollController.animateTo(matchedIndex * 80.0,
+            duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
       }
     });
   }
@@ -237,28 +236,45 @@ class _SearchScreenState extends State<SearchScreen>
                                                             .of<CommonApiProvider>(
                                                                 context,
                                                                 listen: false);
-                                                        common
-                                                            .toggleFavAPI(
+                                                        final home = Provider
+                                                            .of<HomeScreenProvider>(
                                                                 context,
-                                                                e.value
-                                                                    .isFavourite,
-                                                                e
-                                                                    .value
-                                                                    .appObject!
-                                                                    .appObjectType,
-                                                                e
-                                                                    .value
-                                                                    .appObject!
-                                                                    .appObjectId,
-                                                                onSuccess: () => Provider.of<SearchProvider>(context,
-                                                                        listen:
-                                                                            false)
-                                                                    .businessDetailsAPI(
-                                                                        context,
-                                                                        e.value.id,
-                                                                        isNotRouting: true))
-                                                            .then((value) => Provider.of<SearchProvider>(context, listen: false).getBusinessSearchAPI(context, isFilter: false))
-                                                            .then((value) => Provider.of<HomeScreenProvider>(context, listen: false).homeFeed(context));
+                                                                listen: false);
+                                                        final search = Provider
+                                                            .of<SearchProvider>(
+                                                                context,
+                                                                listen: false);
+                                                        log("ssss searchPvr ${searchPvr.selectedIndex}");
+                                                        common.toggleFavAPI(
+                                                            context,
+                                                            e.value.isFavourite,
+                                                            e.value.appObject!
+                                                                .appObjectType,
+                                                            e.value.appObject!
+                                                                .appObjectId,
+                                                            onSuccess: () {
+                                                          search
+                                                              .businessDetailsAPI(
+                                                                  context,
+                                                                  e.value.id,
+                                                                  isNotRouting:
+                                                                      true);
+                                                          search.getBusinessSearchAPI(
+                                                              context,
+                                                              id: categoryListPvr
+                                                                  .categoryList[
+                                                                      searchPvr
+                                                                          .selectedIndex]
+                                                                  .categoryId,
+                                                              isFilter:
+                                                                  searchPvr.popular ==
+                                                                          true
+                                                                      ? false
+                                                                      : true);
+                                                          home.homeFeed(
+                                                              context);
+                                                          log("jjdjdjd");
+                                                        });
                                                       },
                                                       data: e.value,
                                                       onTap: () {

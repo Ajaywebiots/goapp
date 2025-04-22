@@ -39,6 +39,10 @@ class ApiMethods {
   String qrGenerate = "/Offer/";
   String addReview = "/user/";
   String businessReviewsList = "/business/";
+  String attractionReviewsList = "/Attraction/";
+  String offerType = "/Offer/types";
+
+  String favList = "/user/";
 
 // //
 // String homeFeed = '/api/App/home/feed';

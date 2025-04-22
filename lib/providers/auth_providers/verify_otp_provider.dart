@@ -30,14 +30,19 @@ class VerifyOtpProvider with ChangeNotifier {
               ApiType.patch,
               isToken: false)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
-          hideLoading(context);
-          log("ssss ${value.data['token']}");
-          token = value.data['token'];
-          route.pushReplacementNamed(context, routeName.dashboard);
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            hideLoading(context);
+            log("ssss ${value.data['token']}");
+            token = value.data['token'];
+            route.pushReplacementNamed(context, routeName.dashboard);
+          } else {
+            hideLoading(context);
+            showMessage(context, value.data['responseMessage']);
+          }
         } else {
-          hideLoading(context);
-          showMessage(context, value.data['responseMessage']);
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {

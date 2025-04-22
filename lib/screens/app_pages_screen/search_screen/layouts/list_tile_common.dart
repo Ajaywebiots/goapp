@@ -7,7 +7,7 @@ class ListTileLayout extends StatelessWidget {
   final int? index;
   final GestureTapCallback? onTap, onClick;
   final List? selectedCategory;
-  final bool isCheckBox, isHavingIcon;
+  final bool isCheckBox, isHavingIcon, iconHave;
   final String? icon, title;
 
   const ListTileLayout(
@@ -21,6 +21,7 @@ class ListTileLayout extends StatelessWidget {
       this.isCheckBox = true,
       this.isHavingIcon = false,
       this.icon,
+      this.iconHave = true,
       this.title});
 
   @override
@@ -29,7 +30,9 @@ class ListTileLayout extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       IntrinsicHeight(
           child: Row(children: [
-        getImageWidget(isHavingIcon ? icon : data?.icon),
+        iconHave
+            ? getImageWidget(isHavingIcon ? icon : data?.icon)
+            : Container(),
         VerticalDivider(
                 indent: 1,
                 endIndent: 1,

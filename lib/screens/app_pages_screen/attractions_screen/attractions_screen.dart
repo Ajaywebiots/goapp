@@ -39,7 +39,7 @@ class _AttractionScreenState extends State<AttractionScreen>
   @override
   Widget build(BuildContext context) {
     final dash = Provider.of<DashboardProvider>(context, listen: true);
-    final search = Provider.of<SearchProvider>(context, listen: true);
+    // final search = Provider.of<SearchProvider>(context, listen: true);
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: true);
     // final value1 = Provider.of<CategoriesListProvider>(context, listen: true);
 
@@ -85,8 +85,8 @@ class _AttractionScreenState extends State<AttractionScreen>
                                     attraction.notifyListeners();
                                   }
                                 },
-                                onFieldSubmitted: (v) =>
-                                    search.searchService(context),
+                                // onFieldSubmitted: (v) =>
+                                //     attraction.searchService(context),
                                 suffixIcon: FilterIconCommon(
                                     selectedFilter:
                                         /*search.totalCountFilter()*/ 0
@@ -127,12 +127,17 @@ class _AttractionScreenState extends State<AttractionScreen>
                                                       .appObjectType,
                                                   e.value.appObject!
                                                       .appObjectId,
-                                                  onSuccess: () => Provider.of<
-                                                              AttractionProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .getAttractionSearchAPI(
-                                                          context));
+                                                  onSuccess: () {
+                                            Provider.of<AttractionProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .getAttractionSearchAPI(
+                                                    context);
+                                            Provider.of<HomeScreenProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .homeFeed(context);
+                                          });
 
                                           value.notifyListeners();
                                         },

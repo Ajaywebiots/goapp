@@ -1,5 +1,5 @@
-class OffersDetailsModel {
-  OffersDetailsModel({
+class OfferDetailsModel {
+  OfferDetailsModel({
     required this.offer,
     required this.responseStatus,
     required this.responseMessage,
@@ -9,8 +9,8 @@ class OffersDetailsModel {
   final int? responseStatus;
   final String? responseMessage;
 
-  factory OffersDetailsModel.fromJson(Map<String, dynamic> json) {
-    return OffersDetailsModel(
+  factory OfferDetailsModel.fromJson(Map<String, dynamic> json) {
+    return OfferDetailsModel(
       offer: json["offer"] == null ? null : Offers.fromJson(json["offer"]),
       responseStatus: json["responseStatus"],
       responseMessage: json["responseMessage"],
@@ -32,6 +32,7 @@ class Offers {
     required this.name,
     required this.image,
     required this.expirationDate,
+    required this.type,
     required this.isFavourite,
     required this.appObject,
   });
@@ -48,6 +49,7 @@ class Offers {
   final String? name;
   final Image? image;
   final DateTime? expirationDate;
+  final Type? type;
   final bool? isFavourite;
   final AppObject? appObject;
 
@@ -66,6 +68,7 @@ class Offers {
       name: json["name"],
       image: json["image"] == null ? null : Image.fromJson(json["image"]),
       expirationDate: DateTime.tryParse(json["expirationDate"] ?? ""),
+      type: json["type"] == null ? null : Type.fromJson(json["type"]),
       isFavourite: json["isFavourite"],
       appObject: json["appObject"] == null
           ? null
@@ -110,6 +113,32 @@ class Image {
       source: json["source"],
       mediaStatus: json["mediaStatus"],
       sortOrder: json["sortOrder"],
+    );
+  }
+}
+
+class Type {
+  Type({
+    required this.offerTypeId,
+    required this.icon,
+    required this.name,
+    required this.translatedValue,
+    required this.language,
+  });
+
+  final int? offerTypeId;
+  final String? icon;
+  final String? name;
+  final String? translatedValue;
+  final int? language;
+
+  factory Type.fromJson(Map<String, dynamic> json) {
+    return Type(
+      offerTypeId: json["offerTypeId"],
+      icon: json["icon"],
+      name: json["name"],
+      translatedValue: json["translatedValue"],
+      language: json["language"],
     );
   }
 }

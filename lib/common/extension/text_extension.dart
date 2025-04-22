@@ -1,9 +1,6 @@
-
-
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-
 
 extension StyledText<T extends Text> on T {
   T copyWith({
@@ -18,7 +15,8 @@ extension StyledText<T extends Text> on T {
     double? textScaleFactor,
     int? maxLines,
     String? semanticsLabel,
-    TextWidthBasis? textWidthBasis, TextDecoration? textDecoration,
+    TextWidthBasis? textWidthBasis,
+    TextDecoration? textDecoration,
   }) =>
       Text(
         data ?? this.data ?? "",
@@ -33,8 +31,6 @@ extension StyledText<T extends Text> on T {
         textDirection: textDirection ?? this.textDirection,
         textScaleFactor: textScaleFactor ?? this.textScaleFactor,
         textWidthBasis: textWidthBasis ?? this.textWidthBasis,
-
-
       ) as T;
 
   T textStyle(TextStyle style) => copyWith(
@@ -109,10 +105,10 @@ extension StyledText<T extends Text> on T {
       );
 
   T textOverflow(TextOverflow overflow) => copyWith(
-    style: (style ?? const TextStyle()).copyWith(
-      overflow: overflow,
-    ),
-  );
+        style: (style ?? const TextStyle()).copyWith(
+          overflow: overflow,
+        ),
+      );
 
   T textShadow({
     Color color = const Color(0x33000000),
@@ -131,7 +127,8 @@ extension StyledText<T extends Text> on T {
         ),
       );
 
-  double _elevationOpacityCurve(double x) => pow(x, 1 / 16) / sqrt(pow(x, 2) + 2) + 0.2;
+  double _elevationOpacityCurve(double x) =>
+      pow(x, 1 / 16) / sqrt(pow(x, 2) + 2) + 0.2;
 
   T textElevation(
     double elevation, {
@@ -163,9 +160,11 @@ extension StyledText<T extends Text> on T {
 
   T textAlignment(TextAlign align) => copyWith(textAlign: align);
 
-  T textDecoration(TextDecoration textDecoration) => copyWith(textDecoration: textDecoration);
+  T textDecoration(TextDecoration textDecoration) =>
+      copyWith(textDecoration: textDecoration);
 
-  T textDirection(TextDirection direction) => copyWith(textDirection: direction);
+  T textDirection(TextDirection direction) =>
+      copyWith(textDirection: direction);
 
   T textBaseline(TextBaseline textBaseline) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
@@ -173,5 +172,6 @@ extension StyledText<T extends Text> on T {
         ),
       );
 
-  T textWidthBasis(TextWidthBasis textWidthBasis) => copyWith(textWidthBasis: textWidthBasis);
+  T textWidthBasis(TextWidthBasis textWidthBasis) =>
+      copyWith(textWidthBasis: textWidthBasis);
 }

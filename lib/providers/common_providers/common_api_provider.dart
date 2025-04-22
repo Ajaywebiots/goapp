@@ -17,8 +17,10 @@ class CommonApiProvider extends ChangeNotifier {
     final int? userId = pref.getInt(session.id);
     notifyListeners();
     if (userId == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("User not logged in")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("User not logged in",
+              style: appCss.dmDenseRegular16
+                  .textColor(appColor(context).primary))));
       return;
     }
     notifyListeners();
@@ -67,8 +69,10 @@ class CommonApiProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       log("Error in toggleFavAPI: $e");
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Operation failed")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Operation failed",
+              style: appCss.dmDenseRegular16
+                  .textColor(appColor(context).primary))));
     }
   }
 }

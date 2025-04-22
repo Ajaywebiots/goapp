@@ -8,9 +8,14 @@ import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
 import '../coupon_list_screen/layouts/coupon_layout.dart';
 import '../search_screen/filter_tap_layout.dart';
 
-class FavScreenList extends StatelessWidget {
-  FavScreenList({super.key});
+class FavScreenList extends StatefulWidget {
+  const FavScreenList({super.key});
 
+  @override
+  State<FavScreenList> createState() => _FavScreenListState();
+}
+
+class _FavScreenListState extends State<FavScreenList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FavouriteListProvider>(builder: (context, favPvr, child) {

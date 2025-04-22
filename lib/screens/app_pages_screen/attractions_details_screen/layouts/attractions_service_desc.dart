@@ -1,42 +1,35 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:goapp/models/api_model/business_details_model.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
-import 'package:goapp/screens/app_pages_screen/services_details_screen/business_details_screen.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
-import 'package:goapp/widgets/common_gallery_screen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
+import '../../../../models/api_model/attractions_details_model.dart';
+import '../../../../models/api_model/business_details_model.dart';
 import '../../../../providers/app_pages_provider/search_provider.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
+import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
+import '../../../../widgets/common_gallery_screen.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
-class ServiceDescription extends StatefulWidget {
-  final BusinessSec? businessData;
+class ServiceDescriptions extends StatefulWidget {
+  final Attraction? attractionData;
 
-  ServiceDescription({super.key, this.businessData});
+  ServiceDescriptions({super.key, this.attractionData});
 
   @override
-  State<ServiceDescription> createState() => _ServiceDescriptionState();
+  State<ServiceDescriptions> createState() => _ServiceDescriptionsState();
 }
 
-class _ServiceDescriptionState extends State<ServiceDescription> {
-  bool? isFavLocal;
-
-  @override
-  void initState() {
-    super.initState();
-    isFavLocal = widget.businessData?.isFavourite;
-  }
-
+class _ServiceDescriptionsState extends State<ServiceDescriptions> {
   @override
   Widget build(BuildContext context) {
-    final Contact? contact = widget.businessData?.contact;
+    final Contact? contact = widget.attractionData?.contact;
     Future<void> launchURL(String url) async {
       final Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
@@ -67,6 +60,7 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
     }
 
     String extractTikTokUsername(String url) {
+      // Handles both https://www.tiktok.com/@username and trailing slashes
       final uri = Uri.parse(url);
       final segments = uri.pathSegments;
       if (segments.isNotEmpty && segments.first.startsWith('@')) {
@@ -138,7 +132,10 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
         throw 'Email is empty';
       }
 
-      final Uri mailtoUri = Uri(scheme: 'mailto', path: email);
+      final Uri mailtoUri = Uri(
+        scheme: 'mailto',
+        path: email,
+      );
 
       // Try Gmail on Android
       if (Platform.isAndroid) {
@@ -215,7 +212,9 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
             item['label'] != null && item['label'].toString().isNotEmpty)
         .toList();
 
-    return Consumer<SearchProvider>(builder: (context, search, child) {
+    final attraction = Provider.of<AttractionProvider>(context);
+
+    return Consumer<AttractionProvider>(builder: (context, aaaa, child) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const VSpace(Sizes.s14),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -224,16 +223,16 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                   appArray
-                      .buttonItemsB(widget.businessData!.isFavourite!)
+                      .buttonItemsB(widget.attractionData!.isFavourite!)
                       .length, (index) {
                 final item = appArray
-                    .buttonItemsB(widget.businessData!.isFavourite!)[index];
+                    .buttonItemsB(widget.attractionData!.isFavourite!)[index];
                 return Flexible(
                     child: GestureDetector(
                         onTap: () {
                           if (item['label'] == appFonts.call) {
                             String? call =
-                                widget.businessData?.contact?.phoneNumber;
+                                widget.attractionData?.contact?.phoneNumber;
                             makePhoneCall(call);
                           } else if (item['label'] == appFonts.directions) {
                             showModalBottomSheet(
@@ -296,9 +295,9 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                                           child: GoogleMap(
                                                               initialCameraPosition: CameraPosition(
                                                                   target: LatLng(
-                                                                      (widget.businessData!.location?.latitude)
+                                                                      (widget.attractionData!.location?.latitude)
                                                                           .toDouble(),
-                                                                      (widget.businessData?.location?.longitude)
+                                                                      (widget.attractionData?.location?.longitude)
                                                                           .toDouble()),
                                                                   zoom: 18.0),
                                                               myLocationEnabled:
@@ -318,9 +317,9 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                                                         MarkerId(
                                                                             "target-location"),
                                                                     position: LatLng(
-                                                                        (widget.businessData!.location?.latitude)
+                                                                        (widget.attractionData!.location?.latitude)
                                                                             .toDouble(),
-                                                                        (widget.businessData?.location?.longitude)
+                                                                        (widget.attractionData?.location?.longitude)
                                                                             .toDouble()),
                                                                     infoWindow:
                                                                         InfoWindow(
@@ -334,12 +333,12 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                                     textTwo: appFonts.directions,
                                                     applyTap: () {
                                                       final lat = widget
-                                                          .businessData
+                                                          .attractionData
                                                           ?.location
                                                           ?.latitude
                                                           .toDouble();
                                                       final lng = widget
-                                                          .businessData
+                                                          .attractionData
                                                           ?.location
                                                           ?.longitude
                                                           .toDouble();
@@ -368,106 +367,105 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                 context: context,
                                 builder: (context) {
                                   return SafeArea(
-                                    child: SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                1.4,
-                                        child: Stack(children: [
-                                          SingleChildScrollView(
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                      child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              1.4,
+                                          child: Stack(children: [
+                                            SingleChildScrollView(
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      Text(
-                                                          language(
-                                                              context,
-                                                              appFonts
-                                                                  .contactUs),
-                                                          style: appCss
-                                                              .dmDenseMedium18
-                                                              .textColor(appColor(
-                                                                      context)
-                                                                  .darkText)),
-                                                      const Icon(CupertinoIcons
-                                                              .multiply)
-                                                          .inkWell(
-                                                              onTap: () => route
-                                                                  .pop(context))
-                                                    ]).paddingSymmetric(
-                                                    vertical: 20,
-                                                    horizontal: Insets.i20),
-                                                ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemCount:
-                                                        contactItems.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final item =
-                                                          contactItems[index];
-                                                      return ListTileLayout(
-                                                          data: contactItems,
-                                                          isCheckBox: false,
-                                                          isHavingIcon: true,
-                                                          icon: item['icon'],
-                                                          title: item['label'],
-                                                          onClick:
-                                                              item['action']);
-                                                    })
-                                              ])),
-                                          BottomSheetButtonCommon(
-                                                  textOne: appFonts.cancel,
-                                                  textTwo:
-                                                      appFonts.addToContacts,
-                                                  applyTap: () {},
-                                                  clearTap: () {})
-                                              .backgroundColor(
-                                                  appColor(context).whiteColor)
-                                              .alignment(
-                                                  Alignment.bottomCenter),
-                                        ])).bottomSheetExtension(context),
-                                  );
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            language(
+                                                                context,
+                                                                appFonts
+                                                                    .contactUs),
+                                                            style: appCss
+                                                                .dmDenseMedium18
+                                                                .textColor(appColor(
+                                                                        context)
+                                                                    .darkText)),
+                                                        const Icon(
+                                                                CupertinoIcons
+                                                                    .multiply)
+                                                            .inkWell(
+                                                                onTap: () =>
+                                                                    route.pop(
+                                                                        context))
+                                                      ]).paddingSymmetric(
+                                                      vertical: 20,
+                                                      horizontal: Insets.i20),
+                                                  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount:
+                                                          contactItems.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        final item =
+                                                            contactItems[index];
+                                                        return ListTileLayout(
+                                                            data: contactItems,
+                                                            isCheckBox: false,
+                                                            isHavingIcon: true,
+                                                            icon: item['icon'],
+                                                            title:
+                                                                item['label'],
+                                                            onClick:
+                                                                item['action']);
+                                                      })
+                                                ])),
+                                            BottomSheetButtonCommon(
+                                                    textOne: appFonts.cancel,
+                                                    textTwo:
+                                                        appFonts.addToContacts,
+                                                    applyTap: () {},
+                                                    clearTap: () {})
+                                                .backgroundColor(
+                                                    appColor(context)
+                                                        .whiteColor)
+                                                .alignment(
+                                                    Alignment.bottomCenter),
+                                          ])).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return CommonGalleryScreen(
-                                galleryUrls: widget.businessData,
-                              );
+                              return CommonGalleryScreen();
                             }));
-                            /*route.pushNamed(
-                                  context, routeName.commonGalleryScreen,
-                                  arg: businessData);*/
                           } else if (item['label'] == appFonts.save) {
-                            search.notifyListeners();
                             // item;
                             Provider.of<CommonApiProvider>(context,
                                     listen: false)
                                 .toggleFavAPI(
                                     context,
-                                    widget.businessData?.isFavourite,
-                                    widget
-                                        .businessData?.appObject!.appObjectType,
-                                    widget.businessData?.appObject!.appObjectId,
-                                    onSuccess: () {
-                              Provider.of<SearchProvider>(context,
+                                    widget.attractionData?.isFavourite,
+                                    widget.attractionData?.appObject!
+                                        .appObjectType,
+                                    widget.attractionData?.appObject!
+                                        .appObjectId, onSuccess: () {
+                              Provider.of<AttractionProvider>(context,
                                       listen: false)
-                                  .businessDetailsAPI(
-                                      context, widget.businessData?.id,
-                                      isNotRouting: true);
+                                  .attractionsDetailsAPI(
+                                      context, widget.attractionData?.id,
+                                      isNotRoute: true);
 
-                              Provider.of<SearchProvider>(context,
+                              Provider.of<AttractionProvider>(context,
                                       listen: false)
-                                  .getBusinessSearchAPI(context);
+                                  .getAttractionSearchAPI(context);
                               Provider.of<HomeScreenProvider>(context,
                                       listen: false)
                                   .homeFeed(context);
                             });
-                            search.notifyListeners();
+                            attraction.notifyListeners();
                           }
                         },
                         child: Container(
@@ -494,7 +492,8 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
               style: appCss.dmDenseMedium12
                   .textColor(appColor(context).lightText)),
           const VSpace(Sizes.s6),
-          ReadMoreLayout(text: widget.businessData?.description, trimLines: 10),
+          ReadMoreLayout(
+              text: widget.attractionData?.description, trimLines: 10),
           const VSpace(Sizes.s20),
         ]).paddingSymmetric(horizontal: Insets.i20, vertical: Insets.i20)
       ]).boxBorderExtension(context,
@@ -512,7 +511,7 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
   }
 
   void showOpeningHoursBottomSheet(BuildContext context) {
-    final business = widget.businessData;
+    final business = widget.attractionData;
     final workingHours = business?.workingHours ?? [];
     final List<Map<String, dynamic>> timeSlotList =
         generateTimeSlotList(workingHours);

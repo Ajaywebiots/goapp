@@ -11,7 +11,7 @@ class RatingLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RatingBar(
-        initialRating: initialRating ?? 4.5,
+        initialRating: (initialRating ?? 0).toDouble(),
         direction: Axis.horizontal,
         allowHalfRating: true,
         itemCount: 5,

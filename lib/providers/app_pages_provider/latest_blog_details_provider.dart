@@ -31,16 +31,21 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           .commonApi("${api.blogDetails}$value/details", [], ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
-          notifyListeners();
-          ArticlesDetailModel articlesDetailModel =
-              ArticlesDetailModel.fromJson(value.data);
-          articleDetail = articlesDetailModel;
-          notifyListeners();
-          isNotRouting == true
-              ? null
-              : route.pushNamed(context, routeName.latestBlogDetails);
-          notifyListeners();
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            notifyListeners();
+            ArticlesDetailModel articlesDetailModel =
+                ArticlesDetailModel.fromJson(value.data);
+            articleDetail = articlesDetailModel;
+            notifyListeners();
+            isNotRouting == true
+                ? null
+                : route.pushNamed(context, routeName.latestBlogDetails);
+            notifyListeners();
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -61,58 +66,61 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           isScrollControlled: true,
           context: context,
           builder: (context) {
-            return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.14,
-                child: Stack(children: [
-                  Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            return SafeArea(
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.14,
+                  child: Stack(children: [
+                    Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(language(context, appFonts.filterBy),
-                                  style: appCss.dmDenseMedium18
-                                      .textColor(appColor(context).darkText)),
-                              const Icon(CupertinoIcons.multiply)
-                                  .inkWell(onTap: () => route.pop(context))
-                            ]).paddingSymmetric(horizontal: Insets.i20),
-                        VSpace(23),
-                        Text(language(context, appFonts.blogCategoryList),
-                                style: appCss.dmDenseRegular14
-                                    .textColor(appColor(context).lightText))
-                            .paddingSymmetric(horizontal: Insets.i20),
-                        VSpace(15),
-                        Expanded(
-                            child: Column(children: [
-                          Expanded(child: Consumer<LatestBLogDetailsProvider>(
-                              builder: (context, value, _) {
-                            return ListView.builder(
-                                itemCount: value.categoryList.length,
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemBuilder: (context, index) {
-                                  final category = value.categoryList[index];
-                                  return ListTileLayout(
-                                      data: category,
-                                      selectedCategory: value.selectedCategory,
-                                      onTap: () => value.onCategoryChange(
-                                          context, category.categoryId));
-                                });
-                          }))
-                        ]))
-                      ])
-                      .paddingSymmetric(vertical: Insets.i20)
-                      .marginOnly(bottom: Insets.i50),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: BottomSheetButtonCommon(
-                          textOne: appFonts.clearAll,
-                          textTwo: appFonts.apply,
-                          applyTap: () {
-                            searchService(context);
-                          },
-                          clearTap: () => clearFilter(context)))
-                ])).bottomSheetExtension(context);
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(language(context, appFonts.filterBy),
+                                    style: appCss.dmDenseMedium18
+                                        .textColor(appColor(context).darkText)),
+                                const Icon(CupertinoIcons.multiply)
+                                    .inkWell(onTap: () => route.pop(context))
+                              ]).paddingSymmetric(horizontal: Insets.i20),
+                          VSpace(23),
+                          Text(language(context, appFonts.blogCategoryList),
+                                  style: appCss.dmDenseRegular14
+                                      .textColor(appColor(context).lightText))
+                              .paddingSymmetric(horizontal: Insets.i20),
+                          VSpace(15),
+                          Expanded(
+                              child: Column(children: [
+                            Expanded(child: Consumer<LatestBLogDetailsProvider>(
+                                builder: (context, value, _) {
+                              return ListView.builder(
+                                  itemCount: value.categoryList.length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    final category = value.categoryList[index];
+                                    return ListTileLayout(
+                                        data: category,
+                                        selectedCategory:
+                                            value.selectedCategory,
+                                        onTap: () => value.onCategoryChange(
+                                            context, category.categoryId));
+                                  });
+                            }))
+                          ]))
+                        ])
+                        .paddingSymmetric(vertical: Insets.i20)
+                        .marginOnly(bottom: Insets.i50),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: BottomSheetButtonCommon(
+                            textOne: appFonts.clearAll,
+                            textTwo: appFonts.apply,
+                            applyTap: () {
+                              searchService(context);
+                            },
+                            clearTap: () => clearFilter(context)))
+                  ])).bottomSheetExtension(context),
+            );
           }).then((value) {
         log("DDDD");
         // getCategory();
@@ -177,18 +185,23 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     showLoading(context);
     notifyListeners();
     apiServices.commonApi(api.blogCategories, [], ApiType.get).then((value) {
-      if (value.data['responseStatus'] == 1) {
-        notifyListeners();
-        hideLoading(context);
-        log("API Response: blogCategory ${value.data}");
-        BlogCategoriesModel blogCategoryModel =
-            BlogCategoriesModel.fromJson(value.data);
-        notifyListeners();
-        // Clear old list and add new parsed categories
-        categoryList.clear();
-        notifyListeners();
-        categoryList.addAll(blogCategoryModel.blogCategories ?? []);
-        notifyListeners();
+      if (value.isSuccess == true) {
+        if (value.isSuccess! && value.data['responseStatus'] == 1) {
+          notifyListeners();
+          hideLoading(context);
+          log("API Response: blogCategory ${value.data}");
+          BlogCategoriesModel blogCategoryModel =
+              BlogCategoriesModel.fromJson(value.data);
+          notifyListeners();
+          // Clear old list and add new parsed categories
+          categoryList.clear();
+          notifyListeners();
+          categoryList.addAll(blogCategoryModel.blogCategories ?? []);
+          notifyListeners();
+        }
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, routeName.login, (Route<dynamic> route) => false);
       }
     });
   }
@@ -223,15 +236,20 @@ class LatestBLogDetailsProvider with ChangeNotifier {
 
       apiServices.commonApi(uri, [], ApiType.get, isToken: true).then((value) {
         log("value.data ${value.data}");
-        if (value.data['responseStatus'] == 1) {
-          hideLoading(context);
-          articlesSearchList.clear();
-          ArticlesSearchModel articlesSearchModel =
-              ArticlesSearchModel.fromJson(value.data);
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            hideLoading(context);
+            articlesSearchList.clear();
+            ArticlesSearchModel articlesSearchModel =
+                ArticlesSearchModel.fromJson(value.data);
 
-          articlesSearchList.addAll(articlesSearchModel.articles);
-          route.pop(context);
-          log("getArticlesSearchAPI $articlesSearchList");
+            articlesSearchList.addAll(articlesSearchModel.articles);
+            route.pop(context);
+            log("getArticlesSearchAPI $articlesSearchList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -251,16 +269,21 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           .then((value) {
         notifyListeners();
         log("value.data ${value.data}");
-        if (value.data['responseStatus'] == 1) {
-          hideLoading(context);
-          notifyListeners();
-          articlesSearchList.clear();
-          ArticlesSearchModel articlesSearchModel =
-              ArticlesSearchModel.fromJson(value.data);
-          notifyListeners();
-          articlesSearchList.addAll(articlesSearchModel.articles);
-          notifyListeners();
-          log("articlesSearchList $articlesSearchList");
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            hideLoading(context);
+            notifyListeners();
+            articlesSearchList.clear();
+            ArticlesSearchModel articlesSearchModel =
+                ArticlesSearchModel.fromJson(value.data);
+            notifyListeners();
+            articlesSearchList.addAll(articlesSearchModel.articles);
+            notifyListeners();
+            log("articlesSearchList $articlesSearchList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
         notifyListeners();
       });

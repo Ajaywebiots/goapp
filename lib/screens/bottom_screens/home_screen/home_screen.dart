@@ -84,11 +84,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   context,
                                                   listen: false);
                                               common.toggleFavAPI(
-                                                  onSuccess: () => Provider.of<
-                                                              HomeScreenProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .homeFeed(context),
+                                                  onSuccess: () {
+                                                Provider.of<HomeScreenProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .homeFeed(context);
+                                                Provider.of<OfferProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .getViewAllOfferAPI();
+                                                Provider.of<OfferProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .offerDetailsAPI(
+                                                        context, e.value.id,
+                                                        isNotRouting: true);
+                                              },
                                                   context,
                                                   e.value.isFavourite,
                                                   e.value.appObject!
@@ -148,11 +159,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       context,
                                                       listen: false);
                                                   common.toggleFavAPI(
-                                                      onSuccess: () => Provider
-                                                              .of<HomeScreenProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                          .homeFeed(context),
+                                                      onSuccess: () {
+                                                    Provider.of<LatestBLogDetailsProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .detailsDataAPI(
+                                                            context, e.value.id,
+                                                            isNotRouting: true);
+                                                    Provider.of<LatestBLogDetailsProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .getArticlesSearchAPI(
+                                                            context);
+                                                    Provider.of<HomeScreenProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .homeFeed(context);
+                                                  },
                                                       context,
                                                       e.value.isFavourite,
                                                       e.value.appObject!

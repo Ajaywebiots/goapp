@@ -46,50 +46,55 @@ class ResetPasswordProvider extends ChangeNotifier {
         apiServices
             .commonApi(api.resetPassword, body, ApiType.patch, isToken: true)
             .then((value) {
-          if (value.data['responseStatus'] == 1) {
-            hideLoading(context);
-            showCupertinoDialog(
-                context: context,
-                builder: (context1) {
-                  return DirectionalityRtl(
-                      child: AlertDialogCommon(
-                          title:
-                              language(context, appFonts.successfullyChanged),
-                          height: Sizes.s120,
-                          image: eImageAssets.successReset,
-                          subtext: language(context, appFonts.thankYou),
-                          bText1: language(context, appFonts.loginAgain),
-                          b1OnTap: () {
-                            txtNewPassword.text = "";
-                            txtConfirmPassword.text = "";
-                            notifyListeners();
-                            Navigator.pop(context1);
+          if (value.isSuccess == true) {
+            if (value.data['responseStatus'] == 1) {
+              hideLoading(context);
+              showCupertinoDialog(
+                  context: context,
+                  builder: (context1) {
+                    return DirectionalityRtl(
+                        child: AlertDialogCommon(
+                            title:
+                                language(context, appFonts.successfullyChanged),
+                            height: Sizes.s120,
+                            image: eImageAssets.successReset,
+                            subtext: language(context, appFonts.thankYou),
+                            bText1: language(context, appFonts.loginAgain),
+                            b1OnTap: () {
+                              txtNewPassword.text = "";
+                              txtConfirmPassword.text = "";
+                              notifyListeners();
+                              Navigator.pop(context1);
 
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => MultiProvider(
-                                            providers: [
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      LoginProvider()),
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      ForgetPasswordProvider()),
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      VerifyOtpProvider()),
-                                            ],
-                                            child: const LoginScreen(),
-                                            builder: (context, child) {
-                                              return child!;
-                                            })));
-                          }));
-                });
-            notifyListeners();
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => MultiProvider(
+                                              providers: [
+                                                ChangeNotifierProvider(
+                                                    create: (_) =>
+                                                        LoginProvider()),
+                                                ChangeNotifierProvider(
+                                                    create: (_) =>
+                                                        ForgetPasswordProvider()),
+                                                ChangeNotifierProvider(
+                                                    create: (_) =>
+                                                        VerifyOtpProvider()),
+                                              ],
+                                              child: const LoginScreen(),
+                                              builder: (context, child) {
+                                                return child!;
+                                              })));
+                            }));
+                  });
+              notifyListeners();
+            } else {
+              hideLoading(context);
+              showMessage(context, value.data['responseMessage']);
+            }
           } else {
-            hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
+            Navigator.pushNamedAndRemoveUntil(
+                context, routeName.login, (Route<dynamic> route) => false);
           }
         });
       } catch (e) {

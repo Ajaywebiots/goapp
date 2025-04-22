@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/services/api_service.dart';
 
@@ -8,6 +9,8 @@ import '../../models/api_model/home_feed_model.dart';
 import '../../models/api_model/offer_categories_model.dart';
 import '../../models/api_model/offer_search_model.dart';
 import '../../models/api_model/offers_details_model.dart';
+import '../../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
+import 'home_screen_provider.dart';
 
 class OfferProvider extends ChangeNotifier {
   onReady() {
@@ -29,29 +32,34 @@ class OfferProvider extends ChangeNotifier {
   List selectedCategory = [];
 
   getCategoriesData(context) {
-    showLoading(context);
+    // showLoading(context);
     notifyListeners();
     try {
       apiServices.commonApi(api.offerCategories, [], ApiType.get).then((value) {
-        if (value.data['responseStatus'] == 1) {
-          notifyListeners();
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            notifyListeners();
 
-          log("API Response: attractionCategories ${value.data}");
-          OfferCategoriesModel categoryModel =
-              OfferCategoriesModel.fromJson(value.data);
-          notifyListeners();
-          // Clear old list and add new parsed categories
-          categoryList.clear();
-          notifyListeners();
-          categoryList.addAll(categoryModel.categories ?? []);
+            log("API Response: attractionCategories ${value.data}");
+            OfferCategoriesModel categoryModel =
+                OfferCategoriesModel.fromJson(value.data);
+            notifyListeners();
+            // Clear old list and add new parsed categories
+            categoryList.clear();
+            notifyListeners();
+            categoryList.addAll(categoryModel.categories ?? []);
 
-          log("categoryList offers ${categoryList}");
-          hideLoading(context);
-          notifyListeners();
+            log("categoryList offers ${categoryList}");
+            // hideLoading(context);
+            notifyListeners();
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
-      hideLoading(context);
+      // hideLoading(context);
       log("getCategoriesData $e");
     }
   }
@@ -169,7 +177,7 @@ class OfferProvider extends ChangeNotifier {
           .commonApi("${api.offerSearch}?name=$query", [], ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 0) {
+        if (value.data['responseStatus'] == 1) {
           offerViewAllList.clear();
           OfferSearchModel offerSearchModel =
               OfferSearchModel.fromJson(value.data);
@@ -182,6 +190,25 @@ class OfferProvider extends ChangeNotifier {
     }
   }
 
+  List<int> selectedOfferTypeIds = [];
+
+  int selectedTab = 0;
+  // using model OfferType
+
+  double selectedDistance = 30.0;
+  Dio? dio;
+
+  void clearAll(context) {
+    if (selectedTab == 0) {
+      selectedOfferTypeIds.clear();
+    } else {
+      selectedDistance = 30.0;
+    }
+    final offers = Provider.of<OfferProvider>(context, listen: false);
+    offers.getViewAllOfferAPI();
+    route.pop(context);
+  }
+
   getViewAllOfferAPI() {
     notifyListeners();
     try {
@@ -189,12 +216,14 @@ class OfferProvider extends ChangeNotifier {
           .commonApi(api.offerSearch, [], ApiType.get, isToken: true)
           .then((value) {
         notifyListeners();
-        if (value.data['responseStatus'] == 0) {
+        if (value.isSuccess! && value.data['responseStatus'] == 1) {
           offerViewAllList.clear();
           OfferSearchModel offerSearchModel =
               OfferSearchModel.fromJson(value.data);
           notifyListeners();
           offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
+          fetchOfferTypes();
+          notifyListeners();
         }
       });
     } catch (e) {
@@ -203,23 +232,43 @@ class OfferProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  OffersDetailsModel? offersDetails;
+  bool isLoading = false;
+  List<OfferType> offerTypes = [];
 
-  void offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
+  Future<void> fetchOfferTypes() async {
+    notifyListeners();
+    isLoading = true;
+
+    final response =
+        await apiServices.commonApi(api.offerType, [], ApiType.get);
+    if (response.data['responseStatus'] == 1) {
+      final offerCategoryModel = OfferCategoryModel.fromJson(response.data);
+      offerTypes = offerCategoryModel.offerTypes;
+    }
+    notifyListeners();
+    isLoading = false;
+  }
+
+  OfferDetailsModel? offersDetails;
+
+  offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
+    notifyListeners();
     try {
       apiServices
           .commonApi("${api.offersDetails}$id/details", [], ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
+        if (value.isSuccess! && value.data['responseStatus'] == 1) {
           offerViewAllList.clear();
-          OffersDetailsModel offersDetailsModel =
-              OffersDetailsModel.fromJson(value.data);
+          OfferDetailsModel offersDetailsModel =
+              OfferDetailsModel.fromJson(value.data);
           offersDetails = offersDetailsModel;
           notifyListeners();
           isNotRouting == true
               ? null
               : route.pushNamed(context, routeName.offerDetailsScreen);
+
+          notifyListeners();
         }
       });
     } catch (e) {

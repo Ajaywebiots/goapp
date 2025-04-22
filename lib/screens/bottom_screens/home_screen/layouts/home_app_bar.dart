@@ -54,12 +54,6 @@ class HomeAppBar extends StatelessWidget {
                   .textHeight(1))
         ]),
         Row(children: [
-          CommonArrow(arrow: eSvgAssets.search).inkWell(onTap: () {
-            route.pushNamed(context, routeName.search).then((e) {
-              value.animationController!.reset();
-              value.notifyListeners();
-            });
-          }),
           const HSpace(Sizes.s10),
           Container(
                   alignment: Alignment.center,

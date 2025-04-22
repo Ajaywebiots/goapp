@@ -1,4 +1,5 @@
 import 'package:flutter_html/flutter_html.dart';
+import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:intl/intl.dart';
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/latest_blog_details_provider.dart';
@@ -42,12 +43,14 @@ class BlogDetailsLayout extends StatelessWidget {
                       context,
                       article.isFavourite,
                       article.appObject!.appObjectType,
-                      article.appObject!.appObjectId,
-                      onSuccess: () => Provider.of<LatestBLogDetailsProvider>(
-                              context,
-                              listen: false)
-                          .detailsDataAPI(context, article.id,
-                              isNotRouting: true));
+                      article.appObject!.appObjectId, onSuccess: () {
+                Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+                    .detailsDataAPI(context, article.id, isNotRouting: true);
+                Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+                    .getArticlesSearchAPI(context);
+                Provider.of<HomeScreenProvider>(context, listen: false)
+                    .homeFeed(context);
+              });
             })
           ]),
           // Row(children: [

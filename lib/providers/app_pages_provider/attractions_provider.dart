@@ -14,6 +14,7 @@ import '../../models/provider_model.dart';
 import '../../screens/app_pages_screen/search_screen/filter_tap_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
+import '../../screens/app_pages_screen/search_screen/layouts/rating_bar_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import '../../services/api_service.dart';
 import '../bottom_providers/dashboard_provider.dart';
@@ -41,7 +42,6 @@ class AttractionProvider with ChangeNotifier {
 
   getAttractionSearchAPI(context) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-    notifyListeners();
     isLoading = true;
     Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
@@ -49,6 +49,7 @@ class AttractionProvider with ChangeNotifier {
 
     try {
       log("hello  kjhdfjkdfjsd  sssss ");
+
       apiServices
           .commonApi(
               "${api.attractionSearch}?currentLongitude=$lon&currentLatitude=$lat",
@@ -57,15 +58,21 @@ class AttractionProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         log("value.data ${value.data}");
-        if (value.data['responseStatus'] == 1) {
-          notifyListeners();
-          isLoading = false;
-          attractionsSearchList.clear();
-          AttractionsSearchModel attractionsSearchModel =
-              AttractionsSearchModel.fromJson(value.data);
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            notifyListeners();
+            isLoading = false;
+            attractionsSearchList.clear();
+            AttractionsSearchModel attractionsSearchModel =
+                AttractionsSearchModel.fromJson(value.data);
 
-          attractionsSearchList.addAll(attractionsSearchModel.attractions);
-          log("attractionsSearchList $attractionsSearchList");
+            attractionsSearchList.addAll(attractionsSearchModel.attractions);
+            log("attractionsSearchList $attractionsSearchList");
+          }
+        } else {
+          isLoading = false;
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -76,20 +83,30 @@ class AttractionProvider with ChangeNotifier {
 
   AttractionsDetailsModel? attractionsDetail;
 
-  attractionsDetailsAPI(context, id) {
+  attractionsDetailsAPI(context, id, {isNotRoute = false}) {
+    notifyListeners();
     try {
       apiServices
           .commonApi("${api.attractionsDetails}$id/details", [], ApiType.get,
               isToken: true)
           .then((value) {
         log("alue.data['responseStatus']::${value.data}");
-        if (value.data['responseStatus'] == 1) {
-          log("DDDDDD:${value.data}");
-          AttractionsDetailsModel attractionsDetailModel =
-              AttractionsDetailsModel.fromJson(value.data);
-          attractionsDetail = attractionsDetailModel;
-
-          route.pushNamed(context, routeName.attractionDetailScreen);
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            notifyListeners();
+            log("DDDDDD:${value.data}");
+            AttractionsDetailsModel attractionsDetailModel =
+                AttractionsDetailsModel.fromJson(value.data);
+            attractionsDetail = attractionsDetailModel;
+            notifyListeners();
+            isNotRoute == true
+                ? null
+                : route.pushNamed(context, routeName.attractionDetailScreen);
+          }
+        } else {
+          isLoading = false;
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -104,19 +121,25 @@ class AttractionProvider with ChangeNotifier {
       apiServices
           .commonApi(api.attractionCategories, [], ApiType.get)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
-          notifyListeners();
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            notifyListeners();
 
-          log("API Response: attractionCategories ${value.data}");
-          AttractionsCategoriesModel categoryModel =
-              AttractionsCategoriesModel.fromJson(value.data);
-          notifyListeners();
-          // Clear old list and add new parsed categories
-          categoryList.clear();
-          notifyListeners();
-          categoryList.addAll(categoryModel.categories ?? []);
-          hideLoading(context);
-          notifyListeners();
+            log("API Response: attractionCategories ${value.data}");
+            AttractionsCategoriesModel categoryModel =
+                AttractionsCategoriesModel.fromJson(value.data);
+            notifyListeners();
+            // Clear old list and add new parsed categories
+            categoryList.clear();
+            notifyListeners();
+            categoryList.addAll(categoryModel.categories ?? []);
+            hideLoading(context);
+            notifyListeners();
+          }
+        } else {
+          isLoading = false;
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -164,15 +187,21 @@ class AttractionProvider with ChangeNotifier {
               ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
-          isLoading = false;
-          attractionsSearchList.clear();
-          AttractionsSearchModel attractionsSearchModel =
-              AttractionsSearchModel.fromJson(value.data);
-          attractionsSearchList.addAll(attractionsSearchModel.attractions);
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            isLoading = false;
+            attractionsSearchList.clear();
+            AttractionsSearchModel attractionsSearchModel =
+                AttractionsSearchModel.fromJson(value.data);
+            attractionsSearchList.addAll(attractionsSearchModel.attractions);
 
-          log("search aaaa $attractionsSearchList");
-          notifyListeners();
+            log("search aaaa $attractionsSearchList");
+            notifyListeners();
+          }
+        } else {
+          isLoading = false;
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -203,8 +232,11 @@ class AttractionProvider with ChangeNotifier {
 
   onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
+      notifyListeners();
       selectedCategory.add(id);
+      notifyListeners();
     } else {
+      notifyListeners();
       selectedCategory.remove(id);
     }
     log("SSS : $selectedCategory");
@@ -220,26 +252,95 @@ class AttractionProvider with ChangeNotifier {
   }
 
   clearFilter(context) {
+    getAttractionSearchAPI(context);
     selectedCategory = [];
     // selectedRates = [];
     searchList = [];
     lowerVal = 0.0;
     upperVal = maxPrice;
     slider = 0;
-    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-    categoryList = homePvr.categoryList;
+    // final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    // categoryList = homePvr.categoryList;
     route.pop(context);
     notifyListeners();
   }
 
   List selectedCategory = [];
+  List selectedRates = [];
+
+  searchService(BuildContext context, {bool isPop = false}) async {
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+    Position position = await homePvr.getCurrentLocation();
+    double lat = position.latitude;
+    double lon = position.longitude;
+    try {
+      final ratingMap = {0: 5, 1: 4, 2: 3, 3: 2, 4: 1};
+      final selectedRatingValues = selectedRates
+          .map((i) => ratingMap[i])
+          .where((e) => e != null)
+          .toList();
+
+      final distanceParam = slider.toInt(); // radius
+
+      // Final query params
+      Map<String, dynamic> queryParams = {
+        "rating": selectedRatingValues,
+        "radius": distanceParam,
+        "category": selectedCategory,
+        "currentLongitude": lon,
+        "currentLatitude": lat
+      };
+
+      Uri url = buildUriWithRepeatedKeys(api.attractionSearch, queryParams);
+
+      log("Final API URL: $url");
+
+      apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
+        if (value.isSuccess! && value.data['responseStatus'] == 1) {
+          // hideLoading(context);
+          attractionsSearchList.clear();
+          notifyListeners();
+          AttractionsSearchModel businessSearchModel =
+              AttractionsSearchModel.fromJson(value.data);
+          notifyListeners();
+          attractionsSearchList.addAll(businessSearchModel.attractions);
+          notifyListeners();
+          log("attractionsSearchList $attractionsSearchList");
+        }
+      });
+
+      if (isPop) {
+        route.pop(context);
+      }
+    } catch (e) {
+      log("searchService error: $e");
+    }
+  }
+
+  Uri buildUriWithRepeatedKeys(String baseUrl, Map<String, dynamic> params) {
+    List<String> queryParts = [];
+
+    params.forEach((key, value) {
+      if (value is List) {
+        for (var item in value) {
+          queryParts.add(
+              '${Uri.encodeQueryComponent(key)}=${Uri.encodeQueryComponent(item.toString())}');
+        }
+      } else {
+        queryParts.add(
+            '${Uri.encodeQueryComponent(key)}=${Uri.encodeQueryComponent(value.toString())}');
+      }
+    });
+
+    return Uri.parse('$baseUrl?${queryParts.join('&')}');
+  }
 
   onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return Consumer<OfferProvider>(builder: (context, ccc, child) {
+          return Consumer<AttractionProvider>(builder: (context, ccc, child) {
             return SafeArea(
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height / 1.14,
@@ -276,48 +377,48 @@ class AttractionProvider with ChangeNotifier {
                                                     index: e.key,
                                                     selectedIndex:
                                                         ccc.selectIndex,
-                                                    onTap: () =>
-                                                        ccc.onFilter(e.key)))
+                                                    onTap: () => ccc.onFilter(
+                                                        e.key, context)))
                                                 .toList())
                                         .paddingAll(Insets.i5))
                                 .paddingOnly(
                                     top: Insets.i25,
-                                    bottom: (ccc.selectIndex == 0 ||
-                                            ccc.selectIndex == 2)
-                                        ? Insets.i20
-                                        : 0,
+                                    bottom:
+                                        (selectIndex == 0 || selectIndex == 2)
+                                            ? Insets.i20
+                                            : 0,
                                     left: Insets.i20,
                                     right: Insets.i20),
-                            if (ccc.selectIndex == 0)
+                            if (selectIndex == 0)
                               Text(language(context, appFonts.categoryList),
                                       style: appCss.dmDenseRegular14.textColor(
                                           appColor(context).lightText))
                                   .paddingSymmetric(horizontal: Insets.i20),
-                            if (ccc.selectIndex == 0) const VSpace(Sizes.s15),
-                            if (ccc.selectIndex == 0) const VSpace(Sizes.s15),
+                            if (selectIndex == 0) const VSpace(Sizes.s15),
+                            if (selectIndex == 0) const VSpace(Sizes.s15),
                             Expanded(
                                 child: Column(children: [
-                              ccc.selectIndex == 0
+                              selectIndex == 0
                                   ? Expanded(
                                       child: ListView.builder(
-                                          itemCount: categoryList.length,
+                                          itemCount: ccc.categoryList.length,
                                           //physics: const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           padding: EdgeInsets.zero,
                                           itemBuilder: (context, index) {
                                             return ListTileLayout(
-                                                data: categoryList[index],
+                                                data: ccc.categoryList[index],
                                                 selectedCategory:
-                                                    selectedCategory,
+                                                    ccc.selectedCategory,
                                                 onTap: () {
-                                                  onCategoryChange(
+                                                  ccc.onCategoryChange(
                                                       context,
-                                                      categoryList[index]
+                                                      ccc.categoryList[index]
                                                           .categoryId);
                                                 });
                                           }))
-                                  : ccc.selectIndex == 1
-                                      ? SecondFilter(
+                                  : selectIndex == 1
+                                      ? /*SecondFilter(
                                           min: minPrice,
                                           max: maxPrice,
                                           lowerVal: lowerVal,
@@ -326,7 +427,36 @@ class AttractionProvider with ChangeNotifier {
                                           onDragging: (handlerIndex, lowerValue,
                                                   upperValue) =>
                                               onSliderChange(handlerIndex,
-                                                  lowerValue, upperValue))
+                                                  lowerValue, upperValue))*/
+                                      SingleChildScrollView(
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                              const VSpace(Sizes.s20),
+                                              Text(
+                                                      language(context,
+                                                          appFonts.rating),
+                                                      style: appCss
+                                                          .dmDenseMedium14
+                                                          .textColor(
+                                                              appColor(context)
+                                                                  .lightText))
+                                                  .paddingOnly(
+                                                      left: Insets.i20),
+                                              const VSpace(Sizes.s15),
+                                              ...appArray.ratingList
+                                                  .asMap()
+                                                  .entries
+                                                  .map((e) => RatingBarLayout(
+                                                      index: e.key,
+                                                      data: e.value,
+                                                      selectedIndex:
+                                                          selectedRates
+                                                              .contains(e.key),
+                                                      onTap: () =>
+                                                          onTapRating(e.key)))
+                                            ]))
                                       : SingleChildScrollView(
                                           child: Column(
                                               crossAxisAlignment:
@@ -530,9 +660,8 @@ class AttractionProvider with ChangeNotifier {
                           child: BottomSheetButtonCommon(
                               textOne: appFonts.clearAll,
                               textTwo: appFonts.apply,
-                              applyTap: () {
-                                // searchService(context, isPop: true);
-                              },
+                              applyTap: () =>
+                                  searchService(context, isPop: true),
                               clearTap: () => clearFilter(context)))
                     ])).bottomSheetExtension(context));
           });
@@ -542,6 +671,17 @@ class AttractionProvider with ChangeNotifier {
       dash.notifyListeners();
       searchCtrl.text = "";
     });
+  }
+
+  onTapRating(id) {
+    if (!selectedRates.contains(id)) {
+      selectedRates.add(id);
+      log("mmmm $selectedRates");
+    } else {
+      selectedRates.remove(id);
+    }
+
+    notifyListeners();
   }
 
   slidingValue(newValue) {

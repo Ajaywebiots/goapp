@@ -1,4 +1,7 @@
 import 'dart:developer';
+import 'package:goapp/models/api_model/business_list_model.dart';
+import 'package:goapp/services/api_service.dart';
+
 import '../../common_tap.dart';
 import '../../config.dart';
 import '../../models/favourite_model.dart';
@@ -204,5 +207,28 @@ class FavouriteListProvider with ChangeNotifier {
     count++;
     serviceFavList[id].service!.selectedRequiredServiceMan = count.toString();
     notifyListeners();
+  }
+
+  BusinessSearchModel? businessSearch;
+
+  favListDataAPI(context) {
+    try {
+      apiServices
+          .commonApi(api.favList, [], ApiType.get, isToken: true)
+          .then((value) {
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            BusinessSearchModel businessSearchModel =
+                BusinessSearchModel.fromJson(value.data);
+            businessSearch = businessSearchModel;
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
+        }
+      });
+    } catch (e) {
+      log("EEEE favListDataAPI::: $e");
+    }
   }
 }

@@ -5,7 +5,7 @@
 // import '../../../providers/bottom_providers/dashboard_provider.dart';
 // import '../../../widgets/heading_row_common.dart';
 // import '../coupon_list_screen/layouts/coupon_layout.dart' show CouponLayout;
-// import 'layouts/service_description.dart';
+// import 'layouts/attractions_service_desc.dart';
 // import 'layouts/service_image_layout.dart';
 // import 'layouts/service_review_layout.dart';
 //

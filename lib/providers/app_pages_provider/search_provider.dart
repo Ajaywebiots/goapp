@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
+import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 
 import '../../common_tap.dart';
@@ -20,6 +21,8 @@ import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.da
 import '../../screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/third_filter.dart';
 import '../../services/api_service.dart';
+import '../../widgets/dotted_line.dart';
+import '../../widgets/edit_review_layout.dart';
 import '../bottom_providers/dashboard_provider.dart';
 import 'categories_details_provider.dart';
 
@@ -87,14 +90,19 @@ class SearchProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         notifyListeners();
-        if (value.data['responseStatus'] == 1) {
-          BusinessDetailModel businessDetailModel =
-              BusinessDetailModel.fromJson(value.data);
-          businessDetail = businessDetailModel;
-          notifyListeners();
-          isNotRouting == true
-              ? null
-              : route.pushNamed(context, routeName.businessDetailsScreen);
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            BusinessDetailModel businessDetailModel =
+                BusinessDetailModel.fromJson(value.data);
+            businessDetail = businessDetailModel;
+            notifyListeners();
+            isNotRouting == true
+                ? null
+                : route.pushNamed(context, routeName.businessDetailsScreen);
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
         notifyListeners();
       });
@@ -464,6 +472,8 @@ class SearchProvider with ChangeNotifier {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     categoryList = homePvr.categoryList;
     route.pop(context);
+    popular = true;
+    getBusinessSearchAPI(context);
     notifyListeners();
   }
 
@@ -665,16 +675,21 @@ class SearchProvider with ChangeNotifier {
       log("Final API URL: $url");
 
       apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
-        if (value.data['responseStatus'] == 1) {
-          // hideLoading(context);
-          businessSearchList.clear();
-          notifyListeners();
-          BusinessSearchModel businessSearchModel =
-              BusinessSearchModel.fromJson(value.data);
-          notifyListeners();
-          businessSearchList.addAll(businessSearchModel.businesses);
-          notifyListeners();
-          log("businessSearchList $businessSearchList");
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            // hideLoading(context);
+            businessSearchList.clear();
+            notifyListeners();
+            BusinessSearchModel businessSearchModel =
+                BusinessSearchModel.fromJson(value.data);
+            notifyListeners();
+            businessSearchList.addAll(businessSearchModel.businesses);
+            notifyListeners();
+            log("businessSearchList $businessSearchList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
 
@@ -787,16 +802,22 @@ class SearchProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         log("value.data ${value.data}");
-        if (value.data['responseStatus'] == 1) {
-          // hideLoading(context);
-          businessSearchList.clear();
-          notifyListeners();
-          BusinessSearchModel businessSearchModel =
-              BusinessSearchModel.fromJson(value.data);
-          notifyListeners();
-          businessSearchList.addAll(businessSearchModel.businesses);
-          notifyListeners();
-          log("businessSearchList $businessSearchList");
+
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            // hideLoading(context);
+            businessSearchList.clear();
+            notifyListeners();
+            BusinessSearchModel businessSearchModel =
+                BusinessSearchModel.fromJson(value.data);
+            notifyListeners();
+            businessSearchList.addAll(businessSearchModel.businesses);
+            notifyListeners();
+            log("businessSearchList $businessSearchList");
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -851,4 +872,140 @@ class SearchProvider with ChangeNotifier {
   }*/
 
   void onReady() {}
+
+  addReviewTap(context, RateAppProvider? value) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return AnimatedPadding(
+              duration: const Duration(milliseconds: 300),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: SafeArea(
+                  child: SingleChildScrollView(
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 1.4,
+                          child: Stack(children: [
+                            SingleChildScrollView(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            language(
+                                                context, appFonts.addReview),
+                                            style: appCss.dmDenseMedium18
+                                                .textColor(appColor(context)
+                                                    .darkText)),
+                                        const Icon(CupertinoIcons.multiply)
+                                            .inkWell(
+                                                onTap: () => route.pop(context))
+                                      ]).paddingSymmetric(
+                                      vertical: 20, horizontal: Insets.i20),
+                                  Column(children: [
+                                    Text(
+                                            language(context,
+                                                appFonts.whatDoYouThink),
+                                            style: appCss.dmDenseMedium14
+                                                .textColor(appColor(context)
+                                                    .lightText))
+                                        .paddingAll(Insets.i20),
+                                    const DottedLines(),
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              language(
+                                                  context, appFonts.rateUs),
+                                              style: appCss.dmDenseMedium14
+                                                  .textColor(appColor(context)
+                                                      .darkText)),
+                                          const VSpace(Sizes.s12),
+                                          Consumer<RateAppProvider>(
+                                              builder: (context, rate, child) {
+                                            return SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: appArray
+                                                            .editReviewList
+                                                            .asMap()
+                                                            .entries
+                                                            .map((e) => EditReviewLayout(
+                                                                data: e.value,
+                                                                index: e.key,
+                                                                selectIndex: rate
+                                                                    .selectedIndex,
+                                                                onTap: () =>
+                                                                    rate.onTapEmoji(
+                                                                        e.key)))
+                                                            .toList())
+                                                    .width(MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        1.3));
+                                          }),
+                                          const VSpace(Sizes.s25),
+                                          Text(
+                                              language(context,
+                                                  appFonts.writeYourReview),
+                                              style: appCss.dmDenseMedium14
+                                                  .textColor(appColor(context)
+                                                      .darkText)),
+                                          const VSpace(Sizes.s12),
+                                          TextFieldCommon(
+                                              hintText: appFonts.writeHere,
+                                              minLines: 8,
+                                              maxLines: 8,
+                                              controller: value?.rateController,
+                                              focusNode: value?.rateFocus,
+                                              isNumber: true,
+                                              validator: (val) =>
+                                                  validation.commonValidation(
+                                                      context, val))
+                                        ]).paddingAll(Insets.i20)
+                                  ])
+                                      .boxShapeExtension(
+                                          color: appColor(context).fieldCardBg,
+                                          radius: AppRadius.r12)
+                                      .paddingDirectional(
+                                          horizontal: Insets.i20),
+                                  VSpace(Insets.i20),
+                                  BottomSheetButtonCommon(
+                                          textOne: appFonts.cancel,
+                                          textTwo: appFonts.submit,
+                                          applyTap: () => Provider.of<
+                                                      RateAppProvider>(context,
+                                                  listen: false)
+                                              .onSubmit(context,
+                                                  isBusiness: true,
+                                                  appObjectId: businessDetail
+                                                      ?.business
+                                                      ?.appObject
+                                                      ?.appObjectId,
+                                                  appObjectType: businessDetail
+                                                      ?.business
+                                                      ?.appObject
+                                                      ?.appObjectType,
+                                                  id: businessDetail?.business?.id),
+                                          clearTap: () => value?.clearAll(context))
+                                      .backgroundColor(
+                                          appColor(context).whiteColor)
+                                      .alignment(Alignment.bottomCenter)
+                                ]))
+                          ])).bottomSheetExtension(context))));
+        });
+  }
 }

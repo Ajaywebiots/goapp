@@ -63,22 +63,27 @@ class RegisterProvider extends ChangeNotifier {
         apiServices
             .commonApi(api.register, body, ApiType.post, isToken: false)
             .then((value) {
-          if (value.data['responseStatus'] == 1) {
-            log("ssss ${value.data}");
-            hideLoading(context);
-            userNameCtrl.text = "";
-            enterFName.text = "";
-            enterLName.text = "";
-            txtEmail.text = "";
-            txtPhone.text = "";
-            dialCode = "+30";
-            txtPass.text = "";
-            txtConfirmPass.text = "";
+          if (value.isSuccess == true) {
+            if (value.data['responseStatus'] == 1) {
+              log("ssss ${value.data}");
+              hideLoading(context);
+              userNameCtrl.text = "";
+              enterFName.text = "";
+              enterLName.text = "";
+              txtEmail.text = "";
+              txtPhone.text = "";
+              dialCode = "+30";
+              txtPass.text = "";
+              txtConfirmPass.text = "";
 
-            route.pushReplacementNamed(context, routeName.login);
+              route.pushReplacementNamed(context, routeName.login);
+            } else {
+              hideLoading(context);
+              showMessage(context, value.data['responseMessage']);
+            }
           } else {
-            hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
+            Navigator.pushNamedAndRemoveUntil(
+                context, routeName.login, (Route<dynamic> route) => false);
           }
         });
       }

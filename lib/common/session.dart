@@ -7,6 +7,7 @@ class Session {
   String isDarkMode = 'isDarkMode';
   String themeIndex = 'themeIndex';
   String accessToken = 'accessToken';
+  String tokenExpiration = 'tokenExpiration';
   String locale = 'locale';
   String cart = 'cart';
   String isContinueAsGuest = 'isContinueAsGuest';
@@ -15,5 +16,4 @@ class Session {
   String priceSymbol = 'priceSymbol';
   String currency = 'currency';
   String currencyVal = 'currencyVal';
-
 }

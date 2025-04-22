@@ -144,7 +144,6 @@ class OnBoardingProvider with ChangeNotifier {
   onBoardingDetails() {
     try {
       apiServices.commonApi(api.splashScreen, [], ApiType.get).then((value) {
-        log("value ddddd ${value.data}");
         if (value.isSuccess!) {
           final sss = OnboardingModel.fromJson(value.data);
           for (var data in sss.splashScreens![0].items!) {

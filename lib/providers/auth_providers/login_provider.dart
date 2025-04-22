@@ -145,6 +145,8 @@ class LoginProvider with ChangeNotifier {
           log("token session.id ${pref.getInt(session.id)}");
           log("accessToken ${pref.getString(session.accessToken)}");
 
+          pref.setString(session.tokenExpiration, value.data['expiration']);
+
           final homePvr =
               Provider.of<HomeScreenProvider>(context, listen: false);
           final searchPvr = Provider.of<SearchProvider>(context, listen: false);

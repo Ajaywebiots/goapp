@@ -20,8 +20,10 @@ class SplashProvider extends ChangeNotifier {
         await Future.delayed(const Duration(seconds: 1)).then((value) {
           bool? isIntro = pref.getBool(session.isIntro) ?? false;
           String? token = pref.getString(session.accessToken);
+          String? expirationString = pref.getString(session.tokenExpiration);
 
           log("access token::: $token");
+          log("expirationString::: $expirationString");
           Provider.of<SplashProvider>(context, listen: false).dispose();
           onDispose();
           log("isIntro::$isIntro");
@@ -34,8 +36,14 @@ class SplashProvider extends ChangeNotifier {
           final catListPvr =
               Provider.of<CategoriesListProvider>(context, listen: false);
 
+          bool isTokenValid = false;
+          if (token != null && expirationString != null) {
+            DateTime expirationTime = DateTime.parse(expirationString);
+            isTokenValid = expirationTime.isAfter(DateTime.now());
+          }
+
           if (isIntro) {
-            if (token != null) {
+            if (token != null && isTokenValid) {
               homePvr.homeFeed(context);
               searchPvr.getBusinessSearchAPI(context, isFilter: false);
               attractionPvr.getAttractionSearchAPI(context);

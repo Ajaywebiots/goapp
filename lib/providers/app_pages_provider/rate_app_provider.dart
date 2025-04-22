@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/services/api_service.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -31,7 +32,8 @@ class RateAppProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onSubmit(context, {appObjectId, appObjectType, int? id}) async {
+  onSubmit(context,
+      {appObjectId, appObjectType, int? id, bool? isBusiness = false}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final body = {
       "rate": selectedIndex,
@@ -47,10 +49,18 @@ class RateAppProvider with ChangeNotifier {
             isToken: true)
         .then((value) {
       log("value.data ${value.data}");
-      if (value.data['responseStatus'] == 1) {
-        route.pop(context);
-        Provider.of<SearchProvider>(context, listen: false)
-            .businessDetailsAPI(context, id);
+      if (value.isSuccess == true) {
+        if (value.data['responseStatus'] == 1) {
+          route.pop(context);
+          isBusiness == true
+              ? Provider.of<SearchProvider>(context, listen: false)
+                  .businessDetailsAPI(context, id, isNotRouting: true)
+              : Provider.of<AttractionProvider>(context, listen: false)
+                  .attractionsDetailsAPI(context, id, isNotRoute: true);
+        }
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, routeName.login, (Route<dynamic> route) => false);
       }
     });
   }

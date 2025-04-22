@@ -89,7 +89,9 @@ class HomeScreenProvider with ChangeNotifier {
     // showLoading(context);
     isLoading = true;
     Position position = await getCurrentLocation();
-
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? token = pref.getString(session.accessToken);
+    log("SSSSS::$token");
     try {
       apiServices
           .commonApi(
@@ -98,27 +100,35 @@ class HomeScreenProvider with ChangeNotifier {
               ApiType.get,
               isToken: true)
           .then((value) {
-        if ((value.data['responseStatus'] == 1)) {
-          // hideLoading(context);
-          log("ajay hariyani ${value.data}");
+        log("isToken::");
+        if (value.isSuccess == true) {
           isLoading = false;
-          HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
-          bannerList = [];
-          couponOfferList = [];
-          categoryList = [];
-          firstTwoFeaturedServiceList = [];
-          firstTwoHighRateList = [];
-          // businessCategories = [];
-          firstTwoBlogList = [];
-          bannerList.addAll(homeFeedModel.banners as Iterable<model.Banner>);
-          couponOfferList.addAll(homeFeedModel.offers);
-          categoryList.addAll(homeFeedModel.categories);
-          firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
-          firstTwoBlogList.addAll(homeFeedModel.articles);
-          firstTwoHighRateList.addAll(homeFeedModel.attractions);
-          log("Updated bannerList: ${bannerList.length} items");
+          if (value.data['responseStatus'] == 1) {
+            // hideLoading(context);
+            log("ajay hariyani ${value.data}");
+            isLoading = false;
+            HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
+            bannerList = [];
+            couponOfferList = [];
+            categoryList = [];
+            firstTwoFeaturedServiceList = [];
+            firstTwoHighRateList = [];
+            // businessCategories = [];
+            firstTwoBlogList = [];
+            bannerList.addAll(homeFeedModel.banners as Iterable<model.Banner>);
+            couponOfferList.addAll(homeFeedModel.offers);
+            categoryList.addAll(homeFeedModel.categories);
+            firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
+            firstTwoBlogList.addAll(homeFeedModel.articles);
+            firstTwoHighRateList.addAll(homeFeedModel.attractions);
+            log("Updated bannerList: ${bannerList.length} items");
 
-          notifyListeners();
+            notifyListeners();
+          }
+        } else {
+          isLoading = false;
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
