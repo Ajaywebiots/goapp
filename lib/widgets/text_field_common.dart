@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+
 import '../config.dart';
 
 class TextFieldCommon extends StatefulWidget {
@@ -20,6 +21,8 @@ class TextFieldCommon extends StatefulWidget {
   final bool? isNumber;
   final GestureTapCallback? onTap;
   final List<TextInputFormatter>? inputFormatters;
+
+  final bool readOnly;
 
   const TextFieldCommon(
       {super.key,
@@ -46,7 +49,8 @@ class TextFieldCommon extends StatefulWidget {
       this.hPadding,
       this.isMaxLine = false,
       this.onTap,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.readOnly = false});
 
   @override
   State<TextFieldCommon> createState() => _TextFieldCommonState();
@@ -84,6 +88,7 @@ class _TextFieldCommonState extends State<TextFieldCommon> {
             textSelectionTheme: TextSelectionThemeData(
                 cursorColor: Colors.black, selectionHandleColor: Colors.black)),
         child: TextFormField(
+            readOnly: widget.readOnly,
             maxLines: widget.maxLines ?? 1,
             style: appCss.dmDenseMedium14.textColor(appColor(context).darkText),
             focusNode: _focusNode,

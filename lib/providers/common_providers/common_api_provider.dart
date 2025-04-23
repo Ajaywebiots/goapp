@@ -1,12 +1,6 @@
 import 'dart:developer';
 
 import 'package:goapp/config.dart';
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
-import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/services/api_service.dart';
 
 class CommonApiProvider extends ChangeNotifier {
@@ -51,24 +45,9 @@ class CommonApiProvider extends ChangeNotifier {
       if (onSuccess != null) {
         onSuccess();
       }
-
-      // final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-      // final offerPvr = Provider.of<OfferProvider>(context, listen: false);
-      // final attraction =
-      //     Provider.of<AttractionProvider>(context, listen: false);
-      // final business = Provider.of<SearchProvider>(context, listen: false);
-      // final blogPvr =
-      //     Provider.of<LatestBLogDetailsProvider>(context, listen: false);
-      //
-      // attraction.getAttractionSearchAPI(context);
-      // homePvr.homeFeed(context);
-      // offerPvr.getViewAllOfferAPI();
-      // business.businessDetailsAPI(context, havingId, isNotRouting: true);
-      // blogPvr.detailsDataAPI(context, havingId);
-      // blogPvr.getArticlesSearchAPI(context);
       notifyListeners();
-    } catch (e) {
-      log("Error in toggleFavAPI: $e");
+    } catch (e, s) {
+      log("Error in toggleFavAPI: $e ---->> $s");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Operation failed",
               style: appCss.dmDenseRegular16

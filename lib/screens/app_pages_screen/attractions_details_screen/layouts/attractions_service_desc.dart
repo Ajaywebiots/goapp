@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../config.dart';
 import '../../../../models/api_model/attractions_details_model.dart';
 import '../../../../models/api_model/business_details_model.dart';
-import '../../../../providers/app_pages_provider/search_provider.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
@@ -447,7 +446,7 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                                     listen: false)
                                 .toggleFavAPI(
                                     context,
-                                    widget.attractionData?.isFavourite,
+                                    widget.attractionData!.isFavourite,
                                     widget.attractionData?.appObject!
                                         .appObjectType,
                                     widget.attractionData?.appObject!

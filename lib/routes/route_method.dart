@@ -5,7 +5,6 @@ import '../screens/app_pages_screen/app_setting_screen/app_setting_screen.dart';
 import '../screens/app_pages_screen/attractions_details_screen/attraction_detail_screen.dart';
 import '../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../screens/app_pages_screen/categories_list_screen/categories_list_screen.dart';
-import '../screens/app_pages_screen/category_detail_screen/category_detail_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
 import '../screens/app_pages_screen/change_pass_in_app/change_pass_in_app.dart';
 import '../screens/app_pages_screen/change_pass_in_app/reset_password_screen_in_app.dart';
@@ -56,7 +55,7 @@ class AppRoute {
     // routeName.providerDetailsScreen: (p0) => const ProviderDetailsScreen(),
     routeName.latestBlogDetails: (p0) => const LatestBlogDetailsScreen(),
     routeName.commonGeneralInfoLayout: (p0) => const CommonGeneralInfoLayout(),
-    routeName.search: (p0) => const SearchScreen(),
+    routeName.search: (p0) => SearchScreen(),
     routeName.changeLanguage: (p0) => ChangeLanguageScreen(),
     routeName.commonGalleryScreen: (p0) => const CommonGalleryScreen(),
     routeName.businessDetailsScreen: (p0) => const BusinessDetailsScreen(),

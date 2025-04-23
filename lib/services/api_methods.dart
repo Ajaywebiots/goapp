@@ -43,6 +43,8 @@ class ApiMethods {
   String offerType = "/Offer/types";
 
   String favList = "/user/";
+  String profile = "/user/";
+  String appPages = "/app/page/";
 
 // //
 // String homeFeed = '/api/App/home/feed';

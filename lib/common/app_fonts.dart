@@ -63,9 +63,11 @@ class AppFonts {
   final enterPhoneNumber = "enterPhoneNumber";
   final skip = "skip";
   final firstName = "firstName";
+  final birthday = "Birthday";
   final lastName = "lastName";
   final username = "username";
   final enterFName = "enterFName";
+  final birthDate = "dd/MM/yyyy";
   final chooseUsername = "chooseUsername";
   final enterLName = "enterLName";
   final alreadyMember = "alreadyMember";
@@ -219,6 +221,7 @@ class AppFonts {
 
   final privacyPolicy = "privacyPolicy";
   final cancellationPolicy = "cancellationPolicy";
+  final termCondition = "Terms & Conditions";
   final refundPolicy = "refundPolicy";
   final helpSupport = "helpSupport";
   final submit = "submit";
@@ -306,12 +309,14 @@ class AppFonts {
   final oneRate = "oneRate";
   final myAccount = "myAccount";
   final myProfile = "myProfile";
+
   // final favouriteList = "favouriteList";
   // final myReviews = "myReviews";
   final appSettings = "appSettings";
   final subscriptionPlans = "subscriptionPlans";
   final registerYourBusiness = "registerYourBusiness";
   final generalInfo = "generalInfo";
+
   // final aboutUs = "aboutUs";
   // final privacyPolicy = "privacyPolicy";
   // final cancellationPolicy = "cancellationPolicy";
@@ -323,8 +328,10 @@ class AppFonts {
   final close = "close";
   final directions = "directions";
   final address = "address";
+
   // final call = "call";
   final contact = "contact";
+
   // final hours = "hours";
   // final gallery = "gallery";
   final save = "save";
@@ -334,5 +341,5 @@ class AppFonts {
 // final openingHours = "openingHours";
 
 // final changeLanguage = "changeLanguage";
-  // final profileDetails = "profileDetails";
+// final profileDetails = "profileDetails";
 }

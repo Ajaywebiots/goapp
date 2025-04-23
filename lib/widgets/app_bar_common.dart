@@ -10,7 +10,7 @@ class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Consumer<LanguageProvider>(builder: (context, languages, child) {
       return AppBar(
-          leadingWidth: 80,
+          leadingWidth: 60,
           title: Text(language(context, title!),
               style:
                   appCss.dmDenseMedium18.textColor(appColor(context).darkText)),
@@ -20,7 +20,7 @@ class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
                       ? eSvgAssets.arrowRight
                       : eSvgAssets.arrowLeft,
                   onTap: onTap ?? () => route.pop(context))
-              .padding(vertical: Insets.i8));
+              .padding(vertical: Insets.i8, left: 20));
     });
   }
 

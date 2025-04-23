@@ -44,9 +44,8 @@ class FavouriteListProvider with ChangeNotifier {
           .then((value) {
         notifyListeners();
         if (value.isSuccess == true) {
+          offerList.clear();
           if (value.data['responseStatus'] == 1) {
-            offerList.clear();
-
             notifyListeners();
             OfferSearchModel offerSearchModel =
                 OfferSearchModel.fromJson(value.data);
@@ -78,9 +77,33 @@ class FavouriteListProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //
+  // Future<void> fetchFavData(BuildContext context) async {
+  //   if (selectedOption == 'Offer List') {
+  //     await favOfferListDataAPI(context);
+  //   } else if (selectedOption == 'Business List') {
+  //     await favBusinessListDataAPI(context);
+  //   } else if (selectedOption == 'Points of Interest List') {
+  //     await favAttractionsListDataAPI(context);
+  //   } else if (selectedOption == 'Article List') {
+  //     await favBlogListDataAPI(context);
+  //   }
+  // }
+
   void selectOption(String option) {
     selectedOption = option;
     isExpanded = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchAllFavData(BuildContext context) async {
+    await favOfferListDataAPI(context);
+    notifyListeners();
+    await favBusinessListDataAPI(context);
+    notifyListeners();
+    await favAttractionsListDataAPI(context);
+    notifyListeners();
+    await favBlogListDataAPI(context);
     notifyListeners();
   }
 
@@ -104,15 +127,15 @@ class FavouriteListProvider with ChangeNotifier {
           .then((value) {
         notifyListeners();
         if (value.isSuccess == true) {
+          businessList.clear();
           if (value.data['responseStatus'] == 1) {
             businessList.clear();
-
             notifyListeners();
             BusinessSearchModel businessSearchModel =
                 BusinessSearchModel.fromJson(value.data);
             businessList.addAll(businessSearchModel.businesses);
             notifyListeners();
-            log("offerList $businessList");
+            log("businessList businessList $businessList");
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(
@@ -144,9 +167,8 @@ class FavouriteListProvider with ChangeNotifier {
           .then((value) {
         notifyListeners();
         if (value.isSuccess == true) {
+          attractionList.clear();
           if (value.data['responseStatus'] == 1) {
-            attractionList.clear();
-
             notifyListeners();
             AttractionsSearchModel businessSearchModel =
                 AttractionsSearchModel.fromJson(value.data);

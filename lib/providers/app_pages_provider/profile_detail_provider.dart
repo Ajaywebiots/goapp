@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../config.dart';
 import '../../screens/app_pages_screen/profile_detail_screen/layouts/selection_option_layout.dart';
+import '../../services/api_service.dart';
 
 class ProfileDetailProvider with ChangeNotifier {
   TextEditingController txtFName = TextEditingController();
+  TextEditingController birthday = TextEditingController();
   TextEditingController txtLName = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPhone = TextEditingController();
@@ -35,6 +40,11 @@ class ProfileDetailProvider with ChangeNotifier {
       // updateProfile(context);
       route.pop(context);
     }
+  }
+
+  onReady(context) {
+    getProfileDetailDataAPI(context);
+    notifyListeners();
   }
 
   showLayout(context) async {
@@ -75,5 +85,32 @@ class ProfileDetailProvider with ChangeNotifier {
                         }))
               ]));
         });
+  }
+
+  getProfileDetailDataAPI(context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+
+    try {
+      apiServices
+          .commonApi("${api.profile}$userId/profile", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.isSuccess == true) {
+          if (value.data['responseStatus'] == 1) {
+            txtFName.text = value.data['userProfile']['firstName'];
+            txtLName.text = value.data['userProfile']['lastName'];
+            txtEmail.text = value.data['userProfile']['email'];
+            txtPhone.text = value.data['userProfile']['phoneNumber'];
+            birthday.text = value.data['userProfile']['birthday'] ?? "";
+          }
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (Route<dynamic> route) => false);
+        }
+      });
+    } catch (e) {
+      log("EEEE getProfileDetailDataAPI:::: $e");
+    }
   }
 }

@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:intl/intl.dart';
 
 import '../config.dart';
@@ -600,6 +597,11 @@ class AppArray {
         },
         {
           "icon": eSvgAssets.like,
+          "title": appFonts.termCondition,
+          "isArrow": true
+        },
+        {
+          "icon": eSvgAssets.like,
           "title": appFonts.cancellationPolicy,
           "isArrow": true
         },
@@ -617,7 +619,7 @@ class AppArray {
   //app setting
   List appSetting() => [
         {'title': appFonts.changeLanguage, 'icon': eSvgAssets.translate},
-        {'title': appFonts.changePassword, 'icon': eSvgAssets.lock}
+        // {'title': appFonts.changePassword, 'icon': eSvgAssets.lock}
       ];
 
 //currency

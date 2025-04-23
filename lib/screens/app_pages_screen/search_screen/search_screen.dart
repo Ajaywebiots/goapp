@@ -32,13 +32,13 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
-  int? _selectedCategoryIndex;
+  int? selectedCategoryIndex = -1;
 
   @override
   void initState() {
     super.initState();
     // Initialize with the passed selectedIndex or default to 0.
-    _selectedCategoryIndex = widget.selectedIndex;
+    selectedCategoryIndex = widget.selectedIndex;
 
     final categoryListPvr =
         Provider.of<CategoriesListProvider>(context, listen: false);
@@ -48,7 +48,8 @@ class _SearchScreenState extends State<SearchScreen>
       // Optional: Find matching index by comparing translatedValue if needed.
       final matchedIndex = categoryListPvr.categoryList.indexWhere((cat) =>
           cat.translatedValue?.trim().toLowerCase() ==
-          categoryListPvr.categoryList[_selectedCategoryIndex!].translatedValue
+          categoryListPvr
+              .categoryList[selectedCategoryIndex ?? -1].translatedValue
               ?.trim()
               .toLowerCase());
 
@@ -59,7 +60,9 @@ class _SearchScreenState extends State<SearchScreen>
 
         // Update the local state as well so that UI reflects the selected index.
         setState(() {
-          _selectedCategoryIndex = matchedIndex;
+          selectedCategoryIndex = matchedIndex;
+          log(" eee $selectedCategoryIndex");
+          log(" matchedIndex $matchedIndex");
         });
 
         // Scroll to position (if needed)
@@ -140,6 +143,7 @@ class _SearchScreenState extends State<SearchScreen>
                                         GestureDetector(
                                             onTap: () {
                                               searchPvr.popular = true;
+
                                               searchPvr.getBusinessSearchAPI(
                                                   context);
                                               searchPvr.notifyListeners();
@@ -152,7 +156,8 @@ class _SearchScreenState extends State<SearchScreen>
                                                       color: searchPvr.popular
                                                           ? appColor(context)
                                                               .primary
-                                                              .withOpacity(0.2)
+                                                              .withValues(
+                                                                  alpha: 0.2)
                                                           : appColor(context)
                                                               .fieldCardBg,
                                                       shape: SmoothRectangleBorder(
@@ -169,8 +174,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                                   1))),
                                                   child: SvgPicture.asset(
                                                           "assets/svg/all.svg",
-                                                          colorFilter:
-                                                              ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
+                                                          colorFilter: ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
                                                           fit: BoxFit.fill,
                                                           height: Sizes.s24,
                                                           width: Sizes.s24)
@@ -191,16 +195,15 @@ class _SearchScreenState extends State<SearchScreen>
                                             .asMap()
                                             .entries
                                             .map((e) {
+                                          log("_selectedCategoryIndsssse $selectedCategoryIndex");
                                           return TopCategoriesLayout(
                                               index: e.key,
                                               data: e.value,
                                               selectedIndex:
-                                                  _selectedCategoryIndex,
-                                              // Pass the state variable
+                                                  selectedCategoryIndex,
                                               onTap: () {
                                                 setState(() {
-                                                  _selectedCategoryIndex = e
-                                                      .key; // Update selected index
+                                                  selectedCategoryIndex = e.key;
                                                 });
                                                 searchPvr.onSubCategories(
                                                     context,
@@ -244,7 +247,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                             .of<SearchProvider>(
                                                                 context,
                                                                 listen: false);
-                                                        log("ssss searchPvr ${searchPvr.selectedIndex}");
+
                                                         common.toggleFavAPI(
                                                             context,
                                                             e.value.isFavourite,
@@ -263,8 +266,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                               context,
                                                               id: categoryListPvr
                                                                   .categoryList[
-                                                                      searchPvr
-                                                                          .selectedIndex]
+                                                                      selectedCategoryIndex!]
                                                                   .categoryId,
                                                               isFilter:
                                                                   searchPvr.popular ==
