@@ -10,11 +10,9 @@ import '../../models/api_model/offer_categories_model.dart';
 import '../../models/api_model/offer_search_model.dart';
 import '../../models/api_model/offers_details_model.dart';
 import '../../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
-import 'home_screen_provider.dart';
 
 class OfferProvider extends ChangeNotifier {
   onReady() {
-    notifyListeners();
     getViewAllOfferAPI();
     notifyListeners();
   }
@@ -37,17 +35,18 @@ class OfferProvider extends ChangeNotifier {
     try {
       apiServices.commonApi(api.offerCategories, [], ApiType.get).then((value) {
         if (value.isSuccess == true) {
+          categoryList.clear();
           if (value.data['responseStatus'] == 1) {
             notifyListeners();
 
             log("API Response: attractionCategories ${value.data}");
             OfferCategoriesModel categoryModel =
                 OfferCategoriesModel.fromJson(value.data);
-            notifyListeners();
+
             // Clear old list and add new parsed categories
-            categoryList.clear();
+
             notifyListeners();
-            categoryList.addAll(categoryModel.categories ?? []);
+            categoryList.addAll(categoryModel.categories as List<Categories>);
 
             log("categoryList offers ${categoryList}");
             // hideLoading(context);
@@ -81,10 +80,10 @@ class OfferProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List categoryList = [];
+  List<Categories> categoryList = [];
 
-  searchService(BuildContext context, {bool isPop = false}) async {
-    /* final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+/*  searchService(BuildContext context, {bool isPop = false}) async {
+    */ /* final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
     double lon = position.longitude;
@@ -129,22 +128,8 @@ class OfferProvider extends ChangeNotifier {
       }
     } catch (e) {
       log("searchService error: $e");
-    }*/
-  }
-
-  clearFilter(context) {
-    /*selectedCategory = [];
-    selectedRates = [];
-    searchList = [];
-    lowerVal = 0.0;
-    upperVal = maxPrice;
-    slider = 0;
-    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-    categoryList = homePvr.categoryList;
-    route.pop(context);
-    notifyListeners();*/
-    route.pop(context);
-  }
+    }*/ /*
+  }*/
 
   TextEditingController searchCtrl = TextEditingController();
   final FocusNode searchFocus = FocusNode();
@@ -193,6 +178,7 @@ class OfferProvider extends ChangeNotifier {
   List<int> selectedOfferTypeIds = [];
 
   int selectedTab = 0;
+
   // using model OfferType
 
   double selectedDistance = 30.0;
@@ -204,8 +190,7 @@ class OfferProvider extends ChangeNotifier {
     } else {
       selectedDistance = 30.0;
     }
-    final offers = Provider.of<OfferProvider>(context, listen: false);
-    offers.getViewAllOfferAPI();
+    getViewAllOfferAPI();
     route.pop(context);
   }
 
@@ -216,14 +201,16 @@ class OfferProvider extends ChangeNotifier {
           .commonApi(api.offerSearch, [], ApiType.get, isToken: true)
           .then((value) {
         notifyListeners();
-        if (value.isSuccess! && value.data['responseStatus'] == 1) {
+        if (value.isSuccess == true) {
           offerViewAllList.clear();
-          OfferSearchModel offerSearchModel =
-              OfferSearchModel.fromJson(value.data);
-          notifyListeners();
-          offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
-          fetchOfferTypes();
-          notifyListeners();
+          if (value.data['responseStatus'] == 1) {
+            OfferSearchModel offerSearchModel =
+                OfferSearchModel.fromJson(value.data);
+            notifyListeners();
+            offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
+            fetchOfferTypes();
+            notifyListeners();
+          }
         }
       });
     } catch (e) {
@@ -259,7 +246,6 @@ class OfferProvider extends ChangeNotifier {
               isToken: true)
           .then((value) {
         if (value.isSuccess! && value.data['responseStatus'] == 1) {
-          offerViewAllList.clear();
           OfferDetailsModel offersDetailsModel =
               OfferDetailsModel.fromJson(value.data);
           offersDetails = offersDetailsModel;

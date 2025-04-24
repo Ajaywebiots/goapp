@@ -23,7 +23,7 @@ class AppSettingProvider with ChangeNotifier {
     if (index == 0) {
       route.pushNamed(context, routeName.changeLanguage);
     } else {
-      route.pushNamed(context, routeName.changePassInApp);
+      route.pushNamed(context, routeName.signUpVerifyOtp);
     }
   }
 

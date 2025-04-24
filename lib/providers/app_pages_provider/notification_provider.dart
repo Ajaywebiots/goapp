@@ -6,7 +6,7 @@ import '../../config.dart';
 import '../../models/notification_model.dart';
 
 class NotificationProvider with ChangeNotifier {
-  bool isNotification = false;
+  bool isNotification = true;
   AnimationController? animationController;
   List<NotificationModel> notificationList = [];
 
@@ -20,6 +20,7 @@ class NotificationProvider with ChangeNotifier {
   }
 
   onAnimate(TickerProvider sync, context) {
+    getNotificationList(context);
     animationController = AnimationController(
         vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();

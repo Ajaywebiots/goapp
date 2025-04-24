@@ -175,7 +175,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     // slider = 0;
     // final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
     // categoryList = dashCtrl.categoryList;
-    blogCategoriesData(context);
+    getArticlesSearchAPI(context);
     route.pop(context);
     notifyListeners();
   }

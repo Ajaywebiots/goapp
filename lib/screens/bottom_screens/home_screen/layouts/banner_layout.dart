@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart' as model;
 
@@ -18,6 +16,7 @@ class BannerLayout extends StatelessWidget {
     }
     return CarouselSlider(
             options: CarouselOptions(
+                autoPlay: true,
                 height: Sizes.s240,
                 viewportFraction: 1,
                 enlargeCenterPage: false,

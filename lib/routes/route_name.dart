@@ -37,7 +37,8 @@ class RouteName {
   final String favScreenList = '/favScreenList';
   final String reviewScreen = '/reviewScreen';
   final String subscriptionPlanScreen = '/subscriptionPlanScreen';
-  final String changePassInApp = '/changePassInApp';
-  final String verifyOtpInApp = '/verifyPassInApp';
+
+  // final String changePassInApp = '/changePassInApp';
+  final String signUpVerifyOtp = '/signUpVerifyOtp';
   final String resetPasswordScreenInApp = '/resetPasswordScreenInApp';
 }

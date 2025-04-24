@@ -5,6 +5,12 @@ import 'package:goapp/config.dart';
 
 import '../../services/api_service.dart';
 import '../../services/user_services.dart';
+import '../app_pages_provider/attractions_provider.dart';
+import '../app_pages_provider/categories_list_provider.dart';
+import '../app_pages_provider/search_provider.dart';
+import '../bottom_providers/dashboard_provider.dart';
+import '../bottom_providers/home_screen_provider.dart';
+import '../bottom_providers/offer_provider.dart';
 
 class VerifyOtpProvider with ChangeNotifier {
   TextEditingController otpController = TextEditingController();
@@ -29,13 +35,41 @@ class VerifyOtpProvider with ChangeNotifier {
           .commonApi("${api.otpVerify}/${otpController.text}/verify", [],
               ApiType.patch,
               isToken: false)
-          .then((value) {
+          .then((value) async {
         if (value.isSuccess == true) {
           if (value.data['responseStatus'] == 1) {
             hideLoading(context);
             log("ssss ${value.data['token']}");
             token = value.data['token'];
-            route.pushReplacementNamed(context, routeName.dashboard);
+            SharedPreferences pref = await SharedPreferences.getInstance();
+            await pref.setInt(session.id, value.data['user']['id']);
+            await pref.setString(session.accessToken, value.data['token']);
+            log("token session.id ${pref.getInt(session.id)}");
+            log("accessToken ${pref.getString(session.accessToken)}");
+
+            pref.setString(session.tokenExpiration, value.data['expiration']);
+
+            final homePvr =
+                Provider.of<HomeScreenProvider>(context, listen: false);
+            final searchPvr =
+                Provider.of<SearchProvider>(context, listen: false);
+            final attractionPvr =
+                Provider.of<AttractionProvider>(context, listen: false);
+            final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+            final dash = Provider.of<DashboardProvider>(context, listen: false);
+            final catListPvr =
+                Provider.of<CategoriesListProvider>(context, listen: false);
+            homePvr.homeFeed(context);
+            searchPvr.getBusinessSearchAPI(context, isFilter: false);
+            attractionPvr.getAttractionSearchAPI(context);
+            offerPvr.getViewAllOfferAPI();
+
+            catListPvr.getCategoriesData(context);
+            offerPvr.getCategoriesData(context);
+
+            dash.selectIndex = 0;
+
+            route.pushNamedAndRemoveUntil(context, routeName.dashboard);
           } else {
             hideLoading(context);
             showMessage(context, value.data['responseMessage']);

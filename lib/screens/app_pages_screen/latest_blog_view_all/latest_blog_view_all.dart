@@ -1,18 +1,10 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/latest_blog_details_provider.dart';
-import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/filter_icon_common.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/latest_blog_layout.dart';
-import '../search_screen/layouts/filter_layout.dart';
-import '../search_screen/layouts/list_tile_common.dart';
 
 class LatestBlogViewAll extends StatelessWidget {
   const LatestBlogViewAll({super.key});
@@ -26,14 +18,20 @@ class LatestBlogViewAll extends StatelessWidget {
               const Duration(milliseconds: 100), () => value.onReady(context)),
           child: DirectionalityRtl(
               child: Scaffold(
-                  appBar:
-                      AppBarCommon(title: language(context, appFonts.articles)),
+                  appBar: AppBarCommon(
+                      title: language(context, appFonts.articles),
+                      onTap: () {
+                        route.pop(context);
+                        value.searchCtrl.text = "";
+                        value.selectedCategory = [];
+                      }),
                   body: SafeArea(
                     child: SingleChildScrollView(
                         child: Container(
                             alignment: Alignment.center,
                             child: Column(children: [
                               SearchTextFieldCommon(
+                                  hintText: "Search for articles",
                                   controller: value.searchCtrl,
                                   focusNode: value.searchFocus,
                                   suffixIcon: FilterIconCommon(

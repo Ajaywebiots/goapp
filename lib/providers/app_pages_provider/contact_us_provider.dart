@@ -12,6 +12,8 @@ class ContactUsProvider with ChangeNotifier {
   final FocusNode emailFocus = FocusNode();
   final FocusNode messageFocus = FocusNode();
 
+  String? selectedValue = "Technical Error";
+
   int selectIndex = 0;
 
   onSelectError(index) {

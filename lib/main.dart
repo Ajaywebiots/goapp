@@ -88,8 +88,8 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => CommonApiProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LatestBLogDetailsProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => ResetPasswordProvider()),
+                  // ChangeNotifierProvider(
+                  //     create: (_) => ResetPasswordProvider()),
                   ChangeNotifierProvider(create: (_) => LoadingProvider()),
                   ChangeNotifierProvider(
                       create: (_) => InAppForgotPassProvider()),

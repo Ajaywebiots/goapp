@@ -1,5 +1,3 @@
-import 'package:goapp/screens/app_pages_screen/contact_us_screen/layouts/select_error_layout.dart';
-
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/contact_us_provider.dart';
 
@@ -12,56 +10,57 @@ class TextFieldBody extends StatelessWidget {
     return Form(
         key: value.contactKey,
         child: Column(children: [
-          ContainerWithTextLayout(title: language(context, "Name")),
+          ContainerWithTextLayout(title: language(context, "Select Subject")),
           const VSpace(Sizes.s8),
-          TextFieldCommon(
-              hintText: language(context, "Enter Name"),
-              controller: value.nameController,
-              focusNode: value.nameFocus,
-              prefixIcon: eSvgAssets.user,
-              validator: (value) => validation.nameValidation(context, value),
-              onFieldSubmitted: (values) => validation.fieldFocusChange(
-                  context, value.nameFocus, value.emailFocus)).paddingSymmetric(
-              horizontal: Insets.i20),
-          const VSpace(Sizes.s15),
-          ContainerWithTextLayout(title: language(context, appFonts.email)),
-          const VSpace(Sizes.s8),
-          TextFieldCommon(
-              hintText: language(context, appFonts.enterEmail),
-              controller: value.emailController,
-              focusNode: value.emailFocus,
-              prefixIcon: eSvgAssets.email,
-              validator: (value) => validation.emailValidation(context, value),
-              onFieldSubmitted: (values) => validation.fieldFocusChange(
-                  context, value.emailFocus, value.nameFocus)).paddingSymmetric(
-              horizontal: Insets.i20),
-          const VSpace(Sizes.s15),
-          ContainerWithTextLayout(title: language(context, "Select error")),
-          const VSpace(Sizes.s8),
-          Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 15,
-              runSpacing: 10,
-              children: appArray.selectErrorList
-                  .asMap()
-                  .entries
-                  .map((e) => SelectErrorLayout(
-                      data: e.value,
-                      index: e.key,
-                      selectedIndex: value.selectIndex,
-                      onTap: () => value.onSelectError(e.key)))
-                  .toList()),
+          DropdownButtonFormField<String>(
+                  value: value.selectedValue,
+                  onChanged: (String? newValue) {
+                    value.notifyListeners();
+                    value.selectedValue = newValue;
+                    value.notifyListeners();
+                  },
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: Insets.i16, horizontal: Insets.i12),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.white)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.white)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.white))),
+                  icon: SvgPicture.asset(eSvgAssets.arrowDown,
+                      height: Insets.i18,
+                      colorFilter: ColorFilter.mode(
+                          appColor(context).darkText, BlendMode.srcIn)),
+                  items: <String>[
+                    'Technical Error',
+                    'UI Bug',
+                    'Performance Issue'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                            style: appCss.dmDenseRegular14
+                                .textColor(appColor(context).darkText)));
+                  }).toList())
+              .marginSymmetric(horizontal: Insets.i20),
           const VSpace(Sizes.s15),
           ContainerWithTextLayout(title: language(context, "Message")),
+          const VSpace(Sizes.s8),
           TextFieldCommon(
-                  hintText: appFonts.writeHere,
-                  minLines: 5,
-                  maxLines: 5,
+                  hintText: language(context, appFonts.writeHere),
+                  minLines: 15,
+                  maxLines: 15,
                   focusNode: value.messageFocus,
                   validator: (val) => validation.commonValidation(context, val),
                   isNumber: true,
                   controller: value.messageController)
-              .paddingSymmetric(horizontal: Insets.i20)
+              .padding(horizontal: Insets.i20, bottom: Insets.i46)
         ]).paddingSymmetric(vertical: Insets.i20));
   }
 }

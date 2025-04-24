@@ -7,6 +7,7 @@ class SearchTextFieldCommon extends StatelessWidget {
   final FocusNode? focusNode;
   final Color? color;
   final GestureTapCallback? onTap;
+  final String? hintText;
 
   const SearchTextFieldCommon(
       {super.key,
@@ -16,7 +17,8 @@ class SearchTextFieldCommon extends StatelessWidget {
       this.color,
       this.focusNode,
       this.onFieldSubmitted,
-      this.onTap});
+      this.onTap,
+      this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class SearchTextFieldCommon extends StatelessWidget {
         hintStyle:
             appCss.dmDenseRegular13.textColor(appColor(context).lightText),
         radius: AppRadius.r23,
-        hintText: appFonts.searchHere,
+        hintText: hintText ?? appFonts.searchHere,
         controller: controller,
         onTap: onTap,
         focusNode: focusNode,

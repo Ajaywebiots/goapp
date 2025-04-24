@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+
 import '../../../../config.dart';
 
 class LoginLayout extends StatelessWidget {
@@ -7,6 +8,7 @@ class LoginLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(builder: (context1, value, child) {
+      final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
       return Stack(children: [
         const FieldsBackground(),
         Column(
@@ -16,23 +18,31 @@ class LoginLayout extends StatelessWidget {
               Row(children: [
                 const SmallContainer(),
                 const HSpace(Sizes.s20),
-                Text(language(context, appFonts.username),
+                Text(language(context, appFonts.phoneNumber),
                     style: appCss.dmDenseSemiBold14
                         .textColor(appColor(context).darkText))
               ]),
               const VSpace(Sizes.s8),
-              TextFieldCommon(
-                      validator: (userName) =>
-                          Validation().emailValidation(context, userName),
-                      controller: value.userName,
-                      hintText: language(context, appFonts.enterUsername),
-                      focusNode: value.userNameFocus,
-                      onFieldSubmitted: (val) => validation.fieldFocusChange(
-                          context, value.userNameFocus, value.passwordFocus),
-                      prefixIcon: eSvgAssets.email)
-                  .paddingSymmetric(horizontal: Insets.i20),
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                CountryListLayout(
+                    dialCode: sss.dialCode,
+                    onChanged: (country) => {
+                          /*value.changeDialCode(country!),*/
+                        }),
+                const HSpace(Sizes.s4),
+                Expanded(
+                    child: TextFieldCommon(
+                        keyboardType: TextInputType.number,
+                        validator: (phone) =>
+                            Validation().phoneValidation(context, phone),
+                        controller: sss.numberController,
+                        isNumber: true,
+                        focusNode: sss.phoneFocus,
+                        hintText:
+                            language(context, appFonts.enterPhoneNumber))),
+              ]).paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s15),
-              Row(children: [
+              /*  Row(children: [
                 const SmallContainer(),
                 const HSpace(Sizes.s20),
                 Text(language(context, appFonts.password),
@@ -54,22 +64,26 @@ class LoginLayout extends StatelessWidget {
                       focusNode: value.passwordFocus,
                       obscureText: value.isPassword,
                       prefixIcon: eSvgAssets.lock)
-                  .paddingSymmetric(horizontal: Insets.i20),
-              const VSpace(Sizes.s10),
-              Text(language(context, appFonts.forgotPassword),
-                      style:
-                          appCss.dmDenseMedium12.textColor(Color(0xff5465FF)))
-                  .inkWell(onTap: () {
-                    route.pushNamed(context, routeName.forgetPassword);
-                  })
-                  .alignment(Alignment.bottomRight)
-                  .paddingSymmetric(horizontal: Insets.i20),
-              const VSpace(Sizes.s35),
+                  .paddingSymmetric(horizontal: Insets.i20),*/
+              // const VSpace(Sizes.s10),
+              // Text(language(context, appFonts.forgotPassword),
+              //         style:
+              //             appCss.dmDenseMedium12.textColor(Color(0xff5465FF)))
+              //     .inkWell(onTap: () {
+              //       route.pushNamed(context, routeName.forgetPassword);
+              //     })
+              //     .alignment(Alignment.bottomRight)
+              //     .paddingSymmetric(horizontal: Insets.i20),
+              const VSpace(Sizes.s26),
               ButtonCommon(
-                      title: language(context, appFonts.loginNow),
-                      onTap: () => value.onLogin(context))
-                  .paddingSymmetric(horizontal: Insets.i20),
-              const VSpace(Sizes.s12),
+                  title: language(context, appFonts.loginNow),
+                  onTap: () {
+                    /*=>
+                            value.onLogin(context)*/
+
+                    sss.onTapOtp(context);
+                  }).paddingSymmetric(horizontal: Insets.i20),
+              const VSpace(Sizes.s26),
               RichText(
                   text: TextSpan(
                       text: language(context, appFonts.notMember),
@@ -83,7 +97,8 @@ class LoginLayout extends StatelessWidget {
                               route.pushNamed(context, routeName.registerUser),
                         style:
                             appCss.dmDenseMedium14.textColor(Color(0xff5465FF)))
-                  ])).alignment(Alignment.center)
+                  ])).alignment(Alignment.center),
+              const VSpace(Sizes.s15),
             ]).paddingSymmetric(vertical: Insets.i20)
       ]);
     });

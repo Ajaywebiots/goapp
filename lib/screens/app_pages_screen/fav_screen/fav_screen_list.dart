@@ -48,7 +48,7 @@ class _FavScreenListState extends State<FavScreenList> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                    GestureDetector(
+                    /*  GestureDetector(
                         onTap: toggleDropdown,
                         child: Container(
                             padding: EdgeInsets.symmetric(
@@ -102,7 +102,67 @@ class _FavScreenListState extends State<FavScreenList> {
                                     });
                               }).toList()))
                           .paddingSymmetric(
-                              horizontal: Insets.i20, vertical: Insets.i10),
+                              horizontal: Insets.i20, vertical: Insets.i10),*/
+
+                    DropdownButtonFormField<String>(
+                            value: favPvr.selectedOption,
+                            onChanged: (String? newValue) {
+                              if (newValue != null) {
+                                setState(() {
+                                  favPvr.selectedOption = newValue;
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 12.0),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderSide:
+                                        BorderSide(color: Color(0xffB9B9B9))),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderSide:
+                                        BorderSide(color: Color(0xffB9B9B9))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderSide:
+                                        BorderSide(color: Color(0xffB9B9B9)))),
+                            selectedItemBuilder: (BuildContext context) {
+                              return favPvr.options.map<Widget>((option) {
+                                return Row(children: [
+                                  Container(
+                                      width: 24,
+                                      height: 24,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          shape: BoxShape.circle),
+                                      child: Icon(Icons.favorite,
+                                          color: Colors.white,
+                                          size: Insets.i12)),
+                                  SizedBox(width: 8),
+                                  Text(option,
+                                      style: appCss.dmDenseRegular14.textColor(
+                                          appColor(context).darkText))
+                                ]);
+                              }).toList();
+                            },
+                            icon: SvgPicture.asset(eSvgAssets.arrowDown,
+                                height: Insets.i18,
+                                colorFilter: ColorFilter.mode(
+                                    appColor(context).darkText,
+                                    BlendMode.srcIn)),
+                            items: favPvr.options.map<DropdownMenuItem<String>>(
+                                (dynamic option) {
+                              return DropdownMenuItem<String>(
+                                  value: option,
+                                  child: Text(option,
+                                      style: appCss.dmDenseRegular14.textColor(
+                                          appColor(context).darkText)));
+                            }).toList())
+                        .marginSymmetric(horizontal: 20),
                     VSpace(Insets.i20),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

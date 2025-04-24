@@ -6,9 +6,6 @@ import '../screens/app_pages_screen/attractions_details_screen/attraction_detail
 import '../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../screens/app_pages_screen/categories_list_screen/categories_list_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
-import '../screens/app_pages_screen/change_pass_in_app/change_pass_in_app.dart';
-import '../screens/app_pages_screen/change_pass_in_app/reset_password_screen_in_app.dart';
-import '../screens/app_pages_screen/change_pass_in_app/verify_otp_in_app.dart';
 import '../screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
 import '../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../screens/app_pages_screen/fav_screen/fav_screen_list.dart';
@@ -22,6 +19,7 @@ import '../screens/app_pages_screen/search_screen/search_screen.dart';
 import '../screens/app_pages_screen/service_review_screen/service_review_screen.dart';
 import '../screens/app_pages_screen/services_details_screen/business_details_screen.dart';
 import '../screens/app_pages_screen/subscription_plan_screen/subscription_plan_screen.dart';
+import '../screens/auth_screens/register_screen/sign_up_verify_otp.dart';
 import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.dart';
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
@@ -33,13 +31,13 @@ class AppRoute {
     routeName.splash: (p0) => const SplashScreen(),
     routeName.onBoarding: (p0) => const OnBoardingScreen(),
     routeName.login: (p0) => const LoginScreen(),
-    routeName.loginWithPhone: (p0) => const LoginWithPhoneScreen(),
+    // routeName.loginWithPhone: (p0) => const LoginWithPhoneScreen(),
     routeName.verifyOtp: (p0) => const VerifyOtpScreen(),
     routeName.latestBlogViewAll: (p0) => const LatestBlogViewAll(),
     routeName.loginPhoneOtpVerifyScreen: (p0) =>
         const LoginPhoneOtpVerifyScreen(),
-    routeName.forgetPassword: (p0) => const ForgotPasswordScreen(),
-    routeName.resetPass: (p0) => const ResetPasswordScreen(),
+    // routeName.forgetPassword: (p0) => const ForgotPasswordScreen(),
+    // routeName.resetPass: (p0) => const ResetPasswordScreen(),
     routeName.registerUser: (p0) => const RegisterScreen(),
     routeName.homeScreen: (p0) => const HomeScreen(),
     routeName.socialRegister: (p0) => const SocialRegScreen(),
@@ -66,9 +64,9 @@ class AppRoute {
     routeName.favScreenList: (p0) => FavScreenList(),
     routeName.reviewScreen: (p0) => const ReviewScreen(),
     routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
-    routeName.changePassInApp: (p0) => const ChangePassInApp(),
-    routeName.verifyOtpInApp: (p0) => const VerifyOtpInApp(),
-    routeName.resetPasswordScreenInApp: (p0) =>
-        const ResetPasswordScreenInApp(),
+    // routeName.changePassInApp: (p0) => const ChangePassInApp(),
+    routeName.signUpVerifyOtp: (p0) => const SignUpVerifyOtp(),
+    // routeName.resetPasswordScreenInApp: (p0) =>
+    //     const ResetPasswordScreenInApp(),
   };
 }

@@ -1,53 +1,45 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
-import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../../services/api_service.dart';
-import '../app_pages_provider/attractions_provider.dart';
-import '../app_pages_provider/categories_list_provider.dart';
-import '../app_pages_provider/search_provider.dart';
-import '../bottom_providers/home_screen_provider.dart';
-import '../bottom_providers/offer_provider.dart';
 
 class LoginProvider with ChangeNotifier {
   TextEditingController userName = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   SharedPreferences? pref;
-  final FocusNode userNameFocus = FocusNode();
-  final FocusNode passwordFocus = FocusNode();
-  bool isPassword = true;
+
+  // final FocusNode userNameFocus = FocusNode();
+  // final FocusNode passwordFocus = FocusNode();
+  // bool isPassword = true;
 
   onLogin(context) {
-    FocusManager.instance.primaryFocus?.unfocus();
+    /* FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
       login(context);
-    }
+    }*/
   }
 
-  autoFetch() {
-    userName.text = "apptest123";
-    passwordController.text = "123456";
-    notifyListeners();
-  }
+  // autoFetch() {
+  //   userName.text = "apptest123";
+  //   passwordController.text = "123456";
+  //   notifyListeners();
+  // }
 
   // password see tap
-  passwordSeenTap() {
-    isPassword = !isPassword;
-    notifyListeners();
-  }
+  // passwordSeenTap() {
+  //   isPassword = !isPassword;
+  //   notifyListeners();
+  // }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   double? currentLatitude;
   double? currentLongitude;
+
   locationPermission() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -70,7 +62,6 @@ class LoginProvider with ChangeNotifier {
       return;
     }
 
-    // Get last known location for faster results
     Position? lastPosition = await Geolocator.getLastKnownPosition();
 
     currentLatitude = 0.0;
@@ -82,21 +73,17 @@ class LoginProvider with ChangeNotifier {
       log("Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude");
     }
 
-    // Fetch fresh location in background
     Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.medium,
-            timeLimit: Duration(
-                seconds: 5)) // If it takes too long, return what we have
+            desiredAccuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 5))
         .catchError((e) {
       log("Failed to fetch fresh location: $e");
-      return lastPosition; // Use last known location if fresh location fails
+      return lastPosition!;
     });
 
-    if (position != null) {
-      currentLatitude = position.latitude;
-      currentLongitude = position.longitude;
-      log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
-    }
+    currentLatitude = position.latitude;
+    currentLongitude = position.longitude;
+    log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
   }
 
   signInWithGoogle(context) async {
@@ -125,7 +112,7 @@ class LoginProvider with ChangeNotifier {
   }
 
   //login
-  login(context) async {
+  /*login(context) async {
     showLoading(context);
     try {
       var body = {
@@ -176,7 +163,7 @@ class LoginProvider with ChangeNotifier {
       hideLoading(context);
       log("EEEE : login $e");
     }
-  }
+  }*/
 
   // final Dio dio = Dio();
   // Map<String, dynamic>? userData;
@@ -221,12 +208,12 @@ class LoginProvider with ChangeNotifier {
       }
     } on FirebaseAuthException catch (e) {
       // Handle Firebase authentication exceptions
-      print('Firebase Auth Exception: ${e.message}');
-      throw e; // rethrow the exception
+      log('Firebase Auth Exception: ${e.message}');
+      rethrow; // rethrow the exception
     } catch (e) {
       // Handle other exceptions
-      print('Other Exception: $e');
-      throw e; // rethrow the exception
+      log('Other Exception: $e');
+      rethrow; // rethrow the exception
     }
   }
 // Future<void> loginWithFacebook() async {

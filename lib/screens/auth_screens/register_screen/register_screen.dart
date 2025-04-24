@@ -36,7 +36,7 @@ class RegisterScreen extends StatelessWidget {
                     const VSpace(Sizes.s15),
                     Stack(clipBehavior: Clip.none, children: [
                       const FieldsBackground(),
-                      RegisterFieldLayout(buildContext: context)
+                      RegisterFieldLayout()
                     ]),
                     const VSpace(Sizes.s25),
                   ]).alignment(Alignment.centerLeft))

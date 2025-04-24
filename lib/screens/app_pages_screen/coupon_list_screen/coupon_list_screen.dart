@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
@@ -52,6 +51,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
                     child: SingleChildScrollView(
                         child: Column(children: [
                       SearchTextFieldCommon(
+                          hintText: "Search for offers",
                           controller: offerPvr.searchCtrl,
                           focusNode: offerPvr.searchFocus,
                           suffixIcon: FilterIconCommon(

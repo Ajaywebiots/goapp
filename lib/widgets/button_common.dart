@@ -9,6 +9,7 @@ class ButtonCommon extends StatelessWidget {
   final Widget? icon, rightIcon;
   final FontWeight? fontWeight;
   final bool? isRightIcon;
+  final MainAxisAlignment? mainAxisAlignment;
 
   const ButtonCommon(
       {super.key,
@@ -27,7 +28,8 @@ class ButtonCommon extends StatelessWidget {
       this.borderColor,
       this.width,
       this.fontWeight = FontWeight.w700,
-      this.isRightIcon = false});
+      this.isRightIcon = false,
+      this.mainAxisAlignment});
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +43,21 @@ class ButtonCommon extends StatelessWidget {
                 side: BorderSide(color: borderColor ?? appColor(context).trans),
                 borderRadius: SmoothBorderRadius(
                     cornerRadius: radius!, cornerSmoothing: 1))),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          isRightIcon == true
-              ? Row(children: [rightIcon!, const HSpace(Sizes.s10)])
-              : Container(),
-          Text(language(context, title),
-              textAlign: TextAlign.center,
-              style: style ??
-                  appCss.dmDenseSemiBold16
-                      .textColor(fontColor ?? appColor(context).whiteColor)),
-          if (icon != null)
-            Row(children: [icon!, const HSpace(Sizes.s10)])
-                .paddingOnly(left: Insets.i8),
-        ])).inkWell(onTap: onTap);
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+            children: [
+              isRightIcon == true
+                  ? Row(children: [rightIcon!, const HSpace(Sizes.s10)])
+                  : Container(),
+              Text(language(context, title),
+                  textAlign: TextAlign.center,
+                  style: style ??
+                      appCss.dmDenseSemiBold16.textColor(
+                          fontColor ?? appColor(context).whiteColor)),
+              if (icon != null)
+                Row(children: [icon!, const HSpace(Sizes.s10)])
+                    .paddingOnly(left: Insets.i8),
+            ])).inkWell(onTap: onTap);
   }
 }
