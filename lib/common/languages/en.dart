@@ -137,7 +137,7 @@ final english = {
   "seeMore": "See More",
   "featuredService": "Featured Businesses",
   "cleaningBathroom": "Cleaning Bathroom",
-  "featuredAttractions": "Featured Attractions",
+  "exploreAttractions": "Explore Attractions",
   "pointOfInterests": "Point of Interests",
   "rateUs": "Rate Us",
   "code": "Code",

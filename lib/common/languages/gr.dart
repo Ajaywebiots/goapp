@@ -137,7 +137,7 @@ final greek = {
   "seeMore": "Δείτε περισσότερα",
   "featuredService": "Προτεινόμενες επιχειρήσεις",
   "cleaningBathroom": "Καθαρισμός μπάνιου",
-  "featuredAttractions": "Προτεινόμενα αξιοθέατα",
+  "exploreAttractions": "Εξερεύνηση αξιοθέατων",
   "pointOfInterests": "Σημεία ενδιαφέροντος",
   "rateUs": "Αξιολογήστε μας",
   "code": "Κωδικός",

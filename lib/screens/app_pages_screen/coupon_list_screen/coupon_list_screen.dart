@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:goapp/models/api_model/offer_search_model.dart' as models;
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 
 import '../../../config.dart';
 import '../../../models/api_model/home_feed_model.dart';
-import '../../../models/api_model/offer_search_model.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../providers/common_providers/common_api_provider.dart';
@@ -42,9 +42,12 @@ class _CouponListScreenState extends State<CouponListScreen> {
                           final dash = Provider.of<DashboardProvider>(context,
                               listen: false);
                           dash.selectIndex = 0;
+
                           dash.notifyListeners();
                         } else {
                           route.pop(context);
+                          offerPvr.slider = 0.0;
+                          offerPvr.selectedOfferTypeIds.clear();
                         }
                       }),
                   body: SafeArea(
@@ -55,11 +58,23 @@ class _CouponListScreenState extends State<CouponListScreen> {
                           controller: offerPvr.searchCtrl,
                           focusNode: offerPvr.searchFocus,
                           suffixIcon: FilterIconCommon(
-                              selectedFilter: 0.toString(),
+                              selectedFilter:
+                                  offerPvr.totalCountFilter().toString(),
                               onTap: () {
                                 openFilterModal(context);
                               })),
                       VSpace(Insets.i22),
+                      if (offerPvr.offerViewAllList.isEmpty)
+                        EmptyLayout(
+                            topHeight:
+                                MediaQuery.of(context).size.height * 0.08,
+                            height: MediaQuery.of(context).size.height * 0.09,
+                            isButtonShow: false,
+                            title:
+                                language(context, appFonts.noResultsWereFound),
+                            subtitle: language(context, appFonts.sorry),
+                            widget: Image.asset(eImageAssets.noNoti,
+                                height: Sizes.s200)),
                       ...offerPvr.offerViewAllList
                           .asMap()
                           .entries
@@ -89,9 +104,6 @@ class _CouponListScreenState extends State<CouponListScreen> {
                               data: e.value,
                               onTap: () {
                                 offerPvr.offerDetailsAPI(context, e.value.id);
-                                // route.pushNamed(
-                                //     context, routeName.offerDetailsScreen);
-                                // route.pop(context, arg: e.value);
                               }))
                     ]).paddingSymmetric(horizontal: Insets.i20)),
                   ))));
@@ -113,8 +125,10 @@ class _CouponListScreenState extends State<CouponListScreen> {
 }
 
 class FilterBottomSheet extends StatefulWidget {
+  const FilterBottomSheet({super.key});
+
   @override
-  _FilterBottomSheetState createState() => _FilterBottomSheetState();
+  State<FilterBottomSheet> createState() => _FilterBottomSheetState();
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
@@ -131,22 +145,21 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     try {
       apiServices
           .commonApi(
-              "${api.offerSearch}?$typesQuery&longitude=$lon&latitude=$lat&radius=${slider.toInt()}",
+              "${api.offerSearch}?$typesQuery&longitude=$lon&latitude=$lat&radius=${offerPvr.slider.toInt()}",
               [],
               ApiType.get,
               isToken: true)
           .then((value) {
         final offer = Provider.of<OfferProvider>(context, listen: false);
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            offer.offerViewAllList.clear();
-            OfferSearchModel offerSearchModel =
-                OfferSearchModel.fromJson(value.data);
-            offer.notifyListeners();
-            offer.offerViewAllList
-                .addAll(offerSearchModel.offers as List<Offer>);
-            Navigator.pop(context);
-          }
+          Navigator.pop(context);
+          // if (value.data['responseStatus'] == 1) {
+          offer.offerViewAllList.clear();
+          models.OfferSearchModel offerSearchModel =
+              models.OfferSearchModel.fromJson(value.data);
+          offer.notifyListeners();
+          offer.offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
+          // }
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -223,7 +236,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     });
                   },
                   child: Container(
-                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(left: Insets.i20),
+                      alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
                           color: offerPvr.selectedTab == 0
                               ? appColor(context).primary
@@ -231,7 +245,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(30),
                               topLeft: Radius.circular(30))),
-                      child: Text("Type",
+                      child: Text("Offer Type",
                           style: appCss.dmDenseRegular14.textColor(
                               offerPvr.selectedTab == 0
                                   ? appColor(context).whiteBg
@@ -244,7 +258,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     });
                   },
                   child: Container(
-                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(right: Insets.i20),
+                      alignment: Alignment.centerRight,
                       decoration: BoxDecoration(
                           color: offerPvr.selectedTab == 1
                               ? appColor(context).primary
@@ -305,9 +320,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     log("Selected OfferType IDs: ${offerPvr.selectedOfferTypeIds}");
   }
 
-  double slider = 0.0;
-
   Widget _buildDistanceFilter() {
+    final offerPvr = Provider.of<OfferProvider>(context, listen: false);
     return SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(
@@ -335,7 +349,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 SizedBox(
                     height: Sizes.s85,
                     child: FlutterSlider(
-                        values: [slider],
+                        values: [offerPvr.slider],
                         min: 0.0,
                         max: 30.0,
                         hatchMark: FlutterSliderHatchMark(
@@ -363,13 +377,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         Container(
                                             height: 4,
                                             width: 2,
-                                            color: slider == 0.0 ||
-                                                    slider == 5.0 ||
-                                                    slider == 10.0 ||
-                                                    slider == 15.0 ||
-                                                    slider == 20.0 ||
-                                                    slider == 25.0 ||
-                                                    slider == 30.0
+                                            color: offerPvr.slider == 0.0 ||
+                                                    offerPvr.slider == 5.0 ||
+                                                    offerPvr.slider == 10.0 ||
+                                                    offerPvr.slider == 15.0 ||
+                                                    offerPvr.slider == 20.0 ||
+                                                    offerPvr.slider == 25.0 ||
+                                                    offerPvr.slider == 30.0
                                                 ? appColor(context).darkText
                                                 : appColor(context).stroke),
                                         const VSpace(Sizes.s3),
@@ -386,12 +400,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     Container(
                                         height: 4,
                                         width: 2,
-                                        color: slider == 5.0 ||
-                                                slider == 10.0 ||
-                                                slider == 15.0 ||
-                                                slider == 20.0 ||
-                                                slider == 25.0 ||
-                                                slider == 30.0
+                                        color: offerPvr.slider == 5.0 ||
+                                                offerPvr.slider == 10.0 ||
+                                                offerPvr.slider == 15.0 ||
+                                                offerPvr.slider == 20.0 ||
+                                                offerPvr.slider == 25.0 ||
+                                                offerPvr.slider == 30.0
                                             ? appColor(context).darkText
                                             : appColor(context).stroke),
                                     const VSpace(Sizes.s3),
@@ -408,11 +422,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     Container(
                                         height: 4,
                                         width: 2,
-                                        color: slider == 10.0 ||
-                                                slider == 15.0 ||
-                                                slider == 20.0 ||
-                                                slider == 25.0 ||
-                                                slider == 30.0
+                                        color: offerPvr.slider == 10.0 ||
+                                                offerPvr.slider == 15.0 ||
+                                                offerPvr.slider == 20.0 ||
+                                                offerPvr.slider == 25.0 ||
+                                                offerPvr.slider == 30.0
                                             ? appColor(context).darkText
                                             : appColor(context).stroke),
                                     const VSpace(Sizes.s3),
@@ -429,10 +443,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     Container(
                                         height: 4,
                                         width: 2,
-                                        color: slider == 15.0 ||
-                                                slider == 20.0 ||
-                                                slider == 25.0 ||
-                                                slider == 30.0
+                                        color: offerPvr.slider == 15.0 ||
+                                                offerPvr.slider == 20.0 ||
+                                                offerPvr.slider == 25.0 ||
+                                                offerPvr.slider == 30.0
                                             ? appColor(context).darkText
                                             : appColor(context).stroke),
                                     const VSpace(Sizes.s3),
@@ -449,9 +463,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     Container(
                                       height: 4,
                                       width: 2,
-                                      color: slider == 20.0 ||
-                                              slider == 25.0 ||
-                                              slider == 30.0
+                                      color: offerPvr.slider == 20.0 ||
+                                              offerPvr.slider == 25.0 ||
+                                              offerPvr.slider == 30.0
                                           ? appColor(context).darkText
                                           : appColor(context).stroke,
                                     ),
@@ -465,44 +479,39 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                   ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 84,
-                                  label: Column(
-                                    children: [
-                                      Container(
+                                  label: Column(children: [
+                                    Container(
                                         height: 4,
                                         width: 2,
-                                        color: slider == 25.0 || slider == 30.0
+                                        color: offerPvr.slider == 25.0 ||
+                                                offerPvr.slider == 30.0
                                             ? appColor(context).darkText
-                                            : appColor(context).stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('25\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(
-                                                  appColor(context).darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                            : appColor(context).stroke),
+                                    const VSpace(Sizes.s3),
+                                    Text('25\nkm',
+                                        textAlign: TextAlign.center,
+                                        style: appCss.dmDenseMedium12
+                                            .textColor(
+                                                appColor(context).darkText)
+                                            .textHeight(1))
+                                  ])),
                               FlutterSliderHatchMarkLabel(
                                   percent: 100,
-                                  label: Column(
-                                    children: [
-                                      Container(
+                                  label: Column(children: [
+                                    Container(
                                         height: 4,
                                         width: 2,
-                                        color: slider == 30.0
+                                        color: offerPvr.slider == 30.0
                                             ? appColor(context).darkText
-                                            : appColor(context).stroke,
-                                      ),
-                                      const VSpace(Sizes.s3),
-                                      Text('30\nkm',
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseMedium12
-                                              .textColor(
-                                                  appColor(context).darkText)
-                                              .textHeight(1)),
-                                    ],
-                                  )),
+                                            : appColor(context).stroke),
+                                    const VSpace(Sizes.s3),
+                                    Text('30\nkm',
+                                        textAlign: TextAlign.center,
+                                        style: appCss.dmDenseMedium12
+                                            .textColor(
+                                                appColor(context).darkText)
+                                            .textHeight(1))
+                                  ]))
                             ],
                             labelsDistanceFromTrackBar: 35),
                         tooltip: FlutterSliderTooltip(
@@ -510,10 +519,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         handler: FlutterSliderHandler(
                             decoration:
                                 BoxDecoration(color: appColor(context).trans),
-                            child: SvgPicture.asset(
-                              eSvgAssets.userSlider,
-                              height: Sizes.s28,
-                            ).paddingOnly(bottom: 14)),
+                            child: SvgPicture.asset(eSvgAssets.userSlider,
+                                    height: Sizes.s28)
+                                .paddingOnly(bottom: 14)),
                         trackBar: FlutterSliderTrackBar(
                             activeTrackBarHeight: 4.5,
                             activeTrackBarDraggable: true,
@@ -531,19 +539,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         step: const FlutterSliderStep(step: 5),
                         jump: true,
                         onDragging: (handlerIndex, lowerValue, upperValue) =>
-                            slidingValue(lowerValue)))
+                            offerPvr.slidingValue(lowerValue)))
               ]))
           .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
           .boxBorderExtension(context, isShadow: true)
           .padding(horizontal: Insets.i10, bottom: Insets.i15)
     ]));
-  }
-
-  slidingValue(newValue) {
-    log("slide $slider");
-    log("slidnewValuee $newValue");
-    slider = newValue;
-    setState(() {});
   }
 }
 

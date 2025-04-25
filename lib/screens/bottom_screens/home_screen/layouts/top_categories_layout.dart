@@ -24,7 +24,6 @@ class TopCategoriesLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SearchProvider>(builder: (context, searchPvr, child) {
-      log("searchPvr.popular ${searchPvr.popular}");
       return Column(children: [
         Container(
             height: Sizes.s60,

@@ -139,7 +139,7 @@ class AppFonts {
   final seeMore = "seeMore";
   final featuredService = "featuredService";
   final cleaningBathroom = "cleaningBathroom";
-  final featuredAttractions = "featuredAttractions";
+  final exploreAttractions = "exploreAttractions";
   final pointOfInterests = "pointOfInterests";
   final rateUs = "rateUs";
   final code = "code";

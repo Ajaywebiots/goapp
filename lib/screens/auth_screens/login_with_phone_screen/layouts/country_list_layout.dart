@@ -1581,6 +1581,7 @@ class CountryListLayout extends StatelessWidget {
                     ]);
                   },
                   theme: CountryTheme(
+                      labelColor: appColor(context).darkText,
                       isShowFlag: true,
                       alphabetSelectedBackgroundColor:
                           appColor(context).primary),

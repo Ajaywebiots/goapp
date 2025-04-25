@@ -26,6 +26,8 @@ class OfferProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isNavigating = false;
+
   List type = [];
   List selectedCategory = [];
 
@@ -139,6 +141,19 @@ class OfferProvider extends ChangeNotifier {
     searchCtrl.addListener(onSearchChange);
   }
 
+  String totalCountFilter() {
+    int typeCount = selectedOfferTypeIds.length;
+    int distanceCount = (slider != 0.0) ? 1 : 0;
+
+    int total = typeCount + distanceCount;
+
+    log('type Count: $typeCount');
+    log('Distance Count: $distanceCount');
+    log('Total Filter Count: $total');
+
+    return total.toString();
+  }
+
   void onSearchChange() {
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
@@ -185,11 +200,8 @@ class OfferProvider extends ChangeNotifier {
   Dio? dio;
 
   void clearAll(context) {
-    if (selectedTab == 0) {
-      selectedOfferTypeIds.clear();
-    } else {
-      selectedDistance = 30.0;
-    }
+    selectedOfferTypeIds.clear();
+    slider = 0.0;
     getViewAllOfferAPI();
     route.pop(context);
   }
@@ -239,6 +251,9 @@ class OfferProvider extends ChangeNotifier {
   OfferDetailsModel? offersDetails;
 
   offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
+    if (isNavigating) return;
+    isNavigating = true;
+
     notifyListeners();
     try {
       apiServices
@@ -250,14 +265,18 @@ class OfferProvider extends ChangeNotifier {
               OfferDetailsModel.fromJson(value.data);
           offersDetails = offersDetailsModel;
           notifyListeners();
-          isNotRouting == true
-              ? null
-              : route.pushNamed(context, routeName.offerDetailsScreen);
 
-          notifyListeners();
+          if (isNotRouting != true) {
+            route.pushNamed(context, routeName.offerDetailsScreen);
+          }
         }
+        isNavigating = false;
+      }).catchError((error) {
+        isNavigating = false;
+        log("API Error: $error");
       });
     } catch (e) {
+      isNavigating = false;
       log("Search error: $e");
     }
   }

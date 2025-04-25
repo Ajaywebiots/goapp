@@ -412,6 +412,9 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                                                         final item =
                                                             contactItems[index];
                                                         return ListTileLayout(
+                                                            color: appColor(
+                                                                    context)
+                                                                .lightText,
                                                             data: contactItems,
                                                             isCheckBox: false,
                                                             isHavingIcon: true,
@@ -424,10 +427,11 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                                                 ])),
                                             BottomSheetButtonCommon(
                                                     textOne: appFonts.cancel,
-                                                    textTwo:
-                                                        appFonts.addToContacts,
-                                                    applyTap: () {},
-                                                    clearTap: () {})
+                                                    textTwo: appFonts.addToContacts,
+                                                    applyTap: () =>
+                                                        route.pop(context),
+                                                    clearTap: () =>
+                                                        route.pop(context))
                                                 .backgroundColor(
                                                     appColor(context)
                                                         .whiteColor)

@@ -1,7 +1,8 @@
+import 'package:goapp/config.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/layouts/coupon_layout.dart';
-import 'package:goapp/config.dart';
+
 import '../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
@@ -144,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             .asMap()
                                             .entries
                                             .map((e) => LatestBlogLayout(
+                                                height: 160,
                                                 onTap: () {
                                                   final sss = Provider.of<
                                                           LatestBLogDetailsProvider>(

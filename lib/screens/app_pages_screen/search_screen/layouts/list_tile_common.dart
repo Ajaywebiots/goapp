@@ -9,6 +9,7 @@ class ListTileLayout extends StatelessWidget {
   final List? selectedCategory;
   final bool isCheckBox, isHavingIcon, iconHave;
   final String? icon, title;
+  final Color? color;
 
   const ListTileLayout(
       {super.key,
@@ -22,7 +23,8 @@ class ListTileLayout extends StatelessWidget {
       this.isHavingIcon = false,
       this.icon,
       this.iconHave = true,
-      this.title});
+      this.title,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,8 @@ class ListTileLayout extends StatelessWidget {
               isCheck: selectedCategory!.contains(data!.categoryId),
               onTap: onTap)
           : SvgPicture.asset(eSvgAssets.arrowRight,
-              colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn))
+              colorFilter:
+                  ColorFilter.mode(color ?? Colors.black, BlendMode.srcIn))
     ])
         .inkWell(onTap: onClick)
         .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)

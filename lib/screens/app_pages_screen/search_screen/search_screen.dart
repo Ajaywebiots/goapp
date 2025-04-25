@@ -141,62 +141,70 @@ class _SearchScreenState extends State<SearchScreen>
                                       controller: _scrollController,
                                       scrollDirection: Axis.horizontal,
                                       child: Row(children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              searchPvr.popular = true;
-
-                                              searchPvr.getBusinessSearchAPI(
-                                                  context);
-                                              searchPvr.notifyListeners();
-                                            },
-                                            child: Column(children: [
-                                              Container(
-                                                  height: Sizes.s60,
-                                                  width: Sizes.s60,
-                                                  decoration: ShapeDecoration(
-                                                      color: searchPvr.popular
-                                                          ? appColor(context)
-                                                              .primary
-                                                              .withValues(
-                                                                  alpha: 0.2)
-                                                          : appColor(context)
-                                                              .fieldCardBg,
-                                                      shape: SmoothRectangleBorder(
-                                                          side: BorderSide(
+                                        searchPvr.isPopularSelected == false
+                                            ? GestureDetector(
+                                                    onTap: () {
+                                                      searchPvr.popular = true;
+                                                      searchPvr
+                                                          .notifyListeners();
+                                                      searchPvr
+                                                          .getBusinessSearchAPI(
+                                                              context);
+                                                      searchPvr
+                                                          .notifyListeners();
+                                                    },
+                                                    child: Column(children: [
+                                                      Container(
+                                                          height: Sizes.s60,
+                                                          width: Sizes.s60,
+                                                          decoration: ShapeDecoration(
                                                               color: searchPvr.popular
                                                                   ? appColor(context)
                                                                       .primary
+                                                                      .withValues(
+                                                                          alpha:
+                                                                              0.2)
                                                                   : appColor(context)
-                                                                      .trans),
-                                                          borderRadius: SmoothBorderRadius(
-                                                              cornerRadius:
-                                                                  AppRadius.r10,
-                                                              cornerSmoothing:
-                                                                  1))),
-                                                  child: SvgPicture.asset(
-                                                          "assets/svg/all.svg",
-                                                          colorFilter: ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
-                                                          fit: BoxFit.fill,
-                                                          height: Sizes.s24,
-                                                          width: Sizes.s24)
-                                                      .paddingAll(Insets.i17)),
-                                              VSpace(Insets.i8),
-                                              Text(
-                                                  language(context,
-                                                      appFonts.popular),
-                                                  style: appCss.dmDenseRegular13
-                                                      .textColor(searchPvr
-                                                              .popular
-                                                          ? appColor(context)
-                                                              .primary
-                                                          : appColor(context)
-                                                              .darkText))
-                                            ])).paddingOnly(right: Insets.i20),
+                                                                      .fieldCardBg,
+                                                              shape: SmoothRectangleBorder(
+                                                                  side: BorderSide(
+                                                                      color: searchPvr.popular
+                                                                          ? appColor(context)
+                                                                              .primary
+                                                                          : appColor(context)
+                                                                              .trans),
+                                                                  borderRadius: SmoothBorderRadius(
+                                                                      cornerRadius: AppRadius
+                                                                          .r10,
+                                                                      cornerSmoothing:
+                                                                          1))),
+                                                          child: SvgPicture.asset(
+                                                                  "assets/svg/all.svg",
+                                                                  colorFilter: ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
+                                                                  fit: BoxFit.fill,
+                                                                  height: Sizes.s24,
+                                                                  width: Sizes.s24)
+                                                              .paddingAll(Insets.i17)),
+                                                      VSpace(Insets.i8),
+                                                      Text(
+                                                          language(context,
+                                                              appFonts.popular),
+                                                          style: appCss
+                                                              .dmDenseRegular13
+                                                              .textColor(searchPvr.popular
+                                                                  ? appColor(
+                                                                          context)
+                                                                      .primary
+                                                                  : appColor(
+                                                                          context)
+                                                                      .darkText))
+                                                    ]))
+                                                .paddingOnly(right: Insets.i20)
+                                            : SizedBox.shrink(),
                                         ...categoryListPvr.categoryList
                                             .asMap()
                                             .entries
                                             .map((e) {
-                                          log("_selectedCategoryIndsssse $selectedCategoryIndex");
                                           return TopCategoriesLayout(
                                               index: e.key,
                                               data: e.value,
@@ -217,18 +225,15 @@ class _SearchScreenState extends State<SearchScreen>
                                           left: Insets.i20)),
                                   const VSpace(Sizes.s15),
                                   searchPvr.businessSearchList.isEmpty
-                                      ? Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                              // Center(
-                                              //     child: Text("No Data Found",
-                                              //         style: appCss
-                                              //             .dmDenseRegular12
-                                              //             .textColor(appColor(
-                                              //                     context)
-                                              //                 .darkText)))
-                                            ])
+                                      ? EmptyLayout(
+                                          isButtonShow: false,
+                                          title: language(context,
+                                              appFonts.noResultsWereFound),
+                                          subtitle:
+                                              language(context, appFonts.sorry),
+                                          widget: Image.asset(
+                                              eImageAssets.noNoti,
+                                              height: Sizes.s200))
                                       : Column(
                                           children: searchPvr.businessSearchList
                                               .asMap()
@@ -301,18 +306,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   child: Center(
                                       child: Image.asset(eGifAssets.loader,
                                           height: Sizes.s100)))
-                          ]))
-
-                      /*: EmptyLayout(
-                              title: language(
-                                  context, appFonts.noResultsWereFound),
-                              subtitle: language(context, appFonts.sorry),
-                              buttonText:
-                                  language(context, appFonts.refresh),
-                              bTap: () => value.searchClear(),
-                              widget: Image.asset(eImageAssets.noNoti,
-                                  height: Sizes.s200))*/
-                      ))));
+                          ]))))));
     });
   }
 }

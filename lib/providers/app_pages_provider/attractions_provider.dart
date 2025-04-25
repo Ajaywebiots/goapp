@@ -5,17 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:goapp/models/api_model/attractions_details_model.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 
 import '../../config.dart';
 import '../../models/api_model/attraction_categories_model.dart';
 import '../../models/api_model/attractions_search_model.dart';
 import '../../models/provider_model.dart';
 import '../../screens/app_pages_screen/search_screen/filter_tap_layout.dart';
-import '../../screens/app_pages_screen/search_screen/layouts/filter_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/rating_bar_layout.dart';
-import '../../screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import '../../services/api_service.dart';
 import '../bottom_providers/dashboard_provider.dart';
 
@@ -104,7 +101,6 @@ class AttractionProvider with ChangeNotifier {
                 : route.pushNamed(context, routeName.attractionDetailScreen);
           }
         } else {
-          isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
         }
@@ -166,7 +162,7 @@ class AttractionProvider with ChangeNotifier {
       final query = searchCtrl.text.trim();
       log("rrrrr $query");
       if (query.isEmpty) {
-        // getAttractionSearchAPI(context);
+        getAttractionSearchAPI(context);
       } else if (query.length >= 3) {
         fetchSearchResults(query, context);
       }
@@ -215,6 +211,7 @@ class AttractionProvider with ChangeNotifier {
       maxPrice = 100.00,
       lowerVal = 00.0,
       upperVal = 90.0;
+
   // int selectIndex = 0;
 
   void onFilter(int index, context) {
@@ -252,10 +249,11 @@ class AttractionProvider with ChangeNotifier {
   }
 
   clearFilter(context) {
-    getAttractionSearchAPI(context);
     selectedCategory = [];
-    // selectedRates = [];
+
+    selectedRates = [];
     searchList = [];
+    getAttractionSearchAPI(context);
     lowerVal = 0.0;
     upperVal = maxPrice;
     slider = 0;
@@ -723,5 +721,19 @@ class AttractionProvider with ChangeNotifier {
     // TODO: implement dispose
     animationController!.dispose();
     super.dispose();
+  }
+
+  String totalCountFilter() {
+    int typeCount = selectedCategory.length;
+    int rateCount = selectedRates.length;
+    int distanceCount = (slider != 0.0) ? 1 : 0;
+
+    int total = typeCount + rateCount + distanceCount;
+
+    log('type Count: $typeCount');
+    log('Distance Count: $distanceCount');
+    log('Total Filter Count: $total');
+
+    return total.toString();
   }
 }

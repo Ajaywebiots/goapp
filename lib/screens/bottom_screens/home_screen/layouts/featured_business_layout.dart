@@ -1,5 +1,6 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
@@ -124,7 +125,17 @@ class FeaturedBusinessLayout extends StatelessWidget {
                     Text(data.contact!.phoneNumber,
                         style: appCss.dmDenseRegular12
                             .textColor(appColor(context).darkText))
-                  ])),
+                  ])).inkWell(onTap: () async {
+                    final Uri uri =
+                        Uri.parse("tel:${data.contact?.phoneNumber}");
+                    if (await canLaunchUrl(uri)) {
+                      // Use external application mode for telephone numbers
+                      await launchUrl(uri,
+                          mode: LaunchMode.externalApplication);
+                    } else {
+                      throw 'Could not launch ${"tel:${data.contact?.phoneNumber}"}';
+                    }
+                  }),
                   const VSpace(Sizes.s6),
                   IntrinsicHeight(
                       child: Row(children: [

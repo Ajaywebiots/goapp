@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:goapp/models/api_model/business_details_model.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
-import 'package:goapp/screens/app_pages_screen/services_details_screen/business_details_screen.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:goapp/widgets/common_gallery_screen.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -368,69 +367,78 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                 context: context,
                                 builder: (context) {
                                   return SafeArea(
-                                    child: SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                1.4,
-                                        child: Stack(children: [
-                                          SingleChildScrollView(
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                      child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              1.4,
+                                          child: Stack(children: [
+                                            SingleChildScrollView(
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      Text(
-                                                          language(
-                                                              context,
-                                                              appFonts
-                                                                  .contactUs),
-                                                          style: appCss
-                                                              .dmDenseMedium18
-                                                              .textColor(appColor(
-                                                                      context)
-                                                                  .darkText)),
-                                                      const Icon(CupertinoIcons
-                                                              .multiply)
-                                                          .inkWell(
-                                                              onTap: () => route
-                                                                  .pop(context))
-                                                    ]).paddingSymmetric(
-                                                    vertical: 20,
-                                                    horizontal: Insets.i20),
-                                                ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemCount:
-                                                        contactItems.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final item =
-                                                          contactItems[index];
-                                                      return ListTileLayout(
-                                                          data: contactItems,
-                                                          isCheckBox: false,
-                                                          isHavingIcon: true,
-                                                          icon: item['icon'],
-                                                          title: item['label'],
-                                                          onClick:
-                                                              item['action']);
-                                                    })
-                                              ])),
-                                          BottomSheetButtonCommon(
-                                                  textOne: appFonts.cancel,
-                                                  textTwo:
-                                                      appFonts.addToContacts,
-                                                  applyTap: () {},
-                                                  clearTap: () {})
-                                              .backgroundColor(
-                                                  appColor(context).whiteColor)
-                                              .alignment(
-                                                  Alignment.bottomCenter),
-                                        ])).bottomSheetExtension(context),
-                                  );
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            language(
+                                                                context,
+                                                                appFonts
+                                                                    .contactUs),
+                                                            style: appCss
+                                                                .dmDenseMedium18
+                                                                .textColor(appColor(
+                                                                        context)
+                                                                    .darkText)),
+                                                        const Icon(
+                                                                CupertinoIcons
+                                                                    .multiply)
+                                                            .inkWell(
+                                                                onTap: () =>
+                                                                    route.pop(
+                                                                        context))
+                                                      ]).paddingSymmetric(
+                                                      vertical: 20,
+                                                      horizontal: Insets.i20),
+                                                  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount:
+                                                          contactItems.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        final item =
+                                                            contactItems[index];
+                                                        return ListTileLayout(
+                                                            color: appColor(
+                                                                    context)
+                                                                .lightText,
+                                                            data: contactItems,
+                                                            isCheckBox: false,
+                                                            isHavingIcon: true,
+                                                            icon: item['icon'],
+                                                            title:
+                                                                item['label'],
+                                                            onClick:
+                                                                item['action']);
+                                                      })
+                                                ])),
+                                            BottomSheetButtonCommon(
+                                                    textOne: appFonts.cancel,
+                                                    textTwo: appFonts.addToContacts,
+                                                    applyTap: () =>
+                                                        route.pop(context),
+                                                    clearTap: () =>
+                                                        route.pop(context))
+                                                .backgroundColor(
+                                                    appColor(context)
+                                                        .whiteColor)
+                                                .alignment(
+                                                    Alignment.bottomCenter),
+                                          ])).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
                             Navigator.push(context,
@@ -524,93 +532,76 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
-          return SafeArea(
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.3,
-                  child: Consumer<TimeSlotProvider>(
-                      builder: (context, value, child) {
-                    return SingleChildScrollView(
-                      child: Column(children: [
+          return SafeArea(child: SizedBox(
+              // height: MediaQuery.of(context).size.height / 1.3,
+              child:
+                  Consumer<TimeSlotProvider>(builder: (context, value, child) {
+            return SingleChildScrollView(
+                child: Column(children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(language(context, appFonts.openingHours),
+                    style: appCss.dmDenseMedium18
+                        .textColor(appColor(context).darkText)),
+                const Icon(CupertinoIcons.multiply)
+                    .inkWell(onTap: () => route.pop(context))
+              ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
+              Container(
+                  margin: EdgeInsets.symmetric(horizontal: Insets.i20),
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                      color: appColor(context).fieldCardBg,
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(language(context, appFonts.openingHours),
-                                  style: appCss.dmDenseMedium18
-                                      .textColor(appColor(context).darkText)),
-                              const Icon(CupertinoIcons.multiply)
-                                  .inkWell(onTap: () => route.pop(context))
-                            ]).paddingSymmetric(
-                            vertical: 20, horizontal: Insets.i20),
-                        Container(
-                            margin:
-                                EdgeInsets.symmetric(horizontal: Insets.i20),
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            decoration: BoxDecoration(
-                                color: appColor(context).fieldCardBg,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12))),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                          children: timeSlotStartAtList
-                                              .asMap()
-                                              .entries
-                                              .map((e) => Text(
-                                                      language(
-                                                          context, e.value),
-                                                      style: appCss
-                                                          .dmDenseMedium12
-                                                          .textColor(
-                                                              appColor(context)
-                                                                  .lightText))
-                                                  .paddingOnly(
-                                                      left: e.key == 0
-                                                          ? Insets.i5
-                                                          : 30,
-                                                      right: e.key == 0
-                                                          ? Insets.i50
-                                                          : 20))
-                                              .toList())
-                                      .paddingSymmetric(horizontal: Insets.i15),
-                                  const VSpace(Sizes.s15),
-                                  ...timeSlotList.asMap().entries.map((e) =>
-                                      AllTimeSlotLayout(
-                                          data: e.value,
-                                          index: e.key,
-                                          list: timeSlotList,
-                                          onTapSecond: e.value["status"] == true
-                                              ? () =>
-                                                  value.selectTimeBottomSheet(
-                                                      context,
-                                                      e.value,
-                                                      e.key,
-                                                      "end")
-                                              : () {},
-                                          onTap: e.value["status"] == true
-                                              ? () =>
-                                                  value.selectTimeBottomSheet(
-                                                      context,
-                                                      e.value,
-                                                      e.key,
-                                                      "start")
-                                              : () {},
-                                          onToggle: (val) =>
-                                              value.onToggle(e.value, val)))
-                                ])),
-                        VSpace(Insets.i22),
-                        BottomSheetButtonCommon(
-                                isRateComplete: true,
-                                textOne: appFonts.cancel,
-                                textTwo: appFonts.addToContacts,
-                                applyTap: () {},
-                                clearTap: () {})
-                            .marginSymmetric(horizontal: 80)
-                            .backgroundColor(appColor(context).whiteColor)
-                            .alignment(Alignment.bottomCenter)
-                      ]),
-                    );
-                  })));
+                                children: timeSlotStartAtList
+                                    .asMap()
+                                    .entries
+                                    .map((e) => Text(language(context, e.value),
+                                            style: appCss.dmDenseMedium12
+                                                .textColor(appColor(context)
+                                                    .lightText))
+                                        .paddingOnly(
+                                            left: e.key == 0 ? Insets.i5 : 30,
+                                            right:
+                                                e.key == 0 ? Insets.i50 : 20))
+                                    .toList())
+                            .paddingSymmetric(horizontal: Insets.i15),
+                        const VSpace(Sizes.s15),
+                        ...timeSlotList
+                            .asMap()
+                            .entries
+                            .map(
+                                (e) =>
+                                    AllTimeSlotLayout(
+                                        data: e.value,
+                                        index: e.key,
+                                        list: timeSlotList,
+                                        onTapSecond: e.value["status"] == true
+                                            ? () => value.selectTimeBottomSheet(
+                                                context, e.value, e.key, "end")
+                                            : () {},
+                                        onTap: e.value["status"] == true
+                                            ? () => value.selectTimeBottomSheet(
+                                                context,
+                                                e.value,
+                                                e.key,
+                                                "start")
+                                            : () {},
+                                        onToggle: (val) =>
+                                            value.onToggle(e.value, val)))
+                      ])),
+              VSpace(Insets.i22),
+              BottomSheetButtonCommon(
+                      isRateComplete: true,
+                      textOne: language(context, appFonts.close),
+                      clearTap: () => route.pop(context))
+                  .marginSymmetric(horizontal: 80)
+                  .backgroundColor(appColor(context).whiteColor)
+                  .alignment(Alignment.bottomCenter)
+            ]));
+          })));
         });
   }
 

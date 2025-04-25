@@ -1,15 +1,12 @@
-import 'dart:developer';
-
-import 'package:goapp/models/blog_model.dart';
 import 'package:intl/intl.dart';
+
 import '../../../../config.dart';
-import '../../../../models/api_model/articles_search_model.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 
 class LatestBlogLayout extends StatelessWidget {
   final Article? data;
   final GestureTapCallback? onTap, addOrRemoveTap;
-  final double? rPadding;
+  final double? rPadding, height;
   final bool? isView;
 
   const LatestBlogLayout({
@@ -19,6 +16,7 @@ class LatestBlogLayout extends StatelessWidget {
     this.rPadding,
     this.isView = false,
     this.addOrRemoveTap,
+    this.height,
   });
 
   @override
@@ -38,13 +36,13 @@ class LatestBlogLayout extends StatelessWidget {
                           : MediaQuery.of(context).size.width > 500
                               ? Sizes.s155
                               : Sizes.s255,
+                      height: height ?? 200,
                       fit: BoxFit.fill)),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                          width: Sizes.s180,
                           child: Text(language(context, data!.title),
                               overflow: TextOverflow.ellipsis,
                               style: appCss.dmDenseMedium15

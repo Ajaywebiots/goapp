@@ -134,7 +134,7 @@ final arabic = {
   "seeMore": "شاهد المزيد",
   "featuredService": "الشركات المميزة",
   "cleaningBathroom": "تنظيف الحمام",
-  "featuredAttractions": "المعالم المميزة",
+  "exploreAttractions": "استكشاف المعالم",
   "pointOfInterests": "نقاط الاهتمام",
   "rateUs": "قيمنا",
   "code": "الرمز",

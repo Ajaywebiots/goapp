@@ -135,7 +135,7 @@ final hebrew = {
   "seeMore": "ראה עוד",
   "featuredService": "עסקים מומלצים",
   "cleaningBathroom": "ניקוי חדר אמבטיה",
-  "featuredAttractions": "אטרקציות מומלצות",
+  "exploreAttractions": "חקור אטרקציות",
   "pointOfInterests": "נקודות עניין",
   "rateUs": "דרג אותנו",
   "code": "קוד",

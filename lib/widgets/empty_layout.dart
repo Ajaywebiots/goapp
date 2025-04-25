@@ -5,20 +5,22 @@ class EmptyLayout extends StatelessWidget {
   final Widget? widget;
   final GestureTapCallback? bTap, inkOnTap;
   final bool isInk, isButtonShow, isBooking;
+  final double? height, topHeight;
 
-  const EmptyLayout({
-    super.key,
-    this.subtitle,
-    this.bTap,
-    this.title,
-    this.buttonText,
-    this.widget,
-    this.inkText,
-    this.inkOnTap,
-    this.isInk = false,
-    this.isButtonShow = true,
-    this.isBooking = false,
-  });
+  const EmptyLayout(
+      {super.key,
+      this.subtitle,
+      this.bTap,
+      this.title,
+      this.buttonText,
+      this.widget,
+      this.inkText,
+      this.inkOnTap,
+      this.isInk = false,
+      this.isButtonShow = true,
+      this.isBooking = false,
+      this.height,
+      this.topHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +28,11 @@ class EmptyLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: topHeight),
           SizedBox(height: Insets.i50),
           widget ?? const SizedBox(),
           SizedBox(height: Insets.i80),
+          SizedBox(height: height),
           Column(children: [
             Text(language(context, title ?? ""),
                 style:

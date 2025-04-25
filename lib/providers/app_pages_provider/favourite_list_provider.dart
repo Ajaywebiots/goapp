@@ -206,9 +206,8 @@ class FavouriteListProvider with ChangeNotifier {
           .then((value) {
         notifyListeners();
         if (value.isSuccess == true) {
+          blogList.clear();
           if (value.data['responseStatus'] == 1) {
-            blogList.clear();
-
             notifyListeners();
             ArticlesSearchModel blogSearchModel =
                 ArticlesSearchModel.fromJson(value.data);

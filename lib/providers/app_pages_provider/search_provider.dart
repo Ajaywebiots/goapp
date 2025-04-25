@@ -394,7 +394,6 @@ class SearchProvider with ChangeNotifier {
                 ])).bottomSheetExtension(context);
           }));
         }).then((value) {
-      log("DDDD");
       final dash = Provider.of<DashboardProvider>(context, listen: false);
       getCategory();
       dash.notifyListeners();
@@ -416,7 +415,7 @@ class SearchProvider with ChangeNotifier {
     } else {
       selectedCategory.remove(id);
     }
-    log("SSS : $selectedCategory");
+
     notifyListeners();
   }
 
@@ -424,13 +423,7 @@ class SearchProvider with ChangeNotifier {
     int categoryCount = selectedCategory.length;
     int ratingCount = selectedRates.length;
     int distanceCount = (slider != 0.0) ? 1 : 0;
-
     int total = categoryCount + ratingCount + distanceCount;
-
-    log('Category Count: $categoryCount');
-    log('Rating Count: $ratingCount');
-    log('Distance Count: $distanceCount');
-    log('Total Filter Count: $total');
 
     return total.toString();
   }
@@ -463,6 +456,7 @@ class SearchProvider with ChangeNotifier {
 
   //clear filter
   clearFilter(context) {
+    isPopularSelected = false;
     selectedCategory = [];
     selectedRates = [];
     searchList = [];
@@ -648,6 +642,8 @@ class SearchProvider with ChangeNotifier {
   bool isFilter = false;
 
   searchService(BuildContext context, {bool isPop = false}) async {
+    isPopularSelected = true;
+    notifyListeners();
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
@@ -672,8 +668,6 @@ class SearchProvider with ChangeNotifier {
 
       Uri url = buildUriWithRepeatedKeys(api.businessSearch, queryParams);
 
-      log("Final API URL: $url");
-
       apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
         if (value.isSuccess == true) {
           if (value.data['responseStatus'] == 1) {
@@ -685,7 +679,6 @@ class SearchProvider with ChangeNotifier {
             notifyListeners();
             businessSearchList.addAll(businessSearchModel.businesses);
             notifyListeners();
-            log("businessSearchList $businessSearchList");
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(
@@ -696,14 +689,12 @@ class SearchProvider with ChangeNotifier {
       if (isPop) {
         route.pop(context);
       }
-    } catch (e) {
-      log("searchService error: $e");
-    }
+    } catch (e) {}
   }
 
   searchClear() {
     notifyListeners();
-    log("ssss ${searchCtrl.text.length}");
+
     searchCtrl.text = "";
     isSearch = true;
     notifyListeners();
@@ -737,13 +728,13 @@ class SearchProvider with ChangeNotifier {
       saveList = jsonData.map<Services>((jsonList) {
         return Services.fromJson(jsonList);
       }).toList();
-      log("jsonData :${saveList.length}");
+
       if (saveList.length == 5) {
         saveList.removeAt(0);
         saveList.add(services!);
       } else {
         int ind = saveList.indexWhere((element) => services!.id == element.id);
-        log("ind:$ind");
+
         if (ind < 0) {
           saveList.add(services!);
         }
@@ -751,8 +742,6 @@ class SearchProvider with ChangeNotifier {
     }
 
     recentSearchList = saveList;
-
-    log("recentSearchList :$recentSearchList");
 
     pref!.setString(session.recentSearch, jsonEncode(saveList));
     notifyListeners();
@@ -780,6 +769,7 @@ class SearchProvider with ChangeNotifier {
   }
 
   bool popular = true;
+  bool isPopularSelected = false;
   List<Business> businessSearchList = [];
 
   getBusinessSearchAPI(context, {int? id, bool? isFilter}) async {
@@ -791,7 +781,6 @@ class SearchProvider with ChangeNotifier {
     final filterList =
         "${api.businessSearch}?categories=$id&currentLongitude=$lon&currentLatitude=$lat";
     try {
-      log("hello  kjhdfjkdfjsd  sssss ");
       apiServices
           .commonApi(
               isFilter == true
@@ -801,8 +790,6 @@ class SearchProvider with ChangeNotifier {
               ApiType.get,
               isToken: true)
           .then((value) {
-        log("value.data ${value.data}");
-
         if (value.isSuccess == true) {
           if (value.data['responseStatus'] == 1) {
             // hideLoading(context);
@@ -813,7 +800,6 @@ class SearchProvider with ChangeNotifier {
             notifyListeners();
             businessSearchList.addAll(businessSearchModel.businesses);
             notifyListeners();
-            log("businessSearchList $businessSearchList");
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(

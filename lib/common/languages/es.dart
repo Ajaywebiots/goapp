@@ -135,7 +135,7 @@ final spanish = {
   "seeMore": "Ver más",
   "featuredService": "Negocios destacados",
   "cleaningBathroom": "Limpieza de baño",
-  "featuredAttractions": "Atracciones destacadas",
+  "exploreAttractions": "Explorar atracciones",
   "pointOfInterests": "Puntos de interés",
   "rateUs": "Califícanos",
   "code": "Código",

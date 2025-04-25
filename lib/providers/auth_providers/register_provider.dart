@@ -60,11 +60,8 @@ class RegisterProvider extends ChangeNotifier {
         showLoading(context);
         notifyListeners();
         var body = {
-          "username": "zzzz5555",
           "firstName": enterFName.text,
           "lastName": enterLName.text,
-          "password": "",
-          "email": "",
           "phoneNumber": txtPhone.text
         };
         log("body : $body");

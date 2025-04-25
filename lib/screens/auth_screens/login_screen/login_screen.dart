@@ -27,57 +27,57 @@ class LoginScreen extends StatelessWidget {
           ]),
           const VSpace(Sizes.s20),
           Form(
-            key: sss.globalKey,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(language(context, appFonts.login),
-                      style: appCss.dmDenseBold20
-                          .textColor(appColor(context).darkText)),
-                  const VSpace(Sizes.s15),
-                  const LoginLayout(),
-                  // const VSpace(Sizes.s55),
-                  // ButtonCommon(
-                  //         title: language(context, appFonts.autoFetch),
-                  //         color: Colors.white,
-                  //         style: appCss.dmDenseSemiBold16
-                  //             .textColor(appColor(context).primary),
-                  //         borderColor: appColor(context).primary,
-                  //         onTap: () => value.autoFetch())
-                  //     .paddingSymmetric(horizontal: Insets.i20),
-                  const VSpace(Sizes.s26),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    const ContinueWithContainer(),
-                    Text(language(context, appFonts.orContinue),
-                            style: appCss.dmDenseMedium14
-                                .textColor(appColor(context).lightText))
-                        .paddingSymmetric(horizontal: Insets.i10),
-                    const ContinueWithContainer()
-                  ]),
-                  const VSpace(Sizes.s35),
-                  ButtonCommon(
-                          onTap: () {
-                            value.signInWithFacebook(context);
-                          },
-                          isRightIcon: true,
-                          rightIcon: Image.asset(eImageAssets.fbLogo,
-                              height: 30, fit: BoxFit.contain),
-                          title: 'Login with Facebook',
-                          color: Color(0xff4D66FF))
-                      .paddingSymmetric(horizontal: Insets.i20),
-                  const VSpace(Sizes.s15),
-                  ButtonCommon(
-                          onTap: () {
-                            value.signInWithGoogle(context);
-                          },
-                          isRightIcon: true,
-                          rightIcon: Image.asset(eImageAssets.google,
-                              height: 25, fit: BoxFit.contain),
-                          title: 'Login with Google',
-                          color: appColor(context).darkText)
-                      .paddingSymmetric(horizontal: Insets.i20),
-                  /*  Row(
+              key: sss.globalKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(language(context, appFonts.login),
+                        style: appCss.dmDenseBold20
+                            .textColor(appColor(context).darkText)),
+                    const VSpace(Sizes.s15),
+                    const LoginLayout(),
+                    // const VSpace(Sizes.s55),
+                    // ButtonCommon(
+                    //         title: language(context, appFonts.autoFetch),
+                    //         color: Colors.white,
+                    //         style: appCss.dmDenseSemiBold16
+                    //             .textColor(appColor(context).primary),
+                    //         borderColor: appColor(context).primary,
+                    //         onTap: () => value.autoFetch())
+                    //     .paddingSymmetric(horizontal: Insets.i20),
+                    const VSpace(Sizes.s26),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const ContinueWithContainer(),
+                      Text(language(context, appFonts.orContinue),
+                              style: appCss.dmDenseMedium14
+                                  .textColor(appColor(context).lightText))
+                          .paddingSymmetric(horizontal: Insets.i10),
+                      const ContinueWithContainer()
+                    ]),
+                    const VSpace(Sizes.s35),
+                    ButtonCommon(
+                            onTap: () {
+                              value.signInWithFacebook(context);
+                            },
+                            isRightIcon: true,
+                            rightIcon: Image.asset(eImageAssets.fbLogo,
+                                height: 30, fit: BoxFit.contain),
+                            title: 'Login with Facebook',
+                            color: Color(0xff4D66FF))
+                        .paddingSymmetric(horizontal: Insets.i20),
+                    const VSpace(Sizes.s15),
+                    ButtonCommon(
+                            onTap: () {
+                              value.signInWithGoogle(context);
+                            },
+                            isRightIcon: true,
+                            rightIcon: Image.asset(eImageAssets.google,
+                                height: 25, fit: BoxFit.contain),
+                            title: 'Login with Google',
+                            color: appColor(context).darkText)
+                        .paddingSymmetric(horizontal: Insets.i20),
+                    /*  Row(
                       spacing: Insets.i15,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: appArray.loginOptions
@@ -93,9 +93,8 @@ class LoginScreen extends StatelessWidget {
                                   onTap: () =>
                                       option["onTap"](context, loginProvider)))
                           .toList()),*/
-                  const VSpace(Sizes.s20),
-                ]).alignment(Alignment.centerLeft),
-          )
+                    const VSpace(Sizes.s20),
+                  ]).alignment(Alignment.centerLeft))
         ]).paddingSymmetric(horizontal: Insets.i20))))),
       );
     });

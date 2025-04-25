@@ -47,7 +47,7 @@ class _AttractionScreenState extends State<AttractionScreen>
           child: DirectionalityRtl(
               child: Scaffold(
                   appBar: AppBarCommon(
-                      title: language(context, appFonts.featuredAttractions),
+                      title: language(context, appFonts.exploreAttractions),
                       onTap: () {
                         if (widget.isHomeScreen) {
                           final dash = Provider.of<DashboardProvider>(context,
@@ -56,7 +56,14 @@ class _AttractionScreenState extends State<AttractionScreen>
                           dash.notifyListeners();
                           homePvr.notifyListeners();
                         } else {
-                          attraction.onBack(homePvr, context);
+                          attraction.searchCtrl.text = "";
+                          attraction.slider = 0.0;
+                          attraction.selectedCategory.clear();
+                          attraction.selectedRates.clear();
+                          attraction.getAttractionSearchAPI(context);
+                          route.pop(context);
+
+                          // attraction.onBack(homePvr, context);
                         }
                       }),
                   body: attraction.isLoading
@@ -86,9 +93,9 @@ class _AttractionScreenState extends State<AttractionScreen>
                                 // onFieldSubmitted: (v) =>
                                 //     attraction.searchService(context),
                                 suffixIcon: FilterIconCommon(
-                                    selectedFilter:
-                                        /*search.totalCountFilter()*/ 0
-                                            .toString(),
+                                    selectedFilter: attraction
+                                        .totalCountFilter()
+                                        .toString(),
                                     onTap: () => attraction.onBottomSheet(
                                         context, attraction))),
                             const VSpace(Sizes.s20),
@@ -104,6 +111,18 @@ class _AttractionScreenState extends State<AttractionScreen>
                             ])
                           : attraction.searchList.isNotEmpty
                           ?*/
+                            if (attraction.attractionsSearchList.isEmpty)
+                              EmptyLayout(
+                                  topHeight:
+                                      MediaQuery.of(context).size.height * 0.08,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.09,
+                                  isButtonShow: false,
+                                  title: language(
+                                      context, appFonts.noResultsWereFound),
+                                  subtitle: language(context, appFonts.sorry),
+                                  widget: Image.asset(eImageAssets.noNoti,
+                                      height: Sizes.s200)),
                             Consumer<AttractionProvider>(
                                 builder: (context, value, child) {
                               return Column(children: [

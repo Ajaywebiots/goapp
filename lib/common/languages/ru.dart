@@ -136,7 +136,7 @@ final russian = {
   "seeMore": "Смотреть больше",
   "featuredService": "Рекомендуемые бизнесы",
   "cleaningBathroom": "Уборка ванной",
-  "featuredAttractions": "Рекомендуемые достопримечательности",
+  "exploreAttractions": "Исследовать достопримечательности",
   "pointOfInterests": "Точки интереса",
   "rateUs": "Оцените нас",
   "code": "Код",
