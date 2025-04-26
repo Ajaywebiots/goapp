@@ -89,10 +89,14 @@ class HomeBody extends StatelessWidget {
             value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : HeadingRowCommon(
-                        title: appFonts.featuredService,
-                        isTextSize: true,
-                        onTap: () => route.pushNamed(context, routeName.search))
-                    .paddingSymmetric(horizontal: Insets.i20),
+                    title: appFonts.featuredService,
+                    isTextSize: true,
+                    onTap: () {
+                      searchPvr.popular = true;
+                      searchPvr.getBusinessSearchAPI(context);
+
+                      route.pushNamed(context, routeName.search);
+                    }).paddingSymmetric(horizontal: Insets.i20),
             value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : const VSpace(Sizes.s15),
@@ -130,37 +134,38 @@ class HomeBody extends StatelessWidget {
               ? Container()
               : Column(children: [
                   HeadingRowCommon(
-                      title: appFonts.pointOfInterests,
+                      title: language(context, appFonts.pointOfInterests),
                       isTextSize: true,
                       onTap: () =>
                           route.pushNamed(context, routeName.attractionScreen)),
                   const VSpace(Sizes.s15),
-                  // if (dash.firstTwoHighRateList.isNotEmpty)
-                  ...value.firstTwoHighRateList.asMap().entries.map((e) =>
-                      FeatureAttractionLayout(
+                  ...value.firstTwoHighRateList
+                      .asMap()
+                      .entries
+                      .map((e) => FeatureAttractionLayout(
                           data: e.value,
                           addOrRemoveTap: () {
                             final common = Provider.of<CommonApiProvider>(
                                 context,
                                 listen: false);
                             common.toggleFavAPI(
-                                onSuccess: () =>
-                                    Provider.of<HomeScreenProvider>(context,
-                                            listen: false)
-                                        .homeFeed(context),
                                 context,
                                 e.value.isFavourite,
                                 e.value.appObject!.appObjectType,
-                                e.value.appObject!.appObjectId);
+                                e.value.appObject!.appObjectId, onSuccess: () {
+                              attraction.getAttractionSearchAPI(context);
+                              Provider.of<HomeScreenProvider>(context,
+                                      listen: false)
+                                  .homeFeed(context);
+                              attraction.attractionsDetailsAPI(
+                                  context, e.value.id,
+                                  isNotRoute: true);
+                            });
                           },
-                          onTap: () => attraction.attractionsDetailsAPI(
-                              context, e.value.id))),
-                  // if (dash.firstTwoHighRateList.isEmpty)
-                  //   ...dash.highestRateList.asMap().entries.map((e) =>
-                  //       FeatureAttractionLayout(
-                  //           data: e.value,
-                  //           onTap: () => route.pushNamed(
-                  //               context, routeName.attractionDetailScreen)))
+                          onTap: () {
+                            attraction.attractionsDetailsAPI(
+                                context, e.value.id);
+                          }))
                 ])
                   .padding(horizontal: Insets.i20, vertical: Insets.i25)
                   .backgroundColor(appColor(context).fieldCardBg)

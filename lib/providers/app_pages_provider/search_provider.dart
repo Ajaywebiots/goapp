@@ -229,11 +229,12 @@ class SearchProvider with ChangeNotifier {
 
   Timer? debounceTimer;
 
-  SearchProvider() {
-    searchCtrl.addListener(onSearchChange);
-  }
+  // SearchProvider() {
+  //   searchCtrl.addListener(onSearchChange);
+  // }
 
-  void onSearchChange() {
+  void onSearchChange(context, id, {isPopular}) {
+    log("searchPvr.selectIndex ${id}");
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
     // Start a new debounce timer
@@ -241,20 +242,26 @@ class SearchProvider with ChangeNotifier {
       final query = searchCtrl.text.trim();
       log("rrrrr $query");
       if (query.isEmpty) {
-        onReady();
+        getBusinessSearchAPI(context);
       } else if (query.length >= 3) {
-        fetchSearchResults(query);
+        fetchSearchResults(query, id, isPopular: isPopular);
       }
     });
   }
 
-  void fetchSearchResults(String query) {
+  void fetchSearchResults(String query, id, {isPopular = false}) {
     try {
+      final pop = "${api.businessSearch}?name=$query";
       apiServices
-          .commonApi("${api.businessSearch}?name=$query", [], ApiType.get,
+          .commonApi(
+              isPopular == true
+                  ? pop
+                  : "${api.businessSearch}?categories=${id + 1}&name=$query",
+              [],
+              ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 0) {
+        if (value.data['responseStatus'] == 1) {
           businessSearchList.clear();
           BusinessSearchModel businessSearchModel =
               BusinessSearchModel.fromJson(value.data);

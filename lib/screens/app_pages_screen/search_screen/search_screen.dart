@@ -32,7 +32,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
-  int? selectedCategoryIndex = -1;
+  int? selectedCategoryIndex = 0;
 
   @override
   void initState() {
@@ -49,11 +49,11 @@ class _SearchScreenState extends State<SearchScreen>
       final matchedIndex = categoryListPvr.categoryList.indexWhere((cat) =>
           cat.translatedValue?.trim().toLowerCase() ==
           categoryListPvr
-              .categoryList[selectedCategoryIndex ?? -1].translatedValue
+              .categoryList[selectedCategoryIndex ?? 0].translatedValue
               ?.trim()
               .toLowerCase());
 
-      if (matchedIndex != -1) {
+      if (matchedIndex != 0) {
         final matchedCategory = categoryListPvr.categoryList[matchedIndex];
         searchPvr.onSubCategories(
             context, matchedIndex, matchedCategory.categoryId);
@@ -102,8 +102,13 @@ class _SearchScreenState extends State<SearchScreen>
                               dashPvr.selectIndex = 0;
                               dashPvr.notifyListeners();
                             } else {
+                              log("dddd vvv");
+                              searchPvr.popular = true;
+                              searchPvr.isPopularSelected = false;
+
                               searchPvr.onBack();
                               route.pop(context);
+                              dashPvr.notifyListeners();
                             }
                           }),
                       body: SingleChildScrollView(
@@ -119,6 +124,9 @@ class _SearchScreenState extends State<SearchScreen>
                                       focusNode: searchPvr.searchFocus,
                                       controller: searchPvr.searchCtrl,
                                       onChanged: (v) {
+                                        searchPvr.onSearchChange(
+                                            context, searchPvr.selectIndex,
+                                            isPopular: searchPvr.popular);
                                         if (v.isEmpty) {
                                           searchPvr.searchList = [];
                                           searchPvr.isSearch = v.length > 2;
@@ -272,7 +280,10 @@ class _SearchScreenState extends State<SearchScreen>
                                                               context,
                                                               id: categoryListPvr
                                                                   .categoryList[
-                                                                      selectedCategoryIndex!]
+                                                                      selectedCategoryIndex ==
+                                                                              null
+                                                                          ? 0
+                                                                          : selectedCategoryIndex!]
                                                                   .categoryId,
                                                               isFilter:
                                                                   searchPvr.popular ==
@@ -293,7 +304,6 @@ class _SearchScreenState extends State<SearchScreen>
                                                       }))
                                               .toList())
                                 ]).paddingSymmetric(horizontal: Insets.i20)),
-                            // Loader overlay: show it even if the list already has data
                             if (searchPvr.isLoading)
                               Container(
                                   color: isDark(context)
