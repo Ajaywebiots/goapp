@@ -31,25 +31,27 @@ class FeatureAttractionLayout extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(children: [
-                data.image!.source.isNotEmpty
-                    ? Container(
-                            height: Sizes.s72,
-                            width: Sizes.s72,
-                            decoration: BoxDecoration(
-                                color: appColor(context).skeletonColor,
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(data.image!.source))))
-                        .boxShapeExtension()
-                    : Container(
+                Container(
                         height: Sizes.s72,
                         width: Sizes.s72,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                                image:
-                                    AssetImage(eImageAssets.noImageFound4)))),
+                            color: appColor(context).skeletonColor,
+                            borderRadius: BorderRadius.circular(AppRadius.r10)),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(AppRadius.r10),
+                            child: data.image != null &&
+                                    data.image!.source.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: data.image!.source,
+                                    fit: BoxFit.fill,
+                                    placeholder: (context, url) => Container(
+                                        color: appColor(context).skeletonColor),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(eImageAssets.noImageFound3,
+                                            fit: BoxFit.fill))
+                                : Image.asset(eImageAssets.noImageFound4,
+                                    fit: BoxFit.fill)))
+                    .boxShapeExtension(),
                 const HSpace(Sizes.s10),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   SizedBox(

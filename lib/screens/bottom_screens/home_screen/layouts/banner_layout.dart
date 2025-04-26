@@ -1,5 +1,5 @@
-import '../../../../config.dart';
-import '../../../../models/api_model/home_feed_model.dart' as model;
+import 'package:goapp/config.dart';
+import 'package:goapp/models/api_model/home_feed_model.dart' as model;
 
 class BannerLayout extends StatelessWidget {
   final List<model.Banner>? bannerList;
@@ -25,18 +25,25 @@ class BannerLayout extends StatelessWidget {
             items: bannerList!.map((i) {
               return Builder(builder: (BuildContext context) {
                 return Stack(children: [
-                  Container(
-                    width: double.infinity,
-                    foregroundDecoration: BoxDecoration(
-                        image: DecorationImage(
+                  SizedBox(
+                      width: double.infinity,
+                      child: Stack(fit: StackFit.expand, children: [
+                        CachedNetworkImage(
+                            imageUrl: i.image!.source,
                             fit: BoxFit.cover,
-                            image: AssetImage("assets/images/imageLayer.png"))),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            opacity: 0.9,
-                            image: NetworkImage(i.image!.source!),
-                            fit: BoxFit.cover)),
-                  ).inkWell(onTap: () => onTap!),
+                            placeholder: (context, url) => Image.asset(
+                                eImageAssets.noImageFound2,
+                                fit: BoxFit.cover),
+                            errorWidget: (context, url, error) => Image.asset(
+                                eImageAssets.noImageFound2,
+                                fit: BoxFit.cover)),
+                        Container(
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        "assets/images/imageLayer.png"))))
+                      ])).inkWell(onTap: () => onTap!),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,21 +53,21 @@ class BannerLayout extends StatelessWidget {
                             children: [
                               Container(
                                   color: appColor(context).red,
-                                  child: Text(i.tagText!,
+                                  child: Text(i.tagText,
                                           style: appCss.dmDenseBold10.textColor(
                                               appColor(context).whiteColor))
                                       .paddingSymmetric(
                                           vertical: Insets.i3,
                                           horizontal: Insets.i6)),
                               VSpace(Insets.i15),
-                              Text(i.title!,
+                              Text(i.title,
                                       style: appCss.dmDenseBold18.textColor(
                                           appColor(context).whiteColor))
                                   .paddingSymmetric(
                                       vertical: Insets.i3,
                                       horizontal: Insets.i6),
                               VSpace(Insets.i5),
-                              Text(i.subTitle!,
+                              Text(i.subTitle,
                                       style: appCss.dmDenseRegular12.textColor(
                                           appColor(context).whiteColor))
                                   .paddingSymmetric(
@@ -72,7 +79,7 @@ class BannerLayout extends StatelessWidget {
                                 color: appColor(context).primary,
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(AppRadius.r20))),
-                            child: Text(i.buttonText!,
+                            child: Text(i.buttonText,
                                     style: appCss.dmDenseMedium12.textColor(
                                         appColor(context).whiteColor))
                                 .paddingSymmetric(
