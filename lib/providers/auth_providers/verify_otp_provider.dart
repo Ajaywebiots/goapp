@@ -100,10 +100,10 @@ class VerifyOtpProvider with ChangeNotifier {
 
   getArgument(context) {
     dynamic data = ModalRoute.of(context)?.settings.arguments;
-    phone = data["phone"].toString();
-    dialCode = data["dialCode"].toString();
-    verificationCode = data["code"].toString();
-    otpController.text = data["code"].toString();
+    phone = data["phoneNumber"].toString();
+    dialCode = data["phoneNumberPrefix"].toString();
+    // verificationCode = data["code"].toString();
+    // otpController.text = data["code"].toString();
     startTimer();
     log("ARG : $data");
     notifyListeners();
@@ -140,7 +140,8 @@ class VerifyOtpProvider with ChangeNotifier {
     otpController.text = "";
     try {
       showLoading(context);
-      var body = {"phoneNumber": data['phone'], "dialCode": dialCode};
+      var body = {"phoneNumber": data['phone'], "phoneNumberPrefix": dialCode};
+      log("body ${body}");
       apiServices
           .commonApi(api.otp, body, ApiType.post, isToken: false)
           .then((value) async {

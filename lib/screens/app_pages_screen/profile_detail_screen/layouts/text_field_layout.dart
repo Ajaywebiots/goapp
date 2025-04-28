@@ -28,9 +28,9 @@ class TextFieldLayout extends StatelessWidget {
       TextFieldCommon(
               controller: value!.txtLName,
               hintText: language(context, appFonts.enterLName),
-              focusNode: value!.emailFocus,
+              focusNode: value!.lastNameFocus,
               onFieldSubmitted: (values) => validation.fieldFocusChange(
-                  context, value!.emailFocus, value!.phoneFocus),
+                  context, value!.lastNameFocus, value!.lastNameFocus),
               prefixIcon: eSvgAssets.user,
               validator: (value) => validation.emailValidation(context, value))
           .paddingSymmetric(horizontal: Insets.i20),
@@ -101,7 +101,8 @@ class TextFieldLayout extends StatelessWidget {
       const VSpace(Sizes.s10),
       RegisterWidgetClass().phoneTextBox(
           context, value!.txtPhone, value!.phoneFocus,
-          // onChanged: (CountryCode? code) => value!.changeDialCode(code!),
+          dialCode: value?.dialCode,
+          onChanged: (CountryCodeCustom? code) => value!.changeDialCode(code!),
           onFieldSubmitted: (values) => validation.fieldFocusChange(
               context, value!.phoneFocus, value!.phoneFocus))
     ]);

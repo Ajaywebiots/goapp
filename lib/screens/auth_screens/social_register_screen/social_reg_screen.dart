@@ -95,7 +95,7 @@ class SocialRegScreen extends StatelessWidget {
                           const VSpace(Sizes.s10),
                           RegisterWidgetClass().phoneTextBox(context,
                               socialRegPvr.txtPhone, socialRegPvr.phoneFocus,
-                              dialCode: "+30",
+                              dialCode: socialRegPvr.dialCode,
                               onChanged: (CountryCodeCustom? code) =>
                                   socialRegPvr.changeDialCode(code!),
                               onFieldSubmitted: (value) =>

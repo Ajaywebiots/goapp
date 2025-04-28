@@ -27,7 +27,7 @@ class LoginLayout extends StatelessWidget {
                 CountryListLayout(
                     dialCode: sss.dialCode,
                     onChanged: (country) => {
-                          /*value.changeDialCode(country!),*/
+                          sss.changeDialCode(country!),
                         }),
                 const HSpace(Sizes.s4),
                 Expanded(

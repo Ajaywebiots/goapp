@@ -60,6 +60,7 @@ class RegisterProvider extends ChangeNotifier {
         showLoading(context);
         notifyListeners();
         var body = {
+          "phoneNumberPrefix": dialCode,
           "firstName": enterFName.text,
           "lastName": enterLName.text,
           "phoneNumber": txtPhone.text

@@ -68,7 +68,8 @@ class ProfileDetailScreen extends StatelessWidget {
                     ]),
                     const VSpace(Sizes.s40),
                     ButtonCommon(
-                        title: language(context, appFonts.update), onTap: () {})
+                        title: language(context, appFonts.update),
+                        onTap: () => value.updateProfileDetailDataAPI(context))
                   ]).paddingSymmetric(horizontal: Insets.i20))))));
     });
   }

@@ -14,8 +14,9 @@ class ProfileDetailProvider with ChangeNotifier {
   TextEditingController txtLName = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPhone = TextEditingController();
-  String dialCode = '+30';
+  String? dialCode;
   final FocusNode nameFocus = FocusNode();
+  final FocusNode lastNameFocus = FocusNode();
   final FocusNode emailFocus = FocusNode();
   final FocusNode phoneFocus = FocusNode();
   XFile? imageFile;
@@ -26,10 +27,10 @@ class ProfileDetailProvider with ChangeNotifier {
     {"image": eSvgAssets.camera, "title": appFonts.openCamera}
   ];
 
-  // changeDialCode(CountryCode country) {
-  //   dialCode = country.dialCode!;
-  //   notifyListeners();
-  // }
+  changeDialCode(country) {
+    dialCode = country.dialCode!;
+    notifyListeners();
+  }
 
 // GET IMAGE FROM GALLERY
   Future getImage(context, source) async {
@@ -97,16 +98,45 @@ class ProfileDetailProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         if (value.isSuccess == true) {
+          log("dialCode sss$dialCode");
           if (value.data['responseStatus'] == 1) {
             txtFName.text = value.data['userProfile']['firstName'];
             txtLName.text = value.data['userProfile']['lastName'];
-            txtEmail.text = value.data['userProfile']['email'];
+            txtEmail.text = value.data['userProfile']['email'] ?? "";
             txtPhone.text = value.data['userProfile']['phoneNumber'];
             birthday.text = value.data['userProfile']['birthday'] ?? "";
+            dialCode = value.data['userProfile']['phoneNumberPrefix'] ?? "";
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
+        }
+      });
+    } catch (e) {
+      log("EEEE getProfileDetailDataAPI:::: $e");
+    }
+  }
+
+  updateProfileDetailDataAPI(context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+
+    final body = {
+      "firstName": txtFName.text,
+      "lastName": txtLName.text,
+      "email": txtEmail.text,
+      "phoneNumberPrefix": dialCode,
+      "phoneNumber": txtPhone.text,
+      "birthday": birthday.text
+    };
+    log("898989898 $body");
+    try {
+      apiServices
+          .commonApi("${api.profile}$userId/profile", body, ApiType.patch,
+              isToken: true)
+          .then((value) {
+        if (value.isSuccess == true) {
+          log("hjhjhjhjh ${value.data}");
         }
       });
     } catch (e) {

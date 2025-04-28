@@ -1,6 +1,3 @@
-
-
-
 import 'package:goapp/widgets/country_picker_custom/layouts/country_theme.dart';
 import 'package:goapp/widgets/country_picker_custom/selection_item_list.dart';
 
@@ -61,9 +58,9 @@ class CountryListPickCustomState extends State<CountryListPickCustom> {
               (e.code.toUpperCase() ==
                   widget.initialSelection!.toUpperCase()) ||
               (e.dialCode == widget.initialSelection),
-          orElse: () => elements[0] as CountryCodeCustom);
+          orElse: () => elements[81] as CountryCodeCustom);
     } else {
-      selectedItem = elements[0];
+      selectedItem = elements[81];
     }
 
     super.initState();
