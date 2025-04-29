@@ -23,25 +23,20 @@ class RegisterWidgetClass {
           ValueChanged<String>? onFieldSubmitted,
           double? hPadding,
           dialCode}) =>
-      Consumer<RegisterProvider>(builder: (context1, register, child) {
-        return IntrinsicHeight(
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            CountryListLayout(
-              onChanged: onChanged,
-              dialCode: dialCode,
-            ),
-            const HSpace(Sizes.s4),
-            Expanded(
-                child: TextFieldCommon(
-                    keyboardType: TextInputType.number,
-                    validator: (phone) =>
-                        Validation().phoneValidation(context, phone),
-                    controller: controller,
-                    onFieldSubmitted: onFieldSubmitted,
-                    focusNode: focus,
-                    isNumber: true,
-                    hintText: language(context, appFonts.enterPhoneNumber)))
-          ]).paddingSymmetric(horizontal: hPadding ?? Insets.i20),
-        );
-      });
+      IntrinsicHeight(
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          CountryListLayout(onChanged: onChanged, dialCode: dialCode),
+          const HSpace(Sizes.s4),
+          Expanded(
+              child: TextFieldCommon(
+                  keyboardType: TextInputType.number,
+                  validator: (phone) =>
+                      Validation().phoneValidation(context, phone),
+                  controller: controller,
+                  onFieldSubmitted: onFieldSubmitted,
+                  focusNode: focus,
+                  isNumber: true,
+                  hintText: language(context, appFonts.enterPhoneNumber)))
+        ]).paddingSymmetric(horizontal: hPadding ?? Insets.i20),
+      );
 }

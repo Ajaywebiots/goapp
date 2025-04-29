@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:goapp/providers/app_pages_provider/my_review_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../config.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-
+import '../../../providers/app_pages_provider/profile_detail_provider.dart';
 import '../../../providers/bottom_providers/booking_provider.dart';
 import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
@@ -46,6 +47,10 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                     Provider.of<BookingProvider>(context, listen: false);
                 bookingCtrl.onReady(context, value);
               });
+              Provider.of<ProfileDetailProvider>(context, listen: false)
+                  .getProfileDetailDataAPI(context);
+              Provider.of<MyReviewProvider>(context, listen: false)
+                  .getMyReviewListData();
             },
             child: DirectionalityRtl(
               child: Scaffold(

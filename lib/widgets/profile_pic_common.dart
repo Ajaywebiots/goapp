@@ -6,7 +6,6 @@ import '../config.dart';
 
 class ProfilePicCommon extends StatelessWidget {
   final bool? isProfile;
-
   final String? imageUrl;
   final XFile? image;
 
@@ -23,8 +22,8 @@ class ProfilePicCommon extends StatelessWidget {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        color: Color(0xff162e0f).withValues(alpha: 0.2),
-                        offset: Offset(0, 2),
+                        color: const Color(0xff162e0f).withOpacity(0.2),
+                        offset: const Offset(0, 2),
                         blurRadius: 10,
                         spreadRadius: 0)
                   ],
@@ -37,21 +36,21 @@ class ProfilePicCommon extends StatelessWidget {
                           : appColor(context).trans,
                       width: isProfile == true ? 4 : 2,
                       style: BorderStyle.solid)))
-          : imageUrl != null
+          : (imageUrl != null && imageUrl!.isNotEmpty)
               ? Container(
                   height: Sizes.s88,
                   width: Sizes.s88,
                   decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                            color: Color(0xff162e0f).withValues(alpha: 0.2),
-                            offset: Offset(0, 2),
+                            color: const Color(0xff162e0f).withOpacity(0.2),
+                            offset: const Offset(0, 2),
                             blurRadius: 10,
                             spreadRadius: 0)
                       ],
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage(imageUrl!), fit: BoxFit.cover),
+                          image: NetworkImage(imageUrl!), fit: BoxFit.cover),
                       border: Border.all(
                           color: isProfile == true
                               ? appColor(context).whiteBg.withOpacity(0.75)
@@ -64,12 +63,12 @@ class ProfilePicCommon extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage(eImageAssets.profile),
+                          image: AssetImage(eImageAssets.noImageFound3),
                           fit: BoxFit.cover),
                       boxShadow: [
                         BoxShadow(
-                            color: Color(0xff162e0f).withValues(alpha: 0.2),
-                            offset: Offset(0, 2),
+                            color: const Color(0xff162e0f).withOpacity(0.2),
+                            offset: const Offset(0, 2),
                             blurRadius: 10,
                             spreadRadius: 0)
                       ],
@@ -79,26 +78,6 @@ class ProfilePicCommon extends StatelessWidget {
                               : appColor(context).trans,
                           width: isProfile == true ? 4 : 2,
                           style: BorderStyle.solid))),
-      /*Container(
-          height: Sizes.s88,
-          width: Sizes.s88,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: image != null
-                  ? DecorationImage(
-                      image: FileImage(File(image!.path)), fit: BoxFit.cover)
-                  : imageUrl != null
-                      ? DecorationImage(
-                          image: NetworkImage(imageUrl!), fit: BoxFit.cover)
-                      : DecorationImage(
-                          image: AssetImage(eImageAssets.profile),
-                          fit: BoxFit.cover),
-              border: Border.all(
-                  color: isProfile == true
-                      ? appColor(context).whiteBg.withOpacity(0.75)
-                      : appColor(context).trans,
-                  width: isProfile == true ? 4 : 2,
-                  style: BorderStyle.solid))),*/
       Container(
           height: isProfile == true ? Sizes.s82 : Sizes.s85,
           width: isProfile == true ? Sizes.s82 : Sizes.s85,

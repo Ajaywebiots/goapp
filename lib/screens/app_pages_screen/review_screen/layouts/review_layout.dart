@@ -1,14 +1,19 @@
 import '../../../../config.dart';
-import '../../../../models/review_model.dart';
+import '../../../../models/api_model/my_review_model.dart';
 
-class ReviewLayout extends StatelessWidget {
-  final Reviews? data;
+class ReviewLayout extends StatefulWidget {
+  final Review? data;
   final GestureTapCallback? editTap, deleteTap;
   final int? index;
 
   const ReviewLayout(
       {super.key, this.data, this.deleteTap, this.editTap, this.index});
 
+  @override
+  State<ReviewLayout> createState() => _ReviewLayoutState();
+}
+
+class _ReviewLayoutState extends State<ReviewLayout> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -30,16 +35,13 @@ class ReviewLayout extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                    data!.servicemanId == null
-                        ? data!.provider!.name!
-                        : data!.serviceman!.name!,
+                Text(widget.data!.name!,
                     style: appCss.dmDenseMedium14
                         .textColor(appColor(context).darkText)),
                 Row(children: [
                   SvgPicture.asset(eSvgAssets.star),
                   HSpace(Sizes.s2),
-                  Text(data!.rating.toString(),
+                  Text(widget.data!.rating.toString(),
                       style: appCss.dmDenseMedium13
                           .textColor(appColor(context).darkText))
                 ])
@@ -53,7 +55,8 @@ class ReviewLayout extends StatelessWidget {
                   shape: SmoothRectangleBorder(
                       borderRadius: SmoothBorderRadius(
                           cornerRadius: 6, cornerSmoothing: 1))),
-              child: Text(language(context, data?.category).capitalizeFirst(),
+              child: Text(
+                  language(context, widget.data?.category).capitalizeFirst(),
                   style: appCss.dmDenseMedium11
                       .textColor(appColor(context).primary))),
           /* if (data!.service != null)
@@ -65,23 +68,25 @@ class ReviewLayout extends StatelessWidget {
       //]),
       const VSpace(Sizes.s15),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(data!.description!,
+        Text(widget.data!.description!,
             style:
                 appCss.dmDenseMedium12.textColor(appColor(context).darkText)),
         Divider(height: 1, color: appColor(context).fieldCardBg)
             .paddingSymmetric(vertical: Insets.i15),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
-              getTime(
-                  DateTime.parse(data!.createdAt ?? DateTime.now().toString())),
+              getTime(DateTime.parse(widget.data!.createDate.toString())
+                  .toString()),
               style: appCss.dmDenseMedium12
                   .textColor(appColor(context).lightText)),
           Row(children: [
             CommonArrow(
-                onTap: editTap, isThirteen: true, arrow: eSvgAssets.edit),
+                onTap: widget.editTap,
+                isThirteen: true,
+                arrow: eSvgAssets.edit),
             const HSpace(Sizes.s12),
             CommonArrow(
-                onTap: deleteTap,
+                onTap: widget.deleteTap,
                 isThirteen: true,
                 arrow: eSvgAssets.delete,
                 svgColor: appColor(context).red,

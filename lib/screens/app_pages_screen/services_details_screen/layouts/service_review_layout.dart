@@ -25,7 +25,9 @@ class ServiceReviewLayout extends StatelessWidget {
               style:
                   appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
           subtitle: data!.createdAt != null
-              ? Text(getTime(DateTime.parse(data!.createdAt!.toString())),
+              ? Text(
+                  getTime(
+                      DateTime.parse(data!.createdAt!.toString()).toString()),
                   style: appCss.dmDenseMedium12
                       .textColor(appColor(context).lightText))
               : Container(),

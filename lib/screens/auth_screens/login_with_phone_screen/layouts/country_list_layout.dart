@@ -1542,7 +1542,7 @@ class CountryListLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<RegisterProvider>(builder: (context1, register, child) {
-      log("dialCode-> $dialCode");
+      log("dialCode::$dialCode");
       return SizedBox(
               height: Sizes.s50,
               child: CountryListPickCustom(

@@ -35,10 +35,50 @@ class TextFieldLayout extends StatelessWidget {
               validator: (value) => validation.emailValidation(context, value))
           .paddingSymmetric(horizontal: Insets.i20),
       const VSpace(Sizes.s15),
+      ContainerWithTextLayout(title: language(context, appFonts.phoneNo)),
+      const VSpace(Sizes.s10),
+      // RegisterWidgetClass().phoneTextBox(
+      //     context, value!.txtPhone, value!.phoneFocus,
+      //     dialCode: value?.dialCode,
+      //     onChanged: (CountryCodeCustom? code) => value!.changeDialCode(code!),
+      //     onFieldSubmitted: (values) => validation.fieldFocusChange(
+      //         context, value!.phoneFocus, value!.phoneFocus)),
+      IntrinsicHeight(
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        CountryListLayout(
+          onChanged: (CountryCodeCustom? code) => value!.changeDialCode(code!),
+          dialCode: value!.dialCode,
+        ), // Fallback to +91),
+        const HSpace(Sizes.s4),
+        Expanded(
+            child: TextFieldCommon(
+                keyboardType: TextInputType.number,
+                validator: (phone) =>
+                    Validation().phoneValidation(context, phone),
+                controller: value!.txtPhone,
+                onFieldSubmitted: (values) => validation.fieldFocusChange(
+                    context, value!.phoneFocus, value!.phoneFocus),
+                focusNode: value!.phoneFocus,
+                isNumber: true,
+                hintText: language(context, appFonts.enterPhoneNumber)))
+      ]).paddingSymmetric(horizontal: Insets.i20)),
+      const VSpace(Sizes.s15),
+      ContainerWithTextLayout(title: language(context, appFonts.email)),
+      const VSpace(Sizes.s8),
+      TextFieldCommon(
+              controller: value!.txtEmail,
+              hintText: language(context, appFonts.enterEmail),
+              focusNode: value!.emailFocus,
+              onFieldSubmitted: (values) => validation.fieldFocusChange(
+                  context, value!.emailFocus, value!.phoneFocus),
+              prefixIcon: eSvgAssets.email,
+              validator: (value) => validation.emailValidation(context, value))
+          .paddingSymmetric(horizontal: Insets.i20),
+      const VSpace(Sizes.s15),
       ContainerWithTextLayout(title: language(context, appFonts.birthday)),
       const VSpace(Sizes.s8),
       TextFieldCommon(
-              controller: value!.birthday,
+              controller: value?.birthday,
               readOnly: true,
               onTap: () async {
                 DateTime initialDate = DateTime.now();
@@ -72,39 +112,22 @@ class TextFieldLayout extends StatelessWidget {
                     });
 
                 if (pickedDate != null) {
+                  // value?.selectedBirthday = pickedDate;
+
+                  // log("gghghghgh ${value?.selectedBirthday}");
+
                   String formattedDate =
                       DateFormat('dd/MM/yyyy').format(pickedDate);
                   value?.birthday.text = formattedDate;
                 }
               },
               hintText: language(context, appFonts.birthDate),
-              focusNode: value!.nameFocus,
-              onFieldSubmitted: (values) => validation.fieldFocusChange(
-                  context, value!.nameFocus, value!.emailFocus),
+              focusNode: value!.birthdayFocus,
+              // onFieldSubmitted: (values) => validation.fieldFocusChange(
+              //     context, value!.birthdayFocus, value!.emailFocus),
               prefixIcon: eSvgAssets.user,
               validator: (value) => validation.nameValidation(context, value))
           .paddingSymmetric(horizontal: Insets.i20),
-      const VSpace(Sizes.s15),
-      ContainerWithTextLayout(title: language(context, appFonts.email)),
-      const VSpace(Sizes.s8),
-      TextFieldCommon(
-              controller: value!.txtEmail,
-              hintText: language(context, appFonts.enterEmail),
-              focusNode: value!.emailFocus,
-              onFieldSubmitted: (values) => validation.fieldFocusChange(
-                  context, value!.emailFocus, value!.phoneFocus),
-              prefixIcon: eSvgAssets.email,
-              validator: (value) => validation.emailValidation(context, value))
-          .paddingSymmetric(horizontal: Insets.i20),
-      const VSpace(Sizes.s15),
-      ContainerWithTextLayout(title: language(context, appFonts.phoneNo)),
-      const VSpace(Sizes.s10),
-      RegisterWidgetClass().phoneTextBox(
-          context, value!.txtPhone, value!.phoneFocus,
-          dialCode: value?.dialCode,
-          onChanged: (CountryCodeCustom? code) => value!.changeDialCode(code!),
-          onFieldSubmitted: (values) => validation.fieldFocusChange(
-              context, value!.phoneFocus, value!.phoneFocus))
     ]);
   }
 }

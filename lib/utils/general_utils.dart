@@ -85,17 +85,24 @@ Color fromHex(String hexString) {
 //   return token;
 // }
 
-getTime(time) {
-  if (!DateTime.now().difference(time).isNegative) {
-    if (DateTime.now().difference(time).inMinutes < 1) {
+String getTime(String timeString) {
+  final DateTime time = DateTime.parse(timeString);
+  final Duration diff = DateTime.now().difference(time);
+  print("API time: ${DateTime.parse(timeString)}");
+  print("Local time: ${DateTime.now()}");
+
+  if (!diff.isNegative) {
+    if (diff.inMinutes < 1) {
       return "a few seconds ago";
-    } else if (DateTime.now().difference(time).inMinutes < 60) {
-      return "${DateTime.now().difference(time).inMinutes} minutes ago";
-    } else if (DateTime.now().difference(time).inMinutes < 1440) {
-      return "${DateTime.now().difference(time).inHours} hours ago";
-    } else if (DateTime.now().difference(time).inMinutes > 1440) {
+    } else if (diff.inMinutes < 60) {
+      return "${diff.inMinutes} minutes ago";
+    } else if (diff.inMinutes < 1440) {
+      return "${diff.inHours} hours ago";
+    } else {
       return DateFormat('dd MMM, yyyy').format(time);
     }
+  } else {
+    return DateFormat('dd MMM, yyyy').format(time);
   }
 }
 

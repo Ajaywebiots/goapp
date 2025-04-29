@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 
 import '../../../../config.dart';
 import '../../../../widgets/profile_pic_common.dart';
@@ -11,20 +11,32 @@ class ProfileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeService>(builder: (contextTheme, theme, child) {
+      final profilePvr = Provider.of<ProfileDetailProvider>(context);
+
       return Stack(alignment: Alignment.topRight, children: [
         SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Column(children: [
-                  const ProfilePicCommon(imageUrl: null, isProfile: true),
+                  ProfilePicCommon(
+                      imageUrl: profilePvr.profileImageUrl, isProfile: true),
                   const VSpace(Sizes.s5),
-                  Text(language(context, "Zain Dorwart"),
-                      style: appCss.dmDenseSemiBold14
-                          .textColor(appColor(context).darkText)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: language(context, profilePvr.txtFName.text),
+                        style: appCss.dmDenseSemiBold14
+                            .textColor(appColor(context).darkText)),
+                    TextSpan(text: ' '),
+                    TextSpan(
+                        text: language(context, profilePvr.txtLName.text),
+                        style: appCss.dmDenseSemiBold14
+                            .textColor(appColor(context).darkText))
+                  ])),
                   const VSpace(Sizes.s3),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     SvgPicture.asset(eSvgAssets.email),
                     const HSpace(Sizes.s5),
-                    Text(language(context, "zaindorwart12@gmail.com"),
+                    Text(language(context, profilePvr.txtEmail.text),
                         style: appCss.dmDenseMedium12
                             .textColor(appColor(context).lightText))
                   ])

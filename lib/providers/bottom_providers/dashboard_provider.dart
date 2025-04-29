@@ -1,20 +1,12 @@
-import 'dart:developer';
-
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 import 'package:goapp/screens/menu_screens/menu_screen.dart';
 
 import '../../config.dart';
-import '../../models/api_model/home_feed_model.dart' as model;
-// import '../../models/api_model/home_feed_model.dart';
-import '../../models/api_model/home_feed_model.dart';
 import '../../models/index.dart';
 import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
-import '../../services/api_service.dart';
-import '../app_pages_provider/attractions_provider.dart';
-import '../app_pages_provider/latest_blog_details_provider.dart';
+import '../app_pages_provider/profile_detail_provider.dart';
 import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
@@ -47,6 +39,8 @@ class DashboardProvider with ChangeNotifier {
   ];
 
   onInit(context) {
+    Provider.of<ProfileDetailProvider>(context, listen: false)
+        .getProfileDetailDataAPI(context);
     // final login = Provider.of<LoginProvider>(context, listen: false);
     // login.locationPermission();
     // getCurrentLocation();
@@ -378,13 +372,13 @@ class DashboardProvider with ChangeNotifier {
 
   int count = 0;
 
-  //booking history list
-  getBookingHistory(context, {search, pageKey = 1}) async {
-    // final booking = Provider.of<BookingProvider>(context, listen: false);
-    // booking.bookingList =
-    //     appArray.bookingList.map((e) => BookingModel.fromJson(e)).toList();
-    // booking.notifyListeners();
-  }
+  // //booking history list
+  // getBookingHistory(context, {search, pageKey = 1}) async {
+  //   // final booking = Provider.of<BookingProvider>(context, listen: false);
+  //   // booking.bookingList =
+  //   //     appArray.bookingList.map((e) => BookingModel.fromJson(e)).toList();
+  //   // booking.notifyListeners();
+  // }
 
   cartTap(context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();

@@ -3,7 +3,7 @@ import '../config.dart';
 snackBarMessengers(context, {message, color, isDuration = false}) {
   ScaffoldMessenger.of(context).showSnackBar(isDuration
       ? SnackBar(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 600),
           content: Container(
               padding: const EdgeInsets.all(Insets.i15),
               decoration: BoxDecoration(

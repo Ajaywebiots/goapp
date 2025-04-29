@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:goapp/widgets/alert_message_common.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 import '../../config.dart';
+import '../../models/api_model/profile_detail_model.dart';
 import '../../screens/app_pages_screen/profile_detail_screen/layouts/selection_option_layout.dart';
 import '../../services/api_service.dart';
 
@@ -19,16 +24,29 @@ class ProfileDetailProvider with ChangeNotifier {
   final FocusNode lastNameFocus = FocusNode();
   final FocusNode emailFocus = FocusNode();
   final FocusNode phoneFocus = FocusNode();
+  final FocusNode birthdayFocus = FocusNode();
   XFile? imageFile;
+  String? profileImageUrl;
+
   SharedPreferences? preferences;
+
+  // DateTime? selectedBirthday;
 
   var selectList = [
     {"image": eSvgAssets.gallery, "title": appFonts.chooseFromGallery},
     {"image": eSvgAssets.camera, "title": appFonts.openCamera}
   ];
 
-  changeDialCode(country) {
-    dialCode = country.dialCode!;
+  void loadProfile(UserProfile userProfile) {
+    dialCode = userProfile.phoneNumberPrefix ?? "";
+    txtFName.text = userProfile.firstName ?? "";
+    txtLName.text = userProfile.lastName ?? "";
+    txtEmail.text = userProfile.email ?? "";
+    txtPhone.text = userProfile.phoneNumber ?? "";
+    profileImageUrl = userProfile.image?.source ?? "";
+
+    birthday.text = DateFormat('dd/MM/yyyy').format(userProfile.birthday!);
+
     notifyListeners();
   }
 
@@ -46,6 +64,29 @@ class ProfileDetailProvider with ChangeNotifier {
   onReady(context) {
     getProfileDetailDataAPI(context);
     notifyListeners();
+  }
+
+  Future<void> uploadImageUsingCommonApi(XFile file) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+
+    final fileName = basename(file.path);
+    log("file: ${file.path}");
+
+    FormData formData = FormData.fromMap(
+        {'image': await MultipartFile.fromFile(file.path, filename: fileName)});
+
+    await apiServices
+        .commonApi(
+            "${api.profile}$userId/profile/image", formData, ApiType.post,
+            isToken: true)
+        .then((value) {
+      if (value.isSuccess!) {
+        log("Image uploaded successfully: ${value.data}");
+      } else {
+        log("Image upload failed: ${value.message}");
+      }
+    });
   }
 
   showLayout(context) async {
@@ -98,28 +139,35 @@ class ProfileDetailProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         if (value.isSuccess == true) {
-          log("dialCode sss$dialCode");
-          if (value.data['responseStatus'] == 1) {
-            txtFName.text = value.data['userProfile']['firstName'];
-            txtLName.text = value.data['userProfile']['lastName'];
-            txtEmail.text = value.data['userProfile']['email'] ?? "";
-            txtPhone.text = value.data['userProfile']['phoneNumber'];
-            birthday.text = value.data['userProfile']['birthday'] ?? "";
-            dialCode = value.data['userProfile']['phoneNumberPrefix'] ?? "";
+          ProfileDetailModel profileDetail =
+              ProfileDetailModel.fromJson(value.data);
+          if (profileDetail.responseStatus == 1) {
+            loadProfile(profileDetail.userProfile!);
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
         }
       });
-    } catch (e) {
-      log("EEEE getProfileDetailDataAPI:::: $e");
+      notifyListeners();
+    } catch (e, s) {
+      log("EEEE getProfileDetailDataAPI:::: $e\n$s");
     }
+  }
+
+  changeDialCode(country) {
+    dialCode = country.dialCode!;
+    notifyListeners();
   }
 
   updateProfileDetailDataAPI(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final int? userId = pref.getInt(session.id);
+    String inputDate = birthday.text;
+
+    DateFormat inputFormat = DateFormat("dd/MM/yyyy");
+    DateTime date = inputFormat.parse(inputDate);
+    String output = date.toIso8601String().split('.').first;
 
     final body = {
       "firstName": txtFName.text,
@@ -127,20 +175,29 @@ class ProfileDetailProvider with ChangeNotifier {
       "email": txtEmail.text,
       "phoneNumberPrefix": dialCode,
       "phoneNumber": txtPhone.text,
-      "birthday": birthday.text
+      "birthday": output
     };
-    log("898989898 $body");
+    log("BODY: $body");
+
     try {
-      apiServices
-          .commonApi("${api.profile}$userId/profile", body, ApiType.patch,
-              isToken: true)
-          .then((value) {
-        if (value.isSuccess == true) {
-          log("hjhjhjhjh ${value.data}");
+      final value = await apiServices.commonApi(
+          "${api.profile}$userId/profile", body, ApiType.patch,
+          isToken: true);
+      if (value.isSuccess == true) {
+        getProfileDetailDataAPI(context);
+        if (imageFile != null) {
+          uploadImageUsingCommonApi(imageFile!);
         }
-      });
-    } catch (e) {
-      log("EEEE getProfileDetailDataAPI:::: $e");
+        snackBarMessengers(context,
+            message: "Update Successful",
+            color: appColor(context).primary,
+            isDuration: true);
+        log("Update Success: ${value.data}");
+      } else {
+        log("Update Failed: ${value.message}");
+      }
+    } catch (e, s) {
+      log("Error updating profile: $e === $s");
     }
   }
 }

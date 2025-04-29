@@ -1,16 +1,8 @@
-import 'dart:developer';
-
 import 'package:goapp/config.dart';
-import 'package:goapp/models/api_model/home_feed_model.dart';
-import 'package:goapp/models/booking_status_model.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/api_model/business_category_model.dart';
-import '../../models/booking_model.dart';
-import '../../models/category_model.dart';
-import '../../screens/bottom_screens/booking_screen/layouts/booking_filter_layout.dart';
 import 'dashboard_provider.dart';
 
 class BookingProvider with ChangeNotifier {
@@ -166,7 +158,7 @@ class BookingProvider with ChangeNotifier {
   }
 
   onReady(context, DashboardProvider dash) {
-    dash.getBookingHistory(context);
+    // dash.getBookingHistory(context);
     dash.notifyListeners();
     notifyListeners();
   }
@@ -186,21 +178,21 @@ class BookingProvider with ChangeNotifier {
     }
   }
 
-  onTapFilter(context) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return const BookingFilterLayout();
-      },
-    ).then((value) {
-      getCategory();
-      categoryCtrl.text = "";
-      final dash = Provider.of<DashboardProvider>(context, listen: false);
-
-      dash.getBookingHistory(context);
-    });
-  }
+  // onTapFilter(context) {
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: context,
+  //     builder: (context) {
+  //       return const BookingFilterLayout();
+  //     },
+  //   ).then((value) {
+  //     getCategory();
+  //     categoryCtrl.text = "";
+  //     final dash = Provider.of<DashboardProvider>(context, listen: false);
+  //
+  //     dash.getBookingHistory(context);
+  //   });
+  // }
 
   clearTap(context, {isBack = true}) {
     statusIndex = null;
