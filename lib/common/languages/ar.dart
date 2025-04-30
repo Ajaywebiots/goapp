@@ -190,7 +190,7 @@ final arabic = {
   "category": "فئة", // ar
   "type": "نوع", // ar
   "popular": "شائع", // ar
-  "categories": "فئات", // ar
+  "categories": "فئات الأعمال", // ar
   "fiveRate": "تقييم 5", // ar
   "fourRate": "تقييم 4", // ar
   "threeRate": "تقييم 3", // ar

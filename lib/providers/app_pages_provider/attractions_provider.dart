@@ -80,33 +80,42 @@ class AttractionProvider with ChangeNotifier {
 
   AttractionsDetailsModel? attractionsDetail;
 
-  attractionsDetailsAPI(context, id, {isNotRoute = false}) {
+  bool isNavigatingAttraction = false;
+
+  attractionsDetailsAPI(context, id, {bool isNotRoute = false}) async {
+    if (isNavigatingAttraction) return;
+    isNavigatingAttraction = true;
     notifyListeners();
+
     try {
-      apiServices
-          .commonApi("${api.attractionsDetails}$id/details", [], ApiType.get,
-              isToken: true)
-          .then((value) {
-        log("alue.data['responseStatus']::${value.data}");
-        if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
-            log("DDDDDD:${value.data}");
-            AttractionsDetailsModel attractionsDetailModel =
-                AttractionsDetailsModel.fromJson(value.data);
-            attractionsDetail = attractionsDetailModel;
-            notifyListeners();
-            isNotRoute == true
-                ? null
-                : route.pushNamed(context, routeName.attractionDetailScreen);
-          }
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
+      final value = await apiServices.commonApi(
+          "${api.attractionsDetails}$id/details", [], ApiType.get,
+          isToken: true);
+
+      log("value.data['responseStatus']::${value.data}");
+
+      if (value.isSuccess == true && value.data['responseStatus'] == 1) {
+        log("DDDDDD:${value.data}");
+        AttractionsDetailsModel attractionsDetailModel =
+            AttractionsDetailsModel.fromJson(value.data);
+        attractionsDetail = attractionsDetailModel;
+        notifyListeners();
+
+        if (!isNotRoute) {
+          route.pushNamed(context, routeName.attractionDetailScreen);
         }
-      });
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          routeName.login,
+          (Route<dynamic> route) => false,
+        );
+      }
     } catch (e) {
-      log("detailsDataAPI :: $e");
+      log("attractionsDetailsAPI :: $e");
+    } finally {
+      isNavigatingAttraction = false;
+      notifyListeners();
     }
   }
 

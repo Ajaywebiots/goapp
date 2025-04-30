@@ -539,7 +539,8 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                               Text(language(context, appFonts.openingHours),
                                   style: appCss.dmDenseMedium18
                                       .textColor(appColor(context).darkText)),
-                              const Icon(CupertinoIcons.multiply)
+                              Icon(CupertinoIcons.multiply,
+                                      color: appColor(context).darkText)
                                   .inkWell(onTap: () => route.pop(context))
                             ]).paddingSymmetric(
                             vertical: 20, horizontal: Insets.i20),

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/third_filter.dart';
+
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/latest_blog_details_provider.dart';
 import '../../../../providers/app_pages_provider/search_provider.dart';
 import '../filter_tap_layout.dart';
 import 'list_tile_common.dart';
@@ -455,7 +453,7 @@ class FilterLayout2 extends StatelessWidget {
               Text(language(context, appFonts.filterBy),
                   style: appCss.dmDenseMedium18
                       .textColor(appColor(context).darkText)),
-              const Icon(CupertinoIcons.multiply)
+              Icon(CupertinoIcons.multiply, color: appColor(context).darkText)
                   .inkWell(onTap: () => route.pop(context))
             ]).paddingSymmetric(horizontal: Insets.i20),
 

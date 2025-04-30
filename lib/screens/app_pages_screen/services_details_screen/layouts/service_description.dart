@@ -37,12 +37,12 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
   Widget build(BuildContext context) {
     final Contact? contact = widget.businessData?.contact;
     Future<void> launchURL(String url) async {
-      final Uri uri = Uri.parse(url);
+      /* final Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.inAppWebView);
       } else {
         throw 'Could not launch $url';
-      }
+      }*/
     }
 
     String extractFacebookPageId(String url) {
@@ -172,12 +172,31 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
       {
         'icon': eSvgAssets.calling,
         'label': contact?.phoneNumber ?? "",
-        'action': () => launchURL("tel:${contact?.phoneNumber}")
+        'action': () async {
+          final Uri uri = Uri.parse("tel:${contact?.phoneNumber}");
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          } else {
+            throw 'Could not launch ${"tel:${contact?.phoneNumber}"}';
+          }
+        }
       },
       {
         'icon': eSvgAssets.mail,
         'label': contact?.email ?? "",
-        'action': () => launchEmail(contact?.email ?? "")
+        'action': () async {
+          log("contact?.email ${contact?.email}");
+          final Uri emailUri = Uri(
+              scheme: 'mailto',
+              path: contact?.email,
+              query: Uri(queryParameters: {'subject': '', 'body': ''}).query);
+
+          if (await canLaunchUrl(emailUri)) {
+            await launchUrl(emailUri);
+          } else {
+            throw 'Could not launch email client';
+          }
+        }
       },
       {
         'icon': eSvgAssets.locationOut1,
@@ -367,78 +386,70 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                 context: context,
                                 builder: (context) {
                                   return SafeArea(
-                                      child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              1.4,
-                                          child: Stack(children: [
-                                            SingleChildScrollView(
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            language(
-                                                                context,
-                                                                appFonts
-                                                                    .contactUs),
-                                                            style: appCss
-                                                                .dmDenseMedium18
-                                                                .textColor(appColor(
-                                                                        context)
-                                                                    .darkText)),
-                                                        const Icon(
-                                                                CupertinoIcons
-                                                                    .multiply)
-                                                            .inkWell(
-                                                                onTap: () =>
-                                                                    route.pop(
-                                                                        context))
-                                                      ]).paddingSymmetric(
-                                                      vertical: 20,
-                                                      horizontal: Insets.i20),
-                                                  ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount:
-                                                          contactItems.length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        final item =
-                                                            contactItems[index];
-                                                        return ListTileLayout(
+                                      child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                        SingleChildScrollView(
+                                            child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        language(context,
+                                                            appFonts.contactUs),
+                                                        style: appCss
+                                                            .dmDenseMedium18
+                                                            .textColor(appColor(
+                                                                    context)
+                                                                .darkText)),
+                                                    Icon(
+                                                            CupertinoIcons
+                                                                .multiply,
                                                             color: appColor(
                                                                     context)
-                                                                .lightText,
-                                                            data: contactItems,
-                                                            isCheckBox: false,
-                                                            isHavingIcon: true,
-                                                            icon: item['icon'],
-                                                            title:
-                                                                item['label'],
-                                                            onClick:
-                                                                item['action']);
-                                                      })
-                                                ])),
-                                            BottomSheetButtonCommon(
-                                                    textOne: appFonts.cancel,
-                                                    textTwo: appFonts.addToContacts,
-                                                    applyTap: () =>
-                                                        route.pop(context),
-                                                    clearTap: () =>
-                                                        route.pop(context))
-                                                .backgroundColor(
-                                                    appColor(context)
-                                                        .whiteColor)
-                                                .alignment(
-                                                    Alignment.bottomCenter),
-                                          ])).bottomSheetExtension(context));
+                                                                .darkText)
+                                                        .inkWell(
+                                                            onTap: () => route
+                                                                .pop(context))
+                                                  ]).paddingSymmetric(
+                                                  vertical: Insets.i20,
+                                                  horizontal: Insets.i20),
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      contactItems.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final item =
+                                                        contactItems[index];
+                                                    return ListTileLayout(
+                                                        color: appColor(context)
+                                                            .lightText,
+                                                        data: contactItems,
+                                                        isCheckBox: false,
+                                                        isHavingIcon: true,
+                                                        icon: item['icon'],
+                                                        title: item['label'],
+                                                        onClick:
+                                                            item['action']);
+                                                  })
+                                            ])),
+                                        BottomSheetButtonCommon(
+                                                textOne: appFonts.cancel,
+                                                textTwo: appFonts.addToContacts,
+                                                applyTap: () => route.pop(context),
+                                                clearTap: () =>
+                                                    route.pop(context))
+                                            .backgroundColor(
+                                                appColor(context).whiteColor)
+                                            .alignment(Alignment.bottomCenter),
+                                      ]).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
                             Navigator.push(context,
@@ -452,7 +463,6 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                   arg: businessData);*/
                           } else if (item['label'] == appFonts.save) {
                             search.notifyListeners();
-                            // item;
                             Provider.of<CommonApiProvider>(context,
                                     listen: false)
                                 .toggleFavAPI(
@@ -542,7 +552,7 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                 Text(language(context, appFonts.openingHours),
                     style: appCss.dmDenseMedium18
                         .textColor(appColor(context).darkText)),
-                const Icon(CupertinoIcons.multiply)
+                Icon(CupertinoIcons.multiply, color: appColor(context).darkText)
                     .inkWell(onTap: () => route.pop(context))
               ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
               Container(

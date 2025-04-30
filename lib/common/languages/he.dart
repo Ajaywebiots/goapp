@@ -190,7 +190,7 @@ final hebrew = {
   "category": "קטגוריה", // he
   "type": "סוג", // he
   "popular": "פופולרי", // he
-  "categories": "קטגוריות", // he
+  "categories": "קטגוריות עסקיות", // he
   "fiveRate": "דירוג 5", // he
   "fourRate": "דירוג 4", // he
   "threeRate": "דירוג 3", // he

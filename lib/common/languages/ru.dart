@@ -191,7 +191,7 @@ final russian = {
   "category": "Категория", // ru
   "type": "Тип", // ru
   "popular": "Популярное", // ru
-  "categories": "Категории", // ru
+  "categories": "Категории бизнеса", // ru
   "fiveRate": "Оценка 5", // ru
   "fourRate": "Оценка 4", // ru
   "threeRate": "Оценка 3", // ru

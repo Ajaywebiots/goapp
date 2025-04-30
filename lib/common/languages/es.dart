@@ -192,7 +192,7 @@ final spanish = {
   "category": "Categoría", // es
   "type": "Tipo", // es
   "popular": "Popular", // es
-  "categories": "Categorías", // es
+  "categories": "Categorías de Negocios", // es
   "fiveRate": "Calificación 5", // es
   "fourRate": "Calificación 4", // es
   "threeRate": "Calificación 3", // es

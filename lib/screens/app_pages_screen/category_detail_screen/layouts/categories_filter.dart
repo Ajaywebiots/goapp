@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/categories_details_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
@@ -25,7 +26,8 @@ class CategoriesFilterLayout extends StatelessWidget {
                       Text(language(context, appFonts.filterBy),
                           style: appCss.dmDenseMedium18
                               .textColor(appColor(context).darkText)),
-                      const Icon(CupertinoIcons.multiply)
+                      Icon(CupertinoIcons.multiply,
+                              color: appColor(context).darkText)
                           .inkWell(onTap: () => route.pop(context))
                     ]).paddingSymmetric(horizontal: Insets.i20),
                 Container(
@@ -91,7 +93,8 @@ class CouponFilterLayout extends StatelessWidget {
                       Text(language(context, appFonts.filterBy),
                           style: appCss.dmDenseMedium18
                               .textColor(appColor(context).darkText)),
-                      const Icon(CupertinoIcons.multiply)
+                      Icon(CupertinoIcons.multiply,
+                              color: appColor(context).darkText)
                           .inkWell(onTap: () => route.pop(context))
                     ]).paddingSymmetric(horizontal: Insets.i20),
                 Container(

@@ -175,7 +175,7 @@ class AttractionDetailScreen extends StatelessWidget {
                                                                                 children: [
                                                                               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                                                                                 Text(language(context, appFonts.addReview), style: appCss.dmDenseMedium18.textColor(appColor(context).darkText)),
-                                                                                const Icon(CupertinoIcons.multiply).inkWell(onTap: () => route.pop(context))
+                                                                                Icon(CupertinoIcons.multiply, color: appColor(context).darkText).inkWell(onTap: () => route.pop(context))
                                                                               ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
                                                                               Column(children: [
                                                                                 Text(language(context, appFonts.whatDoYouThink), style: appCss.dmDenseMedium14.textColor(appColor(context).lightText)).paddingAll(Insets.i20),

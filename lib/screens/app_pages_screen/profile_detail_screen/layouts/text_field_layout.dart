@@ -127,7 +127,7 @@ class TextFieldLayout extends StatelessWidget {
               //     context, value!.birthdayFocus, value!.emailFocus),
               prefixIcon: eSvgAssets.user,
               validator: (value) => validation.nameValidation(context, value))
-          .paddingSymmetric(horizontal: Insets.i20),
+          .paddingSymmetric(horizontal: Insets.i20)
     ]);
   }
 }

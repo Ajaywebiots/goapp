@@ -194,7 +194,7 @@ final english = {
   "category": "Category", // en
   "type": "Type", // en
   "popular": "Popular", // en
-  "categories": "Categories", // en
+  "categories": "Business Categories", // en
   "fiveRate": "5 rate", // en
   "fourRate": "4 rate", // en
   "threeRate": "3 rate", // en

@@ -179,7 +179,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         Text(language(context, appFonts.filterBy),
             style:
                 appCss.dmDenseMedium18.textColor(appColor(context).darkText)),
-        const Icon(CupertinoIcons.multiply)
+        Icon(CupertinoIcons.multiply, color: appColor(context).darkText)
             .inkWell(onTap: () => route.pop(context))
       ]).paddingSymmetric(horizontal: Insets.i20),
       // Tabs

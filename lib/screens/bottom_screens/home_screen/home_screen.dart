@@ -113,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         context,
                                                         listen: false)
                                                     .offerDetailsAPI(
-                                                  context,
-                                                  e.value.id,
-                                                )))
+                                                        context, e.value.id)))
                                         .toList())
                                 .paddingSymmetric(horizontal: Insets.i20),
                         dash.couponOfferList.isEmpty

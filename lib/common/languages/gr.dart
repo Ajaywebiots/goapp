@@ -194,7 +194,7 @@ final greek = {
   "category": "Κατηγορία", // el
   "type": "Τύπος", // el
   "popular": "Δημοφιλές", // el
-  "categories": "Κατηγορίες", // el
+  "categories": "Κατηγορίες Επιχειρήσεων", // el
   "fiveRate": "Βαθμολογία 5", // el
   "fourRate": "Βαθμολογία 4", // el
   "threeRate": "Βαθμολογία 3", // el

@@ -232,7 +232,7 @@ class AppFonts {
   final attemptYourSearch = "attemptYourSearch";
   final chooseFromGallery = "chooseFromGallery";
   final openCamera = "openCamera";
-  final categories = "Categories";
+  final categories = "categories";
   final availableProvider = "availableProvider";
   final highestExperience = "highestExperience";
   final lowestExperience = "lowestExperience";
