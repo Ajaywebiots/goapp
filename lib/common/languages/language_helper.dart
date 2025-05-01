@@ -11,7 +11,7 @@ class LanguageHelper {
       case "greek":
         convertedLocale = const Locale('el', 'GR');
         break;
-      case "hebrew":
+      /* case "hebrew":
         convertedLocale = const Locale('he', 'IL');
         break;
       case "spanish":
@@ -22,7 +22,7 @@ class LanguageHelper {
         break;
       case "russian":
         convertedLocale = const Locale('ru', 'RU');
-        break;
+        break;*/
       default:
         convertedLocale = const Locale('en', 'US');
     }
@@ -39,7 +39,7 @@ class LanguageHelper {
       case 'el':
         langName = "Greek";
         break;
-      case 'he':
+      /*case 'he':
         langName = "Hebrew";
         break;
       case 'es':
@@ -50,7 +50,7 @@ class LanguageHelper {
         break;
       case 'ru':
         langName = "Russian";
-        break;
+        break;*/
       default:
         langName = "English";
     }

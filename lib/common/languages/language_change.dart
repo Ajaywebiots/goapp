@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config.dart';
 import 'language_helper.dart';
@@ -92,7 +90,8 @@ class LanguageProvider with ChangeNotifier {
       currentLanguage = "English";
     } else if (value == "el") {
       currentLanguage = "Greek";
-    } else if (value == "he") {
+    }
+    /* else if (value == "he") {
       currentLanguage = "Hebrew";
     } else if (value == "es") {
       currentLanguage = "Spanish";
@@ -100,7 +99,8 @@ class LanguageProvider with ChangeNotifier {
       currentLanguage = "Arabic";
     } else if (value == "ru") {
       currentLanguage = "Russian";
-    } else {
+    }*/
+    else {
       currentLanguage = "English";
     }
     notifyListeners();

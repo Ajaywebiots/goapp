@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goapp/common/languages/gr.dart';
-import 'package:goapp/common/languages/he.dart';
-import 'package:goapp/common/languages/ru.dart';
 
-import 'ar.dart';
 import 'en.dart';
-import 'es.dart';
 
 class AppLocalizations {
   final Locale locale;
@@ -29,10 +25,10 @@ class AppLocalizations {
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': english,
     'el': greek,
-    'he': hebrew,
-    'es': spanish,
-    'ar': arabic,
-    'ru': russian,
+    // 'he': hebrew,
+    // 'es': spanish,
+    // 'ar': arabic,
+    // 'ru': russian,
   };
 }
 
@@ -41,7 +37,10 @@ class AppLocalizationDelagate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'el', 'he', 'es', 'ar', 'ru'].contains(locale.languageCode);
+    return [
+      'en',
+      'el', /*'he', 'es', 'ar', 'ru'*/
+    ].contains(locale.languageCode);
   }
 
   @override

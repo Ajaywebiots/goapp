@@ -40,10 +40,10 @@ class AppArray {
   var localList = <Locale>[
     const Locale('en'),
     const Locale('el'),
-    const Locale('he'),
-    const Locale('es'),
-    const Locale('ar'),
-    const Locale('ru'),
+    // const Locale('he'),
+    // const Locale('es'),
+    // const Locale('ar'),
+    // const Locale('ru'),
   ];
 
   var languageList = [
@@ -59,7 +59,7 @@ class AppArray {
       "code": "el",
       "icon": "assets/flags/gr.png"
     },
-    {
+    /*{
       "title": "Hebrew",
       "locale": const Locale('he', 'HE'),
       "code": "he",
@@ -82,7 +82,7 @@ class AppArray {
       "locale": const Locale('ru', 'RU'),
       "code": "ru",
       "icon": "assets/flags/ru.png"
-    },
+    },*/
   ];
 
   List<Map<String, dynamic>> loginOptions = [
