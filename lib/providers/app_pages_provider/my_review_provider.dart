@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 
 import '../../config.dart';
@@ -39,15 +41,21 @@ class MyReviewProvider extends ChangeNotifier {
   getMyReviewListData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final int? userId = pref.getInt(session.id);
-    reviewList.clear();
-    apiServices
-        .commonApi("${api.review}$userId/reviews", [], ApiType.get,
-            isToken: true)
-        .then((value) {
-      MyReviewModel myReviewModel = MyReviewModel.fromJson(value.data);
 
-      reviewList.addAll(myReviewModel.reviews);
-    });
+    try {
+      apiServices
+          .commonApi("${api.review}$userId/reviews", [], ApiType.get,
+              isToken: true)
+          .then((value) {
+        if (value.isSuccess == true) {
+          reviewList.clear();
+          MyReviewModel myReviewModel = MyReviewModel.fromJson(value.data);
+          reviewList.addAll(myReviewModel.reviews);
+        }
+      });
+    } catch (e) {
+      log("EEEE $e");
+    }
   }
 
   onTapEmoji(index) {

@@ -88,8 +88,6 @@ Color fromHex(String hexString) {
 String getTime(String timeString) {
   final DateTime time = DateTime.parse(timeString);
   final Duration diff = DateTime.now().difference(time);
-  print("API time: ${DateTime.parse(timeString)}");
-  print("Local time: ${DateTime.now()}");
 
   if (!diff.isNegative) {
     if (diff.inMinutes < 1) {

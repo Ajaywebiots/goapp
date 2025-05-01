@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:goapp/services/api_service.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/my_review_provider.dart';
@@ -40,7 +42,32 @@ class _ReviewScreenState extends State<ReviewScreen>
                     .map((e) => ReviewLayout(
                         index: e.key,
                         data: e.value,
-                        deleteTap: () {},
+                        deleteTap: () async {
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          final int? userId = pref.getInt(session.id);
+                          try {
+                            apiServices
+                                .commonApi(
+                                    "${api.deleteReview}$userId/review/${e.value.reviewId}",
+                                    [],
+                                    ApiType.delete,
+                                    isToken: true)
+                                .then((res) {
+                              if (res.isSuccess == true) {
+                                value.notifyListeners();
+                                value.getMyReviewListData();
+                              } else {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    routeName.login,
+                                    (Route<dynamic> route) => false);
+                              }
+                            });
+                          } catch (e) {
+                            log("EEEE $e");
+                          }
+                        },
                         editTap: () {
                           showModalBottomSheet(
                               isScrollControlled: true,

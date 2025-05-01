@@ -37,7 +37,7 @@ class RateAppProvider with ChangeNotifier {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final body = {
       "rate": selectedIndex,
-      "title": "ajay dev",
+      "title": "",
       "content": rateController.text
     };
     log("body $body");
