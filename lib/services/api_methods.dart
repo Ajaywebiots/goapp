@@ -47,6 +47,7 @@ class ApiMethods {
   String profile = "/user/";
   String appPages = "/app/page/";
   String deleteReview = "/user/";
+  String editReview = "/user/";
 
 // //
 // String homeFeed = '/api/App/home/feed';

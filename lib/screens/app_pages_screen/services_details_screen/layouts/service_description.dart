@@ -5,7 +5,6 @@ import 'package:goapp/models/api_model/business_details_model.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
-import 'package:goapp/widgets/common_gallery_screen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,6 +12,7 @@ import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/search_provider.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
+import '../../../../widgets/common_gallery_screen.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescription extends StatefulWidget {
@@ -452,15 +452,28 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                       ]).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return CommonGalleryScreen(
-                                galleryUrls: widget.businessData,
-                              );
-                            }));
-                            /*route.pushNamed(
-                                  context, routeName.commonGalleryScreen,
-                                  arg: businessData);*/
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20)),
+                                ),
+                                builder: (context) => DraggableScrollableSheet(
+                                    expand: false,
+                                    initialChildSize: 0.8,
+                                    minChildSize: 0.4,
+                                    maxChildSize: 0.95,
+                                    builder: (_, controller) =>
+                                        SingleChildScrollView(
+                                            controller: controller,
+                                            child: Column(
+                                              children: [
+                                                CommonGalleryContent(
+                                                    galleryUrls:
+                                                        widget.businessData),
+                                              ],
+                                            ))));
                           } else if (item['label'] == appFonts.save) {
                             search.notifyListeners();
                             Provider.of<CommonApiProvider>(context,

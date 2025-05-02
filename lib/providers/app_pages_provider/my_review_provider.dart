@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../config.dart';
 import '../../models/api_model/my_review_model.dart';
@@ -34,6 +33,41 @@ class MyReviewProvider extends ChangeNotifier {
     //     }
     //   }
     // }
+  }
+
+  int? editingReviewId;
+
+  void loadReviewForEditing(String reviewText, int ratingIndex, int reviewId) {
+    rateController.text = reviewText;
+    selectedIndex = ratingIndex;
+    editingReviewId = reviewId;
+    notifyListeners();
+  }
+
+  Future<void> submitEditedReview(context, reviewId) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+
+    final body = {
+      "rate": selectedIndex + 1,
+      "title": "testttttt",
+      "content": rateController.text.trim()
+    };
+
+    try {
+      final res = await apiServices.commonApi(
+          "${api.editReview}$userId/review/$reviewId", body, ApiType.patch,
+          isToken: true);
+
+      if (res.isSuccess == true) {
+        await getMyReviewListData();
+        Navigator.pop(context);
+      } else {
+        toast("Failed to update review");
+      }
+    } catch (e) {
+      log("Edit review error: $e");
+    }
   }
 
   List<Review> reviewList = [];

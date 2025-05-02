@@ -13,7 +13,6 @@ import '../../../../models/api_model/business_details_model.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
-import '../../../../widgets/common_gallery_screen.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescriptions extends StatefulWidget {
@@ -440,10 +439,26 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                                           ])).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return CommonGalleryScreen();
-                            }));
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   isScrollControlled: true,
+                            //   shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.vertical(
+                            //         top: Radius.circular(20)),
+                            //   ),
+                            //   builder: (context) => DraggableScrollableSheet(
+                            //     expand: false,
+                            //     initialChildSize: 0.8,
+                            //     minChildSize: 0.4,
+                            //     maxChildSize: 0.95,
+                            //     builder: (_, controller) =>
+                            //         SingleChildScrollView(
+                            //       controller: controller,
+                            //       child: CommonGalleryContent(
+                            //           galleryUrls: widget.attractionData),
+                            //     ),
+                            //   ),
+                            // );
                           } else if (item['label'] == appFonts.save) {
                             // item;
                             Provider.of<CommonApiProvider>(context,
@@ -604,9 +619,7 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                         VSpace(Insets.i22),
                         BottomSheetButtonCommon(
                                 isRateComplete: true,
-                                textOne: appFonts.cancel,
-                                textTwo: appFonts.addToContacts,
-                                applyTap: () {},
+                                textOne: appFonts.close,
                                 clearTap: () {})
                             .marginSymmetric(horizontal: 80)
                             .backgroundColor(appColor(context).whiteColor)

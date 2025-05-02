@@ -24,7 +24,6 @@ import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
 import '../screens/menu_screens/menu_options_layouts/common_generalInfo_layout.dart';
-import '../widgets/common_gallery_screen.dart';
 
 class AppRoute {
   Map<String, Widget Function(BuildContext)> route = {
@@ -55,7 +54,7 @@ class AppRoute {
     routeName.commonGeneralInfoLayout: (p0) => const CommonGeneralInfoLayout(),
     routeName.search: (p0) => SearchScreen(),
     routeName.changeLanguage: (p0) => ChangeLanguageScreen(),
-    routeName.commonGalleryScreen: (p0) => const CommonGalleryScreen(),
+    // routeName.commonGalleryScreen: (p0) => const CommonGalleryScreen(),
     routeName.businessDetailsScreen: (p0) => const BusinessDetailsScreen(),
     routeName.attractionDetailScreen: (p0) => const AttractionDetailScreen(),
     routeName.serviceReviewScreen: (p0) => const ServiceReviewScreen(),
