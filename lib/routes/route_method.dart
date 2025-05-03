@@ -25,6 +25,7 @@ import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
 import '../screens/menu_screens/menu_options_layouts/common_generalInfo_layout.dart';
+import '../screens/menu_screens/menu_screen.dart';
 import '../screens/paypal_subscription/paypal_subscription_page.dart';
 
 class AppRoute {
