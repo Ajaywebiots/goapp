@@ -1,9 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:goapp/screens/app_pages_screen/change_language_screen/change_language_screen.dart';
-import 'package:goapp/screens/menu_screens/layouts/profile_option_layout.dart';
-
 import '../../../../config.dart';
-import '../../../providers/bottom_providers/profile_provider.dart';
 import 'options_selection_screen_layout/option_screen_layout.dart';
 
 class ProfileOptionsLayout extends StatelessWidget {
@@ -77,7 +72,9 @@ class ProfileOptionsLayout extends StatelessWidget {
                           : eSvgAssets.arrowRight,
                       colorFilter: ColorFilter.mode(
                           appColor(context).darkText, BlendMode.srcIn))
-                ]))
+                ]).inkWell(
+                    onTap: () => route.pushNamed(
+                        context, routeName.companyDetailsScreen)))
           ])),
       Container(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),

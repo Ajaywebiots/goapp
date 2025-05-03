@@ -9,7 +9,7 @@ class AmPmLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(isItAm == true ? 'AM' : 'PM',
+    return Text(isItAm == true ? 'A.M' : 'P.M',
         style: index == selectIndex
             ? appCss.dmDenseMedium24.textColor(appColor(context).primary)
             : appCss.dmDenseMedium20.textColor(appColor(context).lightText));

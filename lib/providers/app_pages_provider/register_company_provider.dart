@@ -1,0 +1,512 @@
+import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../config.dart';
+import '../../widgets/image_picker_layout.dart';
+
+class SignUpCompanyProvider with ChangeNotifier {
+  GlobalKey<FormState> signupFormKey1 = GlobalKey<FormState>();
+  GlobalKey<FormState> signupFormKey2 = GlobalKey<FormState>();
+  GlobalKey<FormState> signupFormKey3 = GlobalKey<FormState>();
+  GlobalKey<FormState> signupFormKey4 = GlobalKey<FormState>();
+  GlobalKey<FormState> signupFreelanceFormKey1 = GlobalKey<FormState>();
+  GlobalKey<FormState> signupFreelanceFormKey2 = GlobalKey<FormState>();
+  double slider = 0.0;
+  String dialCode = "+91";
+  String providerDialCode = "+91";
+
+  String? chosenValue;
+  String? chosenRange;
+
+  int countryValue = -1, stateValue = -1;
+  bool isNewPassword = true, isConfirmPassword = true;
+  bool isPassword = true;
+  bool isConfirmPasswordobscure = true;
+
+  List<XFile> uploadedImages = [];
+
+  String? embedCode;
+  String? videoThumbnailUrl;
+
+  //String? identityValue;
+  int pageIndex = 0;
+  int fPageIndex = 0;
+
+  TextEditingController contactFirstName = TextEditingController();
+  TextEditingController contactLastName = TextEditingController();
+  TextEditingController transcontactFirstName = TextEditingController();
+  TextEditingController transcontactLastName = TextEditingController();
+  TextEditingController companyPhone = TextEditingController();
+  TextEditingController businessName = TextEditingController();
+  TextEditingController transbusinessName = TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController latitude = TextEditingController();
+  TextEditingController longitude = TextEditingController();
+  TextEditingController street = TextEditingController();
+  TextEditingController city = TextEditingController();
+  TextEditingController zipCode = TextEditingController();
+  TextEditingController ownerName = TextEditingController();
+  TextEditingController providerEmail = TextEditingController();
+  TextEditingController providerNumber = TextEditingController();
+  TextEditingController website = TextEditingController();
+  TextEditingController fbCtrl = TextEditingController();
+  TextEditingController instagramCtrl = TextEditingController();
+  TextEditingController ytCtrl = TextEditingController();
+  TextEditingController tiktokCtrl = TextEditingController();
+  ScrollController controller = ScrollController();
+
+  final FocusNode contactFirstNameFocus = FocusNode();
+  final FocusNode contactLastNameFocus = FocusNode();
+  final FocusNode transcontactFirstNameFocus = FocusNode();
+  final FocusNode transcontactLastNameFocus = FocusNode();
+  final FocusNode businessNameFocus = FocusNode();
+  final FocusNode transbusinessNameFocus = FocusNode();
+  final FocusNode latitudeFocus = FocusNode();
+  final FocusNode longitudeFocus = FocusNode();
+  final FocusNode companyNameFocus = FocusNode();
+  final FocusNode phoneNameFocus = FocusNode();
+  final FocusNode companyMailFocus = FocusNode();
+  final FocusNode descriptionFocus = FocusNode();
+  final FocusNode providerNumberFocus = FocusNode();
+  final FocusNode emailFocus = FocusNode();
+
+  FocusNode streetFocus = FocusNode();
+  FocusNode cityFocus = FocusNode();
+  FocusNode zipcodeFocus = FocusNode();
+
+  dynamic areaData;
+
+  FocusNode ownerNameFocus = FocusNode();
+  FocusNode providerPhoneNumberFocus = FocusNode();
+  FocusNode providerEmailFocus = FocusNode();
+  FocusNode websiteFocus = FocusNode();
+  FocusNode fbFocus = FocusNode();
+  FocusNode instagramFocus = FocusNode();
+  FocusNode tiktokFocus = FocusNode();
+  FocusNode ytFocus = FocusNode();
+  FocusNode videoFocus = FocusNode();
+  bool isBusiness = false;
+  String documentModel = '';
+  XFile? imageFile, docFile;
+
+  TextEditingController companyName = TextEditingController();
+
+  void showEmbedVideoDialog(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.r12)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+        // screen padding
+
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(language(context, "Embed Video Code"),
+                  style: appCss.dmDenseSemiBold14
+                      .textColor(appColor(context).darkText)),
+              const Icon(CupertinoIcons.multiply)
+                  .inkWell(onTap: () => route.pop(context))
+            ]),
+            TextFieldCommon(
+              isNumber: true,
+              focusNode: videoFocus,
+              controller: controller,
+              maxLines: 5,
+              hintText: 'Enter video embed code here',
+            )
+                .padding(all: Sizes.s15)
+                .decorated(
+                    color: appColor(context).fieldCardBg,
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(AppRadius.r8)))
+                .padding(top: Sizes.s11, bottom: Sizes.s24),
+            Row(children: [
+              Expanded(
+                  child: ButtonCommon(
+                      onTap: () => route.pop(context),
+                      title: appFonts.cancel,
+                      borderColor: appColor(context).primary,
+                      color: appColor(context).whiteBg,
+                      style: appCss.dmDenseSemiBold16
+                          .textColor(appColor(context).primary))),
+              const HSpace(Sizes.s15),
+              Expanded(
+                  child: ButtonCommon(
+                      color: appColor(context).primary,
+                      onTap: () {
+                        final input = controller.text.trim();
+                        Navigator.pop(context);
+
+                        embedCode = input;
+                        videoThumbnailUrl = getThumbnailFromEmbedCode(input);
+                        notifyListeners();
+                      },
+                      style: appCss.dmDenseSemiBold16
+                          .textColor(appColor(context).whiteColor),
+                      title: appFonts.submit))
+            ])
+          ],
+        ),
+      ),
+    );
+  }
+
+  String? getThumbnailFromEmbedCode(String code) {
+    final regex = RegExp(r'src="https:\/\/www\.youtube\.com\/embed\/(.*?)"');
+    final match = regex.firstMatch(code);
+    if (match != null && match.groupCount > 0) {
+      final videoId = match.group(1);
+      return "https://img.youtube.com/vi/$videoId/0.jpg";
+    }
+    return null;
+  }
+
+  // Your image picking method integrated
+  void onBusinessImagePick(BuildContext context, Function(XFile) onPicked) {
+    showLayout(context, onTap: (index) {
+      final source = index == 0 ? ImageSource.gallery : ImageSource.camera;
+      getBusinessImage(context, source, onPicked);
+    });
+  }
+
+  // Updated getImage method
+  Future<void> getBusinessImage(BuildContext context, ImageSource source,
+      Function(XFile) onPicked) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image =
+        await picker.pickImage(source: source, imageQuality: 70);
+    route.pop(context);
+    if (image != null) {
+      onPicked(image);
+    }
+    notifyListeners(); // Optional: triggers rebuild
+  }
+
+  //image picker option
+  onImagePick(context, {isLogo = true}) {
+    showLayout(context, onTap: (index) {
+      if (index == 0) {
+        getImage(context, ImageSource.gallery, isLogo: isLogo);
+      } else {
+        getImage(context, ImageSource.camera, isLogo: isLogo);
+      }
+      notifyListeners();
+    });
+  }
+
+  void goBack(BuildContext context) {
+    if (pageIndex > 0) {
+      pageIndex--;
+      notifyListeners();
+    } else {
+      Navigator.pop(context); // exit flow
+    }
+  }
+
+  translateTap(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Consumer<LanguageProvider>(
+              builder: (context, languages, child) {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(language(context, "Translations"),
+                          style: appCss.dmDenseMedium18
+                              .textColor(appColor(context).darkText)),
+                      const Icon(CupertinoIcons.multiply)
+                          .inkWell(onTap: () => route.pop(context))
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      const FieldsBackground(),
+                      Column(children: [
+                        ContainerWithTextLayout(title: "Language"),
+                        DropdownButtonHideUnderline(
+                                child: ButtonTheme(
+                                    child: DropdownButton(
+                                        value: languages.currentLanguage
+                                            .toString(),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(AppRadius.r10)),
+                                        style: appCss.dmDenseMedium16.textColor(
+                                            appColor(context).lightText),
+                                        icon: SvgPicture.asset(eSvgAssets.dropDown,
+                                            colorFilter: ColorFilter.mode(
+                                                appColor(context).darkText,
+                                                BlendMode.srcIn)),
+                                        isExpanded: true,
+                                        hint: Text(languages.currentLanguage
+                                            .substring(0, 2)
+                                            .toString()),
+                                        selectedItemBuilder: (context) {
+                                          int index = appArray.languageList
+                                              .indexWhere((element) =>
+                                                  element['title'] ==
+                                                  languages.currentLanguage);
+                                          return LanguageList()
+                                              .langList(index, context);
+                                        },
+                                        items: appArray.languageList
+                                            .asMap()
+                                            .entries
+                                            .map((e) {
+                                          return LanguageList().dropDown(
+                                              e.value, context,
+                                              onTap: () => languages
+                                                  .changeLocale(e.value["title"]
+                                                      .toString()));
+                                        }).toList(),
+                                        onChanged: (val) async {
+                                          languages.currentLanguage =
+                                              val.toString();
+                                          languages.changeLocale(
+                                              languages.currentLanguage);
+                                        })))
+                            .paddingDirectional(horizontal: Insets.i8)
+                            .decorated(
+                                color: appColor(context).whiteBg,
+                                borderRadius:
+                                    BorderRadius.circular(AppRadius.r6),
+                                boxShadow: isDark(context)
+                                    ? []
+                                    : [
+                                        BoxShadow(
+                                            color:
+                                                appColor(context).fieldCardBg,
+                                            blurRadius: AppRadius.r10,
+                                            spreadRadius: AppRadius.r5)
+                                      ],
+                                border:
+                                    Border.all(color: appColor(context).fieldCardBg))
+                            .padding(all: Sizes.s20),
+                        ContainerWithTextLayout(title: "Contact First Name")
+                            .paddingOnly(bottom: Insets.i8),
+                        TextFieldCommon(
+                                controller: transcontactFirstName,
+                                validator: (v) =>
+                                    validation.nameValidation(context, v),
+                                focusNode: transcontactFirstNameFocus,
+                                hintText: "Enter contact first name",
+                                prefixIcon: "assets/svg/myAccount.svg")
+                            .paddingSymmetric(horizontal: Insets.i20),
+                        ContainerWithTextLayout(title: "Contact Last Name")
+                            .paddingOnly(top: Insets.i24, bottom: Insets.i8),
+                        TextFieldCommon(
+                                controller: transcontactLastName,
+                                validator: (v) =>
+                                    validation.nameValidation(context, v),
+                                focusNode: transcontactLastNameFocus,
+                                hintText: "Enter contact last name",
+                                prefixIcon: "assets/svg/myAccount.svg")
+                            .paddingSymmetric(horizontal: Insets.i20),
+                        ContainerWithTextLayout(title: "Business name")
+                            .paddingOnly(top: Insets.i24, bottom: Insets.i8),
+                        TextFieldCommon(
+                                validator: (v) =>
+                                    validation.emailValidation(context, v),
+                                controller: transbusinessName,
+                                focusNode: transbusinessNameFocus,
+                                keyboardType: TextInputType.emailAddress,
+                                hintText: "Enter business name",
+                                prefixIcon: eSvgAssets.companyName)
+                            .paddingSymmetric(horizontal: Insets.i20),
+                        ContainerWithTextLayout(title: "description")
+                            .paddingOnly(top: Insets.i24, bottom: Insets.i8),
+                        Stack(children: [
+                          TextFieldCommon(
+                                  focusNode: descriptionFocus,
+                                  isNumber: true,
+                                  validator: (v) =>
+                                      validation.dynamicTextValidation(
+                                          context, v, "pleaseEnterDesc"),
+                                  controller: description,
+                                  hintText: "Enter Details",
+                                  maxLines: 3,
+                                  minLines: 3,
+                                  isMaxLine: true)
+                              .paddingSymmetric(horizontal: Insets.i20),
+                          SvgPicture.asset(eSvgAssets.details,
+                                  fit: BoxFit.scaleDown,
+                                  colorFilter: ColorFilter.mode(
+                                      !descriptionFocus.hasFocus
+                                          ? description.text.isNotEmpty
+                                              ? appColor(context).darkText
+                                              : appColor(context).lightText
+                                          : appColor(context).darkText,
+                                      BlendMode.srcIn))
+                              .paddingOnly(
+                                  left: rtl(context) ? 0 : Insets.i35,
+                                  right: rtl(context) ? Insets.i35 : 0,
+                                  top: Insets.i13)
+                        ]),
+                      ]).padding(vertical: Sizes.s20),
+                    ],
+                  ).padding(vertical: Sizes.s20),
+                  Row(children: [
+                    Expanded(
+                        child: ButtonCommon(
+                            onTap: () => route.pop(context),
+                            title: appFonts.cancel,
+                            borderColor: appColor(context).primary,
+                            color: appColor(context).whiteBg,
+                            style: appCss.dmDenseSemiBold16
+                                .textColor(appColor(context).primary))),
+                    const HSpace(Sizes.s15),
+                    Expanded(
+                        child: ButtonCommon(
+                            color: appColor(context).primary,
+                            onTap: () {},
+                            style: appCss.dmDenseSemiBold16
+                                .textColor(appColor(context).whiteColor),
+                            title: appFonts.submit))
+                  ])
+                ],
+              ).padding(vertical: Sizes.s20, horizontal: Sizes.s20),
+            );
+          });
+        });
+  }
+
+  // GET IMAGE FROM GALLERY
+  Future getImage(context, source, {isLogo = true}) async {
+    final ImagePicker picker = ImagePicker();
+    XFile image = (await picker.pickImage(source: source, imageQuality: 70))!;
+    route.pop(context);
+    if (isLogo) {
+      imageFile = image;
+    } else {
+      docFile = image;
+    }
+    notifyListeners();
+  }
+
+  getAddressFromLatLng(context) async {
+    await placemarkFromCoordinates(position!.latitude, position!.longitude)
+        .then((List<Placemark> placeMarks) async {
+      Placemark? place = placeMarks[0];
+
+      String data =
+          '${place.name}, ${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      areaData = data;
+      latitude.text = position!.latitude.toString();
+      longitude.text = position!.longitude.toString();
+      city.text = place.postalCode!;
+      zipCode.text = place.street!;
+
+      await Future.delayed(Durations.short4);
+      hideLoading(context);
+      notifyListeners();
+    }).catchError((e) {
+      hideLoading(context);
+      notifyListeners();
+      debugPrint("ee getAddressFromLatLng : $e");
+    });
+  }
+
+  //on page initialize
+  void onReady(context) {
+    pageIndex = 0;
+    fPageIndex = 0;
+    notifyListeners();
+
+    descriptionFocus.addListener(() {
+      notifyListeners();
+    });
+
+    notifyListeners();
+  }
+
+  //phone dial code selection
+  changeDialCode(CountryCodeCustom country) {
+    dialCode = country.dialCode!;
+    notifyListeners();
+  }
+
+  //provider phone dial code selection
+
+  changeProviderDialCode(CountryCodeCustom country) {
+    providerDialCode = country.dialCode!;
+    notifyListeners();
+  }
+
+  //Business Categories select
+  onDropDownChange(choseVal) {
+    chosenValue = choseVal;
+    notifyListeners();
+  }
+
+  onRangeDropDownChange(choseVal) {
+    chosenRange = choseVal;
+    notifyListeners();
+  }
+
+  //on next button tap with validation
+  onNext(context) async {
+    log("INDEX :$pageIndex");
+
+    if (pageIndex == 0) {
+      // if (signupFormKey1.currentState!.validate()) {
+      //   if (imageFile != null) {
+
+      pageIndex++;
+      //   } else {
+      //     snackBarMessengers(context,
+      //         message: language(context, "Add Company Logo"));
+      //   }
+      // }
+    } else if (pageIndex == 1) {
+      if (signupFormKey2.currentState!.validate()) {
+        // if (country != null) {
+        //   if (state != null) {
+        //     if (zonesList.isNotEmpty) {
+        //       log("company locations::${latitude.text}//${longitude.text}//${area.text}//${street.text}//${country!.id}//${state!.id}//${city.text}//${zipCode.text}");
+
+        pageIndex++;
+/*            } else {
+              snackBarMessengers(context,
+                  message: language(context, translations!.selectZone));
+            }
+          } else {
+            snackBarMessengers(context,
+                message: language(context, translations!.selectState));
+          }
+        } else {
+          snackBarMessengers(context,
+              message: language(context, translations!.selectCountry));
+        }*/
+      }
+    } else if (pageIndex == 2) {
+      if (signupFormKey3.currentState!.validate()) {
+        pageIndex++;
+      }
+    } else if (pageIndex == 3) {
+      pageIndex++;
+    } else if (pageIndex == 4) {
+      pageIndex++;
+    } else {
+      log("SSS::$isBusiness");
+      isBusiness = true;
+      route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+      // notifyListeners();
+    }
+
+    log("INDEXEPAGE $pageIndex");
+    notifyListeners();
+  }
+}

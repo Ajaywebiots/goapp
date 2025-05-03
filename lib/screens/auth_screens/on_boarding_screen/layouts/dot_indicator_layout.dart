@@ -1,3 +1,6 @@
+import 'package:goapp/providers/app_pages_provider/register_company_provider.dart';
+import 'package:goapp/screens/app_pages_screen/business_register/company_details_screen.dart';
+
 import '../../../../config.dart';
 
 class DotIndicatorLayout extends StatelessWidget {
@@ -5,23 +8,10 @@ class DotIndicatorLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OnBoardingProvider>(builder: (context, onBoardPro, child) {
+    return Consumer<SignUpCompanyProvider>(builder: (context, value, child) {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        onBoardPro.selectIndex != 0
-            ? CommonArrow(
-                arrow: eSvgAssets.arrowLeft,
-                color: appColor(context).whiteBg,
-                svgColor: appColor(context).lightText,
-                onTap: () => onBoardPro.onPageBack())
-            : Container(width: Sizes.s40),
         DotIndicator(
-            list: onBoardPro.onBoardingList,
-            selectedIndex: onBoardPro.selectIndex),
-        CommonArrow(
-            arrow: eSvgAssets.arrowRight,
-            svgColor: appColor(context).whiteColor,
-            color: appColor(context).primary,
-            onTap: () => onBoardPro.onPageSlide(context))
+             selectedIndex: value.pageIndex),
       ]).paddingSymmetric(horizontal: Insets.i20);
     });
   }

@@ -167,4 +167,11 @@ class SvgAssets {
   final volumeBold = "assets/svg/volumeBold.svg";
   final microphoneBold = "assets/svg/microphoneBold.svg";
   final videoHideBold = "assets/svg/videoHideBold.svg";
+  final companyName = "assets/svg/companyName.svg";
+  final gps = "assets/svg/gps.svg";
+  final youTube = "assets/svg/youTube.svg";
+  final tiktok = "assets/svg/tiktok.svg";
+  final instagram = "assets/svg/instagram.svg";
+  final facebook = "assets/svg/facebook.svg";
+  final addSquare = "assets/svg/add-square.svg";
 }

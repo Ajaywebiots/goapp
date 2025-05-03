@@ -202,6 +202,7 @@ class Sizes {
   static const double s41 = 41 * scale;
   static const double s42 = 42 * scale;
   static const double s43 = 43 * scale;
+  static const double s320 = 320 * scale;
   static const double s44 = 44 * scale;
   static const double s45 = 45 * scale;
   static const double s46 = 46 * scale;
@@ -238,6 +239,7 @@ class Sizes {
   static const double s92 = 92 * scale;
   static const double s94 = 94 * scale;
   static const double s96 = 96 * scale;
+  static const double s98 = 98 * scale;
   static const double s100 = 100 * scale;
   static const double s102 = 102 * scale;
   static const double s105 = 105 * scale;

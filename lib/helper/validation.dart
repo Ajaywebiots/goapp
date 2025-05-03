@@ -106,4 +106,11 @@ class Validation {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
+
+  // dynamic field validation
+  dynamicTextValidation(context, value, text) {
+    if (value!.isEmpty) {
+      return language(context, text);
+    }
+  }
 }

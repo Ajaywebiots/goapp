@@ -4,6 +4,7 @@ class DottedLines extends StatelessWidget {
   final Color? color;
   final double? width;
   final Axis? direction;
+
   const DottedLines({super.key, this.color, this.width, this.direction});
 
   @override

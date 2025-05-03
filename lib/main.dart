@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:goapp/providers/app_pages_provider/app_setting_provider.dart';
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
+import 'package:goapp/providers/app_pages_provider/business_time_slot_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
 import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
@@ -13,6 +14,7 @@ import 'package:goapp/providers/app_pages_provider/my_review_provider.dart';
 import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
 import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
+import 'package:goapp/providers/app_pages_provider/register_company_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
 import 'package:goapp/providers/app_pages_provider/services_details_provider.dart';
@@ -69,6 +71,8 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => LoginProvider()),
                   ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
                   ChangeNotifierProvider(create: (_) => ProfileProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => SignUpCompanyProvider()),
                   // ChangeNotifierProvider(
                   //     create: (_) => FeaturedBusinessProvider()),
                   ChangeNotifierProvider(create: (_) => BookingProvider()),
@@ -112,6 +116,8 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => RateAppProvider()),
                   ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
                   ChangeNotifierProvider(create: (_) => OfferProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => BusinessTimeSlotProvider()),
                   ChangeNotifierProvider(
                       create: (_) => ProfileDetailProvider()),
                   ChangeNotifierProvider(

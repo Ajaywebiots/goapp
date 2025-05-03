@@ -41,4 +41,6 @@ class RouteName {
   // final String changePassInApp = '/changePassInApp';
   final String signUpVerifyOtp = '/signUpVerifyOtp';
   final String resetPasswordScreenInApp = '/resetPasswordScreenInApp';
+  final String companyDetailsScreen = '/companyDetailsScreen';
+  final String menuScreen = '/menuScreen';
 }

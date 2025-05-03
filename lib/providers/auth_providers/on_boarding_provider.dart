@@ -47,7 +47,8 @@ class OnBoardingProvider with ChangeNotifier {
     });
   }
 
-  List<Items> onBoardingList = [];
+  var onBoardingList = <Items>[];
+  
 
   onReady(context) async {
     languageSupport(context);

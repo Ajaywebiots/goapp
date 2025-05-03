@@ -338,6 +338,9 @@ class AppFonts {
   final accountType = "accountType";
   final membershipStatus = "membershipStatus";
 
+  final fewMoreSteps = "Follow the steps to complete your registration";
+  final fewMoreSteps1 = "Complete the final steps to join us.";
+
 // final openingHours = "openingHours";
 
 // final changeLanguage = "changeLanguage";

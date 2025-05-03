@@ -4,6 +4,7 @@ import 'package:goapp/screens/auth_screens/social_register_screen/social_reg_scr
 import '../screens/app_pages_screen/app_setting_screen/app_setting_screen.dart';
 import '../screens/app_pages_screen/attractions_details_screen/attraction_detail_screen.dart';
 import '../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
+import '../screens/app_pages_screen/business_register/company_details_screen.dart';
 import '../screens/app_pages_screen/categories_list_screen/categories_list_screen.dart';
 import '../screens/app_pages_screen/change_language_screen/change_language_screen.dart';
 import '../screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
@@ -24,6 +25,7 @@ import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
 import '../screens/menu_screens/menu_options_layouts/common_generalInfo_layout.dart';
+import '../screens/menu_screens/menu_screen.dart';
 
 class AppRoute {
   Map<String, Widget Function(BuildContext)> route = {
@@ -65,6 +67,8 @@ class AppRoute {
     routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
     // routeName.changePassInApp: (p0) => const ChangePassInApp(),
     routeName.signUpVerifyOtp: (p0) => const SignUpVerifyOtp(),
+    routeName.companyDetailsScreen: (p0) => const CompanyDetailsScreen(),
+    routeName.menuScreen: (p0) => const MenuScreen(),
     // routeName.resetPasswordScreenInApp: (p0) =>
     //     const ResetPasswordScreenInApp(),
   };

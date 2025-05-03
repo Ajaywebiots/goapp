@@ -42,6 +42,10 @@ class AppArray {
           'action': () => print('Save tapped')
         }
       ];
+  var durationList = [
+    {"id": 0, "title": "Hour"},
+    {"id": 1, "title": "Minuets"},
+  ];
 
   var localList = <Locale>[
     const Locale('en'),
@@ -116,6 +120,7 @@ class AppArray {
             icon:
                 SvgPicture.asset("assets/svg/bank.svg", height: 18, width: 18))
       ];
+
   List<MenuItem> travelGuideItems() => [
         MenuItem(
             title: 'Explore Points of Interest',
@@ -126,6 +131,7 @@ class AppArray {
             icon:
                 SvgPicture.asset("assets/svg/pages.svg", height: 18, width: 18))
       ];
+
   List<MenuItem> municipalityItems() => [
         MenuItem(
           title: 'Municipality Messages',
@@ -152,6 +158,7 @@ class AppArray {
           ),
         ),
       ];
+
   List<MenuItem> myAccountItems() => [
         MenuItem(
             title: 'My Profile',
@@ -208,6 +215,7 @@ class AppArray {
             icon: SvgPicture.asset("assets/svg/documentText.svg",
                 height: 18, width: 18))
       ];
+
   List<MenuItem> customerSupportItems(context) => [
         MenuItem(
             title: 'FAQ',
@@ -1052,6 +1060,8 @@ class AppArray {
     {"id": 2, "title": appFonts.highestServed},
     {"id": 3, "title": appFonts.lowestServed},
   ];
+  List businessCategory = ["Restaurant", "Baar", "Cafe"];
+  List priceRange = ["10-100", "100-1000", "10000-10,000"];
 
   List providerExpList = [
     {
@@ -2632,7 +2642,7 @@ class AppArray {
     }
   ];
 
-  var timeSlotStartAtList = [appFonts.days, "Start at", "End at"];
+  var timeSlotStartAtList = ["Days", "Start at", "End at"];
 
   var timeSlotList = [
     {"days": 'Monday', "start_at": "09:00", "end_at": "02:00", "status": true},

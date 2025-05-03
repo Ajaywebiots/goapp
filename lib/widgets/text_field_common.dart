@@ -16,9 +16,9 @@ class TextFieldCommon extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final int? maxLength, minLines, maxLines;
   final ValueChanged<String>? onFieldSubmitted;
-  final String? counterText, prefixIcon;
+  final String? counterText, prefixIcon, prefixImage;
   final TextStyle? hintStyle;
-  final bool? isNumber;
+  final bool? isNumber, isPrefImage;
   final GestureTapCallback? onTap;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -31,6 +31,8 @@ class TextFieldCommon extends StatefulWidget {
       this.controller,
       this.suffixIcon,
       this.prefixIcon,
+      this.prefixImage,
+      this.isPrefImage = false,
       this.border,
       this.obscureText = false,
       this.fillColor,
@@ -138,17 +140,23 @@ class _TextFieldCommonState extends State<TextFieldCommon> {
                         horizontal: widget.hPadding ?? Insets.i15,
                         vertical: widget.vertical ?? Insets.i15),
                 suffixIcon: widget.suffixIcon,
-                prefixIcon: widget.isNumber == true
-                    ? null
-                    : SvgPicture.asset(widget.prefixIcon!,
-                        fit: BoxFit.scaleDown,
-                        colorFilter: ColorFilter.mode(
-                            !widget.focusNode!.hasFocus
-                                ? widget.controller!.text.isNotEmpty
-                                    ? appColor(context).darkText
-                                    : appColor(context).lightText
-                                : appColor(context).darkText,
-                            BlendMode.srcIn)),
+                prefixIcon: widget.isPrefImage == true
+                    ? Image.asset(
+                        widget.prefixImage.toString(),
+                        cacheHeight: 25,
+                        cacheWidth: 25,
+                      )
+                    : widget.isNumber == true
+                        ? null
+                        : SvgPicture.asset(widget.prefixIcon!,
+                            fit: BoxFit.scaleDown,
+                            colorFilter: ColorFilter.mode(
+                                !widget.focusNode!.hasFocus
+                                    ? widget.controller!.text.isNotEmpty
+                                        ? appColor(context).darkText
+                                        : appColor(context).lightText
+                                    : appColor(context).darkText,
+                                BlendMode.srcIn)),
                 hintStyle: widget.hintStyle ??
                     appCss.dmDenseMedium14
                         .textColor(appColor(context).lightText),

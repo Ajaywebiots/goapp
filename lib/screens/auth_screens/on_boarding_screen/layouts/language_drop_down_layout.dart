@@ -70,6 +70,12 @@ class LanguageList {
       List.generate(appArray.languageList.length, (i) {
         return i == index
             ? Row(children: [
+                SvgPicture.asset(
+                  eSvgAssets.translate,
+                  width: 20,
+                  height: 20,
+                ),
+                const HSpace(Sizes.s10),
                 Text(
                     language(context,
                             appArray.languageList[index!]["title"]!.toString())

@@ -189,4 +189,5 @@ class ImageAssets {
   final img4 = "assets/images/img4.png";
   final img5 = "assets/images/img5.png";
   final img6 = "assets/images/img6.png";
+  final videoPlay = "assets/images/videoPlay.png";
 }
