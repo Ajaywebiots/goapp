@@ -101,6 +101,9 @@ dependencies:
   webview_flutter: ^4.11.0
   tuple: ^2.0.2
   path:
+  open_file: ^3.5.10
+  share_plus:
+
 
 
 dev_dependencies:
@@ -131,6 +134,7 @@ flutter:
     - assets/svg/
     - assets/gif/
     - assets/flags/
+    - assets/subscription/paypal_subscription.html
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

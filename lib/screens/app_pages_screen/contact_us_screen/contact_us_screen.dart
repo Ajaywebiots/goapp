@@ -32,7 +32,7 @@ class ContactUsScreen extends StatelessWidget {
                     const VSpace(Sizes.s40),
                     ButtonCommon(
                         title: "Submit",
-                        onTap: () => value.onContactTap(context))
+                        onTap: () => value.submitSupportAPI(context))
                   ]).paddingAll(Insets.i20))))));
     });
   }

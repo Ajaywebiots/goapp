@@ -48,7 +48,13 @@ class AnimationLayoutSecond extends StatelessWidget {
                           width: 4, color: appColor(context).whiteBg))))
         ]),
         Positioned(
-            top: 20, child: Image.asset(height: 307, eImageAssets.onImage1))
+            top: 25,
+            child: ClipOval(
+                child: Image.network(
+                    fit: BoxFit.cover,
+                    height: 305,
+                    width: 295,
+                    value.onBoardingList[1].media!.source!)))
       ]).paddingOnly(bottom: Insets.i50);
     });
   }

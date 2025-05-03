@@ -49,6 +49,9 @@ class ApiMethods {
   String deleteReview = "/user/";
   String editReview = "/user/";
 
+  String supportSub = "/app/support/subject";
+  String support = "/app/support";
+
 // //
 // String homeFeed = '/api/App/home/feed';
 // String countries = '/api/App/countries';

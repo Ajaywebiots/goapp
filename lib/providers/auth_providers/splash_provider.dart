@@ -13,6 +13,8 @@ class SplashProvider extends ChangeNotifier {
   onReady(TickerProvider sync, context) async {
     bool isAvailable = await isNetworkConnection();
     if (isAvailable) {
+      Provider.of<OnBoardingProvider>(context, listen: false)
+          .onBoardingDetails();
       SharedPreferences pref = await SharedPreferences.getInstance();
 
       Timer(const Duration(seconds: 3), () async {

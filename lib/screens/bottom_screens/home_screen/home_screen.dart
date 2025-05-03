@@ -47,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 bannerList: dash.bannerList,
                                 onPageChanged: (index, reason) =>
                                     dash.onSlideBanner(index),
-                                onTap: (type, id) {}),
+                                onTap: () => dash.handleBannerTap(
+                                    dash.bannerList[dash.selectIndex].appObject,
+                                    context)),
                         if (dash.bannerList.length > 1) const VSpace(Sizes.s12),
                         if (dash.bannerList.length > 1)
                           dash.bannerList.isEmpty

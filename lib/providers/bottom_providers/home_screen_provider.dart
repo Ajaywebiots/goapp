@@ -3,6 +3,14 @@ import 'dart:developer';
 import 'package:goapp/config.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:goapp/models/blog_filter_model.dart';
+import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
+import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+import 'package:goapp/providers/bottom_providers/offer_provider.dart';
+import 'package:goapp/screens/app_pages_screen/attractions_screen/attractions_screen.dart';
+import 'package:goapp/screens/app_pages_screen/latest_blog_view_all/latest_blog_view_all.dart';
+import 'package:goapp/screens/app_pages_screen/offer_detail_screen/offer_details_screen.dart';
+import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 
 // import '../../config.dart' as model;
 import '../../models/api_model/business_category_model.dart';
@@ -12,6 +20,7 @@ import '../../models/currency_model.dart';
 import '../../models/provider_model.dart';
 import '../../models/service_model.dart';
 import '../../models/service_package_model.dart';
+import '../../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../../services/api_service.dart';
 
 class HomeScreenProvider with ChangeNotifier {
@@ -25,6 +34,85 @@ class HomeScreenProvider with ChangeNotifier {
   bool? isSelected;
 
   List selectedCategory = [];
+
+  void handleBannerTap(AppObject? appObject, BuildContext context) {
+    final int? type = appObject?.appObjectType;
+    final int? id = appObject?.appObjectId;
+
+    log("Tapped Banner: type=$type, id=$id");
+
+    if (type == null) return;
+
+    if (id == null || id == 0) {
+      // Navigate to listing screen based on type
+      switch (type) {
+        case 2: // Business Listing
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => SearchScreen()));
+          break;
+        case 3: // Offer Listing
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => CouponListScreen()));
+          break;
+        case 4: // Attraction Listing
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => AttractionScreen()));
+          break;
+        case 5: // Blog Listing
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => LatestBlogViewAll()));
+          break;
+        default:
+          log("No listing screen defined for appObjectType: $type");
+      }
+    } else {
+      // Navigate to detail via provider
+      switch (type) {
+        case 2: // Business
+          Provider.of<SearchProvider>(context, listen: false)
+              .businessDetailsAPI(context, id, isNotRouting: false);
+          break;
+        case 3: // Offer
+          Provider.of<OfferProvider>(context, listen: false)
+              .offerDetailsAPI(context, id, isNotRouting: false);
+          break;
+        case 4: // Attraction
+          Provider.of<AttractionProvider>(context, listen: false)
+              .attractionsDetailsAPI(context, id, isNotRoute: false);
+          break;
+        case 5: // Blog
+          Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+              .detailsDataAPI(context, id, isNotRouting: false);
+          break;
+        default:
+          log("Unknown appObjectType: $type");
+      }
+    }
+  }
+
+  /*handleBannerTap(AppObject? appObject, context) {
+    final type = appObject?.appObjectType;
+    final id = appObject?.appObjectId;
+
+    log("___ $type === > $id");
+
+    Provider.of<OfferProvider>(context, listen: false)
+        .offerDetailsAPI(context, id, isNotRouting: false);
+
+    Provider.of<SearchProvider>(context, listen: false)
+        .businessDetailsAPI(context, id, isNotRouting: false);
+
+    Provider.of<AttractionProvider>(context, listen: false)
+        .attractionsDetailsAPI(context, id, isNotRoute: false);
+
+    Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+        .detailsDataAPI(context, id, isNotRouting: false);
+
+    //2 no. business
+    //4 no. attraction
+    //5 no. blog/articles
+    //3 no. offer
+  }*/
 
   /* Future<Position> getCurrentLocation() async {
     bool serviceEnabled;

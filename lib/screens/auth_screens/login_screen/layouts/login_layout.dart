@@ -33,8 +33,8 @@ class LoginLayout extends StatelessWidget {
                 Expanded(
                     child: TextFieldCommon(
                         keyboardType: TextInputType.number,
-                        validator: (phone) =>
-                            Validation().phoneValidation(context, phone),
+                        validator: (phone) => Validation().phoneValidation(
+                            context, phone, sss.selectedCountry!),
                         controller: sss.numberController,
                         isNumber: true,
                         focusNode: sss.phoneFocus,

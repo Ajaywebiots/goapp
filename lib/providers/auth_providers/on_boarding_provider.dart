@@ -47,13 +47,12 @@ class OnBoardingProvider with ChangeNotifier {
     });
   }
 
-  var onBoardingList = <Items>[];
-  
+  List<Item> onBoardingList = [];
 
   onReady(context) async {
     languageSupport(context);
     notifyListeners();
-    onBoardingDetails();
+    // onBoardingDetails();
     notifyListeners();
 
     pageController = PageController(initialPage: 0);
@@ -142,12 +141,12 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  onBoardingDetails() {
+  Future<void> onBoardingDetails() async {
     try {
       apiServices.commonApi(api.splashScreen, [], ApiType.get).then((value) {
         if (value.isSuccess!) {
           final sss = OnboardingModel.fromJson(value.data);
-          for (var data in sss.splashScreens![0].items!) {
+          for (var data in sss.splashScreens[0].items) {
             log("sss:::${data.description}");
             onBoardingList.add(data);
           }

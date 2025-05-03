@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <script src="https://www.paypal.com/sdk/js?client-id=AV88weQisbcXBEuxi0Ze8qvNsjRALcHIMW2lC2TF1LAwKNkBylP3Cxo3Q2hp1QBnZja5X2Ge_qIdXGtI&vault=true&intent=subscription"></script>
+</head>
+<body>
+<div id="paypal-button-container"></div>
+
+<script>
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'paypal'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          plan_id: 'P-6NA45185F55154646NACWZLA'
+        });
+      },
+      onApprove: function(data, actions) {
+        PayPalChannel.postMessage(data.subscriptionID);
+      }
+    }).render('#paypal-button-container');
+</script>
+</body>
+</html>

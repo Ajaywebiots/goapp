@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 import 'package:goapp/screens/bottom_screens/home_screen/layouts/top_categories_layout.dart';
-
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/categories_list_provider.dart';
 import '../../../../providers/bottom_providers/dashboard_provider.dart';

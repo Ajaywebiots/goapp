@@ -1,94 +1,90 @@
 class OnboardingModel {
-  List<SplashScreens>? splashScreens;
+  OnboardingModel({
+    required this.splashScreens,
+    required this.responseStatus,
+    required this.responseMessage,
+  });
 
-  OnboardingModel({this.splashScreens});
+  final List<SplashScreen> splashScreens;
+  final int? responseStatus;
+  final String? responseMessage;
 
-  OnboardingModel.fromJson(Map<String, dynamic> json) {
-    if (json['splashScreens'] != null) {
-      splashScreens = <SplashScreens>[];
-      json['splashScreens'].forEach((v) {
-        splashScreens!.add(SplashScreens.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (splashScreens != null) {
-      data['splashScreens'] = splashScreens!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class SplashScreens {
-  int? language;
-  List<Items>? items;
-
-  SplashScreens({this.language, this.items});
-
-  SplashScreens.fromJson(Map<String, dynamic> json) {
-    language = json['language'];
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(Items.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['language'] = language;
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    return data;
+  factory OnboardingModel.fromJson(Map<String, dynamic> json) {
+    return OnboardingModel(
+      splashScreens: json["splashScreens"] == null
+          ? []
+          : List<SplashScreen>.from(
+              json["splashScreens"]!.map((x) => SplashScreen.fromJson(x))),
+      responseStatus: json["responseStatus"],
+      responseMessage: json["responseMessage"],
+    );
   }
 }
 
-class Items {
-  String? title;
-  String? description;
-  Media? media;
+class SplashScreen {
+  SplashScreen({
+    required this.language,
+    required this.items,
+  });
 
-  Items({this.title, this.description, this.media});
+  final int? language;
+  final List<Item> items;
 
-  Items.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    description = json['description'];
-    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  factory SplashScreen.fromJson(Map<String, dynamic> json) {
+    return SplashScreen(
+      language: json["language"],
+      items: json["items"] == null
+          ? []
+          : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
+    );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['title'] = title;
-    data['description'] = description;
-    if (media != null) {
-      data['media'] = media!.toJson();
-    }
-    return data;
+class Item {
+  Item({
+    required this.title,
+    required this.description,
+    required this.media,
+    required this.step,
+  });
+
+  final String? title;
+  final String? description;
+  final Media? media;
+  final int? step;
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      title: json["title"],
+      description: json["description"],
+      media: json["media"] == null ? null : Media.fromJson(json["media"]),
+      step: json["step"],
+    );
   }
 }
 
 class Media {
-  int? mediaType;
-  String? source;
-  int? mediaStatus;
+  Media({
+    required this.imageId,
+    required this.mediaType,
+    required this.source,
+    required this.mediaStatus,
+    required this.sortOrder,
+  });
 
-  Media({this.mediaType, this.source, this.mediaStatus});
+  final int? imageId;
+  final int? mediaType;
+  final String? source;
+  final int? mediaStatus;
+  final int? sortOrder;
 
-  Media.fromJson(Map<String, dynamic> json) {
-    mediaType = json['mediaType'];
-    source = json['source'];
-    mediaStatus = json['mediaStatus'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['mediaType'] = mediaType;
-    data['source'] = source;
-    data['mediaStatus'] = mediaStatus;
-    return data;
+  factory Media.fromJson(Map<String, dynamic> json) {
+    return Media(
+      imageId: json["imageId"],
+      mediaType: json["mediaType"],
+      source: json["source"],
+      mediaStatus: json["mediaStatus"],
+      sortOrder: json["sortOrder"],
+    );
   }
 }

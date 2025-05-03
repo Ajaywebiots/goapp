@@ -47,74 +47,57 @@ class SubscriptionPlanScreen extends StatelessWidget {
                             .textColor(appColor(context).whiteBg)),
                     VSpace(Insets.i10),
                     Text(
-                      textAlign: TextAlign.center,
-                      'Join now and enjoy instant access to exclusive deals and discounts from top businesses.',
-                      style: appCss.dmDenseMedium14.textColor(
-                          appColor(context).whiteBg.withValues(alpha: 0.8)),
-                    ).marginSymmetric(horizontal: 25),
+                            textAlign: TextAlign.center,
+                            'Join now and enjoy instant access to exclusive deals and discounts from top businesses.',
+                            style: appCss.dmDenseMedium14.textColor(
+                                appColor(context)
+                                    .whiteBg
+                                    .withValues(alpha: 0.8)))
+                        .marginSymmetric(horizontal: 25),
                     VSpace(Insets.i20),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(children: [
-                          SvgPicture.asset("assets/svg/shield.svg"),
-                          HSpace(Insets.i10),
-                          Text(
-                            'Redeem as many offers as you want',
-                            style: appCss.dmDenseMedium15
-                                .textColor(appColor(context).whiteBg),
-                          ),
-                        ]),
-                        VSpace(Insets.i15),
-                        Row(
-                          children: [
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
                             SvgPicture.asset("assets/svg/shield.svg"),
                             HSpace(Insets.i10),
-                            Text(
-                              'Save hundreds of euros over the year',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg),
-                            ),
-                          ],
-                        ),
-                        VSpace(Insets.i15),
-                        Row(
-                          children: [
+                            Text('Redeem as many offers as you want',
+                                style: appCss.dmDenseMedium15
+                                    .textColor(appColor(context).whiteBg))
+                          ]),
+                          VSpace(Insets.i15),
+                          Row(children: [
                             SvgPicture.asset("assets/svg/shield.svg"),
                             HSpace(Insets.i10),
-                            Text(
-                              'Wide variety of local business offers',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg),
-                            ),
-                          ],
-                        ),
-                        VSpace(Insets.i15),
-                        Row(
-                          children: [
+                            Text('Save hundreds of euros over the year',
+                                style: appCss.dmDenseMedium15
+                                    .textColor(appColor(context).whiteBg))
+                          ]),
+                          VSpace(Insets.i15),
+                          Row(children: [
                             SvgPicture.asset("assets/svg/shield.svg"),
                             HSpace(Insets.i10),
-                            Text(
-                              'Real-Time Alerts and News',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg),
-                            ),
-                          ],
-                        ),
-                        VSpace(Insets.i15),
-                        Row(
-                          children: [
+                            Text('Wide variety of local business offers',
+                                style: appCss.dmDenseMedium15
+                                    .textColor(appColor(context).whiteBg))
+                          ]),
+                          VSpace(Insets.i15),
+                          Row(children: [
                             SvgPicture.asset("assets/svg/shield.svg"),
                             HSpace(Insets.i10),
-                            Text(
-                              'Limited-time offer for Summer 2025',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ).marginOnly(left: 50),
+                            Text('Real-Time Alerts and News',
+                                style: appCss.dmDenseMedium15
+                                    .textColor(appColor(context).whiteBg))
+                          ]),
+                          VSpace(Insets.i15),
+                          Row(children: [
+                            SvgPicture.asset("assets/svg/shield.svg"),
+                            HSpace(Insets.i10),
+                            Text('Limited-time offer for Summer 2025',
+                                style: appCss.dmDenseMedium15
+                                    .textColor(appColor(context).whiteBg))
+                          ])
+                        ]).marginOnly(left: 50),
                     VSpace(Insets.i20),
                     Text(
                             textAlign: TextAlign.center,
@@ -126,48 +109,47 @@ class SubscriptionPlanScreen extends StatelessWidget {
                         .marginSymmetric(horizontal: 18),
                     VSpace(Insets.i20),
                     Container(
-                      padding: EdgeInsets.only(top: 10),
-                      height: 80,
-                      width: 380,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/images/subscriptionLayout.png"))),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Unlock Your Full Potential",
-                              style: appCss.dmDenseBold16
-                                  .textColor(appColor(context).darkText)),
-                          RichText(
-                            text: TextSpan(
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: 'for just ',
-                                    style: appCss.dmDenseRegular12.textColor(
-                                        appColor(context)
-                                            .darkText
-                                            .withValues(alpha: 0.7))),
-                                TextSpan(
-                                    text: '€1',
-                                    style: appCss.dmDenseBold16.textColor(
-                                        appColor(context)
-                                            .darkText
-                                            .withValues(alpha: 0.7))),
-                                TextSpan(
-                                    text: ' per month (billed annually)',
-                                    style: appCss.dmDenseRegular12.textColor(
-                                        appColor(context)
-                                            .darkText
-                                            .withValues(alpha: 0.7))),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        padding: EdgeInsets.only(top: 10),
+                        height: 80,
+                        width: 380,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    "assets/images/subscriptionLayout.png"))),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Unlock Your Full Potential",
+                                  style: appCss.dmDenseBold16
+                                      .textColor(appColor(context).darkText)),
+                              RichText(
+                                  text: TextSpan(
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                      children: [
+                                    TextSpan(
+                                        text: 'for just ',
+                                        style: appCss.dmDenseRegular12
+                                            .textColor(appColor(context)
+                                                .darkText
+                                                .withValues(alpha: 0.7))),
+                                    TextSpan(
+                                        text: '€1',
+                                        style: appCss.dmDenseBold16.textColor(
+                                            appColor(context)
+                                                .darkText
+                                                .withValues(alpha: 0.7))),
+                                    TextSpan(
+                                        text: ' per month (billed annually)',
+                                        style: appCss.dmDenseRegular12
+                                            .textColor(appColor(context)
+                                                .darkText
+                                                .withValues(alpha: 0.7)))
+                                  ]))
+                            ])).inkWell(onTap: () {
+                      route.pushNamed(
+                          context, routeName.payPalSubscriptionPage);
+                    })
                   ]).marginOnly(top: Insets.i60))
           // Column(children: [
           //   ClipRRect(

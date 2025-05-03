@@ -36,7 +36,13 @@ class _AnimationLayoutThreeState extends State<AnimationLayoutThree>
                             shape: BoxShape.circle),
                         height: 300,
                         width: 410))),
-            Image.asset(height: 305, eImageAssets.onImage2),
+            ClipOval(
+              child: Image.network(
+                  width: 300,
+                  fit: BoxFit.cover,
+                  height: 305,
+                  onboard.onBoardingList[2].media!.source!),
+            ),
             Image.asset(height: 170, eImageAssets.subtract)
           ]),
           Stack(alignment: Alignment.center, children: [

@@ -11,8 +11,7 @@ class OnBoardingScreen extends StatefulWidget {
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen>
-    with TickerProviderStateMixin {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<OnBoardingProvider>(builder: (context, onBoardPro, child) {

@@ -15,11 +15,16 @@ class AnimationLayoutOne extends StatelessWidget {
                 width: Insets.i320)),
         Center(
             child: Container(
-                decoration: BoxDecoration(
-                    color: appColor(context).whiteBg, shape: BoxShape.circle),
-                height: Insets.i315,
-                width: Insets.i400)),
-        Image.asset(height: 315, eImageAssets.onImage)
+          decoration: BoxDecoration(
+              border: Border.all(width: 4, color: Colors.white),
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(value.onBoardingList[0].media!.source!)),
+              color: appColor(context).whiteBg,
+              shape: BoxShape.circle),
+          height: Insets.i315,
+        )),
+        // Image.network(height: 315, value.onBoardingList[0].media!.source!)
       ]);
     });
   }

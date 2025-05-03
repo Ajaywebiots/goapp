@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import '../../../../config.dart';
+import '../../../../models/api_model/support_subject_model.dart';
 import '../../../../providers/app_pages_provider/contact_us_provider.dart';
 
 class TextFieldBody extends StatelessWidget {
@@ -12,11 +15,13 @@ class TextFieldBody extends StatelessWidget {
         child: Column(children: [
           ContainerWithTextLayout(title: language(context, "Select Subject")),
           const VSpace(Sizes.s8),
-          DropdownButtonFormField<String>(
-                  value: value.selectedValue,
-                  onChanged: (String? newValue) {
-                    value.notifyListeners();
-                    value.selectedValue = newValue;
+          DropdownButtonFormField<SupportSubject>(
+                  value: value.selectedIndex != null
+                      ? value.subjects[value.selectedIndex!]
+                      : null,
+                  onChanged: (SupportSubject? newValue) {
+                    value.selectedIndex = value.subjects
+                        .indexWhere((element) => element.id == newValue?.id);
                     value.notifyListeners();
                   },
                   decoration: InputDecoration(
@@ -37,14 +42,11 @@ class TextFieldBody extends StatelessWidget {
                       height: Insets.i18,
                       colorFilter: ColorFilter.mode(
                           appColor(context).darkText, BlendMode.srcIn)),
-                  items: <String>[
-                    'Technical Error',
-                    'UI Bug',
-                    'Performance Issue'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,
+                  items: value.subjects.map<DropdownMenuItem<SupportSubject>>(
+                      (SupportSubject subject) {
+                    return DropdownMenuItem<SupportSubject>(
+                        value: subject,
+                        child: Text(subject.subject ?? '',
                             style: appCss.dmDenseRegular14
                                 .textColor(appColor(context).darkText)));
                   }).toList())

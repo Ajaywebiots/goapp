@@ -120,7 +120,7 @@ class AttractionProvider with ChangeNotifier {
   }
 
   getCategoriesData(context) {
-    showLoading(context);
+    // showLoading(context);
     notifyListeners();
     try {
       apiServices
@@ -138,7 +138,7 @@ class AttractionProvider with ChangeNotifier {
             categoryList.clear();
             notifyListeners();
             categoryList.addAll(categoryModel.categories ?? []);
-            hideLoading(context);
+            // hideLoading(context);
             notifyListeners();
           }
         } else {
@@ -148,7 +148,7 @@ class AttractionProvider with ChangeNotifier {
         }
       });
     } catch (e) {
-      hideLoading(context);
+      // hideLoading(context);
       log("getCategoriesData $e");
     }
   }

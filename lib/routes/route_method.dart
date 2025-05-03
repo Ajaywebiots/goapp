@@ -25,7 +25,7 @@ import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
 import '../screens/menu_screens/menu_options_layouts/common_generalInfo_layout.dart';
-import '../screens/menu_screens/menu_screen.dart';
+import '../screens/paypal_subscription/paypal_subscription_page.dart';
 
 class AppRoute {
   Map<String, Widget Function(BuildContext)> route = {
@@ -65,6 +65,7 @@ class AppRoute {
     routeName.favScreenList: (p0) => FavScreenList(),
     routeName.reviewScreen: (p0) => const ReviewScreen(),
     routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
+    routeName.payPalSubscriptionPage: (p0) => const PayPalSubscriptionPage(),
     // routeName.changePassInApp: (p0) => const ChangePassInApp(),
     routeName.signUpVerifyOtp: (p0) => const SignUpVerifyOtp(),
     routeName.companyDetailsScreen: (p0) => const CompanyDetailsScreen(),

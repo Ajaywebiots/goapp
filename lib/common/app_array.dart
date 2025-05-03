@@ -129,34 +129,20 @@ class AppArray {
         MenuItem(
             title: 'Travel Information',
             icon:
-                SvgPicture.asset("assets/svg/pages.svg", height: 18, width: 18))
+                SvgPicture.asset("assets/svg/note.svg", height: 18, width: 18))
       ];
 
   List<MenuItem> municipalityItems() => [
         MenuItem(
-          title: 'Municipality Messages',
-          icon: SvgPicture.asset(
-            eSvgAssets.chat1,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Municipality Messages',
+            icon: SvgPicture.asset(eSvgAssets.chat1, height: 18, width: 18)),
         MenuItem(
-          title: 'The Mayor of Salamina',
-          icon: SvgPicture.asset(
-            eSvgAssets.accountTag,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'The Mayor of Salamina',
+            icon:
+                SvgPicture.asset(eSvgAssets.accountTag, height: 18, width: 18)),
         MenuItem(
-          title: 'Emergency Numbers',
-          icon: SvgPicture.asset(
-            eSvgAssets.calling,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Emergency Numbers',
+            icon: SvgPicture.asset(eSvgAssets.calling, height: 18, width: 18))
       ];
 
   List<MenuItem> myAccountItems() => [
@@ -230,8 +216,7 @@ class AppArray {
                 colorFilter: ColorFilter.mode(
                     appColor(context).darkText, BlendMode.srcIn),
                 height: 18,
-                width: 18),
-            destination: ContactUsScreen()),
+                width: 18)),
       ];
 
   var languageList = [

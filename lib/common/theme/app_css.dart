@@ -1,6 +1,6 @@
-import '../../config.dart';
+import 'package:goapp/config.dart';
 
-part 'scale.dart';
+part "scale.dart";
 
 FontWeight thin = FontWeight.w100;
 FontWeight extraLight = FontWeight.w200;

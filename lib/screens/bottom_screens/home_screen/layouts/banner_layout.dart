@@ -4,7 +4,7 @@ import 'package:goapp/models/api_model/home_feed_model.dart' as model;
 class BannerLayout extends StatelessWidget {
   final List<model.Banner>? bannerList;
   final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
-  final Function(String, String)? onTap;
+  final GestureTapCallback? onTap;
 
   const BannerLayout(
       {super.key, this.bannerList, this.onPageChanged, this.onTap});
@@ -38,12 +38,12 @@ class BannerLayout extends StatelessWidget {
                                 eImageAssets.noImageFound2,
                                 fit: BoxFit.cover)),
                         Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: AssetImage(
                                         "assets/images/imageLayer.png"))))
-                      ])).inkWell(onTap: () => onTap!),
+                      ])).inkWell(onTap: onTap),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -28,7 +28,14 @@ class AnimationFourthLayout extends StatelessWidget {
                             shape: BoxShape.circle),
                         height: 300,
                         width: 410))),
-            Image.asset(height: 305, eImageAssets.onImage3),
+            ClipOval(
+              child: Image.network(
+                onboard.onBoardingList[3].media!.source!,
+                height: 300,
+                width: 300,
+                fit: BoxFit.cover,
+              ),
+            ),
             Image.asset(height: 170, eImageAssets.subtract)
           ]),
           Stack(alignment: Alignment.center, children: [
