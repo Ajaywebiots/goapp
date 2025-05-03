@@ -33,8 +33,8 @@ class DashboardProvider with ChangeNotifier {
   final List<Widget> pages = [
     const HomeScreen(),
     SearchScreen(isHomeScreen: true),
-    AttractionScreen(isHomeScreen: true),
     CouponListScreen(isHomeScreen: true),
+    AttractionScreen(isHomeScreen: true),
     MenuScreen()
   ];
 
@@ -67,29 +67,29 @@ class DashboardProvider with ChangeNotifier {
   onTap(index, context) async {
     selectIndex = index;
 
-    if (selectIndex != 0) {
-      final homeCtrl = Provider.of<HomeScreenProvider>(context, listen: false);
-      homeCtrl.animationController!.stop();
-      homeCtrl.notifyListeners();
-    } else {
-      if (selectIndex == 3) {
-        // SharedPreferences preferences = await SharedPreferences.getInstance();
-        // bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
-        // if (isGuest == false) {
-        //   final homeCtrl =
-        //       Provider.of<HomeScreenProvider>(context, listen: false);
-        //   homeCtrl.animationController!.reset();
-        //   homeCtrl.notifyListeners();
-        // } else {
-        //   route.pushAndRemoveUntil(context);
-        // }
-      } else {
-        final homeCtrl =
-            Provider.of<HomeScreenProvider>(context, listen: false);
-        homeCtrl.animationController!.reset();
-        homeCtrl.notifyListeners();
-      }
-    }
+    // if (selectIndex != 0) {
+    //   // final homeCtrl = Provider.of<HomeScreenProvider>(context, listen: false);
+    //   // homeCtrl.animationController!.stop();
+    //   // homeCtrl.notifyListeners();
+    // } else {
+    //   if (selectIndex == 3) {
+    //     // SharedPreferences preferences = await SharedPreferences.getInstance();
+    //     // bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
+    //     // if (isGuest == false) {
+    //     //   final homeCtrl =
+    //     //       Provider.of<HomeScreenProvider>(context, listen: false);
+    //     //   homeCtrl.animationController!.reset();
+    //     //   homeCtrl.notifyListeners();
+    //     // } else {
+    //     //   route.pushAndRemoveUntil(context);
+    //     // }
+    //   } else {
+    //     // final homeCtrl =
+    //     //     Provider.of<HomeScreenProvider>(context, listen: false);
+    //     // homeCtrl.animationController!.reset();
+    //     // homeCtrl.notifyListeners();
+    //   }
+    // }
     notifyListeners();
   }
 

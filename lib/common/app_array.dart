@@ -1,6 +1,12 @@
+import 'package:goapp/screens/app_pages_screen/change_language_screen/change_language_screen.dart';
+import 'package:goapp/screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
+import 'package:goapp/screens/app_pages_screen/fav_screen/fav_screen_list.dart';
+import 'package:goapp/screens/app_pages_screen/profile_detail_screen/profile_detail_screen.dart';
+import 'package:goapp/screens/app_pages_screen/review_screen/review_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../config.dart';
+import '../models/app_model/MenuItem.dart';
 
 class AppArray {
   List<Map<String, dynamic>> buttonItemsB(bool isFavourite) => [
@@ -45,6 +51,180 @@ class AppArray {
     // const Locale('ar'),
     // const Locale('ru'),
   ];
+
+  List<MenuItem> menuItems(context) => [
+        MenuItem(
+          title: 'Business Club',
+          icon: SvgPicture.asset(
+            "assets/svg/business.svg",
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Travel Guide',
+          icon: SvgPicture.asset(
+            eSvgAssets.global,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Salamina Municipality',
+          icon: SvgPicture.asset(
+            "assets/svg/municipal.svg",
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'My Account',
+          icon: SvgPicture.asset(
+            "assets/svg/myAccount.svg",
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'App Details',
+          icon: SvgPicture.asset(
+            eSvgAssets.mobile,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+            title: 'Customer Support',
+            icon: SvgPicture.asset(eSvgAssets.email,
+                height: 18,
+                width: 18,
+                colorFilter: ColorFilter.mode(
+                    appColor(context).darkText, BlendMode.srcIn)))
+      ];
+
+  List<MenuItem> businessClubItems() => [
+        MenuItem(
+            title: 'Business Listings',
+            icon: SvgPicture.asset("assets/svg/business.svg",
+                height: 18, width: 18)),
+        MenuItem(
+            title: 'Special Offers',
+            icon: SvgPicture.asset("assets/svg/discount-shape.svg",
+                height: 18, width: 18)),
+        MenuItem(
+            title: 'How to Join?',
+            icon:
+                SvgPicture.asset("assets/svg/bank.svg", height: 18, width: 18))
+      ];
+  List<MenuItem> travelGuideItems() => [
+        MenuItem(
+            title: 'Explore Points of Interest',
+            icon: SvgPicture.asset("assets/svg/locationOut1.svg",
+                height: 18, width: 18)),
+        MenuItem(
+            title: 'Travel Information',
+            icon:
+                SvgPicture.asset("assets/svg/pages.svg", height: 18, width: 18))
+      ];
+  List<MenuItem> municipalityItems() => [
+        MenuItem(
+          title: 'Municipality Messages',
+          icon: SvgPicture.asset(
+            eSvgAssets.chat1,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'The Mayor of Salamina',
+          icon: SvgPicture.asset(
+            eSvgAssets.accountTag,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Emergency Numbers',
+          icon: SvgPicture.asset(
+            eSvgAssets.calling,
+            height: 18,
+            width: 18,
+          ),
+        ),
+      ];
+  List<MenuItem> myAccountItems() => [
+        MenuItem(
+            title: 'My Profile',
+            icon: SvgPicture.asset(
+              "assets/svg/myAccount.svg",
+              height: 18,
+              width: 18,
+            ),
+            destination: ProfileDetailScreen()),
+        MenuItem(
+            title: 'Favourite Lists',
+            icon: SvgPicture.asset(
+              eSvgAssets.like,
+              height: 18,
+              width: 18,
+            ),
+            destination: FavScreenList()),
+        MenuItem(
+            title: 'My Reviews',
+            icon: SvgPicture.asset(
+              eSvgAssets.starOut,
+              height: 18,
+              width: 18,
+            ),
+            destination: ReviewScreen()),
+        MenuItem(
+            title: 'Select Language',
+            icon: SvgPicture.asset(eSvgAssets.translate, height: 18, width: 18),
+            destination: ChangeLanguageScreen()),
+        MenuItem(
+            title: 'My Membership',
+            icon: SvgPicture.asset(
+              "assets/svg/crown.svg",
+              height: 18,
+              width: 18,
+            )),
+      ];
+
+  List<MenuItem> appDetailsItems() => [
+        MenuItem(
+            title: 'About Us',
+            icon: SvgPicture.asset("assets/svg/documentText.svg",
+                height: 18, width: 18)),
+        MenuItem(
+            title: 'Terms & Conditions',
+            icon: SvgPicture.asset("assets/svg/documentText.svg",
+                height: 18, width: 18)),
+        MenuItem(
+            title: 'Privacy Policy',
+            icon: SvgPicture.asset("assets/svg/documentText.svg",
+                height: 18, width: 18)),
+        MenuItem(
+            title: 'Cancellation Policy',
+            icon: SvgPicture.asset("assets/svg/documentText.svg",
+                height: 18, width: 18))
+      ];
+  List<MenuItem> customerSupportItems(context) => [
+        MenuItem(
+            title: 'FAQ',
+            icon: SvgPicture.asset(
+              "assets/svg/documentText.svg",
+              height: 18,
+              width: 18,
+            )),
+        MenuItem(
+            title: 'Contact Us',
+            icon: SvgPicture.asset(eSvgAssets.mail,
+                colorFilter: ColorFilter.mode(
+                    appColor(context).darkText, BlendMode.srcIn),
+                height: 18,
+                width: 18),
+            destination: ContactUsScreen()),
+      ];
 
   var languageList = [
     {
@@ -112,14 +292,9 @@ class AppArray {
       "icon2": eSvgAssets.homeFill
     },
     {
-      "title": appFonts.booking,
+      "title": "Business",
       "icon": eSvgAssets.bookingOut,
       "icon2": eSvgAssets.bookingFill
-    },
-    {
-      "title": appFonts.cart,
-      "icon": eSvgAssets.cart,
-      "icon2": eSvgAssets.cartFill
     },
     {
       "title": appFonts.offer,
@@ -127,7 +302,12 @@ class AppArray {
       "icon2": eSvgAssets.offerFill
     },
     {
-      "title": appFonts.menu,
+      "title": appFonts.cart,
+      "icon": eSvgAssets.cart,
+      "icon2": eSvgAssets.cartFill
+    },
+    {
+      "title": "More",
       "icon": eSvgAssets.profileOut,
       "icon2": eSvgAssets.profileFill
     }

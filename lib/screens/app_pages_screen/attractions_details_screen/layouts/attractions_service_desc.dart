@@ -5,6 +5,8 @@ import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
@@ -13,6 +15,7 @@ import '../../../../models/api_model/business_details_model.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
+import '../../../../widgets/common_gallery_screen.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescriptions extends StatefulWidget {
@@ -164,53 +167,90 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
       }
     }
 
-    final List<Map<String, dynamic>> contactItems = [
-      {
-        'icon': eSvgAssets.calling,
-        'label': contact?.phoneNumber ?? "",
-        'action': () => launchURL("tel:${contact?.phoneNumber}")
-      },
-      {
-        'icon': eSvgAssets.mail,
-        'label': contact?.email ?? "",
-        'action': () => launchEmail(contact?.email ?? "")
-      },
-      {
-        'icon': eSvgAssets.locationOut1,
-        'label': contact?.address ?? "",
-        'action': () => launchGoogleMaps(contact?.address ?? "")
-      },
-      {
-        'icon': eSvgAssets.global,
-        'label': contact?.website ?? "",
-        'action': () => launchWebsite(contact?.website ?? "")
-      },
-      {
-        'icon': eImageAssets.fbIcon,
-        'label': contact?.facebookPage ?? "",
-        'action': () => launchFacebook(contact?.facebookPage ?? "")
-      },
-      {
-        'icon': eImageAssets.insta,
-        'label': contact?.instagramPage ?? "",
-        'action': () => launchInstagram(contact?.instagramPage ?? "")
-      },
-      {
-        'icon': eImageAssets.tiktok,
-        'label': contact?.tiktokPage ?? "",
-        'action': () => launchTikTok(contact?.tiktokPage ?? "")
-      },
-      {
-        'icon': eImageAssets.ytIcon,
-        'label': contact?.youtubePage ?? "",
-        'action': () => launchYouTube(contact?.youtubePage ?? "")
-      }
-    ]
-        .where((item) =>
-            item['label'] != null && item['label'].toString().isNotEmpty)
-        .toList();
+    Future<void> saveVCardToFile(String vCardContent, String fileName) async {
+      // Ask for storage permission
+      var status = await Permission.storage.request();
+      if (!status.isGranted) return;
+
+      final directory = await getExternalStorageDirectory();
+      final path = directory!.path;
+      final file = File('$path/$fileName.vcf');
+
+      await file.writeAsString(vCardContent);
+      print('vCard saved to: ${file.path}');
+    }
+
+    List<Map<String, dynamic>> contactItems() => [
+          {
+            'icon': eSvgAssets.calling,
+            'label': contact?.phoneNumber ?? "",
+            'action': () => launchURL("tel:${contact?.phoneNumber}")
+          },
+          {
+            'icon': eSvgAssets.mail,
+            'label': contact?.email ?? "",
+            'action': () => launchEmail(contact?.email ?? "")
+          },
+          {
+            'icon': eSvgAssets.locationOut1,
+            'label': contact?.address ?? "",
+            'action': () => launchGoogleMaps(contact?.address ?? "")
+          },
+          {
+            'icon': eSvgAssets.global,
+            'label': contact?.website ?? "",
+            'action': () => launchWebsite(contact?.website ?? "")
+          },
+          {
+            'icon': eImageAssets.fbIcon,
+            'label': "Facebook",
+            'action': () => launchFacebook(contact?.facebookPage ?? "")
+          },
+          {
+            'icon': eImageAssets.insta,
+            'label': "Instagram",
+            'action': () => launchInstagram(contact?.instagramPage ?? "")
+          },
+          {
+            'icon': eImageAssets.tiktok,
+            'label': "TikTok",
+            'action': () => launchTikTok(contact?.tiktokPage ?? "")
+          },
+          {
+            'icon': eImageAssets.ytIcon,
+            'label': "YouTube",
+            'action': () => launchYouTube(contact?.youtubePage ?? "")
+          }
+        ]
+            .where((item) =>
+                item['label'] != null && item['label'].toString().isNotEmpty)
+            .toList();
 
     final attraction = Provider.of<AttractionProvider>(context);
+    String generateFullVCard(Contact? contact) {
+      return '''
+BEGIN:VCARD
+VERSION:3.0
+FN:${widget.attractionData?.name ?? ''}
+TEL;TYPE=CELL:${contact?.phoneNumber ?? ''}
+EMAIL:${contact?.email ?? ''}
+ADR:${contact?.address ?? ''}
+URL:${contact?.website ?? ''}
+
+item1.URL:${contact?.facebookPage ?? ''}
+item1.X-ABLabel:Facebook
+
+item2.URL:${contact?.instagramPage ?? ''}
+item2.X-ABLabel:Instagram
+
+item3.URL:${contact?.tiktokPage ?? ''}
+item3.X-ABLabel:TikTok
+
+item4.URL:${contact?.youtubePage ?? ''}
+item4.X-ABLabel:YouTube
+END:VCARD
+''';
+    }
 
     return Consumer<AttractionProvider>(builder: (context, aaaa, child) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -365,100 +405,95 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
                                 context: context,
                                 builder: (context) {
                                   return SafeArea(
-                                      child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              1.4,
-                                          child: Stack(children: [
-                                            SingleChildScrollView(
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            language(
-                                                                context,
-                                                                appFonts
-                                                                    .contactUs),
-                                                            style: appCss
-                                                                .dmDenseMedium18
-                                                                .textColor(appColor(
-                                                                        context)
-                                                                    .darkText)),
-                                                        const Icon(
-                                                                CupertinoIcons
-                                                                    .multiply)
-                                                            .inkWell(
-                                                                onTap: () =>
-                                                                    route.pop(
-                                                                        context))
-                                                      ]).paddingSymmetric(
-                                                      vertical: 20,
-                                                      horizontal: Insets.i20),
-                                                  ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount:
-                                                          contactItems.length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        final item =
-                                                            contactItems[index];
-                                                        return ListTileLayout(
-                                                            color: appColor(
+                                      child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                        SingleChildScrollView(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        language(context,
+                                                            appFonts.contactUs),
+                                                        style: appCss
+                                                            .dmDenseMedium18
+                                                            .textColor(appColor(
                                                                     context)
-                                                                .lightText,
-                                                            data: contactItems,
-                                                            isCheckBox: false,
-                                                            isHavingIcon: true,
-                                                            icon: item['icon'],
-                                                            title:
-                                                                item['label'],
-                                                            onClick:
-                                                                item['action']);
-                                                      })
-                                                ])),
-                                            BottomSheetButtonCommon(
-                                                    textOne: appFonts.cancel,
-                                                    textTwo: appFonts.addToContacts,
-                                                    applyTap: () =>
-                                                        route.pop(context),
-                                                    clearTap: () =>
-                                                        route.pop(context))
-                                                .backgroundColor(
-                                                    appColor(context)
-                                                        .whiteColor)
-                                                .alignment(
-                                                    Alignment.bottomCenter),
-                                          ])).bottomSheetExtension(context));
+                                                                .darkText)),
+                                                    const Icon(CupertinoIcons
+                                                            .multiply)
+                                                        .inkWell(
+                                                            onTap: () => route
+                                                                .pop(context))
+                                                  ]).paddingSymmetric(
+                                                  vertical: 20,
+                                                  horizontal: Insets.i20),
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      contactItems().length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final item =
+                                                        contactItems()[index];
+                                                    return ListTileLayout(
+                                                        color: appColor(context)
+                                                            .lightText,
+                                                        data: contactItems,
+                                                        isCheckBox: false,
+                                                        isHavingIcon: true,
+                                                        icon: item['icon'],
+                                                        title: item['label'],
+                                                        onClick:
+                                                            item['action']);
+                                                  })
+                                            ])),
+                                        BottomSheetButtonCommon(
+                                                textOne: appFonts.cancel,
+                                                textTwo: appFonts.addToContacts,
+                                                applyTap: () async {
+                                                  final vCardContent =
+                                                      generateFullVCard(
+                                                          contact);
+                                                  await saveVCardToFile(
+                                                      vCardContent,
+                                                      widget.attractionData
+                                                              ?.name ??
+                                                          "contact");
+                                                  // route.pop(context);
+                                                },
+                                                clearTap: () =>
+                                                    route.pop(context))
+                                            .backgroundColor(
+                                                appColor(context).whiteColor)
+                                            .alignment(Alignment.bottomCenter),
+                                      ]).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
-                            // showModalBottomSheet(
-                            //   context: context,
-                            //   isScrollControlled: true,
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.vertical(
-                            //         top: Radius.circular(20)),
-                            //   ),
-                            //   builder: (context) => DraggableScrollableSheet(
-                            //     expand: false,
-                            //     initialChildSize: 0.8,
-                            //     minChildSize: 0.4,
-                            //     maxChildSize: 0.95,
-                            //     builder: (_, controller) =>
-                            //         SingleChildScrollView(
-                            //       controller: controller,
-                            //       child: CommonGalleryContent(
-                            //           galleryUrls: widget.attractionData),
-                            //     ),
-                            //   ),
-                            // );
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(20))),
+                                builder: (context) => DraggableScrollableSheet(
+                                    expand: false,
+                                    initialChildSize: 0.8,
+                                    minChildSize: 0.4,
+                                    maxChildSize: 0.95,
+                                    builder: (_, controller) =>
+                                        SingleChildScrollView(
+                                          controller: controller,
+                                          child: CommonAttractionGalleryContent(
+                                              galleryUrls:
+                                                  widget.attractionData),
+                                        )));
                           } else if (item['label'] == appFonts.save) {
                             // item;
                             Provider.of<CommonApiProvider>(context,

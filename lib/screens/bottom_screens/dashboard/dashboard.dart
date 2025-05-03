@@ -53,72 +53,74 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                   .getMyReviewListData();
             },
             child: DirectionalityRtl(
-              child: Scaffold(
-                  extendBody: true,
-                  bottomNavigationBar: Consumer<ThemeService>(
-                      builder: (themeContext, theme, child) {
-                    return AnimatedBottomNavigationBar.builder(
-                        elevation: 18,
-                        activeIndex: value.selectIndex,
-                        height: 76,
-                        gapLocation: GapLocation.none,
-                        shadow: BoxShadow(
-                            color: appColor(context).darkText.withOpacity(0.12),
-                            blurRadius: 20,
-                            spreadRadius: 25),
-                        notchSmoothness: NotchSmoothness.softEdge,
-                        leftCornerRadius: AppRadius.r18,
-                        rightCornerRadius: AppRadius.r18,
-                        backgroundColor: appColor(context).whiteBg,
-                        onTap: (index) => value.onTap(index, context),
-                        itemCount: appArray.dashboardList.length,
-                        tabBuilder: (int index, bool isActive) {
-                          return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                appColor(context).isDark
-                                    ? SvgPicture.asset(
-                                        value.selectIndex == index
-                                            ? appArray.dashboardList[index]
-                                                ["icon2"]!
-                                            : appArray.dashboardList[index]
-                                                ["icon"]!,
-                                        height: Sizes.s24,
-                                        width: Sizes.s24,
-                                        colorFilter: ColorFilter.mode(
-                                            (appColor(context).isDark &&
-                                                    value.selectIndex == index)
-                                                ? appColor(context).primary
-                                                : appColor(context).darkText,
-                                            BlendMode.srcIn),
-                                        fit: BoxFit.scaleDown)
-                                    : SvgPicture.asset(
-                                        value.selectIndex == index
-                                            ? appArray.dashboardList[index]
-                                                ["icon2"]!
-                                            : appArray.dashboardList[index]
-                                                ["icon"]!,
-                                        height: Sizes.s24,
-                                        width: Sizes.s24,
-                                        fit: BoxFit.scaleDown),
-                                const VSpace(Sizes.s5),
-                                Text(
-                                    language(
-                                        context,
-                                        appArray.dashboardList[index]
-                                            ["title"]!),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: value.selectIndex == index
-                                        ? appCss.dmDenseMedium14.textColor(
-                                            appColor(context).primary)
-                                        : appCss.dmDenseRegular14.textColor(
-                                            appColor(context).darkText))
-                              ]);
-                        });
-                  }),
-                  body: NoInternetLayout(
-                      child: Center(child: value.pages[value.selectIndex]))),
-            ));
+                child: Scaffold(
+                    extendBody: true,
+                    bottomNavigationBar: Consumer<ThemeService>(
+                        builder: (themeContext, theme, child) {
+                      return AnimatedBottomNavigationBar.builder(
+                          elevation: 18,
+                          activeIndex: value.selectIndex,
+                          height: 76,
+                          gapLocation: GapLocation.none,
+                          shadow: BoxShadow(
+                              color:
+                                  appColor(context).darkText.withOpacity(0.12),
+                              blurRadius: 20,
+                              spreadRadius: 25),
+                          // notchSmoothness: NotchSmoothness.softEdge,
+                          leftCornerRadius: AppRadius.r18,
+                          rightCornerRadius: AppRadius.r18,
+                          backgroundColor: appColor(context).whiteBg,
+                          onTap: (index) => value.onTap(index, context),
+                          itemCount: appArray.dashboardList.length,
+                          tabBuilder: (int index, bool isActive) {
+                            return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  appColor(context).isDark
+                                      ? SvgPicture.asset(
+                                          value.selectIndex == index
+                                              ? appArray.dashboardList[index]
+                                                  ["icon2"]!
+                                              : appArray.dashboardList[index]
+                                                  ["icon"]!,
+                                          height: Sizes.s24,
+                                          width: Sizes.s24,
+                                          colorFilter: ColorFilter.mode(
+                                              (appColor(context).isDark &&
+                                                      value.selectIndex ==
+                                                          index)
+                                                  ? appColor(context).primary
+                                                  : appColor(context).darkText,
+                                              BlendMode.srcIn),
+                                          fit: BoxFit.scaleDown)
+                                      : SvgPicture.asset(
+                                          value.selectIndex == index
+                                              ? appArray.dashboardList[index]
+                                                  ["icon2"]!
+                                              : appArray.dashboardList[index]
+                                                  ["icon"]!,
+                                          height: Sizes.s24,
+                                          width: Sizes.s24,
+                                          fit: BoxFit.scaleDown),
+                                  const VSpace(Sizes.s5),
+                                  Text(
+                                      language(
+                                          context,
+                                          appArray.dashboardList[index]
+                                              ["title"]!),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: value.selectIndex == index
+                                          ? appCss.dmDenseMedium14.textColor(
+                                              appColor(context).primary)
+                                          : appCss.dmDenseRegular14.textColor(
+                                              appColor(context).darkText))
+                                ]);
+                          });
+                    }),
+                    body: NoInternetLayout(
+                        child:
+                            Center(child: value.pages[value.selectIndex])))));
       });
     });
   }

@@ -10,15 +10,15 @@ class SvgAssets {
   final eye = "assets/svg/eye.svg";
   final hide = "assets/svg/hide.svg";
   final user = "assets/svg/user.svg";
-  final homeOut = "assets/svg/homeOut.svg";
-  final homeFill = "assets/svg/homeFill.svg";
-  final bookingOut = "assets/svg/bookingOut.svg";
-  final bookingFill = "assets/svg/bookingFill.svg";
+  final homeOut = "assets/svg/home.svg";
+  final homeFill = "assets/svg/fillHome.svg";
+  final bookingOut = "assets/svg/business.svg";
+  final bookingFill = "assets/svg/fillBusiness.svg";
   final offerFill = "assets/svg/offerFill.svg";
   final offerOut = "assets/svg/offerOut.svg";
-  final profileOut = "assets/svg/profileOut.svg";
-  final profileFill = "assets/svg/profileFill.svg";
-  final cart = "assets/svg/cart.svg";
+  final profileOut = "assets/svg/menu.svg";
+  final profileFill = "assets/svg/fillMore.svg";
+  final cart = "assets/svg/explore.svg";
   final location = "assets/svg/location.svg";
   final search = "assets/svg/search.svg";
   final notification = "assets/svg/notification.svg";
@@ -147,7 +147,7 @@ class SvgAssets {
 
   final rSlider1 = "assets/svg/rSlider1.svg";
   final rSlider2 = "assets/svg/rSlider2.svg";
-  final cartFill = "assets/svg/cartFill.svg";
+  final cartFill = "assets/svg/fillLocation.svg";
   final cityLoc = "assets/svg/cityLoc.svg";
   final download = "assets/svg/download.svg";
   final upload = "assets/svg/upload.svg";

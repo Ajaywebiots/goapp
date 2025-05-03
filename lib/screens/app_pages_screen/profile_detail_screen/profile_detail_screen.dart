@@ -29,10 +29,11 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
               appBar: AppBar(
                   centerTitle: true,
                   leading: CommonArrow(
-                      arrow: rtl(context)
-                          ? eSvgAssets.arrowRight
-                          : eSvgAssets.arrowLeft,
-                      onTap: () => route.pop(context)).paddingAll(Insets.i8),
+                          arrow: rtl(context)
+                              ? eSvgAssets.arrowRight
+                              : eSvgAssets.arrowLeft,
+                          onTap: () => route.pop(context))
+                      .marginOnly(left: Insets.i20),
                   title: Text(language(context, appFonts.profileDetails),
                       style: appCss.dmDenseBold18
                           .textColor(appColor(context).darkText))),

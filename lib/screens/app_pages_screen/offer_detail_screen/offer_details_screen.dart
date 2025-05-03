@@ -45,10 +45,23 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                   ClipRRect(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(8)),
-                      child: Image.network(offers?.heroImage?.source ?? "",
-                          width: MediaQuery.of(context).size.width,
-                          height: Insets.i200,
-                          fit: BoxFit.fill)),
+                      child: Container(
+                          height: Insets.i154,
+                          color: Color(0xffF2F3F4),
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          padding: EdgeInsets.all(Insets.i14),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(offers?.tag ?? "",
+                                    style: appCss.dmDenseBold24
+                                        .textColor(appColor(context).darkText)),
+                                Text(offers?.title ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: appCss.dmDenseBold16
+                                        .textColor(appColor(context).primary))
+                              ]))),
                   VSpace(Insets.i55),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(offers?.name ?? "",
@@ -80,48 +93,35 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                           margin: 20,
                           title: 'Activate Offer Now',
                           onTap: () async {
-                            SharedPreferences pref =
-                                await SharedPreferences.getInstance();
-                            try {
-                              final dio = Dio();
-                              Response response = await dio.get(
-                                  '${apiClass.baseUrl}${api.qrGenerate}${offers?.id}/QR/${pref.getInt(session.id)}',
-                                  options: Options(headers: {
-                                    'X-GoApp-Api-Key':
-                                        'ba16106c-2d7b-4a13-bdb2-b15b19691280',
-                                    'Authorization':
-                                        'Bearer ${pref.getString(session.accessToken)}',
-                                    'Content-Type': 'application/json'
-                                  }));
-
-                              print(response.data);
-                              qrBase64 = response.data.toString();
-                              log("value.data ${qrBase64}");
-
-                              setState(() {
-                                isActive = true;
-                              });
-                            } catch (e, s) {
-                              log("Search error: $e $s");
-                            }
+                            route.pushNamed(
+                                context, routeName.subscriptionPlanScreen);
+                            // SharedPreferences pref =
+                            //     await SharedPreferences.getInstance();
+                            // try {
+                            //   final dio = Dio();
+                            //   Response response = await dio.get(
+                            //       '${apiClass.baseUrl}${api.qrGenerate}${offers?.id}/QR/${pref.getInt(session.id)}',
+                            //       options: Options(headers: {
+                            //         'X-GoApp-Api-Key':
+                            //             'ba16106c-2d7b-4a13-bdb2-b15b19691280',
+                            //         'Authorization':
+                            //             'Bearer ${pref.getString(session.accessToken)}',
+                            //         'Content-Type': 'application/json'
+                            //       }));
+                            //
+                            //   print(response.data);
+                            //   qrBase64 = response.data.toString();
+                            //   log("value.data ${qrBase64}");
+                            //
+                            //   setState(() {
+                            //     isActive = true;
+                            //   });
+                            // } catch (e, s) {
+                            //   log("Search error: $e $s");
+                            // }
                           }),
                   VSpace(20),
                   Column(children: [
-                    Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(8),
-                            child: Column(children: [
-                              Text(offers?.tag ?? "",
-                                  style: appCss.dmDenseBold24
-                                      .textColor(appColor(context).darkText)),
-                              Text(offers?.title ?? "",
-                                  textAlign: TextAlign.center,
-                                  style: appCss.dmDenseBold13
-                                      .textColor(appColor(context).primary))
-                            ]))
-                        .boxBorderExtension(context,
-                            isShadow: true, color: Color(0xffF2F3F4)),
-                    VSpace(15),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -143,103 +143,119 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                                   .textColor(appColor(context).darkText),
                               offers?.terms ?? ""),
                           VSpace(Insets.i20),
-                          isActive == true
-                              ? Container()
-                              : ButtonCommon(
-                                  title: 'Activate Offer Now',
-                                  onTap: () async {
-                                    SharedPreferences pref =
-                                        await SharedPreferences.getInstance();
-                                    try {
-                                      final dio = Dio();
-                                      Response response = await dio.get(
-                                          '${apiClass.baseUrl}${api.qrGenerate}${offers?.id}/QR/${pref.getInt(session.id)}',
-                                          options: Options(headers: {
-                                            'X-GoApp-Api-Key':
-                                                'ba16106c-2d7b-4a13-bdb2-b15b19691280',
-                                            'Authorization':
-                                                'Bearer ${pref.getString(session.accessToken)}',
-                                            'Content-Type': 'application/json'
-                                          }));
-
-                                      print(response.data);
-                                      qrBase64 = response.data.toString();
-                                      log("value.data $qrBase64");
-
-                                      setState(() {
-                                        isActive = true;
-                                      });
-                                    } catch (e, s) {
-                                      log("Search error: $e $s");
-                                    }
-                                  }).paddingOnly(bottom: Insets.i25)
-                        ])
+                        ]),
+                    DottedLine(dashColor: Color(0xffE5E8EA))
+                        .paddingDirectional(top: 15),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Start date:",
+                                    style: appCss.dmDenseRegular12.textColor(
+                                        appColor(context).lightText)),
+                                Text(
+                                    formatDate(
+                                        offers?.activationDate.toString() ??
+                                            ""),
+                                    style: appCss.dmDenseMedium12
+                                        .textColor(appColor(context).darkText))
+                              ]),
+                          SvgPicture.asset('assets/svg/line.svg'),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("End date",
+                                    style: appCss.dmDenseRegular12.textColor(
+                                        appColor(context).lightText)),
+                                Text(
+                                    formatDate(
+                                        offers?.expirationDate.toString() ??
+                                            ""),
+                                    style: appCss.dmDenseMedium12
+                                        .textColor(appColor(context).darkText))
+                              ]),
+                          SvgPicture.asset('assets/svg/line.svg'),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Status",
+                                    style: appCss.dmDenseRegular12.textColor(
+                                        appColor(context).lightText)),
+                                Text("Active",
+                                    style: appCss.dmDenseMedium12.textColor(
+                                        appColor(context).greenColor))
+                              ])
+                        ]).paddingSymmetric(
+                        horizontal: Insets.i20, vertical: Insets.i20)
                   ]).paddingDirectional(horizontal: Insets.i20)
-                ]).boxBorderExtension(context, isShadow: true),
+                ]).boxBorderExtension(context,
+                    isShadow: true, bColor: Color(0xffF2F3F4)),
                 VSpace(15),
-                Container(
-                        padding: EdgeInsets.symmetric(vertical: Insets.i20),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Start date:",
-                                        style: appCss.dmDenseRegular12
-                                            .textColor(
-                                                appColor(context).lightText)),
-                                    Text(
-                                        formatDate(
-                                            offers?.activationDate.toString() ??
-                                                ""),
-                                        style: appCss.dmDenseMedium12.textColor(
-                                            appColor(context).darkText))
-                                  ]),
-                              SvgPicture.asset('assets/svg/line.svg'),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("End date",
-                                        style: appCss.dmDenseRegular12
-                                            .textColor(
-                                                appColor(context).lightText)),
-                                    Text(
-                                        formatDate(
-                                            offers?.expirationDate.toString() ??
-                                                ""),
-                                        style: appCss.dmDenseMedium12.textColor(
-                                            appColor(context).darkText))
-                                  ]),
-                              SvgPicture.asset('assets/svg/line.svg'),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Status",
-                                        style: appCss.dmDenseRegular12
-                                            .textColor(
-                                                appColor(context).lightText)),
-                                    Text("Active",
-                                        style: appCss.dmDenseMedium12.textColor(
-                                            appColor(context).greenColor))
-                                  ])
-                            ]).paddingDirectional(horizontal: Insets.i40))
-                    .boxBorderExtension(context, isShadow: true),
+                // Container(
+                //         padding: EdgeInsets.symmetric(vertical: Insets.i20),
+                //         child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Text("Start date:",
+                //                         style: appCss.dmDenseRegular12
+                //                             .textColor(
+                //                                 appColor(context).lightText)),
+                //                     Text(
+                //                         formatDate(
+                //                             offers?.activationDate.toString() ??
+                //                                 ""),
+                //                         style: appCss.dmDenseMedium12.textColor(
+                //                             appColor(context).darkText))
+                //                   ]),
+                //               SvgPicture.asset('assets/svg/line.svg'),
+                //               Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Text("End date",
+                //                         style: appCss.dmDenseRegular12
+                //                             .textColor(
+                //                                 appColor(context).lightText)),
+                //                     Text(
+                //                         formatDate(
+                //                             offers?.expirationDate.toString() ??
+                //                                 ""),
+                //                         style: appCss.dmDenseMedium12.textColor(
+                //                             appColor(context).darkText))
+                //                   ]),
+                //               SvgPicture.asset('assets/svg/line.svg'),
+                //               Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Text("Status",
+                //                         style: appCss.dmDenseRegular12
+                //                             .textColor(
+                //                                 appColor(context).lightText)),
+                //                     Text("Active",
+                //                         style: appCss.dmDenseMedium12.textColor(
+                //                             appColor(context).greenColor))
+                //                   ])
+                //             ]).paddingDirectional(horizontal: Insets.i40))
+                //     .boxBorderExtension(context, isShadow: true),
                 VSpace(Insets.i40),
               ]).paddingSymmetric(horizontal: Insets.i20),
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.17,
+                  top: MediaQuery.of(context).size.height * 0.12,
                   child: Container(
                       padding: EdgeInsets.all(Insets.i2),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),
                           shape: BoxShape.circle),
                       child: CircleAvatar(
-                          maxRadius: 50,
+                          maxRadius: 45,
                           backgroundImage:
                               NetworkImage(offers?.image?.source ?? "")))),
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.24,
+                  top: MediaQuery.of(context).size.height * 0.18,
                   right: MediaQuery.of(context).size.width * 0.08,
                   child: Container(
                           padding: EdgeInsets.all(Insets.i2),

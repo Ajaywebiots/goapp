@@ -6,6 +6,8 @@ import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
@@ -233,6 +235,56 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
             item['label'] != null && item['label'].toString().isNotEmpty)
         .toList();
 
+    String generateFullVCard(Contact? contact) {
+      return '''
+BEGIN:VCARD
+VERSION:3.0
+FN:${widget.businessData?.name ?? ''}
+TEL;TYPE=CELL:${contact?.phoneNumber ?? ''}
+EMAIL:${contact?.email ?? ''}
+ADR:${contact?.address ?? ''}
+URL:${contact?.website ?? ''}
+
+item1.URL:${contact?.facebookPage ?? ''}
+item1.X-ABLabel:Facebook
+
+item2.URL:${contact?.instagramPage ?? ''}
+item2.X-ABLabel:Instagram
+
+item3.URL:${contact?.tiktokPage ?? ''}
+item3.X-ABLabel:TikTok
+
+item4.URL:${contact?.youtubePage ?? ''}
+item4.X-ABLabel:YouTube
+END:VCARD
+''';
+    }
+
+    Future<void> saveVCardToFile(String vCardContent, String fileName) async {
+      final permission = Permission.manageExternalStorage;
+
+      final status = await permission.status;
+      if (!status.isGranted) {
+        final result = await permission.request();
+        if (!result.isGranted) {
+          print("Storage permission not granted.");
+          return;
+        }
+      }
+
+      final directory = await getExternalStorageDirectory();
+      if (directory == null) {
+        print("No directory found.");
+        return;
+      }
+
+      final path = directory.path;
+      final file = File('$path/$fileName.vcf');
+
+      await file.writeAsString(vCardContent);
+      print("vCard saved at: $path/$fileName.vcf");
+    }
+
     return Consumer<SearchProvider>(builder: (context, search, child) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const VSpace(Sizes.s14),
@@ -443,7 +495,17 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                         BottomSheetButtonCommon(
                                                 textOne: appFonts.cancel,
                                                 textTwo: appFonts.addToContacts,
-                                                applyTap: () => route.pop(context),
+                                                applyTap: () async {
+                                                  final vCardContent =
+                                                      generateFullVCard(
+                                                          contact);
+                                                  saveVCardToFile(
+                                                      vCardContent,
+                                                      widget.businessData
+                                                              ?.name ??
+                                                          "contact");
+                                                  // route.pop(context);
+                                                },
                                                 clearTap: () =>
                                                     route.pop(context))
                                             .backgroundColor(
@@ -456,9 +518,8 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                 context: context,
                                 isScrollControlled: true,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20)),
-                                ),
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(20))),
                                 builder: (context) => DraggableScrollableSheet(
                                     expand: false,
                                     initialChildSize: 0.8,
@@ -467,13 +528,11 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
                                     builder: (_, controller) =>
                                         SingleChildScrollView(
                                             controller: controller,
-                                            child: Column(
-                                              children: [
-                                                CommonGalleryContent(
-                                                    galleryUrls:
-                                                        widget.businessData),
-                                              ],
-                                            ))));
+                                            child: Column(children: [
+                                              CommonGalleryContent(
+                                                  galleryUrls:
+                                                      widget.businessData)
+                                            ]))));
                           } else if (item['label'] == appFonts.save) {
                             search.notifyListeners();
                             Provider.of<CommonApiProvider>(context,

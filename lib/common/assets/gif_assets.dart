@@ -1,6 +1,6 @@
 class GifAssets {
   final successGif = "assets/gif/successGif.gif";
-  final loader = "assets/gif/loader.gif";
+  final loader = "assets/gif/loader.jpeg";
   final wallet = "assets/gif/wallet.gif";
   final tick = "assets/gif/tick.gif";
   final cross = "assets/gif/cross.gif";
@@ -12,5 +12,4 @@ class GifAssets {
   final good = "assets/gif/good.gif";
   final amazing = "assets/gif/amazing.gif";
   final excellent = "assets/gif/excellent.gif";
-
 }
