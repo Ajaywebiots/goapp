@@ -47,7 +47,7 @@ class ProfileOptionsLayout extends StatelessWidget {
               },
             ),
           ),
-          value.isBusiness == true
+          value.isBusiness == false
               ? Container(
                   margin: EdgeInsets.only(top: 20, bottom: Sizes.s20),
                   padding: EdgeInsets.all(Sizes.s15),

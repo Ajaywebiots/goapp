@@ -1,4 +1,5 @@
 import 'package:goapp/providers/app_pages_provider/business_time_slot_provider.dart';
+import 'package:goapp/screens/app_pages_screen/business_register/timeslot_layouts/all_time_slot_layout.dart';
 
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/register_company_provider.dart';
@@ -35,7 +36,7 @@ class BusinessSignUpFour extends StatelessWidget {
                     .paddingSymmetric(horizontal: Insets.i15),
                 const VSpace(Sizes.s15),
                 ...appArray.timeSlotList.asMap().entries.map((e) =>
-                    AllTimeSlotLayout(
+                    BusinessAllTimeSlotLayout(
                         data: e.value,
                         index: e.key,
                         list: appArray.timeSlotList,
