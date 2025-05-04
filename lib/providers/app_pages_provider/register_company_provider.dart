@@ -55,6 +55,9 @@ class SignUpCompanyProvider with ChangeNotifier {
   TextEditingController instagramCtrl = TextEditingController();
   TextEditingController ytCtrl = TextEditingController();
   TextEditingController tiktokCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
   ScrollController controller = ScrollController();
 
   final FocusNode contactFirstNameFocus = FocusNode();
@@ -72,6 +75,7 @@ class SignUpCompanyProvider with ChangeNotifier {
   final FocusNode providerNumberFocus = FocusNode();
   final FocusNode emailFocus = FocusNode();
 
+    FocusNode countryFocus = FocusNode();
   FocusNode streetFocus = FocusNode();
   FocusNode cityFocus = FocusNode();
   FocusNode zipcodeFocus = FocusNode();
@@ -92,6 +96,58 @@ class SignUpCompanyProvider with ChangeNotifier {
   XFile? imageFile, docFile;
 
   TextEditingController companyName = TextEditingController();
+
+  Future<void> getLocation(BuildContext context) async {
+    try {
+      // Check and request location permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permission denied')),
+          );
+          return;
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permission permanently denied')),
+        );
+        return;
+      }
+
+      // Fetch current position
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Convert coordinates to address
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      Placemark placemark = placemarks.first;
+      String address = [
+        placemark.street,
+        placemark.subLocality,
+      ].where((e) => e != null && e.isNotEmpty).join(', ');
+
+      // Update provider fields
+      street.text = address; // Street (areaData)
+      city.text = placemark.locality ?? ''; // City
+      zipCode.text = placemark.postalCode ?? ''; // ZipCode
+      countryController.text = placemark.country ?? ''; // Country
+      latitude.text = position.latitude.toString(); // Latitude
+      longitude.text = position.longitude.toString(); // Longitude
+      notifyListeners(); // Notify UI
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching location: $e')),
+      );
+    }
+  }
+
 
   void showEmbedVideoDialog(BuildContext context) {
     final TextEditingController controller = TextEditingController();
@@ -162,31 +218,49 @@ class SignUpCompanyProvider with ChangeNotifier {
     final regex = RegExp(r'src="https:\/\/www\.youtube\.com\/embed\/(.*?)"');
     final match = regex.firstMatch(code);
     if (match != null && match.groupCount > 0) {
-      final videoId = match.group(1);
+      var videoId = match.group(1);
+      if (videoId != null && videoId.contains("?")) {
+        videoId = videoId.split("?").first; // remove query string
+      }
       return "https://img.youtube.com/vi/$videoId/0.jpg";
     }
     return null;
   }
 
-  // Your image picking method integrated
-  void onBusinessImagePick(BuildContext context, Function(XFile) onPicked) {
+  void onBusinessImagePick(BuildContext context, Function(List<XFile>) onPicked) {
     showLayout(context, onTap: (index) {
       final source = index == 0 ? ImageSource.gallery : ImageSource.camera;
       getBusinessImage(context, source, onPicked);
     });
   }
 
-  // Updated getImage method
-  Future<void> getBusinessImage(BuildContext context, ImageSource source,
-      Function(XFile) onPicked) async {
+  Future<void> getBusinessImage(
+      BuildContext context,
+      ImageSource source,
+      Function(List<XFile>) onPicked,
+      ) async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image =
-        await picker.pickImage(source: source, imageQuality: 70);
-    route.pop(context);
-    if (image != null) {
-      onPicked(image);
+    List<XFile> images = [];
+
+    if (source == ImageSource.gallery) {
+      final List<XFile>? picked = await picker.pickMultiImage(imageQuality: 70);
+      if (picked != null && picked.isNotEmpty) {
+        images = picked;
+      }
+    } else {
+      final XFile? image = await picker.pickImage(source: source, imageQuality: 70);
+      if (image != null) {
+        images = [image];
+      }
     }
-    notifyListeners(); // Optional: triggers rebuild
+
+    route.pop(context);
+
+    if (images.isNotEmpty) {
+      onPicked(images);
+    }
+
+    notifyListeners(); // Optional: update UI
   }
 
   //image picker option
@@ -456,57 +530,60 @@ class SignUpCompanyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //on next button tap with validation
-  onNext(context) async {
+  onNext(BuildContext context) async {
     log("INDEX :$pageIndex");
 
     if (pageIndex == 0) {
-      // if (signupFormKey1.currentState!.validate()) {
-      //   if (imageFile != null) {
-
+      // Validate or skip
       pageIndex++;
-      //   } else {
-      //     snackBarMessengers(context,
-      //         message: language(context, "Add Company Logo"));
-      //   }
-      // }
     } else if (pageIndex == 1) {
-      if (signupFormKey2.currentState!.validate()) {
-        // if (country != null) {
-        //   if (state != null) {
-        //     if (zonesList.isNotEmpty) {
-        //       log("company locations::${latitude.text}//${longitude.text}//${area.text}//${street.text}//${country!.id}//${state!.id}//${city.text}//${zipCode.text}");
-
-        pageIndex++;
-/*            } else {
-              snackBarMessengers(context,
-                  message: language(context, translations!.selectZone));
-            }
-          } else {
-            snackBarMessengers(context,
-                message: language(context, translations!.selectState));
-          }
-        } else {
-          snackBarMessengers(context,
-              message: language(context, translations!.selectCountry));
-        }*/
-      }
+      if (signupFormKey2.currentState!.validate()) pageIndex++;
     } else if (pageIndex == 2) {
-      if (signupFormKey3.currentState!.validate()) {
-        pageIndex++;
-      }
+      if (signupFormKey3.currentState!.validate()) pageIndex++;
     } else if (pageIndex == 3) {
       pageIndex++;
     } else if (pageIndex == 4) {
       pageIndex++;
-    } else {
-      log("SSS::$isBusiness");
-      isBusiness = true;
-      route.pushNamedAndRemoveUntil(context, routeName.dashboard);
-      // notifyListeners();
     }
 
     log("INDEXEPAGE $pageIndex");
-    notifyListeners();
+
+    // ✅ Handle final step explicitly
+    if (pageIndex == 5) {
+      isBusiness = true;
+      pageIndex = 0;
+      notifyListeners();
+
+      // ✅ Use Future.microtask to allow state changes before navigation
+      Future.microtask(() {
+        route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+      });
+    } else {
+      notifyListeners();
+    }
   }
+
+  void onBusinessOnTap(context,data,index) {
+    log("data.title::${data.title}///}");
+    switch (data.title) {
+      case "DashBoard" :
+
+      break;
+      case "Business Reviews" :
+        route.pushNamed(context, routeName.businessReviewsScreen);
+        break;
+      case "My Offers" :
+        route.pushNamed(context, routeName.businessOfferScreen);
+        break;
+      default:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions are not supported for this platform.',
+        );
+    }
+
+
+  }
+
+
+
 }

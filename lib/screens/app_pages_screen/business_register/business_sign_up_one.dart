@@ -33,9 +33,11 @@ class BusinessSignUpOne extends StatelessWidget {
                     prefixIcon: "assets/svg/myAccount.svg")
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s12),
-            ContainerWithTextLayout(title: "Company Phone No")
+
+            ContainerWithTextLayout(title: "Contact Phone Number")
                 .paddingOnly(top: Insets.i24, bottom: Insets.i8),
             RegisterWidgetClass().phoneTextBox(
+
                 dialCode: value.dialCode,
                 context,
                 value.companyPhone,
@@ -44,6 +46,16 @@ class BusinessSignUpOne extends StatelessWidget {
                     value.changeDialCode(code!),
                 onFieldSubmitted: (values) => validation.fieldFocusChange(
                     context, value.phoneNameFocus, value.companyMailFocus)),
+                ContainerWithTextLayout(title: "Contact Email")
+                    .paddingOnly(top: Insets.i24, bottom: Insets.i8),
+                TextFieldCommon(
+                    controller: value.emailCtrl,
+                    // validator: (v) => validation.emailValidation(context, v),
+                    focusNode: value.emailFocus,
+                    hintText: "Enter contact email",
+                    prefixIcon: "assets/svg/myAccount.svg")
+                    .paddingSymmetric(horizontal: Insets.i20),
+                const VSpace(Sizes.s12),
             const DottedLines().paddingSymmetric(vertical: Insets.i40),
             ContainerWithTextLayout(title: "Logo"),
             VSpace(Sizes.s12),

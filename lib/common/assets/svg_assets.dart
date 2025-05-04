@@ -174,4 +174,7 @@ class SvgAssets {
   final instagram = "assets/svg/instagram.svg";
   final facebook = "assets/svg/facebook.svg";
   final addSquare = "assets/svg/add-square.svg";
+  final people = "assets/svg/people.svg";
+  final box = "assets/svg/box.svg";
+  final emptyWallet = "assets/svg/empty-wallet.svg";
 }

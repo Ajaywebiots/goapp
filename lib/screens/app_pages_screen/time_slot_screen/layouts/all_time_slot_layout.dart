@@ -24,14 +24,14 @@ class AllTimeSlotLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Text(data['days'].toString().substring(0, 2).toUpperCase(),
-                style:
-                    appCss.dmDenseMedium12.textColor(appColor(context).primary))
-            .paddingAll(Insets.i10)
-            .decorated(
-                shape: BoxShape.circle,
-                color: appColor(context).primary.withOpacity(0.1)),
-        HSpace(Sizes.s15),
+        Expanded(
+          child: Text(data["days"],
+              style: appCss.dmDenseMedium12
+                  .textColor(appColor(context).primary))
+              .paddingAll(Insets.i10),
+        ),
+
+
         Row(children: [
           Container(
               height: 38,
@@ -40,13 +40,10 @@ class AllTimeSlotLayout extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(6)))),
           StartSlotLayout(title: data["start_at"], isSwitch: data["status"])
               .inkWell(onTap: onTap),
-          const HSpace(Sizes.s12),
+          const HSpace(Sizes.s20),
           StartSlotLayout(title: data["end_at"], isSwitch: data["status"])
               .inkWell(onTap: onTapSecond)
-        ]),
-        HSpace(Sizes.s15),
-        FlutterSwitchCommon(value: data["status"], onToggle: onToggle)
-      ]),
+        ]).padding(right: 35)      ]),
       if (index != list!.length - 1)
         DottedLines(color: appColor(context).stroke)
             .paddingSymmetric(vertical: Insets.i12)

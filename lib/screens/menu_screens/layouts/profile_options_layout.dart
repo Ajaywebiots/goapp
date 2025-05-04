@@ -1,4 +1,7 @@
+import 'package:goapp/common/app_array.dart';
+
 import '../../../../config.dart';
+import '../../../providers/app_pages_provider/register_company_provider.dart';
 import 'options_selection_screen_layout/option_screen_layout.dart';
 
 class ProfileOptionsLayout extends StatelessWidget {
@@ -6,10 +9,14 @@ class ProfileOptionsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(
-          height: 260,
-          child: GridView.builder(
+    return Consumer<SignUpCompanyProvider>(builder: (context, value, child) {
+      return ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          SizedBox(
+            height: 260,
+            child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -18,94 +25,150 @@ class ProfileOptionsLayout extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = appArray.menuItems(context)[index];
                 return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return OptionScreenLayout(title: item.title);
-                      }));
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/moreLayout.png"))),
-                        child: Column(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return OptionScreenLayout(title: item.title);
+                    }));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/moreLayout.png"))),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          item.icon,
+                          Text(item.title.replaceFirst(' ', '\n'),
+                              textAlign: TextAlign.center)
+                        ]).marginSymmetric(vertical: 20),
+                  ),
+                );
+              },
+            ),
+          ),
+          value.isBusiness == true
+              ? Container(
+                  margin: EdgeInsets.only(top: 20, bottom: Sizes.s20),
+                  padding: EdgeInsets.all(Sizes.s15),
+                  decoration: BoxDecoration(
+                      color: Color(0xfff99D1C).withOpacity(0.5),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: Row(children: [
+                    CommonArrow(arrow: "assets/svg/bank.svg"),
+                    HSpace(Sizes.s15),
+                    Expanded(
+                        child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              item.icon,
-                              Text(item.title.replaceFirst(' ', '\n'),
-                                  textAlign: TextAlign.center)
-                            ]).marginSymmetric(
-                            vertical:
-                                20)) /*Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(child: Icon(item.icon)),
-                        SizedBox(height: 8),
-                        Text(item.title, textAlign: TextAlign.center)
-                      ])*/
-                    );
-              })),
-      Container(
-          margin: EdgeInsets.only(top: 20, bottom: Sizes.s20),
-          padding: EdgeInsets.all(Sizes.s15),
-          decoration: BoxDecoration(
-              color: Color(0xfff99D1C).withValues(alpha: 0.5),
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: Row(children: [
-            CommonArrow(arrow: "assets/svg/bank.svg"),
-            HSpace(Sizes.s15),
-            Expanded(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                  Expanded(
-                      child: Text(
-                          overflow: TextOverflow.fade,
-                          language(context, "Register your business")
-                              .toString(),
-                          style: appCss.dmDenseMedium16
-                              .textColor(appColor(context).darkText))),
-                  SvgPicture.asset(
-                      rtl(context)
-                          ? eSvgAssets.arrowLeft
-                          : eSvgAssets.arrowRight,
-                      colorFilter: ColorFilter.mode(
-                          appColor(context).darkText, BlendMode.srcIn))
-                ]).inkWell(
-                    onTap: () => route.pushNamed(
-                        context, routeName.companyDetailsScreen)))
-          ])),
-      Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          decoration: ShapeDecoration(
-              color: Color(0xffF0F0F0),
-              shadows: [
-                BoxShadow(
-                    color: appColor(context).darkText.withValues(alpha: 0.06),
-                    spreadRadius: 1,
-                    blurRadius: 2)
-              ],
-              shape: SmoothRectangleBorder(
-                  side: BorderSide(color: appColor(context).fieldCardBg),
-                  borderRadius: SmoothBorderRadius(
-                      cornerRadius: AppRadius.r12, cornerSmoothing: 1))),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(children: [
-              CommonArrow(
-                  arrow: eSvgAssets.logout,
-                  color: appColor(context).whiteBg,
-                  svgColor: appColor(context).darkText),
-              const HSpace(Sizes.s15),
-              Text(language(context, appFonts.logout),
-                  style: appCss.dmDenseMedium14
-                      .textColor(appColor(context).darkText))
-            ])
-          ]))
-    ]);
+                          Expanded(
+                              child: Text(
+                                  overflow: TextOverflow.fade,
+                                  language(context, "Register your business")
+                                      .toString(),
+                                  style: appCss.dmDenseMedium16
+                                      .textColor(appColor(context).darkText))),
+                          SvgPicture.asset(
+                              rtl(context)
+                                  ? eSvgAssets.arrowLeft
+                                  : eSvgAssets.arrowRight,
+                              colorFilter: ColorFilter.mode(
+                                  appColor(context).darkText, BlendMode.srcIn))
+                        ]).inkWell(
+                            onTap: () => route.pushNamed(
+                                context, routeName.companyDetailsScreen)))
+                  ]))
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                      Text(language(context, "My Business"),
+                          style: appCss.dmDenseBold14
+                              .textColor(appColor(context).primary)),
+                      Container(
+                          decoration: ShapeDecoration(
+                              color: appColor(context).whiteColor,
+                              shadows: [
+                                BoxShadow(
+                                    color: appColor(context).fieldCardBg,
+                                    spreadRadius: 2,
+                                    blurRadius: 4)
+                              ],
+                              shape: SmoothRectangleBorder(
+                                  side: BorderSide(
+                                      color: appColor(context).fieldCardBg),
+                                  borderRadius: SmoothBorderRadius(
+                                      cornerRadius: AppRadius.r12,
+                                      cornerSmoothing: 1))),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: appArray.businessMenuList().length,
+                            itemBuilder: (context, index) {
+                              final item = appArray.businessMenuList()[index];
+                              return Column(children: [
+                                ListTile( onTap: ()=>value.onBusinessOnTap(context,appArray.businessMenuList()[index],index),
+                                        leading: item.icon
+                                            .marginAll(Insets.i12)
+                                            .decorated(
+                                                shape: BoxShape.circle,
+                                                color: appColor(context)
+                                                    .fieldCardBg),
+                                        title: Text(item.title,
+                                            style: appCss.dmDenseRegular14
+                                                .textColor(appColor(context)
+                                                    .darkText)),
+                                        trailing: SvgPicture.asset(
+                                            eSvgAssets.arrowRight,
+                                            color: appColor(context).lightText))
+                                    .paddingDirectional(
+                                        top: index == 0 ? Sizes.s10 : 0,
+                              bottom: index == appArray.businessMenuList().length - 1 ? Sizes.s10 : 0),
+                                if (index <
+                                    appArray.businessMenuList().length - 1)
+                                  Divider(
+                                          color: appColor(context).fieldCardBg,
+                                          height: 0)
+                                      .paddingDirectional(vertical: Sizes.s5)
+                              ]);
+                            },
+                          )).paddingDirectional(top: Sizes.s20)
+                    ]).padding(top: Sizes.s20, bottom: Sizes.s20),
+          Container(
+              margin: EdgeInsets.only(top: 20, bottom: Sizes.s20),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              decoration: ShapeDecoration(
+                  color: const Color(0xffF0F0F0),
+                  shadows: [
+                    BoxShadow(
+                        color: appColor(context).darkText.withOpacity(0.06),
+                        spreadRadius: 1,
+                        blurRadius: 2)
+                  ],
+                  shape: SmoothRectangleBorder(
+                      side: BorderSide(color: appColor(context).fieldCardBg),
+                      borderRadius: SmoothBorderRadius(
+                          cornerRadius: AppRadius.r12, cornerSmoothing: 1))),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: [
+                      CommonArrow(
+                          arrow: eSvgAssets.logout,
+                          color: appColor(context).whiteBg,
+                          svgColor: appColor(context).darkText),
+                      const HSpace(Sizes.s15),
+                      Text(language(context, appFonts.logout),
+                          style: appCss.dmDenseMedium14
+                              .textColor(appColor(context).darkText))
+                    ])
+                  ])),
+        ],
+      );
+    });
   }
 }
+
 /*value.profileLists
             .asMap()
             .entries

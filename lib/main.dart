@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:goapp/providers/app_pages_provider/app_setting_provider.dart';
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
+import 'package:goapp/providers/app_pages_provider/business_details_provider.dart';
+import 'package:goapp/providers/app_pages_provider/business_reviews_provider.dart';
 import 'package:goapp/providers/app_pages_provider/business_time_slot_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
@@ -92,6 +94,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => SearchProvider()),
                   ChangeNotifierProvider(create: (_) => MyReviewProvider()),
                   ChangeNotifierProvider(create: (_) => CommonApiProvider()),
+                  ChangeNotifierProvider(create: (_) => BusinessReviewsProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LatestBLogDetailsProvider()),
                   // ChangeNotifierProvider(
@@ -118,6 +121,7 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => RateAppProvider()),
                   ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
                   ChangeNotifierProvider(create: (_) => OfferProvider()),
+                  ChangeNotifierProvider(create: (_) => BusinessDetailsProvider()),
                   ChangeNotifierProvider(
                       create: (_) => BusinessTimeSlotProvider()),
                   ChangeNotifierProvider(

@@ -27,7 +27,7 @@ class BusinessSignUpFour extends StatelessWidget {
                                         .textColor(appColor(context).lightText))
                                 .paddingOnly(
                                     right: e.key == 0
-                                        ? Insets.i30
+                                        ? Insets.i50
                                         : e.key == 1
                                             ? Insets.i50
                                             : Insets.i10))

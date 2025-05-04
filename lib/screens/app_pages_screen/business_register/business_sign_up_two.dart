@@ -17,36 +17,44 @@ class BusinessSignUpTwo extends StatelessWidget {
           child: Column(children: [
             ContainerWithTextLayout(title: "Street")
                 .paddingOnly(bottom: Insets.i8),
-            Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: Sizes.s20),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.s20, vertical: Sizes.s20),
-                decoration: ShapeDecoration(
-                  shape: SmoothRectangleBorder(
-                      borderRadius: SmoothBorderRadius(
-                          cornerRadius: 8, cornerSmoothing: 1)),
-                  color: appColor(context).whiteBg,
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.symmetric(horizontal: Sizes.s20),
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.s20, vertical: Sizes.s20),
+            decoration: ShapeDecoration(
+              shape: SmoothRectangleBorder(
+                borderRadius: SmoothBorderRadius(cornerRadius: 8, cornerSmoothing: 1),
+              ),
+              color: appColor(context).whiteBg,
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset(eSvgAssets.address),
+                HSpace(Sizes.s15),
+                Expanded(
+                  child: TextField(
+                    controller: value.street,
+                    decoration: InputDecoration(
+                      hintText: language(context, "Company Location"),
+                      hintStyle: appCss.dmDenseMedium14
+                          .textColor(appColor(context).lightText),
+                      border: InputBorder.none,
+                      isDense: true,
+                    ),
+                    style: appCss.dmDenseMedium14
+                        .textColor(appColor(context).darkText),
+                    onChanged: (text) {
+                      value.street.text = text; // Update areaData
+                      value.notifyListeners(); // Notify UI
+                    },
+                  ),
                 ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        SvgPicture.asset(eSvgAssets.address),
-                        HSpace(Sizes.s15),
-                        value.areaData == null
-                            ? Text(language(context, "company Location"),
-                                style: appCss.dmDenseMedium14
-                                    .textColor(appColor(context).lightText))
-                            : Expanded(
-                                child: Text(value.areaData,
-                                    style: appCss.dmDenseMedium14
-                                        .textColor(appColor(context).darkText)))
-                      ]),
-                      SvgPicture.asset(eSvgAssets.gps)
-                      // .inkWell(onTap: () => value.getLocation(context))
-                    ])),
-            const VSpace(Sizes.s20),
+                HSpace(Sizes.s10),
+                SvgPicture.asset(eSvgAssets.gps).inkWell(onTap: () => value.getLocation(context)),
+              ],
+            ),
+          ),
+          const VSpace(Sizes.s20),
             Row(children: [
               Expanded(
                   child: Column(
@@ -91,11 +99,11 @@ class BusinessSignUpTwo extends StatelessWidget {
             ContainerWithTextLayout(title: "Country")
                 .paddingOnly(bottom: Insets.i8),
             TextFieldCommon(
-                    focusNode: value.streetFocus,
+                    focusNode: value.countryFocus,
                     // validator: (val) => validation.dynamicTextValidation(
                     //     context, val, pleaseEnterDesc),
-                    controller: value.street,
-                    hintText: "Enter Country",
+                    controller: value.countryController,
+                      hintText: "Enter Country",
                     prefixIcon: eSvgAssets.global)
                 .paddingSymmetric(horizontal: Insets.i20),
             const DottedLines().paddingSymmetric(vertical: Insets.i22),

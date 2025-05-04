@@ -44,4 +44,7 @@ class RouteName {
   final String resetPasswordScreenInApp = '/resetPasswordScreenInApp';
   final String companyDetailsScreen = '/companyDetailsScreen';
   final String menuScreen = '/menuScreen';
+  final String businessReviewsScreen = '/businessReviewsScreen';
+  final String businessOfferScreen = '/businessOfferScreen';
+  final String businessOfferDetails = '/businessOfferDetails';
 }

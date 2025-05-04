@@ -41,6 +41,66 @@ class AppArray {
           'action': () => print('Save tapped')
         }
       ];
+
+  List<MenuItem> businessMenuList() => [
+        MenuItem(
+          title: 'Dashboard',
+          icon: SvgPicture.asset(
+            eSvgAssets.box,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Business Profile',
+          icon: SvgPicture.asset(
+            "assets/svg/bank.svg",
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Business Reviews',
+          icon: SvgPicture.asset(
+            eSvgAssets.starOut,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'My Offers',
+          icon: SvgPicture.asset(
+            eSvgAssets.offerOut,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Offer Bookings',
+          icon: SvgPicture.asset(
+            eSvgAssets.emptyWallet,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Business Users',
+          icon: SvgPicture.asset(
+            eSvgAssets.people,
+            height: 18,
+            width: 18,
+          ),
+        ),
+        MenuItem(
+          title: 'Subscription Plans',
+          icon: SvgPicture.asset(
+            "assets/svg/crown.svg",
+            height: 18,
+            width: 18,
+          ),
+        ),
+      ];
+
   var durationList = [
     {"id": 0, "title": "Hour"},
     {"id": 1, "title": "Minuets"},
@@ -577,6 +637,42 @@ class AppArray {
     }
   ];
 
+  List get businessReviewList => [
+        {
+          "id": 1,
+          "name": "Devon Lane",
+          'rating': "4.0",
+          "description": '“This is amazing service i have ever get”',
+          "showReview": true,
+          "createDate": "04-05-2025",  'time':"12 min ago"
+        },
+        {
+          "id": 2,
+          "name": "Devon Lane",
+          'rating': "4.0",
+          "description": '“This is amazing service i have ever get”',
+          "showReview": false,
+          "createDate": "",  'time':"12 min ago"
+        },
+        {
+          "id": 3,
+          "name": "Devon Lane",
+          'rating': "4.0",
+          "description": '“This is amazing service i have ever get”',
+          "showReview": true,
+          "createDate": "",  'time':"12 min ago"
+        },
+        {
+          "id": 4,
+          "name": "Devon Lane",
+          'rating': "4.0",
+          "description": '“This is amazing service i have ever get”',
+          "showReview": false,
+          "createDate": "",
+          'time':"12 min ago"
+        },
+      ];
+
   var editReviewList = [
     {"icon": eSvgAssets.bad, "title": appFonts.bad},
     {"icon": eSvgAssets.okay, "title": appFonts.okay},
@@ -1046,6 +1142,7 @@ class AppArray {
   ];
   List businessCategory = ["Restaurant", "Baar", "Cafe"];
   List priceRange = ["10-100", "100-1000", "10000-10,000"];
+  List offerType = ["Free Gift", "Coupon", "Voucher"];
 
   List providerExpList = [
     {
@@ -1148,6 +1245,15 @@ class AppArray {
         {"id": 17, "original_url": eImageAssets.p1}
       ]
     }
+  ];
+
+
+  var businessReviewRating = [
+    {"stars": 5, "percentage": 84},
+    {"stars": 4, "percentage": 9},
+    {"stars": 3, "percentage": 4},
+    {"stars": 2, "percentage": 2},
+    {"stars": 1, "percentage": 1},
   ];
 
   var reviewRating = [
@@ -4052,6 +4158,43 @@ class AppArray {
       }
     ]
   };
+
+  List get businessOfferList => [
+    {
+      "name": "Coffee House",
+      "title": "Buy 1 Get 1 Free on all drinks",
+      "tag": "5% OFF",
+      "image": {
+        "source": eImageAssets.appLogo
+      },
+      "expirationDate": DateTime.now().add(Duration(days: 10)),
+      "isFavourite": true,
+      "bookingsCount": "85"
+    },
+    {
+      "name": "Pizza Planet",
+      "title": "20% Off on orders above \$25",
+      "tag": "Buy 1 GET 1",
+      "image": {
+        "source": eImageAssets.appLogo
+      },
+      "expirationDate": DateTime.now().add(Duration(days: 5)),
+      "isFavourite": false,
+      "bookingsCount": "85"
+    },
+    {
+      "name": "Salon Bliss",
+      "title": "Flat 30% Off on Haircuts",
+      "tag": "10€ OFF",
+      "image": {
+        "source": eImageAssets.appLogo
+      },
+      "expirationDate": DateTime.now().add(Duration(days: 15)),
+      "isFavourite": true,
+      "bookingsCount": "85"
+    }
+  ];
+
 
   var offerList = [
     {

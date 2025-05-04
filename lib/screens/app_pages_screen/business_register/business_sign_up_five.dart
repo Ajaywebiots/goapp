@@ -37,9 +37,11 @@ class _BusinessSignUpFiveState extends State<BusinessSignUpFive> {
                 InkWell(
                   onTap: () {
                     if (value.uploadedImages.length >= 12) return;
-                    value.onBusinessImagePick(context, (XFile image) {
+
+                    value.onBusinessImagePick(context, (List<XFile> images) {
                       setState(() {
-                        value.uploadedImages.add(image);
+                        final availableSlots = 12 - value.uploadedImages.length;
+                        value.uploadedImages.addAll(images.take(availableSlots));
                       });
                     });
                   },
