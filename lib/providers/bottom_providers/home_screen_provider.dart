@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:goapp/config.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:goapp/config.dart';
 import 'package:goapp/models/blog_filter_model.dart';
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
@@ -9,7 +9,6 @@ import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import 'package:goapp/screens/app_pages_screen/latest_blog_view_all/latest_blog_view_all.dart';
-import 'package:goapp/screens/app_pages_screen/offer_detail_screen/offer_details_screen.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 
 // import '../../config.dart' as model;
@@ -22,6 +21,7 @@ import '../../models/service_model.dart';
 import '../../models/service_package_model.dart';
 import '../../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../../services/api_service.dart';
+import 'dashboard_provider.dart';
 
 class HomeScreenProvider with ChangeNotifier {
   int selectIndex = 0;
@@ -376,6 +376,12 @@ class HomeScreenProvider with ChangeNotifier {
     animationController!.dispose();
     notifyListeners();
     super.dispose();
+  }
+
+  viewAllOnTap(context) {
+    final dash = Provider.of<DashboardProvider>(context, listen: false);
+    dash.selectIndex = 2;
+    notifyListeners();
   }
 }
 

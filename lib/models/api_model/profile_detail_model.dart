@@ -6,16 +6,17 @@ class ProfileDetailModel {
   });
 
   final UserProfile? userProfile;
-  final int? responseStatus;
+  final num? responseStatus;
   final String? responseMessage;
 
   factory ProfileDetailModel.fromJson(Map<String, dynamic> json) {
     return ProfileDetailModel(
-        userProfile: json["userProfile"] == null
-            ? null
-            : UserProfile.fromJson(json["userProfile"]),
-        responseStatus: json["responseStatus"],
-        responseMessage: json["responseMessage"]);
+      userProfile: json["userProfile"] == null
+          ? null
+          : UserProfile.fromJson(json["userProfile"]),
+      responseStatus: json["responseStatus"],
+      responseMessage: json["responseMessage"],
+    );
   }
 
   @override
@@ -34,6 +35,8 @@ class UserProfile {
     required this.phoneNumber,
     required this.image,
     required this.birthday,
+    required this.accountRole,
+    required this.accountType,
   });
 
   final int? id;
@@ -44,6 +47,8 @@ class UserProfile {
   final String? phoneNumber;
   final Image? image;
   final DateTime? birthday;
+  final AccountRole? accountRole;
+  final AccountType? accountType;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
@@ -55,12 +60,62 @@ class UserProfile {
       phoneNumber: json["phoneNumber"],
       image: json["image"] == null ? null : Image.fromJson(json["image"]),
       birthday: DateTime.tryParse(json["birthday"] ?? ""),
+      accountRole: json["accountRole"] == null
+          ? null
+          : AccountRole.fromJson(json["accountRole"]),
+      accountType: json["accountType"] == null
+          ? null
+          : AccountType.fromJson(json["accountType"]),
     );
   }
 
   @override
   String toString() {
-    return "$id, $firstName, $lastName, $email, $phoneNumberPrefix, $phoneNumber, $image, $birthday, ";
+    return "$id, $firstName, $lastName, $email, $phoneNumberPrefix, $phoneNumber, $image, $birthday, $accountRole, $accountType, ";
+  }
+}
+
+class AccountRole {
+  AccountRole({
+    required this.accountRoleId,
+    required this.accountRoleName,
+  });
+
+  final num? accountRoleId;
+  final String? accountRoleName;
+
+  factory AccountRole.fromJson(Map<String, dynamic> json) {
+    return AccountRole(
+      accountRoleId: json["accountRoleId"],
+      accountRoleName: json["accountRoleName"],
+    );
+  }
+
+  @override
+  String toString() {
+    return "$accountRoleId, $accountRoleName, ";
+  }
+}
+
+class AccountType {
+  AccountType({
+    required this.accountTypeId,
+    required this.accountTypeName,
+  });
+
+  final num? accountTypeId;
+  final String? accountTypeName;
+
+  factory AccountType.fromJson(Map<String, dynamic> json) {
+    return AccountType(
+      accountTypeId: json["accountTypeId"],
+      accountTypeName: json["accountTypeName"],
+    );
+  }
+
+  @override
+  String toString() {
+    return "$accountTypeId, $accountTypeName, ";
   }
 }
 
@@ -73,11 +128,11 @@ class Image {
     required this.sortOrder,
   });
 
-  final int? imageId;
-  final int? mediaType;
+  final num? imageId;
+  final num? mediaType;
   final String? source;
-  final int? mediaStatus;
-  final int? sortOrder;
+  final num? mediaStatus;
+  final num? sortOrder;
 
   factory Image.fromJson(Map<String, dynamic> json) {
     return Image(

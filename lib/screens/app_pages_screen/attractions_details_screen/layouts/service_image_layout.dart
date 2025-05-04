@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../../../config.dart';
 
 class ServiceImageLayout extends StatelessWidget {
@@ -55,7 +53,7 @@ class ServiceImageLayout extends StatelessWidget {
                           onTap: () => route.pop(context))
                     ]).padding(
                     horizontal: Insets.i20,
-                    top: Insets.i50,
+                    top: Insets.i30,
                     bottom: Insets.i20))
             .decorated(
                 borderRadius: const BorderRadius.horizontal(

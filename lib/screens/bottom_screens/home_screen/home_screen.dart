@@ -3,6 +3,7 @@ import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/layouts/coupon_layout.dart';
 
+import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
@@ -62,14 +63,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             : const VSpace(Sizes.s20),
                         dash.couponOfferList.isEmpty
                             ? SizedBox.shrink()
-                            : HeadingRowCommon(
-                                title:
-                                    language(context, appFonts.popularOffers),
-                                isTextSize: true,
-                                onTap: () => route.pushNamed(
-                                    context, routeName.couponListScreen,
-                                    arg: true)).paddingSymmetric(
-                                horizontal: Insets.i20),
+                            : Consumer<DashboardProvider>(
+                                builder: (context, sss, child) {
+                                return HeadingRowCommon(
+                                        title: language(
+                                            context, appFonts.popularOffers),
+                                        isTextSize: true,
+                                        onTap: () => {
+                                              sss.selectIndex = 2,
+                                              sss.notifyListeners()
+                                            })
+                                    .paddingSymmetric(horizontal: Insets.i20);
+                              }),
                         dash.couponOfferList.isEmpty
                             ? SizedBox.shrink()
                             : const VSpace(Sizes.s10),
@@ -147,12 +152,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             .map((e) => LatestBlogLayout(
                                                 height: 160,
                                                 onTap: () {
-                                                  final sss = Provider.of<
-                                                          LatestBLogDetailsProvider>(
-                                                      context,
-                                                      listen: false);
-                                                  sss.detailsDataAPI(
-                                                      context, e.value.id);
+                                                  Provider.of<LatestBLogDetailsProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .detailsDataAPI(
+                                                          context, e.value.id);
                                                 },
                                                 data: e.value,
                                                 addOrRemoveTap: () {

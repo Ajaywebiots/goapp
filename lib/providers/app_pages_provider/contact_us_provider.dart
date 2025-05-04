@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
 import 'package:goapp/services/api_service.dart';
 
 import '../../config.dart';
@@ -42,7 +41,7 @@ class ContactUsProvider with ChangeNotifier {
     });
   }
 
-  void submitSupportAPI(context) {
+  submitSupportAPI(context) async {
     final subjectId = selectedIndex != null ? subjects[selectedIndex].id : 0;
 
     final body = {"subjectId": subjectId, "text": messageController.text};
@@ -51,13 +50,23 @@ class ContactUsProvider with ChangeNotifier {
     apiServices
         .commonApi(api.support, body, ApiType.post, isToken: true)
         .then((value) {
-      snackBarMessengers(context,
-          message: "Support request submitted successfully!",
-          color: appColor(context).primary);
       messageController.clear();
       selectedIndex = 0;
-      notifyListeners();
-      log("Support request submitted successfully");
+      showDialog(
+          context: context,
+          builder: (context1) {
+            return AlertDialogCommon(
+                title: "Successfully submit",
+                image: eImageAssets.review,
+                fit: BoxFit.contain,
+                subtext: "Your contact message was sent successfully.",
+                bText1: "Close",
+                height: Sizes.s145,
+                b1OnTap: () {
+                  route.pop(context);
+                });
+          });
+
       notifyListeners();
     }).catchError((error) {
       log("Error submitting support request: $error");

@@ -24,7 +24,12 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool isNavigating = false;
+
   detailsDataAPI(context, value, {isNotRouting = false}) {
+    if (isNavigating) return;
+    isNavigating = true;
+
     notifyListeners();
     try {
       apiServices
@@ -47,10 +52,14 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
         }
+        isNavigating = false;
+      }).catchError((error) {
+        isNavigating = false;
+        log("API Error: $error");
       });
     } catch (e) {
-      notifyListeners();
-      log("detailsDataAPI :: $e");
+      isNavigating = false;
+      log("detailsDataAPI: $e");
     }
   }
 

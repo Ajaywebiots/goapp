@@ -27,6 +27,8 @@ class ProfileDetailProvider with ChangeNotifier {
   final FocusNode birthdayFocus = FocusNode();
   XFile? imageFile;
   String? profileImageUrl;
+  String? accountType;
+  String? memberStatus;
 
   SharedPreferences? preferences;
 
@@ -44,7 +46,8 @@ class ProfileDetailProvider with ChangeNotifier {
     txtEmail.text = userProfile.email ?? "";
     txtPhone.text = userProfile.phoneNumber ?? "";
     profileImageUrl = userProfile.image?.source ?? "";
-
+    accountType = userProfile.accountType?.accountTypeName ?? "";
+    memberStatus = userProfile.accountRole?.accountRoleName ?? "";
     birthday.text = DateFormat('dd/MM/yyyy').format(userProfile.birthday!);
 
     notifyListeners();

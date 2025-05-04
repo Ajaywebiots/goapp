@@ -88,8 +88,7 @@ class LoginWithPhoneProvider with ChangeNotifier {
             .commonApi(api.otp, body, ApiType.post, isToken: false)
             .then((value) async {
           log("dasdasdasd ${value.data}");
-          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen,
-              arg: body);
+          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
           hideLoading(context);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           log("token.toString ${token.toString()}");

@@ -161,75 +161,161 @@ class AttractionDetailScreen extends StatelessWidget {
                                                     context: context,
                                                     builder: (context) {
                                                       return SafeArea(
-                                                          child: SizedBox(
-                                                                  height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .height /
-                                                                      1.4,
-                                                                  child: Stack(
-                                                                      children: [
-                                                                        SingleChildScrollView(
-                                                                            child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                                                Text(language(context, appFonts.addReview), style: appCss.dmDenseMedium18.textColor(appColor(context).darkText)),
-                                                                                Icon(CupertinoIcons.multiply, color: appColor(context).darkText).inkWell(onTap: () => route.pop(context))
-                                                                              ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
-                                                                              Column(children: [
-                                                                                Text(language(context, appFonts.whatDoYouThink), style: appCss.dmDenseMedium14.textColor(appColor(context).lightText)).paddingAll(Insets.i20),
-                                                                                const DottedLines(),
-                                                                                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                                                                  Text(language(context, appFonts.rateUs), style: appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
-                                                                                  const VSpace(Sizes.s12),
-                                                                                  Consumer<RateAppProvider>(builder: (context, value, child) {
-                                                                                    return SingleChildScrollView(
-                                                                                        scrollDirection: Axis.horizontal,
-                                                                                        child: Row(
-                                                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                children: appArray.editReviewList
-                                                                                                    .asMap()
-                                                                                                    .entries
-                                                                                                    .map((e) => EditReviewLayout(
-                                                                                                        data: e.value,
-                                                                                                        index: e.key,
-                                                                                                        selectIndex: value.selectedIndex,
-                                                                                                        onTap: () {
-                                                                                                          value.onTapEmoji(e.key);
-                                                                                                        }))
-                                                                                                    .toList())
-                                                                                            .width(MediaQuery.of(context).size.width / 1.3));
-                                                                                  }),
-                                                                                  const VSpace(Sizes.s25),
-                                                                                  Text(
-                                                                                    language(context, appFonts.writeYourReview),
-                                                                                    style: appCss.dmDenseMedium14.textColor(appColor(context).darkText),
-                                                                                  ),
-                                                                                  const VSpace(Sizes.s12),
-                                                                                  TextFieldCommon(
-                                                                                    hintText: appFonts.writeHere,
-                                                                                    minLines: 8,
-                                                                                    maxLines: 8,
-                                                                                    controller: value.rateController,
-                                                                                    focusNode: value.rateFocus,
-                                                                                    isNumber: true,
-                                                                                    validator: (val) => validation.commonValidation(context, val),
-                                                                                  )
-                                                                                ]).paddingAll(Insets.i20)
-                                                                              ]).boxShapeExtension(color: appColor(context).fieldCardBg, radius: AppRadius.r12).paddingDirectional(horizontal: 20),
-                                                                              VSpace(Insets.i20),
-                                                                              BottomSheetButtonCommon(
-                                                                                textOne: appFonts.cancel,
-                                                                                textTwo: appFonts.submit,
-                                                                                applyTap: () => value.onSubmit(context, id: attractions?.id, appObjectId: attractions?.appObject?.appObjectId, appObjectType: attractions?.appObject?.appObjectType),
-                                                                                clearTap: () => value.onSubmit(context),
-                                                                              ).backgroundColor(appColor(context).whiteColor).alignment(Alignment.bottomCenter)
-                                                                            ]))
-                                                                      ]))
-                                                              .bottomSheetExtension(
-                                                                  context));
+                                                          child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                            Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                      language(
+                                                                          context,
+                                                                          appFonts
+                                                                              .addReview),
+                                                                      style: appCss
+                                                                          .dmDenseMedium18
+                                                                          .textColor(
+                                                                              appColor(context).darkText)),
+                                                                  Icon(CupertinoIcons.multiply,
+                                                                          color: appColor(context)
+                                                                              .darkText)
+                                                                      .inkWell(
+                                                                          onTap: () =>
+                                                                              route.pop(context))
+                                                                ]).paddingSymmetric(
+                                                                vertical: 20,
+                                                                horizontal:
+                                                                    Insets.i20),
+                                                            Column(children: [
+                                                              Text(
+                                                                      language(
+                                                                          context,
+                                                                          appFonts
+                                                                              .whatDoYouThink),
+                                                                      style: appCss
+                                                                          .dmDenseMedium14
+                                                                          .textColor(appColor(context)
+                                                                              .lightText))
+                                                                  .paddingAll(
+                                                                      Insets
+                                                                          .i20),
+                                                              const DottedLines(),
+                                                              Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        language(
+                                                                            context,
+                                                                            appFonts
+                                                                                .rateUs),
+                                                                        style: appCss
+                                                                            .dmDenseMedium14
+                                                                            .textColor(appColor(context).darkText)),
+                                                                    const VSpace(
+                                                                        Sizes
+                                                                            .s12),
+                                                                    Consumer<RateAppProvider>(builder:
+                                                                        (context,
+                                                                            value,
+                                                                            child) {
+                                                                      return SingleChildScrollView(
+                                                                          scrollDirection:
+                                                                              Axis.horizontal,
+                                                                          child: Row(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: appArray.editReviewList
+                                                                                      .asMap()
+                                                                                      .entries
+                                                                                      .map((e) => EditReviewLayout(
+                                                                                          data: e.value,
+                                                                                          index: e.key,
+                                                                                          selectIndex: value.selectedIndex,
+                                                                                          onTap: () {
+                                                                                            value.onTapEmoji(e.key);
+                                                                                          }))
+                                                                                      .toList())
+                                                                              .width(MediaQuery.of(context).size.width / 1.3));
+                                                                    }),
+                                                                    const VSpace(
+                                                                        Sizes
+                                                                            .s25),
+                                                                    Text(
+                                                                        language(
+                                                                            context,
+                                                                            appFonts
+                                                                                .writeYourReview),
+                                                                        style: appCss
+                                                                            .dmDenseMedium14
+                                                                            .textColor(appColor(context).darkText)),
+                                                                    const VSpace(
+                                                                        Sizes
+                                                                            .s12),
+                                                                    TextFieldCommon(
+                                                                        hintText:
+                                                                            appFonts
+                                                                                .writeHere,
+                                                                        minLines:
+                                                                            8,
+                                                                        maxLines:
+                                                                            8,
+                                                                        controller:
+                                                                            value
+                                                                                .rateController,
+                                                                        focusNode:
+                                                                            value
+                                                                                .rateFocus,
+                                                                        isNumber:
+                                                                            true,
+                                                                        validator: (val) => validation.commonValidation(
+                                                                            context,
+                                                                            val))
+                                                                  ]).paddingAll(
+                                                                  Insets.i20)
+                                                            ])
+                                                                .boxShapeExtension(
+                                                                    color: appColor(
+                                                                            context)
+                                                                        .fieldCardBg,
+                                                                    radius:
+                                                                        AppRadius
+                                                                            .r12)
+                                                                .paddingDirectional(
+                                                                    horizontal:
+                                                                        20),
+                                                            VSpace(Insets.i20),
+                                                            BottomSheetButtonCommon(
+                                                                textOne: appFonts
+                                                                    .cancel,
+                                                                textTwo: appFonts
+                                                                    .submit,
+                                                                applyTap: () => value.onSubmit(
+                                                                    context,
+                                                                    id: attractions
+                                                                        ?.id,
+                                                                    appObjectId:
+                                                                        attractions
+                                                                            ?.appObject
+                                                                            ?.appObjectId,
+                                                                    appObjectType:
+                                                                        attractions
+                                                                            ?.appObject
+                                                                            ?.appObjectType),
+                                                                clearTap: () =>
+                                                                    value.onSubmit(
+                                                                        context)).backgroundColor(appColor(context).whiteColor).alignment(
+                                                                Alignment.bottomCenter)
+                                                          ]).bottomSheetExtension(
+                                                              context));
                                                     });
                                               })
                                           .decorated(

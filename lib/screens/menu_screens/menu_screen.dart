@@ -1,11 +1,15 @@
 import '../../config.dart';
+import '../../providers/bottom_providers/dashboard_provider.dart';
+import '../../providers/bottom_providers/home_screen_provider.dart';
 import '../../providers/bottom_providers/profile_provider.dart';
 import '../../widgets/DirectionalityRtl.dart';
 import 'layouts/profile_options_layout.dart';
 import 'layouts/profile_setting_top_layout.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+  final bool isHomeScreen;
+
+  const MenuScreen({super.key, this.isHomeScreen = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,22 @@ class MenuScreen extends StatelessWidget {
           child: DirectionalityRtl(
               child: SafeArea(
                   child: Scaffold(
-                      appBar: AppBar(
+                      appBar: AppBarCommon(
+                          title: "Settings",
+                          onTap: () {
+                            if (isHomeScreen) {
+                              final dash = Provider.of<DashboardProvider>(
+                                  context,
+                                  listen: false);
+                              final homePvr = Provider.of<HomeScreenProvider>(
+                                  context,
+                                  listen: true);
+                              dash.selectIndex = 0;
+                              dash.notifyListeners();
+                              homePvr.notifyListeners();
+                            }
+                          }),
+                      /*AppBar(
                           title: Text(language(context, "GoSalamina Menu"),
                               style: appCss.dmDenseBold18
                                   .textColor(appColor(context).darkText)),
@@ -28,6 +47,7 @@ class MenuScreen extends StatelessWidget {
                                     onTap: () =>
                                         profilePvr.onTapSettingTap(context))
                                 .paddingSymmetric(horizontal: Insets.i20)
+<<<<<<< Updated upstream
                           ]),
                     body: LayoutBuilder(
                       builder: (context, constraints) {
@@ -42,6 +62,15 @@ class MenuScreen extends StatelessWidget {
                                 ProfileOptionsLayout(),
                               ],
                             ).padding(
+=======
+                          ]),*/
+                      body: SingleChildScrollView(
+                          child: Column(children: [
+                        ProfileSettingTopLayout(),
+                        VSpace(Sizes.s15),
+                        ProfileOptionsLayout()
+                      ]).padding(
+>>>>>>> Stashed changes
                               horizontal: Insets.i20,
                               top: Insets.i20,
                               bottom: Insets.i110,

@@ -55,7 +55,7 @@ class ServiceImageLayout extends StatelessWidget {
                           onTap: () => route.pop(context))
                     ]).padding(
                     horizontal: Insets.i20,
-                    top: Insets.i50,
+                    top: Insets.i30,
                     bottom: Insets.i20))
             .decorated(
                 borderRadius: const BorderRadius.horizontal(

@@ -80,30 +80,7 @@ class RateAppProvider with ChangeNotifier {
     );
   }
 
-  rateApp(context, {data}) async {
-    showDialog(
-        context: context,
-        builder: (context1) {
-          return AlertDialogCommon(
-              title: "Successfully submit",
-              image: eImageAssets.review,
-              fit: BoxFit.contain,
-              subtext: "Your contact message was sent successfully.",
-              bText1: "Close",
-              height: Sizes.s145,
-              b1OnTap: () {
-                rateController.text = "";
-                notifyListeners();
-                route.pop(context);
-                // route.pop(context);
-                // if (data != null) {
-                //   route.pop(context);
-                // }
-                rateController.text = "";
-                notifyListeners();
-              });
-        });
-  }
+  rateApp(context, {data}) async {}
 
   onReady(context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;

@@ -40,38 +40,6 @@ class LoginLayout extends StatelessWidget {
                             language(context, appFonts.enterPhoneNumber))),
               ]).paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s15),
-              /*  Row(children: [
-                const SmallContainer(),
-                const HSpace(Sizes.s20),
-                Text(language(context, appFonts.password),
-                    style: appCss.dmDenseSemiBold14
-                        .textColor(appColor(context).darkText))
-              ]),
-              const VSpace(Sizes.s8),
-              TextFieldCommon(
-                      validator: (pass) =>
-                          Validation().passValidation(context, pass),
-                      controller: value.passwordController,
-                      suffixIcon: SvgPicture.asset(
-                              value.isPassword
-                                  ? eSvgAssets.hide
-                                  : eSvgAssets.eye,
-                              fit: BoxFit.scaleDown)
-                          .inkWell(onTap: () => value.passwordSeenTap()),
-                      hintText: language(context, appFonts.enterPassword),
-                      focusNode: value.passwordFocus,
-                      obscureText: value.isPassword,
-                      prefixIcon: eSvgAssets.lock)
-                  .paddingSymmetric(horizontal: Insets.i20),*/
-              // const VSpace(Sizes.s10),
-              // Text(language(context, appFonts.forgotPassword),
-              //         style:
-              //             appCss.dmDenseMedium12.textColor(Color(0xff5465FF)))
-              //     .inkWell(onTap: () {
-              //       route.pushNamed(context, routeName.forgetPassword);
-              //     })
-              //     .alignment(Alignment.bottomRight)
-              //     .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s26),
               ButtonCommon(
                   title: language(context, appFonts.loginNow),

@@ -8,81 +8,72 @@ class LoginPhoneOtpVerifyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<VerifyOtpProvider>(builder: (context1, otpCtrl, child) {
+      final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
       return LoadingComponent(
-          child: StatefulWrapper(
-              onInit: () {
-                // final args = ModalRoute.of(context1)?.settings.arguments;
-                otpCtrl.getArgument(context1);
-              },
-              child: DirectionalityRtl(
-                  child: Scaffold(
-                      body: SafeArea(
-                          child: SingleChildScrollView(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                    Stack(children: [
-                      Align(
-                          alignment: rtl(context)
-                              ? Alignment.topRight
-                              : Alignment.topLeft,
-                          child: CommonArrow(
-                                  arrow: rtl(context)
-                                      ? eSvgAssets.arrowRight
-                                      : eSvgAssets.arrowLeft1,
-                                  onTap: () => route.pop(context))
-                              .paddingAll(Insets.i20)),
-                      Align(
-                          alignment: Alignment.center,
-                          child: AuthTopLayout(
-                              image: eImageAssets.verifyOtp,
-                              title: language(context, appFonts.verifyOtp),
-                              subTitle:
-                                  language(context, appFonts.enterTheCode),
-                              isNumber: true,
-                              number:
-                                  "\"${otpCtrl.dialCode} ${otpCtrl.phone}\""))
-                    ]),
-                    SizedBox(
-                        child: Stack(children: [
-                      const FieldsBackground(),
-                      Form(
-                          key: otpCtrl.otpKey,
+          child: DirectionalityRtl(
+              child: Scaffold(
+                  body: SafeArea(
+                      child: SingleChildScrollView(
                           child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                ContainerWithTextLayout(
-                                    title:
-                                        language(context, appFonts.enterOtp)),
-                                const VSpace(Sizes.s8),
-                                const CommonOtpLayout1(),
-                                const VSpace(Sizes.s20),
-                                ButtonCommon(
-                                    title: appFonts.verifyProceed,
-                                    margin: Insets.i20,
-                                    onTap: () =>
-                                        otpCtrl.onTapVerification(context)),
-                                const VSpace(Sizes.s15),
-                                otpCtrl.isCountDown
-                                    ? Text("${otpCtrl.min} : ${otpCtrl.sec}",
-                                            style: appCss.dmDenseMedium14
-                                                .textColor(
-                                                    appColor(context).primary))
-                                        .alignment(Alignment.center)
-                                    : Text(
-                                            language(
-                                                context, appFonts.resendCode),
-                                            style: appCss.dmDenseMedium14
-                                                .textColor(
-                                                    appColor(context).primary))
-                                        .inkWell(
-                                            onTap: () =>
-                                                otpCtrl.resendOtp(context))
-                                        .alignment(Alignment.center)
-                              ]).paddingSymmetric(vertical: Insets.i20))
-                    ]).paddingSymmetric(horizontal: Insets.i20))
-                  ])))))));
+            Stack(children: [
+              Align(
+                  alignment:
+                      rtl(context) ? Alignment.topRight : Alignment.topLeft,
+                  child: CommonArrow(
+                      arrow: rtl(context)
+                          ? eSvgAssets.arrowRight
+                          : eSvgAssets.arrowLeft1,
+                      onTap: () => route.pop(context)).paddingAll(Insets.i20)),
+              Align(
+                  alignment: Alignment.center,
+                  child: AuthTopLayout(
+                      image: eImageAssets.verifyOtp,
+                      title: language(context, appFonts.verifyOtp),
+                      subTitle: language(context, appFonts.enterTheCode),
+                      isNumber: true,
+                      number:
+                          "\"${sss.dialCode} ${sss.numberController.text}\""))
+            ]),
+            SizedBox(
+                child: Form(
+                        key: otpCtrl.otpKey,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ContainerWithTextLayout(
+                                  title: language(context, appFonts.enterOtp)),
+                              const VSpace(Sizes.s8),
+                              const CommonOtpLayout1(),
+                              const VSpace(Sizes.s20),
+                              ButtonCommon(
+                                  title: appFonts.verifyProceed,
+                                  margin: Insets.i20,
+                                  onTap: () =>
+                                      otpCtrl.onTapVerification(context)),
+                              const VSpace(Sizes.s15),
+                              otpCtrl.isCountDown
+                                  ? Text("${otpCtrl.min} : ${otpCtrl.sec}",
+                                          style: appCss.dmDenseMedium14
+                                              .textColor(
+                                                  appColor(context).primary))
+                                      .alignment(Alignment.center)
+                                  : Text(language(context, appFonts.resendCode),
+                                          style: appCss.dmDenseMedium14
+                                              .textColor(
+                                                  appColor(context).primary))
+                                      .inkWell(
+                                          onTap: () =>
+                                              otpCtrl.resendOtp(context))
+                                      .alignment(Alignment.center)
+                            ]).paddingSymmetric(vertical: Insets.i20))
+                    .decorated(
+                        color: appColor(context).fieldCardBg,
+                        borderRadius: BorderRadius.circular(AppRadius.r12))
+                    .paddingSymmetric(horizontal: Insets.i20))
+          ]))))));
     });
   }
 }

@@ -7,7 +7,6 @@ import '../../models/index.dart';
 import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
 import '../app_pages_provider/profile_detail_provider.dart';
-import 'home_screen_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
   static const pageSize = 1;
@@ -27,6 +26,7 @@ class DashboardProvider with ChangeNotifier {
   List service = appArray.servicePackageList.getRange(1, 3).toList();
 
   int selectIndex = 0;
+
   int? topSelected;
   bool isTap = false, isSearchData = false;
 
@@ -35,7 +35,7 @@ class DashboardProvider with ChangeNotifier {
     SearchScreen(isHomeScreen: true),
     CouponListScreen(isHomeScreen: true),
     AttractionScreen(isHomeScreen: true),
-    MenuScreen()
+    MenuScreen(isHomeScreen: true)
   ];
 
   onInit(context) {

@@ -75,16 +75,17 @@ class BannerLayout extends StatelessWidget {
                                       horizontal: Insets.i6)
                             ]),
                         Container(
-                            decoration: BoxDecoration(
-                                color: appColor(context).primary,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(AppRadius.r20))),
-                            child: Text(i.buttonText,
-                                    style: appCss.dmDenseMedium12.textColor(
-                                        appColor(context).whiteColor))
-                                .paddingSymmetric(
-                                    vertical: Insets.i8,
-                                    horizontal: Insets.i14))
+                                decoration: BoxDecoration(
+                                    color: appColor(context).primary,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(AppRadius.r20))),
+                                child: Text(i.buttonText,
+                                        style: appCss.dmDenseMedium12.textColor(
+                                            appColor(context).whiteColor))
+                                    .paddingSymmetric(
+                                        vertical: Insets.i8,
+                                        horizontal: Insets.i14))
+                            .inkWell(onTap: onTap)
                       ]).paddingSymmetric(
                       horizontal: Insets.i20, vertical: Insets.i20)
                 ]);

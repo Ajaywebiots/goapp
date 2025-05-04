@@ -51,62 +51,62 @@ class _CouponListScreenState extends State<CouponListScreen> {
                         }
                       }),
                   body: SafeArea(
-                    child: SingleChildScrollView(
-                        child: Column(children: [
-                      SearchTextFieldCommon(
-                          hintText: "Search for offers",
-                          controller: offerPvr.searchCtrl,
-                          focusNode: offerPvr.searchFocus,
-                          suffixIcon: FilterIconCommon(
-                              selectedFilter:
-                                  offerPvr.totalCountFilter().toString(),
-                              onTap: () {
-                                openFilterModal(context);
-                              })),
-                      VSpace(Insets.i22),
-                      if (offerPvr.offerViewAllList.isEmpty)
-                        EmptyLayout(
-                            topHeight:
-                                MediaQuery.of(context).size.height * 0.08,
-                            height: MediaQuery.of(context).size.height * 0.09,
-                            isButtonShow: false,
-                            title:
-                                language(context, appFonts.noResultsWereFound),
-                            subtitle: language(context, appFonts.sorry),
-                            widget: Image.asset(eImageAssets.noNoti,
-                                height: Sizes.s200)),
-                      ...offerPvr.offerViewAllList
-                          .asMap()
-                          .entries
-                          .map((e) => CouponLayout(
-                              addOrRemoveTap: () {
-                                final common = Provider.of<CommonApiProvider>(
-                                    context,
-                                    listen: false);
-                                common.toggleFavAPI(
-                                    context,
-                                    e.value.isFavourite,
-                                    e.value.appObject!.appObjectType,
-                                    e.value.appObject!.appObjectId,
-                                    onSuccess: () {
-                                  Provider.of<HomeScreenProvider>(context,
-                                          listen: false)
-                                      .homeFeed(context);
-                                  Provider.of<OfferProvider>(context,
-                                          listen: false)
-                                      .getViewAllOfferAPI();
-                                  Provider.of<OfferProvider>(context,
-                                          listen: false)
-                                      .offerDetailsAPI(context, e.value.id,
-                                          isNotRouting: true);
-                                });
-                              },
-                              data: e.value,
-                              onTap: () {
-                                offerPvr.offerDetailsAPI(context, e.value.id);
-                              }))
-                    ]).paddingSymmetric(horizontal: Insets.i20)),
-                  ))));
+                      child: SingleChildScrollView(
+                          child: Column(children: [
+                    SearchTextFieldCommon(
+                        hintText: "Search for offers",
+                        controller: offerPvr.searchCtrl,
+                        focusNode: offerPvr.searchFocus,
+                        suffixIcon: FilterIconCommon(
+                            selectedFilter:
+                                offerPvr.totalCountFilter().toString(),
+                            onTap: () {
+                              FocusScope.of(context)
+                                  .requestFocus(offerPvr.searchFocus);
+
+                              openFilterModal(context);
+                            })),
+                    VSpace(Insets.i22),
+                    if (offerPvr.offerViewAllList.isEmpty)
+                      EmptyLayout(
+                          topHeight: MediaQuery.of(context).size.height * 0.08,
+                          height: MediaQuery.of(context).size.height * 0.09,
+                          isButtonShow: false,
+                          title: language(context, appFonts.noResultsWereFound),
+                          subtitle: language(context, appFonts.sorry),
+                          widget: Image.asset(eImageAssets.noNoti,
+                              height: Sizes.s200)),
+                    ...offerPvr.offerViewAllList
+                        .asMap()
+                        .entries
+                        .map((e) => CouponLayout(
+                            addOrRemoveTap: () {
+                              final common = Provider.of<CommonApiProvider>(
+                                  context,
+                                  listen: false);
+                              common.toggleFavAPI(
+                                  context,
+                                  e.value.isFavourite,
+                                  e.value.appObject!.appObjectType,
+                                  e.value.appObject!.appObjectId,
+                                  onSuccess: () {
+                                Provider.of<HomeScreenProvider>(context,
+                                        listen: false)
+                                    .homeFeed(context);
+                                Provider.of<OfferProvider>(context,
+                                        listen: false)
+                                    .getViewAllOfferAPI();
+                                Provider.of<OfferProvider>(context,
+                                        listen: false)
+                                    .offerDetailsAPI(context, e.value.id,
+                                        isNotRouting: true);
+                              });
+                            },
+                            data: e.value,
+                            onTap: () {
+                              offerPvr.offerDetailsAPI(context, e.value.id);
+                            }))
+                  ]).paddingSymmetric(horizontal: Insets.i20))))));
     });
   }
 
@@ -117,9 +117,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height / 1.14,
-              child: FilterBottomSheet());
+          return FilterBottomSheet();
         });
   }
 }
@@ -181,8 +179,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 appCss.dmDenseMedium18.textColor(appColor(context).darkText)),
         Icon(CupertinoIcons.multiply, color: appColor(context).darkText)
             .inkWell(onTap: () => route.pop(context))
-      ]).paddingSymmetric(horizontal: Insets.i20),
-      // Tabs
+      ]).marginSymmetric(horizontal: Insets.i20),
       VSpace(20),
       _buildTab(),
       VSpace(22),
@@ -194,9 +191,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             : Text("Distance",
                 style: appCss.dmDenseRegular14
                     .textColor(appColor(context).lightText))
-      ]).marginSymmetric(horizontal: 20),
-      const SizedBox(height: 16),
-      Expanded(
+      ]).marginSymmetric(horizontal: Insets.i20),
+      const SizedBox(height: Insets.i16),
+      SizedBox(
+          height: 350,
           child: offerPvr.selectedTab == 0
               ? buildTypeFilter()
               : _buildDistanceFilter()),
@@ -215,8 +213,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             child: ButtonCommon(
                 onTap: () => applyFilters(),
                 title: language(context, appFonts.apply)))
-      ])
-    ]).marginOnly(top: Insets.i30, left: Insets.i20, right: Insets.i20));
+      ]).marginSymmetric(horizontal: Insets.i20, vertical: Insets.i20)
+    ]).marginOnly(top: Insets.i20));
   }
 
   Widget _buildTab() {
@@ -272,7 +270,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               offerPvr.selectedTab == 1
                                   ? appColor(context).whiteBg
                                   : appColor(context).lightText)))))
-        ])).marginSymmetric(horizontal: Insets.i10);
+        ])).marginSymmetric(horizontal: 20);
   }
 
   Widget buildTypeFilter() {
@@ -364,9 +362,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             smallLine: const FlutterSliderSizedBox(
                                 width: 1, height: 1),
                             bigLine: const FlutterSliderSizedBox(
-                              width: 1,
-                              height: 1,
-                            ),
+                                width: 1, height: 1),
                             labels: [
                               FlutterSliderHatchMarkLabel(
                                   percent: 0.5,

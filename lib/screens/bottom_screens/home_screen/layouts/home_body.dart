@@ -1,8 +1,10 @@
 import 'dart:developer';
+
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 import 'package:goapp/screens/bottom_screens/home_screen/layouts/top_categories_layout.dart';
+
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/categories_list_provider.dart';
 import '../../../../providers/bottom_providers/dashboard_provider.dart';
@@ -86,15 +88,18 @@ class HomeBody extends StatelessWidget {
                 : const VSpace(Sizes.s25),
             value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
-                : HeadingRowCommon(
-                    title: appFonts.featuredService,
-                    isTextSize: true,
-                    onTap: () {
-                      searchPvr.popular = true;
-                      searchPvr.getBusinessSearchAPI(context);
-
-                      route.pushNamed(context, routeName.search);
-                    }).paddingSymmetric(horizontal: Insets.i20),
+                : Consumer<DashboardProvider>(builder: (context, sss, child) {
+                    return HeadingRowCommon(
+                        title: appFonts.featuredService,
+                        isTextSize: true,
+                        onTap: () {
+                          searchPvr.popular = true;
+                          searchPvr.getBusinessSearchAPI(context);
+                          sss.selectIndex = 1;
+                          sss.notifyListeners();
+                          // route.pushNamed(context, routeName.search);
+                        }).paddingSymmetric(horizontal: Insets.i20);
+                  }),
             value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : const VSpace(Sizes.s15),
@@ -131,11 +136,17 @@ class HomeBody extends StatelessWidget {
           value.firstTwoHighRateList.isEmpty
               ? Container()
               : Column(children: [
-                  HeadingRowCommon(
-                      title: language(context, appFonts.pointOfInterests),
-                      isTextSize: true,
-                      onTap: () =>
-                          route.pushNamed(context, routeName.attractionScreen)),
+                  Consumer<DashboardProvider>(builder: (context, sss, child) {
+                    return HeadingRowCommon(
+                        title: language(context, appFonts.pointOfInterests),
+                        isTextSize: true,
+                        onTap: () => {
+                              sss.selectIndex = 3,
+                              sss.notifyListeners()
+                            } /*route.pushNamed(
+                            context, routeName.attractionScreen)*/
+                        );
+                  }),
                   const VSpace(Sizes.s15),
                   ...value.firstTwoHighRateList
                       .asMap()

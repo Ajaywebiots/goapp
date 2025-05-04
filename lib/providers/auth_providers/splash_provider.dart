@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
+import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
@@ -37,7 +38,8 @@ class SplashProvider extends ChangeNotifier {
           final offerPvr = Provider.of<OfferProvider>(context, listen: false);
           final catListPvr =
               Provider.of<CategoriesListProvider>(context, listen: false);
-
+          Provider.of<ProfileDetailProvider>(context, listen: false)
+              .getProfileDetailDataAPI(context);
           bool isTokenValid = false;
           if (token != null && expirationString != null) {
             DateTime expirationTime = DateTime.parse(expirationString);

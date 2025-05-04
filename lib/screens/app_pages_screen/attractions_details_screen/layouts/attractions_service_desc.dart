@@ -279,123 +279,125 @@ END:VCARD
                                 context: context,
                                 builder: (context) {
                                   return SafeArea(
-                                      child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              1.5,
-                                          child: Stack(children: [
-                                            SingleChildScrollView(
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            language(
-                                                                context,
-                                                                appFonts
-                                                                    .address),
-                                                            style: appCss
-                                                                .dmDenseMedium18
-                                                                .textColor(appColor(
-                                                                        context)
-                                                                    .darkText)),
-                                                        const Icon(
-                                                                CupertinoIcons
-                                                                    .multiply)
-                                                            .inkWell(
-                                                                onTap: () =>
-                                                                    route.pop(
-                                                                        context))
-                                                      ]).paddingSymmetric(
-                                                      vertical: 20,
-                                                      horizontal: Insets.i20),
-                                                  Container(
-                                                      height: 450,
-                                                      margin: const EdgeInsets.symmetric(
-                                                          horizontal: 20),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  12)),
-                                                      child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  12),
-                                                          child: GoogleMap(
-                                                              initialCameraPosition: CameraPosition(
-                                                                  target: LatLng(
-                                                                      (widget.attractionData!.location?.latitude)
-                                                                          .toDouble(),
-                                                                      (widget.attractionData?.location?.longitude)
-                                                                          .toDouble()),
-                                                                  zoom: 18.0),
-                                                              myLocationEnabled:
-                                                                  true,
-                                                              myLocationButtonEnabled:
-                                                                  true,
-                                                              zoomGesturesEnabled:
-                                                                  true,
-                                                              scrollGesturesEnabled:
-                                                                  true,
-                                                              rotateGesturesEnabled:
-                                                                  true,
-                                                              tiltGesturesEnabled: true,
-                                                              markers: {
-                                                                Marker(
-                                                                    markerId:
-                                                                        MarkerId(
-                                                                            "target-location"),
-                                                                    position: LatLng(
-                                                                        (widget.attractionData!.location?.latitude)
-                                                                            .toDouble(),
-                                                                        (widget.attractionData?.location?.longitude)
-                                                                            .toDouble()),
-                                                                    infoWindow:
-                                                                        InfoWindow(
-                                                                            title:
-                                                                                "Selected Location"))
-                                                              },
-                                                              zoomControlsEnabled: true)))
-                                                ])),
-                                            BottomSheetButtonCommon(
-                                                    textOne: appFonts.close,
-                                                    textTwo: appFonts.directions,
-                                                    applyTap: () {
-                                                      final lat = widget
-                                                          .attractionData
-                                                          ?.location
-                                                          ?.latitude
-                                                          .toDouble();
-                                                      final lng = widget
-                                                          .attractionData
-                                                          ?.location
-                                                          ?.longitude
-                                                          .toDouble();
+                                      child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        language(context,
+                                                            appFonts.address),
+                                                        style: appCss
+                                                            .dmDenseMedium18
+                                                            .textColor(appColor(
+                                                                    context)
+                                                                .darkText)),
+                                                    const Icon(
+                                                            CupertinoIcons
+                                                                .multiply,
+                                                            color: Colors.black)
+                                                        .inkWell(
+                                                            onTap: () => route
+                                                                .pop(context))
+                                                  ]).paddingSymmetric(
+                                                  vertical: 20,
+                                                  horizontal: Insets.i20),
+                                              Container(
+                                                  height: Insets.i450,
+                                                  margin: const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12)),
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      child: GoogleMap(
+                                                          initialCameraPosition: CameraPosition(
+                                                              target: LatLng(
+                                                                  (widget
+                                                                          .attractionData!
+                                                                          .location
+                                                                          ?.latitude)
+                                                                      .toDouble(),
+                                                                  (widget
+                                                                          .attractionData
+                                                                          ?.location
+                                                                          ?.longitude)
+                                                                      .toDouble()),
+                                                              zoom: 18.0),
+                                                          myLocationEnabled:
+                                                              true,
+                                                          myLocationButtonEnabled:
+                                                              true,
+                                                          zoomGesturesEnabled:
+                                                              true,
+                                                          scrollGesturesEnabled:
+                                                              true,
+                                                          rotateGesturesEnabled: true,
+                                                          tiltGesturesEnabled: true,
+                                                          markers: {
+                                                            Marker(
+                                                                markerId: MarkerId(
+                                                                    "target-location"),
+                                                                position: LatLng(
+                                                                    (widget
+                                                                            .attractionData!
+                                                                            .location
+                                                                            ?.latitude)
+                                                                        .toDouble(),
+                                                                    (widget
+                                                                            .attractionData
+                                                                            ?.location
+                                                                            ?.longitude)
+                                                                        .toDouble()),
+                                                                infoWindow:
+                                                                    InfoWindow(
+                                                                        title:
+                                                                            "Selected Location"))
+                                                          },
+                                                          zoomControlsEnabled: true)))
+                                            ]),
+                                        VSpace(Insets.i20),
+                                        BottomSheetButtonCommon(
+                                                textOne: appFonts.close,
+                                                textTwo: appFonts.directions,
+                                                applyTap: () {
+                                                  final lat = widget
+                                                      .attractionData
+                                                      ?.location
+                                                      ?.latitude
+                                                      .toDouble();
+                                                  final lng = widget
+                                                      .attractionData
+                                                      ?.location
+                                                      ?.longitude
+                                                      .toDouble();
 
-                                                      if (lat != null &&
-                                                          lng != null) {
-                                                        launchGoogleMapsAtLocation(
-                                                            lat, lng);
-                                                      }
-                                                    },
-                                                    clearTap: () {
-                                                      route.pop(context);
-                                                    })
-                                                .backgroundColor(
-                                                    appColor(context)
-                                                        .whiteColor)
-                                                .alignment(
-                                                    Alignment.bottomCenter)
-                                          ])).bottomSheetExtension(context));
+                                                  if (lat != null &&
+                                                      lng != null) {
+                                                    launchGoogleMapsAtLocation(
+                                                        lat, lng);
+                                                  }
+                                                },
+                                                clearTap: () {
+                                                  route.pop(context);
+                                                })
+                                            .backgroundColor(
+                                                appColor(context).whiteColor)
+                                            .alignment(Alignment.bottomCenter)
+                                      ]).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.hours) {
                             showOpeningHoursBottomSheet(context);
@@ -454,6 +456,7 @@ END:VCARD
                                                             item['action']);
                                                   })
                                             ])),
+                                        VSpace(Insets.i10),
                                         BottomSheetButtonCommon(
                                                 textOne: appFonts.cancel,
                                                 textTwo: appFonts.addToContacts,
@@ -576,92 +579,73 @@ END:VCARD
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         builder: (context) {
-          return SafeArea(
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.3,
-                  child: Consumer<TimeSlotProvider>(
-                      builder: (context, value, child) {
-                    return SingleChildScrollView(
-                      child: Column(children: [
+          return SafeArea(child:
+              Consumer<TimeSlotProvider>(builder: (context, value, child) {
+            return Column(mainAxisSize: MainAxisSize.min, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(language(context, appFonts.openingHours),
+                    style: appCss.dmDenseMedium18
+                        .textColor(appColor(context).darkText)),
+                Icon(CupertinoIcons.multiply, color: appColor(context).darkText)
+                    .inkWell(onTap: () => route.pop(context))
+              ]).paddingSymmetric(vertical: 20, horizontal: Insets.i20),
+              Container(
+                  margin: EdgeInsets.symmetric(horizontal: Insets.i20),
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                      color: appColor(context).fieldCardBg,
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(language(context, appFonts.openingHours),
-                                  style: appCss.dmDenseMedium18
-                                      .textColor(appColor(context).darkText)),
-                              Icon(CupertinoIcons.multiply,
-                                      color: appColor(context).darkText)
-                                  .inkWell(onTap: () => route.pop(context))
-                            ]).paddingSymmetric(
-                            vertical: 20, horizontal: Insets.i20),
-                        Container(
-                            margin:
-                                EdgeInsets.symmetric(horizontal: Insets.i20),
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            decoration: BoxDecoration(
-                                color: appColor(context).fieldCardBg,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12))),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                          children: timeSlotStartAtList
-                                              .asMap()
-                                              .entries
-                                              .map((e) => Text(
-                                                      language(
-                                                          context, e.value),
-                                                      style: appCss
-                                                          .dmDenseMedium12
-                                                          .textColor(
-                                                              appColor(context)
-                                                                  .lightText))
-                                                  .paddingOnly(
-                                                      left: e.key == 0
-                                                          ? Insets.i5
-                                                          : 30,
-                                                      right: e.key == 0
-                                                          ? Insets.i50
-                                                          : 20))
-                                              .toList())
-                                      .paddingSymmetric(horizontal: Insets.i15),
-                                  const VSpace(Sizes.s15),
-                                  ...timeSlotList.asMap().entries.map((e) =>
-                                      AllTimeSlotLayout(
-                                          data: e.value,
-                                          index: e.key,
-                                          list: timeSlotList,
-                                          onTapSecond: e.value["status"] == true
-                                              ? () =>
-                                                  value.selectTimeBottomSheet(
-                                                      context,
-                                                      e.value,
-                                                      e.key,
-                                                      "end")
-                                              : () {},
-                                          onTap: e.value["status"] == true
-                                              ? () =>
-                                                  value.selectTimeBottomSheet(
-                                                      context,
-                                                      e.value,
-                                                      e.key,
-                                                      "start")
-                                              : () {},
-                                          onToggle: (val) =>
-                                              value.onToggle(e.value, val)))
-                                ])),
-                        VSpace(Insets.i22),
-                        BottomSheetButtonCommon(
-                                isRateComplete: true,
-                                textOne: appFonts.close,
-                                clearTap: () {})
-                            .marginSymmetric(horizontal: 80)
-                            .backgroundColor(appColor(context).whiteColor)
-                            .alignment(Alignment.bottomCenter)
-                      ]),
-                    );
-                  })));
+                                children: timeSlotStartAtList
+                                    .asMap()
+                                    .entries
+                                    .map((e) => Text(language(context, e.value),
+                                            style: appCss.dmDenseMedium12
+                                                .textColor(appColor(context)
+                                                    .lightText))
+                                        .paddingOnly(
+                                            left: e.key == 0 ? Insets.i5 : 30,
+                                            right:
+                                                e.key == 0 ? Insets.i50 : 20))
+                                    .toList())
+                            .paddingSymmetric(horizontal: Insets.i15),
+                        const VSpace(Sizes.s15),
+                        ...timeSlotList
+                            .asMap()
+                            .entries
+                            .map(
+                                (e) =>
+                                    AllTimeSlotLayout(
+                                        data: e.value,
+                                        index: e.key,
+                                        list: timeSlotList,
+                                        onTapSecond: e.value["status"] == true
+                                            ? () => value.selectTimeBottomSheet(
+                                                context, e.value, e.key, "end")
+                                            : () {},
+                                        onTap: e.value["status"] == true
+                                            ? () => value.selectTimeBottomSheet(
+                                                context,
+                                                e.value,
+                                                e.key,
+                                                "start")
+                                            : () {},
+                                        onToggle: (val) =>
+                                            value.onToggle(e.value, val)))
+                      ])),
+              VSpace(Insets.i22),
+              BottomSheetButtonCommon(
+                      isRateComplete: true,
+                      textOne: appFonts.close,
+                      clearTap: () => route.pop(context))
+                  .marginSymmetric(horizontal: 80)
+                  .backgroundColor(appColor(context).whiteColor)
+                  .alignment(Alignment.bottomCenter)
+            ]);
+          }));
         });
   }
 

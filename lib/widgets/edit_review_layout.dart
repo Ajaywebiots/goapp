@@ -10,30 +10,45 @@ class EditReviewLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SvgPicture.asset(data["icon"],
-              height: Sizes.s24,
-              width: Sizes.s24,
-              fit: BoxFit.scaleDown,
-              colorFilter: ColorFilter.mode(
-                  selectIndex == index
-                      ? appColor(context).primary
-                      : appColor(context).lightText,
-                  BlendMode.srcIn))
-          .paddingAll(Insets.i14)
-          .boxBorderExtension(context,
-              isShadow: false,
-              bColor: selectIndex == index
-                  ? appColor(context).primary
-                  : appColor(context).stroke),
-      const VSpace(Sizes.s6),
-      SizedBox(
-          child: Text(language(context, data["title"]),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: appCss.dmDenseMedium12.textColor(selectIndex == index
-                  ? appColor(context).primary
-                  : appColor(context).lightText)))
-    ]).inkWell(onTap: onTap);
+    final bool isSelected = selectIndex == index;
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      GestureDetector(
+          onTap: onTap,
+          child: Container(
+              width: 50,
+              height: 50,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color: isSelected
+                          ? appColor(context).primary
+                          : Colors.grey.shade300,
+                      width: 1),
+                  boxShadow: [
+                    if (isSelected)
+                      BoxShadow(
+                          color: appColor(context).primary.withOpacity(0.15),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4))
+                  ]),
+              child: SvgPicture.asset(data["icon"],
+                  height: 28,
+                  width: 28,
+                  fit: BoxFit.contain,
+                  colorFilter: ColorFilter.mode(
+                      isSelected
+                          ? appColor(context).primary
+                          : appColor(context).lightText,
+                      BlendMode.srcIn)))),
+      VSpace(Insets.i6),
+      Text(language(context, data["title"]),
+          textAlign: TextAlign.center,
+          style: appCss.dmDenseMedium12.textColor(isSelected
+              ? appColor(context).primary
+              : appColor(context).lightText))
+    ]);
   }
 }
