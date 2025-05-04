@@ -1,5 +1,4 @@
 import 'package:goapp/screens/app_pages_screen/change_language_screen/change_language_screen.dart';
-import 'package:goapp/screens/app_pages_screen/contact_us_screen/contact_us_screen.dart';
 import 'package:goapp/screens/app_pages_screen/fav_screen/fav_screen_list.dart';
 import 'package:goapp/screens/app_pages_screen/profile_detail_screen/profile_detail_screen.dart';
 import 'package:goapp/screens/app_pages_screen/review_screen/review_screen.dart';
@@ -258,23 +257,23 @@ class AppArray {
     },*/
   ];
 
-  List<Map<String, dynamic>> loginOptions = [
-    {
-      "image": eImageAssets.google,
-      "onTap": (BuildContext context, LoginProvider value) =>
-          value.signInWithGoogle(context)
-    },
-    {
-      "image": eImageAssets.fbLogo,
-      "onTap": (BuildContext context, LoginProvider value) =>
-          value.signInWithFacebook(context)
-    },
-    {
-      "image": eImageAssets.mobile,
-      "onTap": (BuildContext context, dynamic value) =>
-          route.pushNamed(context, routeName.loginWithPhone)
-    }
-  ];
+  // List<Map<String, dynamic>> loginOptions = [
+  //   {
+  //     "image": eImageAssets.google,
+  //     "onTap": (BuildContext context, LoginProvider value) =>
+  //         value.signInWithGoogle(context)
+  //   },
+  //   {
+  //     "image": eImageAssets.fbLogo,
+  //     "onTap": (BuildContext context, LoginProvider value) =>
+  //         value.signInWithFacebook(context)
+  //   },
+  //   {
+  //     "image": eImageAssets.mobile,
+  //     "onTap": (BuildContext context, dynamic value) =>
+  //         route.pushNamed(context, routeName.loginWithPhone)
+  //   }
+  // ];
 
   /////
 

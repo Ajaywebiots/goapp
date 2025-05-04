@@ -9,7 +9,7 @@ class LanguageDropDownLayout extends StatelessWidget {
         builder: (context, langProvider, onBoardingCtrl, child) {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
-            width: Sizes.s83,
+            width: Sizes.s90,
             height: Insets.i34,
             child: DropdownButtonHideUnderline(
                 child: ButtonTheme(
@@ -31,7 +31,8 @@ class LanguageDropDownLayout extends StatelessWidget {
                               (element) =>
                                   element['title'] ==
                                   langProvider.currentLanguage);
-                          return LanguageList().langList(index, context);
+                          return LanguageList()
+                              .langList(index, context, isFlag: true);
                         },
                         items: appArray.languageList.asMap().entries.map((e) {
                           return LanguageList().dropDown(e.value, context,
@@ -66,15 +67,23 @@ class LanguageDropDownLayout extends StatelessWidget {
 }
 
 class LanguageList {
-  List<Widget> langList(index, context) =>
+  List<Widget> langList(index, context, {isFlag = false}) =>
       List.generate(appArray.languageList.length, (i) {
         return i == index
             ? Row(children: [
-                SvgPicture.asset(
-                  eSvgAssets.translate,
-                  width: 20,
-                  height: 20,
-                ),
+                isFlag
+                    ? Container(
+                        height: Sizes.s20,
+                        width: Sizes.s20,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fitHeight,
+                                image: AssetImage(appArray.languageList[index]
+                                        ["icon"]
+                                    .toString()))))
+                    : SvgPicture.asset(eSvgAssets.translate,
+                        width: 20, height: 20),
                 const HSpace(Sizes.s10),
                 Text(
                     language(context,

@@ -26,9 +26,7 @@ class LoginLayout extends StatelessWidget {
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 CountryListLayout(
                     dialCode: sss.dialCode,
-                    onChanged: (country) => {
-                          sss.changeDialCode(country!),
-                        }),
+                    onChanged: (country) => {sss.changeDialCode(country!)}),
                 const HSpace(Sizes.s4),
                 Expanded(
                     child: TextFieldCommon(

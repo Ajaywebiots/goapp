@@ -59,7 +59,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                             .description));
                               })),
                       const VSpace(Sizes.s10),
-                      const DotIndicatorLayout()
+                      const DotIndicatorOnBoardingLayout()
                     ])
                   ]).paddingDirectional(
                       horizontal: Insets.i20,

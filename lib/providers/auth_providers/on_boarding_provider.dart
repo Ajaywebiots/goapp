@@ -34,7 +34,8 @@ class OnBoardingProvider with ChangeNotifier {
 
   onSkip(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pageController!.jumpToPage(3);
+    // pageController!.jumpToPage(3);
+    route.pushNamedAndRemoveUntil(context, routeName.login);
     pref.setBool(session.isIntro, true);
   }
 
