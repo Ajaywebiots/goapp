@@ -18,7 +18,7 @@ class AuthTopLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       isResetPass == true ? Container() : VSpace(Sizes.s50),
-      Image.asset(image!, height: Sizes.s175, width: Sizes.s165),
+      Image.asset(image!, height: Sizes.s175, width: Sizes.s175),
       const VSpace(Sizes.s42),
       Text(language(context, title!),
           style: appCss.dmDenseBold20.textColor(appColor(context).darkText)),

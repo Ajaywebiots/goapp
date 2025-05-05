@@ -75,7 +75,7 @@ class SignUpCompanyProvider with ChangeNotifier {
   final FocusNode providerNumberFocus = FocusNode();
   final FocusNode emailFocus = FocusNode();
 
-    FocusNode countryFocus = FocusNode();
+  FocusNode countryFocus = FocusNode();
   FocusNode streetFocus = FocusNode();
   FocusNode cityFocus = FocusNode();
   FocusNode zipcodeFocus = FocusNode();
@@ -112,7 +112,8 @@ class SignUpCompanyProvider with ChangeNotifier {
       }
       if (permission == LocationPermission.deniedForever) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permission permanently denied')),
+          const SnackBar(
+              content: Text('Location permission permanently denied')),
         );
         return;
       }
@@ -147,7 +148,6 @@ class SignUpCompanyProvider with ChangeNotifier {
       );
     }
   }
-
 
   void showEmbedVideoDialog(BuildContext context) {
     final TextEditingController controller = TextEditingController();
@@ -227,7 +227,8 @@ class SignUpCompanyProvider with ChangeNotifier {
     return null;
   }
 
-  void onBusinessImagePick(BuildContext context, Function(List<XFile>) onPicked) {
+  void onBusinessImagePick(
+      BuildContext context, Function(List<XFile>) onPicked) {
     showLayout(context, onTap: (index) {
       final source = index == 0 ? ImageSource.gallery : ImageSource.camera;
       getBusinessImage(context, source, onPicked);
@@ -235,10 +236,10 @@ class SignUpCompanyProvider with ChangeNotifier {
   }
 
   Future<void> getBusinessImage(
-      BuildContext context,
-      ImageSource source,
-      Function(List<XFile>) onPicked,
-      ) async {
+    BuildContext context,
+    ImageSource source,
+    Function(List<XFile>) onPicked,
+  ) async {
     final ImagePicker picker = ImagePicker();
     List<XFile> images = [];
 
@@ -248,7 +249,8 @@ class SignUpCompanyProvider with ChangeNotifier {
         images = picked;
       }
     } else {
-      final XFile? image = await picker.pickImage(source: source, imageQuality: 70);
+      final XFile? image =
+          await picker.pickImage(source: source, imageQuality: 70);
       if (image != null) {
         images = [image];
       }
@@ -563,16 +565,15 @@ class SignUpCompanyProvider with ChangeNotifier {
     }
   }
 
-  void onBusinessOnTap(context,data,index) {
+  void onBusinessOnTap(context, data, index) {
     log("data.title::${data.title}///}");
     switch (data.title) {
-      case "DashBoard" :
-
-      break;
-      case "Business Reviews" :
+      case "DashBoard":
+        break;
+      case "Business Reviews":
         route.pushNamed(context, routeName.businessReviewsScreen);
         break;
-      case "My Offers" :
+      case "My Offers":
         route.pushNamed(context, routeName.businessOfferScreen);
         break;
       default:
@@ -580,10 +581,5 @@ class SignUpCompanyProvider with ChangeNotifier {
           'DefaultFirebaseOptions are not supported for this platform.',
         );
     }
-
-
   }
-
-
-
 }

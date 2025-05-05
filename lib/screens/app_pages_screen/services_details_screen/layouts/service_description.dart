@@ -212,22 +212,22 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
       },
       {
         'icon': eImageAssets.fbIcon,
-        'label': contact?.facebookPage ?? "",
+        'label': "Facebook",
         'action': () => launchFacebook(contact?.facebookPage ?? "")
       },
       {
         'icon': eImageAssets.insta,
-        'label': contact?.instagramPage ?? "",
+        'label': "Instagram",
         'action': () => launchInstagram(contact?.instagramPage ?? "")
       },
       {
         'icon': eImageAssets.tiktok,
-        'label': contact?.tiktokPage ?? "",
+        'label': "TikTok",
         'action': () => launchTikTok(contact?.tiktokPage ?? "")
       },
       {
         'icon': eImageAssets.ytIcon,
-        'label': contact?.youtubePage ?? "",
+        'label': "YouTube",
         'action': () => launchYouTube(contact?.youtubePage ?? "")
       }
     ]

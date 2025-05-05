@@ -15,7 +15,6 @@ export 'package:flutter/material.dart';
 export 'package:goapp/common/assets/index.dart';
 export 'package:goapp/common/extension/text_style_extensions.dart';
 export 'package:goapp/common/extension/widget_extension.dart';
-export 'package:goapp/common_shimmer/shimmer_list.dart';
 export 'package:goapp/packages_list.dart';
 export 'package:goapp/routes/screen_list.dart';
 export 'package:goapp/users_services.dart';

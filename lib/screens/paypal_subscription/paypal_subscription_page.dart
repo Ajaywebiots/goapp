@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../config.dart';
 
 class PayPalSubscriptionPage extends StatefulWidget {
   const PayPalSubscriptionPage({super.key});
@@ -9,42 +10,37 @@ class PayPalSubscriptionPage extends StatefulWidget {
 }
 
 class _PayPalSubscriptionPageState extends State<PayPalSubscriptionPage> {
-  late final WebViewController controller;
-  bool isReady = false;
+  late final WebViewController _controller;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadHtmlFromAssets();
-  }
-
-  void _loadHtmlFromAssets() async {
-    final String fileHtmlContents = await DefaultAssetBundle.of(context)
-        .loadString('assets/subscription/paypal_subscription.html');
-
-    var controller = WebViewController()
+    _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..addJavaScriptChannel(
-        'PayPalChannel',
-        onMessageReceived: (JavaScriptMessage message) {
-          final subscriptionID = message.message;
-          print('Subscription ID received: $subscriptionID');
-        },
-      )
-      ..loadHtmlString(fileHtmlContents);
-
-    setState(() {
-      controller = controller;
-    });
+      ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url) {
+        setState(() {
+          _isLoading = false;
+        });
+      }))
+      ..loadFlutterAsset('assets/subscription/paypal_subscription.html');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("PayPal Subscription")),
-      body: !isReady
-          ? Center(child: CircularProgressIndicator())
-          : WebViewWidget(controller: controller),
-    );
+        body: SafeArea(
+            child: Stack(children: [
+      WebViewWidget(controller: _controller),
+      if (_isLoading)
+        Container(
+            color: isDark(context)
+                ? Colors.black.withValues(alpha: .3)
+                : appColor(context).darkText.withValues(alpha: 0.2),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Center(
+                child: Image.asset(eGifAssets.loader, height: Sizes.s50)))
+    ])));
   }
 }

@@ -42,7 +42,7 @@ class ContactUsProvider with ChangeNotifier {
   }
 
   submitSupportAPI(context) async {
-    final subjectId = selectedIndex != null ? subjects[selectedIndex].id : 0;
+    final subjectId = subjects[selectedIndex].id;
 
     final body = {"subjectId": subjectId, "text": messageController.text};
 

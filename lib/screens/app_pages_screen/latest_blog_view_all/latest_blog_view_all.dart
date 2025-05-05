@@ -49,6 +49,11 @@ class LatestBlogViewAll extends StatelessWidget {
                                           rPadding: 0,
                                           isView: true,
                                           addOrRemoveTap: () {
+                                            final previousFavourite =
+                                                e.value.isFavourite;
+                                            e.value.isFavourite =
+                                                !previousFavourite;
+                                            value.notifyListeners();
                                             final common =
                                                 Provider.of<CommonApiProvider>(
                                                     context,
@@ -61,7 +66,7 @@ class LatestBlogViewAll extends StatelessWidget {
                                                     .getArticlesSearchAPI(
                                                         context),
                                                 context,
-                                                e.value.isFavourite,
+                                                previousFavourite,
                                                 e.value.appObject!
                                                     .appObjectType,
                                                 e.value.appObject!.appObjectId);

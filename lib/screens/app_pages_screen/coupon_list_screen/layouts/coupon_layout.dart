@@ -59,7 +59,7 @@ class CouponLayout extends StatelessWidget {
                 Text(language(context, data?.tag),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade,
-                        style: appCss.dmDenseBold14
+                        style: appCss.dmDenseBold15
                             .textColor(appColor(context).darkText)
                             .textHeight(1.2))
                     .width(Insets.i50)

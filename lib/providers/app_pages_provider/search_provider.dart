@@ -105,10 +105,7 @@ class SearchProvider with ChangeNotifier {
         }
       } else {
         Navigator.pushNamedAndRemoveUntil(
-          context,
-          routeName.login,
-          (Route<dynamic> route) => false,
-        );
+            context, routeName.login, (Route<dynamic> route) => false);
       }
     } catch (e) {
       log("detailsDataAPI :: $e");

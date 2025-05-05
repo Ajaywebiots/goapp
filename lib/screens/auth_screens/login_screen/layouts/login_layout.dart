@@ -19,7 +19,7 @@ class LoginLayout extends StatelessWidget {
                 const SmallContainer(),
                 const HSpace(Sizes.s20),
                 Text(language(context, appFonts.phoneNumber),
-                    style: appCss.dmDenseSemiBold14
+                    style: appCss.dmDenseMedium14
                         .textColor(appColor(context).darkText))
               ]),
               const VSpace(Sizes.s8),
@@ -53,7 +53,7 @@ class LoginLayout extends StatelessWidget {
               RichText(
                   text: TextSpan(
                       text: language(context, appFonts.notMember),
-                      style: appCss.dmDenseMedium14
+                      style: appCss.dmDenseRegular14
                           .textColor(appColor(context).lightText),
                       children: <TextSpan>[
                     TextSpan(
@@ -61,8 +61,8 @@ class LoginLayout extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () =>
                               route.pushNamed(context, routeName.registerUser),
-                        style:
-                            appCss.dmDenseMedium14.textColor(Color(0xff5465FF)))
+                        style: appCss.dmDenseMedium14
+                            .textColor(appColor(context).primary))
                   ])).alignment(Alignment.center),
               const VSpace(Sizes.s15),
             ]).paddingSymmetric(vertical: Insets.i20)

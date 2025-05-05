@@ -230,5 +230,6 @@ final greek = {
   "save": "Αποθήκευση",
   "openingHours": "Ώρες λειτουργίας",
   "accountType": "Τύπος λογαριασμού",
-  "membershipStatus": "Κατάσταση συνδρομής"
+  "membershipStatus": "Κατάσταση συνδρομής",
+  "enterCode": "Εισαγωγή Κωδικού"
 };

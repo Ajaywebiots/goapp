@@ -1,6 +1,7 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:intl/intl.dart';
+
 import '../../../../config.dart';
 import '../../../../providers/app_pages_provider/latest_blog_details_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
@@ -20,7 +21,7 @@ class BlogDetailsLayout extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Center(
-                child: Image.asset(eGifAssets.loader, height: Sizes.s100)));
+                child: Image.asset(eGifAssets.loader, height: Sizes.s50)));
       }
       return Column(children: [
         if (article.media?.source != null)

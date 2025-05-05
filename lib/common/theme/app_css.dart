@@ -26,7 +26,7 @@ TextStyle outfit({double? fontsize, fontWeight}) =>
     GoogleFonts.outfit(fontSize: fontsize, fontWeight: fontWeight);
 
 class AppCss {
-//Text Style dmDense extra bold
+//Text Style dmDense extra bold 800
   TextStyle dmDenseExtraBold70 =
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f70);
   TextStyle dmDenseExtraBold65 =
@@ -42,7 +42,7 @@ class AppCss {
   TextStyle dmDenseExtraBold30 =
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f30);
 
-  //Text Style dmDense bold
+  //Text Style dmDense black 900
   TextStyle dmDenseblack28 =
       dmDense(fontWeight: black, fontsize: FontSizes.f28);
   TextStyle dmDenseblack24 =
@@ -58,7 +58,7 @@ class AppCss {
   TextStyle dmDenseblack13 =
       dmDense(fontWeight: black, fontsize: FontSizes.f13);
 
-  //Text Style dmDense bold
+  //Text Style dmDense ExtraBold 800
   TextStyle dmDenseExtraBold22 =
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f22);
   TextStyle dmDenseExtraBold18 =
@@ -72,7 +72,7 @@ class AppCss {
   TextStyle dmDenseExtraBold12 =
       dmDense(fontWeight: extraBold, fontsize: FontSizes.f12);
 
-  //Text Style semi dmDense bold
+  //Text Style semi dmDense bold 700
   TextStyle dmDenseBold50 = dmDense(fontWeight: bold, fontsize: FontSizes.f50);
   TextStyle dmDenseBold38 = dmDense(fontWeight: bold, fontsize: FontSizes.f38);
   TextStyle dmDenseBold35 = dmDense(fontWeight: bold, fontsize: FontSizes.f35);
@@ -88,6 +88,7 @@ class AppCss {
   TextStyle dmDenseBold13 = dmDense(fontWeight: bold, fontsize: FontSizes.f13);
   TextStyle dmDenseBold10 = dmDense(fontWeight: bold, fontsize: FontSizes.f10);
 
+  /// semi bold 600
   TextStyle dmDenseSemiBold24 =
       dmDense(fontWeight: semiBold, fontsize: FontSizes.f24);
   TextStyle dmDenseSemiBold22 =
@@ -111,10 +112,9 @@ class AppCss {
   TextStyle dmDenseSemiBold7 =
       dmDense(fontWeight: semiBold, fontsize: FontSizes.f7);
 
-  //Text Style dmDense medium
+  //Text Style dmDense medium 500
   TextStyle dmDenseMedium28 =
       dmDense(fontWeight: medium, fontsize: FontSizes.f28);
-
   TextStyle dmDenseMedium24 =
       dmDense(fontWeight: medium, fontsize: FontSizes.f24);
   TextStyle dmDenseMedium22 =
@@ -142,7 +142,7 @@ class AppCss {
   TextStyle dmDenseMedium7 =
       dmDense(fontWeight: medium, fontsize: FontSizes.f7);
 
-  //Text Style dmDense regular
+  //Text Style dmDense regular 400
   TextStyle dmDenseRegular18 =
       dmDense(fontWeight: regular, fontsize: FontSizes.f18);
   TextStyle dmDenseRegular15 =
@@ -158,6 +158,7 @@ class AppCss {
   TextStyle dmDenseRegular11 =
       dmDense(fontWeight: regular, fontsize: FontSizes.f11);
 
+  /// light 300
   TextStyle dmDenseLight16 =
       dmDense(fontWeight: light, fontsize: FontSizes.f16);
   TextStyle dmDenseLight14 =

@@ -69,7 +69,7 @@ class AppRoute {
     routeName.favScreenList: (p0) => FavScreenList(),
     routeName.reviewScreen: (p0) => const ReviewScreen(),
     routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
-    routeName.payPalSubscriptionPage: (p0) => const PayPalSubscriptionPage(),
+    routeName.payPalSubscriptionPage: (p0) => PayPalSubscriptionPage(),
     // routeName.changePassInApp: (p0) => const ChangePassInApp(),
     routeName.signUpVerifyOtp: (p0) => const SignUpVerifyOtp(),
     routeName.companyDetailsScreen: (p0) => const CompanyDetailsScreen(),

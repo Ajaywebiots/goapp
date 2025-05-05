@@ -116,6 +116,7 @@ class AttractionDetailScreen extends StatelessWidget {
                                       // if (services!.reviews!.isNotEmpty)
 
                                       HeadingRowCommon(
+                                          isTextSize: true,
                                           isNotStatic: true,
                                           style: appCss.dmDenseMedium16
                                               .textColor(

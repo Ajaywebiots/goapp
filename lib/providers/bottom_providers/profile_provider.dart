@@ -21,7 +21,7 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logOut(context) async {
+  logOut(context) async {
     final prefs = await SharedPreferences.getInstance();
 
     await Future.wait([

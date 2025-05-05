@@ -1,29 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8"/>
-    <script src="https://www.paypal.com/sdk/js?client-id=AV88weQisbcXBEuxi0Ze8qvNsjRALcHIMW2lC2TF1LAwKNkBylP3Cxo3Q2hp1QBnZja5X2Ge_qIdXGtI&vault=true&intent=subscription"></script>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <script
+            src="https://www.paypal.com/sdk/js?client-id=AV88weQisbcXBEuxi0Ze8qvNsjRALcHIMW2lC2TF1LAwKNkBylP3Cxo3Q2hp1QBnZja5X2Ge_qIdXGtI&vault=true&intent=subscription"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .paypal-box {
+            width: 100%;
+            max-width: 400px;
+            /* Set a max width for the PayPal button container */
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Mobile-specific styling */
+        @media (max-width: 768px) {
+            .paypal-box {
+                padding: 20px;
+                /* More padding for mobile users */
+                width: 90%;
+                /* Ensure the PayPal button fits properly on mobile */
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div id="paypal-button-container"></div>
+<div class="paypal-box" id="paypal-button-container"></div>
 
 <script>
     paypal.Buttons({
-      style: {
-        shape: 'rect',
-        color: 'gold',
-        layout: 'vertical',
-        label: 'paypal'
-      },
-      createSubscription: function(data, actions) {
-        return actions.subscription.create({
-          plan_id: 'P-6NA45185F55154646NACWZLA'
-        });
-      },
-      onApprove: function(data, actions) {
-        PayPalChannel.postMessage(data.subscriptionID);
-      }
+        style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'paypal'
+        },
+        createSubscription: function (data, actions) {
+            return actions.subscription.create({
+                plan_id: 'P-6NA45185F55154646NACWZLA'
+            });
+        },
+        onApprove: function (data, actions) {
+            PayPalChannel.postMessage(data.subscriptionID);
+        }
     }).render('#paypal-button-container');
 </script>
 </body>
+
 </html>

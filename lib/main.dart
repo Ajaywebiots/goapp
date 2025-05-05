@@ -39,9 +39,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final content = await rootBundle
-      .loadString('assets/subscription/paypal_subscription.html');
-  print("ajay hariyani $content");
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
@@ -94,7 +92,8 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => SearchProvider()),
                   ChangeNotifierProvider(create: (_) => MyReviewProvider()),
                   ChangeNotifierProvider(create: (_) => CommonApiProvider()),
-                  ChangeNotifierProvider(create: (_) => BusinessReviewsProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => BusinessReviewsProvider()),
                   ChangeNotifierProvider(
                       create: (_) => LatestBLogDetailsProvider()),
                   // ChangeNotifierProvider(
@@ -121,7 +120,8 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => RateAppProvider()),
                   ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
                   ChangeNotifierProvider(create: (_) => OfferProvider()),
-                  ChangeNotifierProvider(create: (_) => BusinessDetailsProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => BusinessDetailsProvider()),
                   ChangeNotifierProvider(
                       create: (_) => BusinessTimeSlotProvider()),
                   ChangeNotifierProvider(

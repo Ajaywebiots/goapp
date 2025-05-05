@@ -44,7 +44,7 @@ class LoginPhoneOtpVerifyScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ContainerWithTextLayout(
-                                  title: language(context, appFonts.enterOtp)),
+                                  title: language(context, appFonts.enterCode)),
                               const VSpace(Sizes.s8),
                               const CommonOtpLayout1(),
                               const VSpace(Sizes.s20),

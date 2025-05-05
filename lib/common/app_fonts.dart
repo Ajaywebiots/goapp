@@ -341,6 +341,8 @@ class AppFonts {
   final fewMoreSteps = "Follow the steps to complete your registration";
   final fewMoreSteps1 = "Complete the final steps to join us.";
 
+  final enterCode = "enterCode";
+
 // final openingHours = "openingHours";
 
 // final changeLanguage = "changeLanguage";

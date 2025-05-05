@@ -48,12 +48,12 @@ class ButtonCommon extends StatelessWidget {
             mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
             children: [
               isRightIcon == true
-                  ? Row(children: [rightIcon!, const HSpace(Sizes.s10)])
+                  ? Row(children: [rightIcon!]).marginOnly(left: 10, right: 25)
                   : Container(),
               Text(language(context, title),
                   textAlign: TextAlign.center,
                   style: style ??
-                      appCss.dmDenseSemiBold16.textColor(
+                      appCss.dmDenseMedium16.textColor(
                           fontColor ?? appColor(context).whiteColor)),
               if (icon != null)
                 Row(children: [icon!, const HSpace(Sizes.s10)])

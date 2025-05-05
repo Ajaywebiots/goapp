@@ -13,6 +13,8 @@ class ImageAssets {
   final appLogo = "assets/images/appLogo.png";
   final google = "assets/images/google.png";
   final fbLogo = "assets/images/FbLogo.png";
+  final fb = "assets/images/fbIcon.png";
+  final instaIcon = "assets/images/instaIcon.png";
   final mobile = "assets/images/mobile.png";
   final apple = "assets/images/apple.png";
   final loginWithPhone = "assets/images/loginWithPhone.png";

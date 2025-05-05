@@ -158,7 +158,7 @@ class _TextFieldCommonState extends State<TextFieldCommon> {
                                     : appColor(context).darkText,
                                 BlendMode.srcIn)),
                 hintStyle: widget.hintStyle ??
-                    appCss.dmDenseMedium14
+                    appCss.dmDenseRegular14
                         .textColor(appColor(context).lightText),
                 hintText: language(context, widget.hintText),
                 errorMaxLines: 2)));

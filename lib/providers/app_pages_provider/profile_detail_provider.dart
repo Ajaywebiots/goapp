@@ -147,10 +147,10 @@ class ProfileDetailProvider with ChangeNotifier {
           if (profileDetail.responseStatus == 1) {
             loadProfile(profileDetail.userProfile!);
           }
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
-        }
+        } /*else {
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, routeName.login, (Route<dynamic> route) => false);
+        }*/
       });
       notifyListeners();
     } catch (e, s) {

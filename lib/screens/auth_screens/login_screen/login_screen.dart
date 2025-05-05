@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
                 body: SafeArea(
                     child: SingleChildScrollView(
                         child: Column(children: [
-          const VSpace(Sizes.s20),
+          // const VSpace(Sizes.s20),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Image.asset(eImageAssets.appLogo,
                 height: Sizes.s75, width: Sizes.s75),
@@ -37,15 +37,6 @@ class LoginScreen extends StatelessWidget {
                             .textColor(appColor(context).darkText)),
                     const VSpace(Sizes.s15),
                     const LoginLayout(),
-                    // const VSpace(Sizes.s55),
-                    // ButtonCommon(
-                    //         title: language(context, appFonts.autoFetch),
-                    //         color: Colors.white,
-                    //         style: appCss.dmDenseSemiBold16
-                    //             .textColor(appColor(context).primary),
-                    //         borderColor: appColor(context).primary,
-                    //         onTap: () => value.autoFetch())
-                    //     .paddingSymmetric(horizontal: Insets.i20),
                     const VSpace(Sizes.s26),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       const ContinueWithContainer(),
@@ -57,6 +48,7 @@ class LoginScreen extends StatelessWidget {
                     ]),
                     const VSpace(Sizes.s35),
                     ButtonCommon(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             onTap: () {
                               value.signInWithFacebook(context);
                             },
@@ -68,6 +60,7 @@ class LoginScreen extends StatelessWidget {
                         .paddingSymmetric(horizontal: Insets.i20),
                     const VSpace(Sizes.s15),
                     ButtonCommon(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             onTap: () {
                               value.signInWithGoogle(context);
                             },

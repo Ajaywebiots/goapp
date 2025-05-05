@@ -35,51 +35,15 @@ class MenuScreen extends StatelessWidget {
                               homePvr.notifyListeners();
                             }
                           }),
-                      /*AppBar(
-                          title: Text(language(context, "GoSalamina Menu"),
-                              style: appCss.dmDenseBold18
-                                  .textColor(appColor(context).darkText)),
-                          automaticallyImplyLeading: false,
-                          actions: [
-                            CommonArrow(
-                                    arrow: eSvgAssets.setting,
-                                    svgColor: appColor(context).darkText,
-                                    onTap: () =>
-                                        profilePvr.onTapSettingTap(context))
-                                .paddingSymmetric(horizontal: Insets.i20)
-<<<<<<< Updated upstream
-                          ]),
-                    body: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SingleChildScrollView(
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ProfileSettingTopLayout(),
-                                VSpace(Sizes.s15),
-                                ProfileOptionsLayout(),
-                              ],
-                            ).padding(
-=======
-                          ]),*/
                       body: SingleChildScrollView(
                           child: Column(children: [
                         ProfileSettingTopLayout(),
                         VSpace(Sizes.s15),
                         ProfileOptionsLayout()
                       ]).padding(
->>>>>>> Stashed changes
                               horizontal: Insets.i20,
                               top: Insets.i20,
-                              bottom: Insets.i110,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ))));
+                              bottom: Insets.i50))))));
     });
   }
 }

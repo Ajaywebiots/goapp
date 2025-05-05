@@ -39,7 +39,7 @@ class ContactUsScreen extends StatelessWidget {
                               final isValid =
                                   value.contactKey.currentState?.validate() ??
                                       false;
-                              if (isValid && value.selectedIndex != null) {
+                              if (isValid) {
                                 value.submitSupportAPI(context);
                               }
                             })

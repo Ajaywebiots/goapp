@@ -81,12 +81,16 @@ class _CouponListScreenState extends State<CouponListScreen> {
                         .entries
                         .map((e) => CouponLayout(
                             addOrRemoveTap: () {
+                              final previousFavourite = e.value.isFavourite;
+                              e.value.isFavourite = !previousFavourite;
+                              offerPvr.notifyListeners();
+
                               final common = Provider.of<CommonApiProvider>(
                                   context,
                                   listen: false);
                               common.toggleFavAPI(
                                   context,
-                                  e.value.isFavourite,
+                                  previousFavourite,
                                   e.value.appObject!.appObjectType,
                                   e.value.appObject!.appObjectId,
                                   onSuccess: () {

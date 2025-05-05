@@ -134,12 +134,16 @@ class _AttractionScreenState extends State<AttractionScreen>
                                         data: e.value,
                                         isHome: true,
                                         addOrRemoveTap: () {
+                                          final previousFavourite =
+                                              e.value.isFavourite;
+                                          e.value.isFavourite =
+                                              !previousFavourite;
                                           Provider.of<CommonApiProvider>(
                                                   context,
                                                   listen: false)
                                               .toggleFavAPI(
                                                   context,
-                                                  e.value.isFavourite,
+                                                  previousFavourite,
                                                   e.value.appObject!
                                                       .appObjectType,
                                                   e.value.appObject!

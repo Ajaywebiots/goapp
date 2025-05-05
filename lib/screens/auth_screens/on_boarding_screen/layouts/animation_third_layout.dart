@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../../config.dart';
 
 class AnimationLayoutThree extends StatefulWidget {
@@ -37,12 +35,11 @@ class _AnimationLayoutThreeState extends State<AnimationLayoutThree>
                         height: 300,
                         width: 410))),
             ClipOval(
-              child: Image.network(
-                  width: 300,
-                  fit: BoxFit.cover,
-                  height: 305,
-                  onboard.onBoardingList[2].media!.source!),
-            ),
+                child: Image.network(
+                    width: 300,
+                    fit: BoxFit.cover,
+                    height: 305,
+                    onboard.onBoardingList[2].media!.source!)),
             Image.asset(height: 170, eImageAssets.subtract)
           ]),
           Stack(alignment: Alignment.center, children: [

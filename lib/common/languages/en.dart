@@ -125,7 +125,7 @@ final english = {
   "cart": "Explore",
   "offer": "Offers",
   "menu": "Menu",
-  "topCategories": "Top Categories",
+  "topCategories": "Top categories",
   "acRepair": "Ac Repair",
   "cleaning": "Cleaning",
   "carpenter": "Carpenter",
@@ -194,7 +194,7 @@ final english = {
   "category": "Category", // en
   "type": "Type", // en
   "popular": "Popular", // en
-  "categories": "Business Categories", // en
+  "categories": "Categories", // en
   "fiveRate": "5 rate", // en
   "fourRate": "4 rate", // en
   "threeRate": "3 rate", // en
@@ -229,7 +229,8 @@ final english = {
   // "gallery": "Gallery",
   "save": "Save",
   "accountType": "Account Type",
-  "membershipStatus": "Membership Status"
+  "membershipStatus": "Membership Status",
+  "enterCode": "Enter Code"
 
   // "openingHours": "Opening Hours"
 };

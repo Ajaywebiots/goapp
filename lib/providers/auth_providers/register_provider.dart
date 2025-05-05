@@ -48,8 +48,6 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  get() {}
-
   signUp(context) async {
     try {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -68,14 +66,9 @@ class RegisterProvider extends ChangeNotifier {
         log("body : $body");
         apiServices.commonApi(api.register, body, ApiType.post).then((value) {
           if (value.isSuccess == true) {
-            if (value.data['responseStatus'] == 1) {
-              log("ssss ${value.data}");
-              hideLoading(context);
-              phoneOtp(context);
-            } else {
-              hideLoading(context);
-              showMessage(context, value.data['responseMessage']);
-            }
+            log("ssss ${value.data}");
+            hideLoading(context);
+            phoneOtp(context);
           } else {
             Navigator.pushNamedAndRemoveUntil(
                 context, routeName.login, (Route<dynamic> route) => false);
@@ -94,11 +87,9 @@ class RegisterProvider extends ChangeNotifier {
               isToken: false)
           .then((value) async {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 0) {
-            log("ddd ${value.data}");
-            otpController.text = value.data['code'];
-            route.pushNamed(context, routeName.signUpVerifyOtp);
-          }
+          log("ddd ${value.data}");
+          otpController.text = value.data['code'];
+          route.pushNamed(context, routeName.signUpVerifyOtp);
         }
       });
     } catch (e) {

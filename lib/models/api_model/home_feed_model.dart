@@ -66,7 +66,7 @@ class Article {
   final DateTime? createdDate;
   final Media? media;
   final String category;
-  final bool isFavourite;
+  bool isFavourite;
   final AppObject? appObject;
 
   factory Article.fromJson(Map<String, dynamic> json) {
@@ -138,7 +138,7 @@ class Attraction {
   final Media? image;
   final Location? location;
   final List<Categories> attractionCategories;
-  final bool isFavourite;
+  bool isFavourite;
   final AppObject? appObject;
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
@@ -246,7 +246,7 @@ class Business {
   final Location? location;
   final dynamic topOffer;
   final Contact? contact;
-  final bool isFavourite;
+  bool isFavourite;
   final AppObject? appObject;
 
   factory Business.fromJson(Map<String, dynamic> json) {

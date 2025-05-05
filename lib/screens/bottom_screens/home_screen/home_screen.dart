@@ -40,17 +40,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         height: MediaQuery.of(context).size.height,
                         child: Center(
                             child: Image.asset(eGifAssets.loader,
-                                height: Sizes.s100)))
+                                height: Sizes.s50)))
                     : ListView(children: [
                         dash.bannerList.isEmpty
                             ? SizedBox.shrink()
-                            : BannerLayout(
-                                bannerList: dash.bannerList,
-                                onPageChanged: (index, reason) =>
-                                    dash.onSlideBanner(index),
-                                onTap: () => dash.handleBannerTap(
-                                    dash.bannerList[dash.selectIndex].appObject,
-                                    context)),
+                            : Consumer<DashboardProvider>(
+                                builder: (context, dashboard, child) {
+                                return BannerLayout(
+                                    bannerList: dash.bannerList,
+                                    onPageChanged: (index, reason) =>
+                                        dash.onSlideBanner(index),
+                                    onTap: () => Provider.of<
+                                                HomeScreenProvider>(context,
+                                            listen: false)
+                                        .handleBannerTap(
+                                            dash.bannerList[dash.selectIndex]
+                                                .appObject,
+                                            context));
+                              }),
                         if (dash.bannerList.length > 1) const VSpace(Sizes.s12),
                         if (dash.bannerList.length > 1)
                           dash.bannerList.isEmpty
@@ -87,6 +94,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         .map((e) => CouponLayout(
                                             data: e.value,
                                             addOrRemoveTap: () {
+                                              final previousFavourite =
+                                                  e.value.isFavourite;
+                                              e.value.isFavourite =
+                                                  !previousFavourite;
+
+                                              dash.notifyListeners();
                                               final common = Provider.of<
                                                       CommonApiProvider>(
                                                   context,
@@ -109,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         isNotRouting: true);
                                               },
                                                   context,
-                                                  e.value.isFavourite,
+                                                  previousFavourite,
                                                   e.value.appObject!
                                                       .appObjectType,
                                                   e.value.appObject!
@@ -160,6 +173,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 },
                                                 data: e.value,
                                                 addOrRemoveTap: () {
+                                                  final previousFavourite =
+                                                      e.value.isFavourite;
+                                                  e.value.isFavourite =
+                                                      !previousFavourite;
+
+                                                  dash.notifyListeners();
                                                   final common = Provider.of<
                                                           CommonApiProvider>(
                                                       context,
@@ -183,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         .homeFeed(context);
                                                   },
                                                       context,
-                                                      e.value.isFavourite,
+                                                      previousFavourite,
                                                       e.value.appObject!
                                                           .appObjectType,
                                                       e.value.appObject!

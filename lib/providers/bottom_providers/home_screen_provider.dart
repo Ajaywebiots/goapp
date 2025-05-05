@@ -7,9 +7,7 @@ import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
-import 'package:goapp/screens/app_pages_screen/attractions_screen/attractions_screen.dart';
 import 'package:goapp/screens/app_pages_screen/latest_blog_view_all/latest_blog_view_all.dart';
-import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
 
 // import '../../config.dart' as model;
 import '../../models/api_model/business_category_model.dart';
@@ -19,7 +17,6 @@ import '../../models/currency_model.dart';
 import '../../models/provider_model.dart';
 import '../../models/service_model.dart';
 import '../../models/service_package_model.dart';
-import '../../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 import '../../services/api_service.dart';
 import 'dashboard_provider.dart';
 
@@ -43,20 +40,29 @@ class HomeScreenProvider with ChangeNotifier {
 
     if (type == null) return;
 
+    final dash = Provider.of<DashboardProvider>(context, listen: false);
     if (id == null || id == 0) {
       // Navigate to listing screen based on type
       switch (type) {
         case 2: // Business Listing
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => SearchScreen()));
+          dash.selectIndex = 1;
+          notifyListeners();
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (_) => SearchScreen()));
           break;
         case 3: // Offer Listing
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => CouponListScreen()));
+          dash.selectIndex = 2;
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (_) => CouponListScreen()));
           break;
         case 4: // Attraction Listing
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => AttractionScreen()));
+          final dash = Provider.of<DashboardProvider>(context, listen: false);
+          dash.selectIndex = 3;
+          dash.notifyListeners(); // Ensure this is in DashboardProvider
+
+          notifyListeners();
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (_) => AttractionScreen()));
           break;
         case 5: // Blog Listing
           Navigator.push(

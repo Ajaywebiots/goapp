@@ -52,7 +52,7 @@ class HomeBody extends StatelessWidget {
                         .entries
                         .map((element) {
                       return TopCategoriesLayout(
-                              isHomeScreen: true,
+                              // isHomeScreen: true,
                               // onTap: () {
                               //   route.pushNamed(context, routeName.search);
                               //   search.onSubCategories(context, element.key,
@@ -112,6 +112,11 @@ class HomeBody extends StatelessWidget {
                       : FeaturedBusinessLayout(
                           data: e.value,
                           addOrRemoveTap: () {
+                            final previousFavourite = e.value.isFavourite;
+
+                            e.value.isFavourite = !previousFavourite;
+
+                            value.notifyListeners();
                             final common = Provider.of<CommonApiProvider>(
                                 context,
                                 listen: false);
@@ -121,7 +126,7 @@ class HomeBody extends StatelessWidget {
                                             listen: false)
                                         .homeFeed(context),
                                 context,
-                                e.value.isFavourite,
+                                previousFavourite,
                                 e.value.appObject!.appObjectType,
                                 e.value.appObject!.appObjectId);
                           },
@@ -154,12 +159,19 @@ class HomeBody extends StatelessWidget {
                       .map((e) => FeatureAttractionLayout(
                           data: e.value,
                           addOrRemoveTap: () {
+                            final previousFavourite = e.value.isFavourite;
+
+                            e.value.isFavourite = !previousFavourite;
+
+                            value.notifyListeners();
+
                             final common = Provider.of<CommonApiProvider>(
                                 context,
                                 listen: false);
+
                             common.toggleFavAPI(
                                 context,
-                                e.value.isFavourite,
+                                previousFavourite,
                                 e.value.appObject!.appObjectType,
                                 e.value.appObject!.appObjectId, onSuccess: () {
                               attraction.getAttractionSearchAPI(context);

@@ -12,9 +12,8 @@ class RegisterScreen extends StatelessWidget {
           child: DirectionalityRtl(
         child: Scaffold(
             body: SafeArea(
-                child: Center(
-                    child: SingleChildScrollView(
-                        child: Column(children: [
+                child: SingleChildScrollView(
+                    child: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Image.asset(eImageAssets.appLogo, height: Sizes.s75),
             const HSpace(Sizes.s5),
@@ -40,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                     ]),
                     const VSpace(Sizes.s25),
                   ]).alignment(Alignment.centerLeft))
-        ]).paddingSymmetric(horizontal: Insets.i20))))),
+        ]).paddingSymmetric(horizontal: Insets.i20)))),
       ));
     });
   }

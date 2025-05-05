@@ -76,61 +76,63 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           context: context,
           builder: (context) {
             return SafeArea(
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.14,
-                  child: Stack(children: [
-                    Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.14,
+                    child: Stack(children: [
+                      Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language(context, appFonts.filterBy),
-                                    style: appCss.dmDenseMedium18
-                                        .textColor(appColor(context).darkText)),
-                                Icon(CupertinoIcons.multiply,
-                                        color: appColor(context).darkText)
-                                    .inkWell(onTap: () => route.pop(context))
-                              ]).paddingSymmetric(horizontal: Insets.i20),
-                          VSpace(23),
-                          Text(language(context, appFonts.blogCategoryList),
-                                  style: appCss.dmDenseRegular14
-                                      .textColor(appColor(context).lightText))
-                              .paddingSymmetric(horizontal: Insets.i20),
-                          VSpace(15),
-                          Expanded(
-                              child: Column(children: [
-                            Expanded(child: Consumer<LatestBLogDetailsProvider>(
-                                builder: (context, value, _) {
-                              return ListView.builder(
-                                  itemCount: value.categoryList.length,
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  itemBuilder: (context, index) {
-                                    final category = value.categoryList[index];
-                                    return ListTileLayout(
-                                        data: category,
-                                        selectedCategory:
-                                            value.selectedCategory,
-                                        onTap: () => value.onCategoryChange(
-                                            context, category.categoryId));
-                                  });
-                            }))
-                          ]))
-                        ])
-                        .paddingSymmetric(vertical: Insets.i20)
-                        .marginOnly(bottom: Insets.i50),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: BottomSheetButtonCommon(
-                            textOne: appFonts.clearAll,
-                            textTwo: appFonts.apply,
-                            applyTap: () {
-                              searchService(context);
-                            },
-                            clearTap: () => clearFilter(context)))
-                  ])).bottomSheetExtension(context),
-            );
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(language(context, appFonts.filterBy),
+                                      style: appCss.dmDenseMedium18.textColor(
+                                          appColor(context).darkText)),
+                                  Icon(CupertinoIcons.multiply,
+                                          color: appColor(context).darkText)
+                                      .inkWell(onTap: () => route.pop(context))
+                                ]).paddingSymmetric(horizontal: Insets.i20),
+                            VSpace(23),
+                            Text(language(context, appFonts.blogCategoryList),
+                                    style: appCss.dmDenseRegular14
+                                        .textColor(appColor(context).lightText))
+                                .paddingSymmetric(horizontal: Insets.i20),
+                            VSpace(15),
+                            Expanded(
+                                child: Column(children: [
+                              Expanded(child:
+                                  Consumer<LatestBLogDetailsProvider>(
+                                      builder: (context, value, _) {
+                                return ListView.builder(
+                                    itemCount: value.categoryList.length,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context, index) {
+                                      final category =
+                                          value.categoryList[index];
+                                      return ListTileLayout(
+                                          data: category,
+                                          selectedCategory:
+                                              value.selectedCategory,
+                                          onTap: () => value.onCategoryChange(
+                                              context, category.categoryId));
+                                    });
+                              }))
+                            ]))
+                          ])
+                          .paddingSymmetric(vertical: Insets.i20)
+                          .marginOnly(bottom: Insets.i50),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: BottomSheetButtonCommon(
+                              textOne: appFonts.clearAll,
+                              textTwo: appFonts.apply,
+                              applyTap: () {
+                                searchService(context);
+                              },
+                              clearTap: () => clearFilter(context)))
+                    ])).bottomSheetExtension(context));
           }).then((value) {
         log("DDDD");
         // getCategory();
@@ -280,17 +282,15 @@ class LatestBLogDetailsProvider with ChangeNotifier {
         notifyListeners();
         log("value.data ${value.data}");
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            hideLoading(context);
-            notifyListeners();
-            articlesSearchList.clear();
-            ArticlesSearchModel articlesSearchModel =
-                ArticlesSearchModel.fromJson(value.data);
-            notifyListeners();
-            articlesSearchList.addAll(articlesSearchModel.articles);
-            notifyListeners();
-            log("articlesSearchList $articlesSearchList");
-          }
+          hideLoading(context);
+          notifyListeners();
+          articlesSearchList.clear();
+          ArticlesSearchModel articlesSearchModel =
+              ArticlesSearchModel.fromJson(value.data);
+          notifyListeners();
+          articlesSearchList.addAll(articlesSearchModel.articles);
+          notifyListeners();
+          log("articlesSearchList $articlesSearchList");
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -338,7 +338,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           .commonApi("${api.blogSearch}?title=$query", [], ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
+        if (value.isSuccess == true) {
           articlesSearchList.clear();
           ArticlesSearchModel articlesSearchModel =
               ArticlesSearchModel.fromJson(value.data);

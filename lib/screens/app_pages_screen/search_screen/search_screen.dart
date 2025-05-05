@@ -249,6 +249,12 @@ class _SearchScreenState extends State<SearchScreen>
                                               .map(
                                                   (e) => FeaturedBusinessLayout(
                                                       addOrRemoveTap: () {
+                                                        final previousFavourite =
+                                                            e.value.isFavourite;
+                                                        e.value.isFavourite =
+                                                            !previousFavourite;
+                                                        searchPvr
+                                                            .notifyListeners();
                                                         final common = Provider
                                                             .of<CommonApiProvider>(
                                                                 context,

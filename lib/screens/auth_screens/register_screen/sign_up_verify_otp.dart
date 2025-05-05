@@ -32,7 +32,7 @@ class SignUpVerifyOtp extends StatelessWidget {
                       title: language(context, appFonts.verifyOtp),
                       subTitle: language(context, appFonts.enterTheCode),
                       isNumber: true,
-                      number: "${regPvr.dialCode} ${regPvr.txtPhone.text}"))
+                      number: "\"${regPvr.dialCode} ${regPvr.txtPhone.text}\""))
             ]),
             Stack(children: [
               const FieldsBackground(),

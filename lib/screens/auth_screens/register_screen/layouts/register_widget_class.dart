@@ -6,15 +6,15 @@ class RegisterWidgetClass {
   Widget notMember(context) => RichText(
           text: TextSpan(
               text: language(context, appFonts.alreadyMember),
-              style:
-                  appCss.dmDenseMedium14.textColor(appColor(context).lightText),
+              style: appCss.dmDenseRegular14
+                  .textColor(appColor(context).lightText),
               children: <TextSpan>[
             TextSpan(
                 recognizer: TapGestureRecognizer()
                   ..onTap = () => route.pop(context),
                 text: " ${language(context, appFonts.loginUp)}",
-                style: appCss.dmDenseSemiBold16
-                    .textColor(appColor(context).primary))
+                style:
+                    appCss.dmDenseMedium14.textColor(appColor(context).primary))
           ])).alignment(Alignment.center);
 
   //phone textBox
