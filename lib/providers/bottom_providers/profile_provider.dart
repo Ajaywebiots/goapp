@@ -35,11 +35,11 @@ class ProfileProvider with ChangeNotifier {
     });
   }
 
-  onReady() {
-    profileLists =
-        appArray.profileList.map((e) => ProfileModel.fromJson(e)).toList();
-    notifyListeners();
-  }
+  // onReady() {
+  //   profileLists =
+  //       appArray.profileList.map((e) => ProfileModel.fromJson(e)).toList();
+  //   notifyListeners();
+  // }
 
   animateDesign(TickerProvider sync) {
     Future.delayed(DurationClass.s1).then((value) {

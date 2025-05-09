@@ -21,8 +21,8 @@ class DashboardProvider with ChangeNotifier {
   // List<BlogModel> blogList = [];
 
   // List<BlogModel> firstTwoBlogList = [];
-  List<ProviderModel> providerList = [];
-  List<BookingStatusModel> bookingStatusList = [];
+  // List<ProviderModel> providerList = [];
+  // List<BookingStatusModel> bookingStatusList = [];
   List service = appArray.servicePackageList.getRange(1, 3).toList();
 
   int selectIndex = 0;
@@ -348,27 +348,27 @@ class DashboardProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  onAddTap(context, Services? service, index, inCart) {
-    if (inCart) {
-      // route.pushNamed(context, routeName.cartScreen);
-    } else {
-      // onBook(context, service!,
-      //     addTap: () => onAdd(index),
-      //     minusTap: () => onRemoveService(context, index)).then((e) {
-      //   featuredServiceList[index].selectedRequiredServiceMan =
-      //       featuredServiceList[index].requiredServicemen;
-      //   notifyListeners();
-      // });
-    }
-  }
+  // onAddTap(context, Services? service, index, inCart) {
+  //   if (inCart) {
+  //     // route.pushNamed(context, routeName.cartScreen);
+  //   } else {
+  //     // onBook(context, service!,
+  //     //     addTap: () => onAdd(index),
+  //     //     minusTap: () => onRemoveService(context, index)).then((e) {
+  //     //   featuredServiceList[index].selectedRequiredServiceMan =
+  //     //       featuredServiceList[index].requiredServicemen;
+  //     //   notifyListeners();
+  //     // });
+  //   }
+  // }
 
   //booking status list
-  getBookingStatus() async {
-    bookingStatusList = appArray.bookingStatusList
-        .map((e) => BookingStatusModel.fromJson(e))
-        .toList();
-    notifyListeners();
-  }
+  // getBookingStatus() async {
+  //   bookingStatusList = appArray.bookingStatusList
+  //       .map((e) => BookingStatusModel.fromJson(e))
+  //       .toList();
+  //   notifyListeners();
+  // }
 
   int count = 0;
 

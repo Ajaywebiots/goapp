@@ -72,24 +72,13 @@ class Validation {
   }
 
   // phone validation
-  String? phoneValidation(
-      BuildContext context, String? phone, CountryCodeCustom selectedCountry) {
-    if (phone == null || phone.isEmpty) {
+  phoneValidation(context, phone) {
+    if (phone.isEmpty) {
       return language(context, appFonts.pleaseEnterNumber);
     }
-
-    final RegExp regex = RegExp(r'^[0-9]+$'); // Only digits
     if (!regex.hasMatch(phone)) {
       return language(context, appFonts.pleaseEnterValidNumber);
     }
-
-    final int min = selectedCountry.minLength ?? 4;
-    final int max = selectedCountry.maxLength ?? 15;
-
-    if (phone.length < min || phone.length > max) {
-      return "Phone number must be between $min and $max digits for ${selectedCountry.name}.";
-    }
-
     return null;
   }
 

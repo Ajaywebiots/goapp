@@ -170,7 +170,7 @@ final greek = {
   "categoryList": "Λίστα κατηγοριών",
   "couponTypeList": "Λίστα τύπων κουπονιών",
   "businessCategoryList": "Λίστα επιχειρηματικών κατηγοριών",
-  "blogCategoryList": "Λίστα κατηγοριών ιστολογίου",
+  "blogCategoryList": "Κατηγορία ιστολογίου",
   "filterBy": "Φιλτράρισμα κατά",
   "clearAll": "Καθαρισμός όλων",
   "apply": "Εφαρμογή",

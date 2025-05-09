@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/services/api_service.dart';
-import 'package:in_app_review/in_app_review.dart';
+// import 'package:in_app_review/in_app_review.dart';
 
 import '../../config.dart';
 import '../../models/review_model.dart';
@@ -11,7 +11,7 @@ import '../../models/review_model.dart';
 class RateAppProvider with ChangeNotifier {
   int selectedIndex = 3;
   bool isServiceRate = false, isServiceManRate = false;
-  Reviews? review;
+  // Reviews? review;
   String? serviceId, serviceManId;
   TextEditingController rateController = TextEditingController();
   final FocusNode rateFocus = FocusNode();
@@ -34,6 +34,7 @@ class RateAppProvider with ChangeNotifier {
 
   onSubmit(context,
       {appObjectId, appObjectType, int? id, bool? isBusiness = false}) async {
+    log("tytytytyt ${isBusiness}");
     SharedPreferences pref = await SharedPreferences.getInstance();
     final body = {
       "rate": selectedIndex,
@@ -50,17 +51,13 @@ class RateAppProvider with ChangeNotifier {
         .then((value) {
       log("value.data ${value.data}");
       if (value.isSuccess == true) {
-        if (value.data['responseStatus'] == 1) {
-          route.pop(context);
-          isBusiness == true
-              ? Provider.of<SearchProvider>(context, listen: false)
-                  .businessDetailsAPI(context, id, isNotRouting: true)
-              : Provider.of<AttractionProvider>(context, listen: false)
-                  .attractionsDetailsAPI(context, id, isNotRoute: true);
-        }
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, routeName.login, (Route<dynamic> route) => false);
+        route.pop(context);
+        isBusiness == true
+            ? Provider.of<SearchProvider>(context, listen: false)
+                .businessDetailsAPI(context, id, isNotRouting: true)
+            : Provider.of<AttractionProvider>(context, listen: false)
+                .attractionsDetailsAPI(context, id, isNotRoute: true);
+        rateController.text = "";
       }
     });
   }
@@ -69,35 +66,35 @@ class RateAppProvider with ChangeNotifier {
     route.pop(context);
   }
 
-  rateBuilder(context) async {
-    /*  LaunchReview.launch(androidAppId: "com.webiots.chatzy",
-        iOSAppId: "585027354");*/
-    final InAppReview inAppReview = InAppReview.instance;
-
-    inAppReview.openStoreListing(
-      appStoreId: "com.webiots.chatzy",
-      microsoftStoreId: 'com.webiots.chatzy',
-    );
-  }
+  // rateBuilder(context) async {
+  //   /*  LaunchReview.launch(androidAppId: "com.webiots.chatzy",
+  //       iOSAppId: "585027354");*/
+  //   final InAppReview inAppReview = InAppReview.instance;
+  //
+  //   inAppReview.openStoreListing(
+  //     appStoreId: "com.webiots.chatzy",
+  //     microsoftStoreId: 'com.webiots.chatzy',
+  //   );
+  // }
 
   rateApp(context, {data}) async {}
 
-  onReady(context) {
-    dynamic data = ModalRoute.of(context)!.settings.arguments;
-
-    if (data != null) {
-      if (data["review"] != null) {
-        review = data["review"];
-      }
-      log("iSSS:$data");
-
-      isServiceRate = data["isServiceRate"];
-      serviceId = data["serviceId"];
-      serviceManId = data["servicemanId"].toString();
-    }
-    log("EEEE :$isServiceRate");
-    notifyListeners();
-  }
+  // onReady(context) {
+  //   dynamic data = ModalRoute.of(context)!.settings.arguments;
+  //
+  //   if (data != null) {
+  //     if (data["review"] != null) {
+  //       review = data["review"];
+  //     }
+  //     log("iSSS:$data");
+  //
+  //     isServiceRate = data["isServiceRate"];
+  //     serviceId = data["serviceId"];
+  //     serviceManId = data["servicemanId"].toString();
+  //   }
+  //   log("EEEE :$isServiceRate");
+  //   notifyListeners();
+  // }
 
   rateService(context) async {
     showDialog(

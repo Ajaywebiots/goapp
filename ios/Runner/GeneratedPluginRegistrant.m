@@ -12,12 +12,6 @@
 @import connectivity_plus;
 #endif
 
-#if __has_include(<device_info_plus/FPPDeviceInfoPlusPlugin.h>)
-#import <device_info_plus/FPPDeviceInfoPlusPlugin.h>
-#else
-@import device_info_plus;
-#endif
-
 #if __has_include(<firebase_auth/FLTFirebaseAuthPlugin.h>)
 #import <firebase_auth/FLTFirebaseAuthPlugin.h>
 #else
@@ -90,34 +84,16 @@
 @import image_picker_ios;
 #endif
 
-#if __has_include(<in_app_review/InAppReviewPlugin.h>)
-#import <in_app_review/InAppReviewPlugin.h>
+#if __has_include(<mobile_scanner/MobileScannerPlugin.h>)
+#import <mobile_scanner/MobileScannerPlugin.h>
 #else
-@import in_app_review;
-#endif
-
-#if __has_include(<map_launcher/MapLauncherPlugin.h>)
-#import <map_launcher/MapLauncherPlugin.h>
-#else
-@import map_launcher;
+@import mobile_scanner;
 #endif
 
 #if __has_include(<nb_utils/NbUtilsPlugin.h>)
 #import <nb_utils/NbUtilsPlugin.h>
 #else
 @import nb_utils;
-#endif
-
-#if __has_include(<open_file_ios/OpenFilePlugin.h>)
-#import <open_file_ios/OpenFilePlugin.h>
-#else
-@import open_file_ios;
-#endif
-
-#if __has_include(<package_info_plus/FPPPackageInfoPlusPlugin.h>)
-#import <package_info_plus/FPPPackageInfoPlusPlugin.h>
-#else
-@import package_info_plus;
 #endif
 
 #if __has_include(<path_provider_foundation/PathProviderPlugin.h>)
@@ -130,18 +106,6 @@
 #import <permission_handler_apple/PermissionHandlerPlugin.h>
 #else
 @import permission_handler_apple;
-#endif
-
-#if __has_include(<rate_my_app/SwiftRateMyAppPlugin.h>)
-#import <rate_my_app/SwiftRateMyAppPlugin.h>
-#else
-@import rate_my_app;
-#endif
-
-#if __has_include(<saver_gallery/SaverGalleryPlugin.h>)
-#import <saver_gallery/SaverGalleryPlugin.h>
-#else
-@import saver_gallery;
 #endif
 
 #if __has_include(<share_plus/FPPSharePlusPlugin.h>)
@@ -178,7 +142,6 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
-  [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FlutterFacebookAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterFacebookAuthPlugin"]];
@@ -191,15 +154,10 @@
   [FLTGoogleMapsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMapsPlugin"]];
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
-  [InAppReviewPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppReviewPlugin"]];
-  [MapLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"MapLauncherPlugin"]];
+  [MobileScannerPlugin registerWithRegistrar:[registry registrarForPlugin:@"MobileScannerPlugin"]];
   [NbUtilsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NbUtilsPlugin"]];
-  [OpenFilePlugin registerWithRegistrar:[registry registrarForPlugin:@"OpenFilePlugin"]];
-  [FPPPackageInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPPackageInfoPlusPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
-  [SwiftRateMyAppPlugin registerWithRegistrar:[registry registrarForPlugin:@"SwiftRateMyAppPlugin"]];
-  [SaverGalleryPlugin registerWithRegistrar:[registry registrarForPlugin:@"SaverGalleryPlugin"]];
   [FPPSharePlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPSharePlusPlugin"]];
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];

@@ -42,7 +42,6 @@ class _CouponListScreenState extends State<CouponListScreen> {
                           final dash = Provider.of<DashboardProvider>(context,
                               listen: false);
                           dash.selectIndex = 0;
-
                           dash.notifyListeners();
                         } else {
                           route.pop(context);
@@ -84,7 +83,6 @@ class _CouponListScreenState extends State<CouponListScreen> {
                               final previousFavourite = e.value.isFavourite;
                               e.value.isFavourite = !previousFavourite;
                               offerPvr.notifyListeners();
-
                               final common = Provider.of<CommonApiProvider>(
                                   context,
                                   listen: false);

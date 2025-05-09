@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:goapp/config.dart';
 import 'package:intl/intl.dart';
-import 'package:rate_my_app/rate_my_app.dart';
+// import 'package:rate_my_app/rate_my_app.dart';
 
 String monthCondition(String? text) {
   if (text == '1') {
@@ -198,12 +198,12 @@ bool isEmptyOrNull(val) =>
     (val != null && val! == 'null');
 
 //get address data
-
-RateMyApp rateMyApp = RateMyApp(
-  preferencesPrefix: 'rateMyApp_',
-  minDays: 1,
-  minLaunches: 10,
-  remindDays: 7,
-  remindLaunches: 10,
-  googlePlayIdentifier: 'com.webiots.fixituserapi',
-);
+//
+// RateMyApp rateMyApp = RateMyApp(
+//   preferencesPrefix: 'rateMyApp_',
+//   minDays: 1,
+//   minLaunches: 10,
+//   remindDays: 7,
+//   remindLaunches: 10,
+//   googlePlayIdentifier: 'com.webiots.fixituserapi',
+// );

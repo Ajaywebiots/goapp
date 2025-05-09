@@ -8,31 +8,31 @@ import '../../services/api_service.dart';
 
 class ServiceReviewProvider with ChangeNotifier {
   int? exValue = appArray.reviewLowHighList[0]["id"];
-  Services? services;
-  List<Reviews> reviewList = [];
+  // Services? services;
+  List<Review> reviewList = [];
 
   onReview(val) {
     exValue = val;
 
     notifyListeners();
-    getReviewByServiceId(services?.id);
+    // getReviewByServiceId(services?.id);
   }
 
   onReady(context) async {
-    dynamic data = ModalRoute.of(context)!.settings.arguments;
-    log("DATA : $data");
-    services = data;
-    getReviewByServiceId(services?.id);
+    // dynamic data = ModalRoute.of(context)!.settings.arguments;
+    // log("DATA : $data");
+    // services = data;
+    // getReviewByServiceId(services?.id);
     // businessReviewListAPI();
     notifyListeners();
   }
 
-  getReviewByServiceId(serviceId) async {
-    reviewList = [];
-    reviewList = appArray.allReview.map((e) => Reviews.fromJson(e)).toList();
-    notifyListeners();
-    log("REV :${reviewList.length}");
-  }
+  // getReviewByServiceId(serviceId) async {
+  //   reviewList = [];
+  //   reviewList = appArray.allReview.map((e) => Reviews.fromJson(e)).toList();
+  //   notifyListeners();
+  //   log("REV :${reviewList.length}");
+  // }
 
   // List businessReviewList = [];
 

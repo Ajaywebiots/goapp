@@ -49,19 +49,17 @@ class CategoriesListProvider with ChangeNotifier {
         .commonApi(api.businessCategories, [], ApiType.get)
         .then((value) {
       if (value.isSuccess == true) {
-        if (value.data['responseStatus'] == 1) {
-          notifyListeners();
-          // hideLoading(context);
-          log("API Response: ${value.data}");
-          BusinessCategoriesModel categoryModel =
-              BusinessCategoriesModel.fromJson(value.data);
-          notifyListeners();
-          // Clear old list and add new parsed categories
-          categoryList.clear();
-          notifyListeners();
-          categoryList.addAll(categoryModel.categories ?? []);
-          notifyListeners();
-        }
+        notifyListeners();
+        // hideLoading(context);
+        log("API Response: ${value.data}");
+        BusinessCategoriesModel categoryModel =
+            BusinessCategoriesModel.fromJson(value.data);
+        notifyListeners();
+        // Clear old list and add new parsed categories
+        categoryList.clear();
+        notifyListeners();
+        categoryList.addAll(categoryModel.categories ?? []);
+        notifyListeners();
       } else {
         Navigator.pushNamedAndRemoveUntil(
             context, routeName.login, (Route<dynamic> route) => false);

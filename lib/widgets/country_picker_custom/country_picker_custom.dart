@@ -7,13 +7,10 @@ List<Map> jsonList = countriesEnglish;
 
 List element = jsonList
     .map((s) => CountryCodeCustom(
-          name: s['name'],
-          code: s['code'],
-          dialCode: s['dial_code'],
-          flagUri: 'assets/flags/${s['code'].toLowerCase()}.png',
-          minLength: s['min_length'],
-          maxLength: s['max_length'],
-        ))
+        name: s['name'],
+        code: s['code'],
+        dialCode: s['dial_code'],
+        flagUri: 'assets/flags/${s['code'].toLowerCase()}.png'))
     .toList();
 
 class CountryListPickCustom extends StatefulWidget {

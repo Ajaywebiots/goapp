@@ -8,9 +8,11 @@ import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/r
 import 'package:nb_utils/nb_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
+import '../../../../models/app_model/contact_vcf_file_model.dart';
 import '../../../../providers/app_pages_provider/search_provider.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
@@ -134,30 +136,6 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
       }
     }
 
-    Future<void> launchEmail(String email) async {
-      if (email.isEmpty) {
-        throw 'Email is empty';
-      }
-
-      final Uri mailtoUri = Uri(scheme: 'mailto', path: email);
-
-      // Try Gmail on Android
-      if (Platform.isAndroid) {
-        final Uri gmailUri = Uri.parse('googlegmail:///co?to=$email');
-        if (await canLaunchUrl(gmailUri)) {
-          await launchUrl(gmailUri);
-          return;
-        }
-      }
-
-      // Fallback to default mail client
-      if (await canLaunchUrl(mailtoUri)) {
-        await launchUrl(mailtoUri, mode: LaunchMode.externalApplication);
-      } else {
-        throw 'Could not launch email app for $email';
-      }
-    }
-
     Future<void> launchGoogleMapsAtLocation(double lat, double lng) async {
       final Uri mapsAppUri = Uri.parse('geo:$lat,$lng?q=$lat,$lng');
       final Uri mapsWebUri = Uri.parse(
@@ -179,60 +157,68 @@ class _ServiceDescriptionState extends State<ServiceDescription> {
           if (await canLaunchUrl(uri)) {
             await launchUrl(uri, mode: LaunchMode.externalApplication);
           } else {
-            throw 'Could not launch ${"tel:${contact?.phoneNumber}"}';
+            throw 'Could not launch tel:${contact?.phoneNumber}';
           }
-        }
+        },
+        'contactAction': contact?.phoneNumber ?? "",
       },
       {
         'icon': eSvgAssets.mail,
         'label': contact?.email ?? "",
         'action': () async {
-          log("contact?.email ${contact?.email}");
           final Uri emailUri = Uri(
-              scheme: 'mailto',
-              path: contact?.email,
-              query: Uri(queryParameters: {'subject': '', 'body': ''}).query);
-
+            scheme: 'mailto',
+            path: contact?.email,
+            query: Uri(queryParameters: {'subject': '', 'body': ''}).query,
+          );
           if (await canLaunchUrl(emailUri)) {
             await launchUrl(emailUri);
           } else {
             throw 'Could not launch email client';
           }
-        }
+        },
+        'contactAction': contact?.email ?? ""
       },
       {
         'icon': eSvgAssets.locationOut1,
         'label': contact?.address ?? "",
-        'action': () => launchGoogleMaps(contact?.address ?? "")
+        'action': () => launchGoogleMaps(contact?.address ?? ""),
+        'contactAction': contact?.address ?? ""
       },
       {
         'icon': eSvgAssets.global,
         'label': contact?.website ?? "",
-        'action': () => launchWebsite(contact?.website ?? "")
+        'action': () => launchWebsite(contact?.website ?? ""),
+        'contactAction': contact?.website ?? ""
       },
       {
         'icon': eImageAssets.fbIcon,
         'label': "Facebook",
-        'action': () => launchFacebook(contact?.facebookPage ?? "")
+        'action': () => launchFacebook(contact?.facebookPage ?? ""),
+        'contactAction': contact?.facebookPage ?? ""
       },
       {
         'icon': eImageAssets.insta,
         'label': "Instagram",
-        'action': () => launchInstagram(contact?.instagramPage ?? "")
+        'action': () => launchInstagram(contact?.instagramPage ?? ""),
+        'contactAction': contact?.instagramPage ?? ""
       },
       {
         'icon': eImageAssets.tiktok,
         'label': "TikTok",
-        'action': () => launchTikTok(contact?.tiktokPage ?? "")
+        'action': () => launchTikTok(contact?.tiktokPage ?? ""),
+        'contactAction': contact?.tiktokPage ?? ""
       },
       {
         'icon': eImageAssets.ytIcon,
         'label': "YouTube",
-        'action': () => launchYouTube(contact?.youtubePage ?? "")
+        'action': () => launchYouTube(contact?.youtubePage ?? ""),
+        'contactAction': contact?.youtubePage ?? ""
       }
     ]
         .where((item) =>
-            item['label'] != null && item['label'].toString().isNotEmpty)
+            item['contactAction'] != null &&
+            item['contactAction'].toString().trim().isNotEmpty)
         .toList();
 
     String generateFullVCard(Contact? contact) {
@@ -497,15 +483,30 @@ END:VCARD
                                                 textOne: appFonts.cancel,
                                                 textTwo: appFonts.addToContacts,
                                                 applyTap: () async {
-                                                  final vCardContent =
-                                                      generateFullVCard(
-                                                          contact);
-                                                  saveVCardToFile(
-                                                      vCardContent,
-                                                      widget.businessData
-                                                              ?.name ??
-                                                          "contact");
-                                                  // route.pop(context);
+                                                  String? businessName =
+                                                      widget.businessData?.name;
+                                                  final vcfData = generateVCF(
+                                                      contactItems,
+                                                      businessName!);
+
+                                                  final directory =
+                                                      await getTemporaryDirectory();
+                                                  final safeName = businessName
+                                                      .toLowerCase()
+                                                      .replaceAll(
+                                                          RegExp(r'[^a-z0-9]+'),
+                                                          '_');
+                                                  final filePath =
+                                                      '${directory.path}/${safeName}_contact.vcf';
+
+                                                  final file = File(filePath);
+                                                  await file
+                                                      .writeAsString(vcfData);
+
+                                                  await Share.shareXFiles([
+                                                    XFile(filePath,
+                                                        mimeType: "text/vcard")
+                                                  ]);
                                                 },
                                                 clearTap: () =>
                                                     route.pop(context))

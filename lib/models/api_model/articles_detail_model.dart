@@ -40,27 +40,26 @@ class Articles {
   final DateTime? createdDate;
   final Media? media;
   final String? category;
-  late final bool? isFavourite;
+  bool? isFavourite;
   final AppObject? appObject;
 
   factory Articles.fromJson(Map<String, dynamic> json) {
     return Articles(
-      subTitle: json["subTitle"],
-      sections: json["sections"] == null
-          ? []
-          : List<Section>.from(
-              json["sections"]!.map((x) => Section.fromJson(x))),
-      summary: json["summary"],
-      id: json["id"],
-      title: json["title"],
-      createdDate: DateTime.tryParse(json["createdDate"] ?? ""),
-      media: json["media"] == null ? null : Media.fromJson(json["media"]),
-      category: json["category"],
-      isFavourite: json["isFavourite"],
-      appObject: json["appObject"] == null
-          ? null
-          : AppObject.fromJson(json["appObject"]),
-    );
+        subTitle: json["subTitle"],
+        sections: json["sections"] == null
+            ? []
+            : List<Section>.from(
+                json["sections"]!.map((x) => Section.fromJson(x))),
+        summary: json["summary"],
+        id: json["id"],
+        title: json["title"],
+        createdDate: DateTime.tryParse(json["createdDate"] ?? ""),
+        media: json["media"] == null ? null : Media.fromJson(json["media"]),
+        category: json["category"],
+        isFavourite: json["isFavourite"],
+        appObject: json["appObject"] == null
+            ? null
+            : AppObject.fromJson(json["appObject"]));
   }
 }
 

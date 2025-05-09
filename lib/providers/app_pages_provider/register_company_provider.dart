@@ -95,6 +95,13 @@ class SignUpCompanyProvider with ChangeNotifier {
   String documentModel = '';
   XFile? imageFile, docFile;
 
+  Future<void> loadAccountType() async {
+    final pref = await SharedPreferences.getInstance();
+    final accountType = pref.getString(session.accountType);
+    isBusiness = accountType?.toLowerCase() == "business";
+    notifyListeners();
+  }
+
   TextEditingController companyName = TextEditingController();
 
   Future<void> getLocation(BuildContext context) async {
@@ -295,21 +302,20 @@ class SignUpCompanyProvider with ChangeNotifier {
               builder: (context, languages, child) {
             return SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(language(context, "Translations"),
-                          style: appCss.dmDenseMedium18
-                              .textColor(appColor(context).darkText)),
-                      const Icon(CupertinoIcons.multiply)
-                          .inkWell(onTap: () => route.pop(context))
-                    ],
-                  ),
-                  Stack(
-                    children: [
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(language(context, "Translations"),
+                            style: appCss.dmDenseMedium18
+                                .textColor(appColor(context).darkText)),
+                        const Icon(CupertinoIcons.multiply)
+                            .inkWell(onTap: () => route.pop(context))
+                      ],
+                    ),
+                    Stack(children: [
                       const FieldsBackground(),
                       Column(children: [
                         ContainerWithTextLayout(title: "Language"),
@@ -430,30 +436,28 @@ class SignUpCompanyProvider with ChangeNotifier {
                                   left: rtl(context) ? 0 : Insets.i35,
                                   right: rtl(context) ? Insets.i35 : 0,
                                   top: Insets.i13)
-                        ]),
-                      ]).padding(vertical: Sizes.s20),
-                    ],
-                  ).padding(vertical: Sizes.s20),
-                  Row(children: [
-                    Expanded(
-                        child: ButtonCommon(
-                            onTap: () => route.pop(context),
-                            title: appFonts.cancel,
-                            borderColor: appColor(context).primary,
-                            color: appColor(context).whiteBg,
-                            style: appCss.dmDenseSemiBold16
-                                .textColor(appColor(context).primary))),
-                    const HSpace(Sizes.s15),
-                    Expanded(
-                        child: ButtonCommon(
-                            color: appColor(context).primary,
-                            onTap: () {},
-                            style: appCss.dmDenseSemiBold16
-                                .textColor(appColor(context).whiteColor),
-                            title: appFonts.submit))
-                  ])
-                ],
-              ).padding(vertical: Sizes.s20, horizontal: Sizes.s20),
+                        ])
+                      ]).padding(vertical: Sizes.s20)
+                    ]).padding(vertical: Sizes.s20),
+                    Row(children: [
+                      Expanded(
+                          child: ButtonCommon(
+                              onTap: () => route.pop(context),
+                              title: appFonts.cancel,
+                              borderColor: appColor(context).primary,
+                              color: appColor(context).whiteBg,
+                              style: appCss.dmDenseSemiBold16
+                                  .textColor(appColor(context).primary))),
+                      const HSpace(Sizes.s15),
+                      Expanded(
+                          child: ButtonCommon(
+                              color: appColor(context).primary,
+                              onTap: () {},
+                              style: appCss.dmDenseSemiBold16
+                                  .textColor(appColor(context).whiteColor),
+                              title: appFonts.submit))
+                    ])
+                  ]).padding(vertical: Sizes.s20, horizontal: Sizes.s20),
             );
           });
         });
@@ -576,10 +580,15 @@ class SignUpCompanyProvider with ChangeNotifier {
       case "My Offers":
         route.pushNamed(context, routeName.businessOfferScreen);
         break;
+      case "Offer Bookings":
+        route.pushNamed(context, routeName.offerBookings);
+        break;
+      case "Dashboard":
+        route.pushNamed(context, routeName.businessDashBoardScreen);
+        break;
       default:
         throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.',
-        );
+            'DefaultFirebaseOptions are not supported for this platform.');
     }
   }
 }

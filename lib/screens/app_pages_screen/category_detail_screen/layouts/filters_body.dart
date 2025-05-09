@@ -14,7 +14,7 @@ class FiltersBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final value = Provider.of<CategoriesDetailsProvider>(context, listen: true);
-    log("PRO :${value.providerList.length}");
+    // log("PRO :${value.providerList.length}");
 
     return Stack(alignment: Alignment.bottomCenter, children: [
       // value.selectIndex == 0

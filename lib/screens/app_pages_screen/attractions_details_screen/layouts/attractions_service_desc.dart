@@ -7,11 +7,13 @@ import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/r
 import 'package:nb_utils/nb_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
 import '../../../../models/api_model/attractions_details_model.dart';
 import '../../../../models/api_model/business_details_model.dart';
+import '../../../../models/app_model/contact_vcf_file_model.dart';
 import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../providers/common_providers/common_api_provider.dart';
@@ -167,63 +169,59 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
       }
     }
 
-    Future<void> saveVCardToFile(String vCardContent, String fileName) async {
-      // Ask for storage permission
-      var status = await Permission.storage.request();
-      if (!status.isGranted) return;
-
-      final directory = await getExternalStorageDirectory();
-      final path = directory!.path;
-      final file = File('$path/$fileName.vcf');
-
-      await file.writeAsString(vCardContent);
-      print('vCard saved to: ${file.path}');
-    }
-
     List<Map<String, dynamic>> contactItems() => [
           {
             'icon': eSvgAssets.calling,
             'label': contact?.phoneNumber ?? "",
-            'action': () => launchURL("tel:${contact?.phoneNumber}")
+            'action': () => launchURL("tel:${contact?.phoneNumber}"),
+            'contactAction': contact?.phoneNumber ?? "",
           },
           {
             'icon': eSvgAssets.mail,
             'label': contact?.email ?? "",
-            'action': () => launchEmail(contact?.email ?? "")
+            'action': () => launchEmail(contact?.email ?? ""),
+            'contactAction': contact?.email ?? "",
           },
           {
             'icon': eSvgAssets.locationOut1,
             'label': contact?.address ?? "",
-            'action': () => launchGoogleMaps(contact?.address ?? "")
+            'action': () => launchGoogleMaps(contact?.address ?? ""),
+            'contactAction': contact?.address ?? "",
           },
           {
             'icon': eSvgAssets.global,
             'label': contact?.website ?? "",
-            'action': () => launchWebsite(contact?.website ?? "")
+            'action': () => launchWebsite(contact?.website ?? ""),
+            'contactAction': contact?.website ?? "",
           },
           {
             'icon': eImageAssets.fbIcon,
             'label': "Facebook",
-            'action': () => launchFacebook(contact?.facebookPage ?? "")
+            'action': () => launchFacebook(contact?.facebookPage ?? ""),
+            'contactAction': contact?.facebookPage ?? "",
           },
           {
             'icon': eImageAssets.insta,
             'label': "Instagram",
-            'action': () => launchInstagram(contact?.instagramPage ?? "")
+            'action': () => launchInstagram(contact?.instagramPage ?? ""),
+            'contactAction': contact?.instagramPage ?? "",
           },
           {
             'icon': eImageAssets.tiktok,
             'label': "TikTok",
-            'action': () => launchTikTok(contact?.tiktokPage ?? "")
+            'action': () => launchTikTok(contact?.tiktokPage ?? ""),
+            'contactAction': contact?.tiktokPage ?? "",
           },
           {
             'icon': eImageAssets.ytIcon,
             'label': "YouTube",
-            'action': () => launchYouTube(contact?.youtubePage ?? "")
+            'action': () => launchYouTube(contact?.youtubePage ?? ""),
+            'contactAction': contact?.youtubePage ?? "",
           }
         ]
             .where((item) =>
-                item['label'] != null && item['label'].toString().isNotEmpty)
+                item['contactAction'] != null &&
+                item['contactAction'].toString().trim().isNotEmpty)
             .toList();
 
     final attraction = Provider.of<AttractionProvider>(context);
@@ -461,15 +459,29 @@ END:VCARD
                                                 textOne: appFonts.cancel,
                                                 textTwo: appFonts.addToContacts,
                                                 applyTap: () async {
-                                                  final vCardContent =
-                                                      generateFullVCard(
-                                                          contact);
-                                                  await saveVCardToFile(
-                                                      vCardContent,
-                                                      widget.attractionData
-                                                              ?.name ??
-                                                          "contact");
-                                                  // route.pop(context);
+                                                  String? businessName = widget
+                                                      .attractionData?.name;
+                                                  final vcfData = generateVCF(
+                                                      contactItems(),
+                                                      businessName!);
+                                                  final directory =
+                                                      await getTemporaryDirectory();
+                                                  final safeName = businessName
+                                                      .toLowerCase()
+                                                      .replaceAll(
+                                                          RegExp(r'[^a-z0-9]+'),
+                                                          '_');
+                                                  final filePath =
+                                                      '${directory.path}/${safeName}_contact.vcf';
+
+                                                  final file = File(filePath);
+                                                  await file
+                                                      .writeAsString(vcfData);
+
+                                                  await Share.shareXFiles([
+                                                    XFile(filePath,
+                                                        mimeType: "text/vcard")
+                                                  ]);
                                                 },
                                                 clearTap: () =>
                                                     route.pop(context))
@@ -571,7 +583,7 @@ END:VCARD
     final workingHours = business?.workingHours ?? [];
     final List<Map<String, dynamic>> timeSlotList =
         generateTimeSlotList(workingHours);
-    final timeSlotStartAtList = [appFonts.days, "Start at", "End at"];
+    final timeSlotStartAtList = ["Days", "Start at", "End at"];
 
     showModalBottomSheet(
         context: context,
@@ -607,9 +619,17 @@ END:VCARD
                                                 .textColor(appColor(context)
                                                     .lightText))
                                         .paddingOnly(
-                                            left: e.key == 0 ? Insets.i5 : 30,
-                                            right:
-                                                e.key == 0 ? Insets.i50 : 20))
+                                            left: e.key == 0
+                                                ? 0
+                                                : e.key == 1
+                                                    ? MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.26
+                                                    : MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.15))
                                     .toList())
                             .paddingSymmetric(horizontal: Insets.i15),
                         const VSpace(Sizes.s15),

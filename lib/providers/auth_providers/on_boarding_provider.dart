@@ -51,7 +51,7 @@ class OnBoardingProvider with ChangeNotifier {
   List<Item> onBoardingList = [];
 
   onReady(context) async {
-    languageSupport(context);
+    // languageSupport(context);
     notifyListeners();
     // onBoardingDetails();
     notifyListeners();

@@ -32,57 +32,57 @@ class BusinessReviewsScreen extends StatelessWidget {
                   child: ListView(
                 children: [
                   VSpace(Sizes.s20),
-                  Row(  mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
-
-                          children: [
-                            RatingBar(
-                                glow: false,
-                                initialRating:
-                                    double.parse((1.5).toStringAsFixed(1)),
-                                minRating: 1,
-                                ignoreGestures: true,
-                                itemSize: 15,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                unratedColor: appColor(context).whiteBg,
-                                updateOnDrag: true,
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                                ratingWidget: RatingWidget(
-                                    full: SvgPicture.asset(eSvgAssets.star,
-                                        colorFilter: ColorFilter.mode(
-                                            appColor(context).primary,
-                                            BlendMode.srcIn)),
-                                    half: SvgPicture.asset(
-                                        colorFilter: ColorFilter.mode(
-                                            appColor(context).primary,
-                                            BlendMode.srcIn),
-                                        "assets/svg/halfStar.svg"),
-                                    empty: SvgPicture.asset(
-                                        colorFilter: ColorFilter.mode(
-                                            appColor(context).primary,
-                                            BlendMode.srcIn),
-                                        'assets/svg/starWithout.svg'))),
-                            // RatingLayout(
-                            //     initialRating: (review!.avarageRate)?.toDouble()),
-                            const HSpace(Sizes.s15),
-                            Row(children: [
-                              Text(language(context, appFonts.averageRate),
-                                  style: appCss.dmDenseMedium12
-                                      .textColor(appColor(context).primary)),
-                              const HSpace(Sizes.s4),
-                              Text("5/5",
-                                  style: appCss.dmDenseSemiBold12
-                                      .textColor(appColor(context).primary))
-                            ])
-                          ]).paddingAll(Insets.i12).decorated(
-                          color: appColor(context).primary.withValues(alpha: 0.1),
+                      Row(children: [
+                        RatingBar(
+                            glow: false,
+                            initialRating:
+                                double.parse((1.5).toStringAsFixed(1)),
+                            minRating: 1,
+                            ignoreGestures: true,
+                            itemSize: 15,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                            unratedColor: appColor(context).whiteBg,
+                            updateOnDrag: true,
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                            ratingWidget: RatingWidget(
+                                full: SvgPicture.asset(eSvgAssets.star,
+                                    colorFilter: ColorFilter.mode(
+                                        appColor(context).primary,
+                                        BlendMode.srcIn)),
+                                half: SvgPicture.asset(
+                                    colorFilter: ColorFilter.mode(
+                                        appColor(context).primary,
+                                        BlendMode.srcIn),
+                                    "assets/svg/halfStar.svg"),
+                                empty: SvgPicture.asset(
+                                    colorFilter: ColorFilter.mode(
+                                        appColor(context).primary,
+                                        BlendMode.srcIn),
+                                    'assets/svg/starWithout.svg'))),
+                        // RatingLayout(
+                        //     initialRating: (review!.avarageRate)?.toDouble()),
+                        const HSpace(Sizes.s15),
+                        Row(children: [
+                          Text(language(context, appFonts.averageRate),
+                              style: appCss.dmDenseMedium12
+                                  .textColor(appColor(context).primary)),
+                          const HSpace(Sizes.s4),
+                          Text("5/5",
+                              style: appCss.dmDenseSemiBold12
+                                  .textColor(appColor(context).primary))
+                        ])
+                      ]).paddingAll(Insets.i12).decorated(
+                          color:
+                              appColor(context).primary.withValues(alpha: 0.1),
                           border: Border.all(color: appColor(context).primary),
                           borderRadius: BorderRadius.circular(AppRadius.r20)),
                     ],

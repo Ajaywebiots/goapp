@@ -27,6 +27,8 @@ import '../screens/auth_screens/register_screen/sign_up_verify_otp.dart';
 import '../screens/auth_screens/verify_otp_screen/login_phone_otp_verify_screen.dart';
 import '../screens/bottom_screens/dashboard/dashboard.dart';
 import '../screens/bottom_screens/home_screen/home_screen.dart';
+import '../screens/menu_screens/layouts/business_dashboard/business_dashboard_screen.dart';
+import '../screens/menu_screens/layouts/offer_booking_screen.dart';
 import '../screens/menu_screens/menu_options_layouts/common_generalInfo_layout.dart';
 import '../screens/menu_screens/menu_screen.dart';
 import '../screens/paypal_subscription/paypal_subscription_page.dart';
@@ -76,6 +78,8 @@ class AppRoute {
     routeName.menuScreen: (p0) => const MenuScreen(),
     routeName.businessReviewsScreen: (p0) => const BusinessReviewsScreen(),
     routeName.businessOfferScreen: (p0) => const BusinessOfferScreen(),
+    routeName.offerBookings: (p0) => const OfferBookingScreen(),
+    routeName.businessDashBoardScreen: (p0) => BusinessDashboardScreen(),
     routeName.businessOfferDetails: (p0) => const BusinessOfferDetails(),
     // routeName.resetPasswordScreenInApp: (p0) =>
     //     const ResetPasswordScreenInApp(),

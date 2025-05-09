@@ -55,8 +55,7 @@ class _ReviewLayoutState extends State<ReviewLayout> {
                   shape: SmoothRectangleBorder(
                       borderRadius: SmoothBorderRadius(
                           cornerRadius: 6, cornerSmoothing: 1))),
-              child: Text(
-                  language(context, widget.data?.category).capitalizeFirst(),
+              child: Text(language(context, widget.data?.category),
                   style: appCss.dmDenseMedium11
                       .textColor(appColor(context).primary))),
           /* if (data!.service != null)

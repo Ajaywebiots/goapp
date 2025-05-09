@@ -37,17 +37,15 @@ class LatestBLogDetailsProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
-            ArticlesDetailModel articlesDetailModel =
-                ArticlesDetailModel.fromJson(value.data);
-            articleDetail = articlesDetailModel;
-            notifyListeners();
-            isNotRouting == true
-                ? null
-                : route.pushNamed(context, routeName.latestBlogDetails);
-            notifyListeners();
-          }
+          notifyListeners();
+          ArticlesDetailModel articlesDetailModel =
+              ArticlesDetailModel.fromJson(value.data);
+          articleDetail = articlesDetailModel;
+          notifyListeners();
+          isNotRouting == true
+              ? null
+              : route.pushNamed(context, routeName.latestBlogDetails);
+          notifyListeners();
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -94,11 +92,11 @@ class LatestBLogDetailsProvider with ChangeNotifier {
                                       .inkWell(onTap: () => route.pop(context))
                                 ]).paddingSymmetric(horizontal: Insets.i20),
                             VSpace(23),
-                            Text(language(context, appFonts.blogCategoryList),
+                            Text(language(context, appFonts.blogCategory),
                                     style: appCss.dmDenseRegular14
                                         .textColor(appColor(context).lightText))
                                 .paddingSymmetric(horizontal: Insets.i20),
-                            VSpace(15),
+                            VSpace(Insets.i15),
                             Expanded(
                                 child: Column(children: [
                               Expanded(child:
@@ -198,19 +196,17 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     notifyListeners();
     apiServices.commonApi(api.blogCategories, [], ApiType.get).then((value) {
       if (value.isSuccess == true) {
-        if (value.isSuccess! && value.data['responseStatus'] == 1) {
-          notifyListeners();
-          hideLoading(context);
-          log("API Response: blogCategory ${value.data}");
-          BlogCategoriesModel blogCategoryModel =
-              BlogCategoriesModel.fromJson(value.data);
-          notifyListeners();
-          // Clear old list and add new parsed categories
-          categoryList.clear();
-          notifyListeners();
-          categoryList.addAll(blogCategoryModel.blogCategories ?? []);
-          notifyListeners();
-        }
+        notifyListeners();
+        hideLoading(context);
+        log("API Response: blogCategory ${value.data}");
+        BlogCategoriesModel blogCategoryModel =
+            BlogCategoriesModel.fromJson(value.data);
+        notifyListeners();
+        // Clear old list and add new parsed categories
+        categoryList.clear();
+        notifyListeners();
+        categoryList.addAll(blogCategoryModel.blogCategories ?? []);
+        notifyListeners();
       } else {
         Navigator.pushNamedAndRemoveUntil(
             context, routeName.login, (Route<dynamic> route) => false);
@@ -249,16 +245,14 @@ class LatestBLogDetailsProvider with ChangeNotifier {
       apiServices.commonApi(uri, [], ApiType.get, isToken: true).then((value) {
         log("value.data ${value.data}");
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            hideLoading(context);
-            articlesSearchList.clear();
-            ArticlesSearchModel articlesSearchModel =
-                ArticlesSearchModel.fromJson(value.data);
+          hideLoading(context);
+          articlesSearchList.clear();
+          ArticlesSearchModel articlesSearchModel =
+              ArticlesSearchModel.fromJson(value.data);
 
-            articlesSearchList.addAll(articlesSearchModel.articles);
-            route.pop(context);
-            log("getArticlesSearchAPI $articlesSearchList");
-          }
+          articlesSearchList.addAll(articlesSearchModel.articles);
+          route.pop(context);
+          log("getArticlesSearchAPI $articlesSearchList");
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -319,13 +313,13 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
     // Start a new debounce timer
-    debounceTimer = Timer(Duration(milliseconds: 500), () {
+    debounceTimer = Timer(Duration(milliseconds: 50), () {
       final query = searchCtrl.text.trim();
       log("rrrrr $query");
       if (query.isEmpty) {
         BuildContext? context;
         getArticlesSearchAPI(context);
-      } else if (query.length >= 3) {
+      } else if (query.length >= 2) {
         log("ddd $query");
         fetchSearchResults(query);
       }

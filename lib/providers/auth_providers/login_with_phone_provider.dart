@@ -14,11 +14,11 @@ class LoginWithPhoneProvider with ChangeNotifier {
   String? verificationCode;
   double? currentLatitude;
   double? currentLongitude;
-  CountryCodeCustom? selectedCountry;
 
-  void changeDialCode(CountryCodeCustom country) {
-    selectedCountry = country;
-    dialCode = country.dialCode;
+  changeDialCode(CountryCodeCustom country) {
+    log("ssskjlhdajksdhas $dialCode ====> ${country.dialCode}");
+    dialCode = country.dialCode!;
+    log("ssskjlhdajksdhassss $dialCode");
     notifyListeners();
   }
 

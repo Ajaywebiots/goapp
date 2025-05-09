@@ -63,80 +63,79 @@ class FeatureAttractionLayout extends StatelessWidget {
                               .textColor(appColor(context).darkText))),
                   Row(children: [
                     RatingBar(
-                      glow: false,
-                      initialRating: double.parse(
-                          (data.rating?.starts ?? 0.0).toStringAsFixed(1)),
-                      minRating: 1,
-                      ignoreGestures: true,
-                      itemSize: 13,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                      unratedColor: appColor(context).whiteBg,
-                      updateOnDrag: true,
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                      ratingWidget: RatingWidget(
-                          full: SvgPicture.asset(eSvgAssets.star),
-                          half: SvgPicture.asset("assets/svg/halfStar.svg"),
-                          empty:
-                              SvgPicture.asset('assets/svg/starWithout.svg')),
-                    ),
+                        glow: false,
+                        initialRating: double.parse(
+                            (data.rating?.starts ?? 0.0).toStringAsFixed(1)),
+                        minRating: 1,
+                        ignoreGestures: true,
+                        itemSize: 13,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                        unratedColor: appColor(context).whiteBg,
+                        updateOnDrag: true,
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                        ratingWidget: RatingWidget(
+                            full: SvgPicture.asset(eSvgAssets.star),
+                            half: SvgPicture.asset("assets/svg/halfStar.svg"),
+                            empty: SvgPicture.asset(
+                                'assets/svg/starWithout.svg'))),
                     Text(
                         " (${data.rating?.reviewCount ?? 0} ${language(context, appFonts.reviews)})",
                         style: appCss.dmDenseRegular12
                             .textColor(appColor(context).darkText))
                   ]),
                   const VSpace(Sizes.s8),
-                  Row(children: [
-                    SvgPicture.asset(eSvgAssets.locationOut,
-                        height: Sizes.s20,
-                        colorFilter: ColorFilter.mode(
-                            appColor(context).darkText, BlendMode.srcIn)),
-                    const HSpace(Sizes.s5),
-                    Text(language(context, appFonts.viewOnMap),
-                        overflow: TextOverflow.ellipsis,
-                        style: appCss.dmDenseRegular12
-                            .textColor(appColor(context).darkText)),
-                    const HSpace(Sizes.s5),
-                    (data.location?.selfLocationdistance ?? 0) <= 0
-                        ? Container()
-                        : Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: Insets.i3, horizontal: Insets.i5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(AppRadius.r4)),
-                                color: appColor(context).greenColor),
-                            child:
-                                Row(mainAxisSize: MainAxisSize.min, children: [
-                              SvgPicture.asset('assets/svg/locator.svg'),
-                              const HSpace(Sizes.s3),
-                              Text(
-                                  "${data.location!.selfLocationdistance!.toInt()} ${language(context, appFonts.km)}",
-                                  style: appCss.dmDenseMedium10
-                                      .textColor(appColor(context).whiteColor))
-                            ])).inkWell(onTap: () async {
-                            final lat = data.location?.latitude;
-                            final lng = data.location?.longitude;
+                  (data.location?.selfLocationdistance ?? 0) <= 0
+                      ? Container()
+                      : Row(children: [
+                          SvgPicture.asset(eSvgAssets.locationOut,
+                              height: Sizes.s20,
+                              colorFilter: ColorFilter.mode(
+                                  appColor(context).darkText, BlendMode.srcIn)),
+                          const HSpace(Sizes.s5),
+                          Text(language(context, appFonts.viewOnMap),
+                              overflow: TextOverflow.ellipsis,
+                              style: appCss.dmDenseRegular12
+                                  .textColor(appColor(context).darkText)),
+                          const HSpace(Sizes.s5),
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: Insets.i3, horizontal: Insets.i5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(AppRadius.r4)),
+                                  color: appColor(context).greenColor),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset('assets/svg/locator.svg'),
+                                    const HSpace(Sizes.s3),
+                                    Text(
+                                        "${data.location!.selfLocationdistance!.toInt()} ${language(context, appFonts.km)}",
+                                        style: appCss.dmDenseMedium10.textColor(
+                                            appColor(context).whiteColor))
+                                  ]))
+                        ]).inkWell(onTap: () async {
+                          final lat = data.location?.latitude;
+                          final lng = data.location?.longitude;
 
-                            if (lat != null && lng != null) {
-                              final url = Uri.parse(
-                                  "https://www.google.com/maps/search/?api=1&query=$lat,$lng");
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url,
-                                    mode: LaunchMode.externalApplication);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
+                          if (lat != null && lng != null) {
+                            final url = Uri.parse(
+                                "https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url,
+                                  mode: LaunchMode.externalApplication);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text('Could not open Maps')),
-                                );
-                              }
+                                      content: Text('Could not open Maps')));
                             }
-                          })
-                  ])
+                          }
+                        })
                 ]),
 
                 /* Column(

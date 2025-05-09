@@ -9,15 +9,14 @@ class LatestBlogLayout extends StatelessWidget {
   final double? rPadding, height;
   final bool? isView;
 
-  const LatestBlogLayout({
-    super.key,
-    this.onTap,
-    this.data,
-    this.rPadding,
-    this.isView = false,
-    this.addOrRemoveTap,
-    this.height,
-  });
+  const LatestBlogLayout(
+      {super.key,
+      this.onTap,
+      this.data,
+      this.rPadding,
+      this.isView = false,
+      this.addOrRemoveTap,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +27,29 @@ class LatestBlogLayout extends StatelessWidget {
                     ? Sizes.s155
                     : Sizes.s257,
             child: Column(children: [
+              // ClipRRect(
+              //     borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+              //     child: Image.network(data!.media!.source,
+              //         width: isView!
+              //             ? MediaQuery.of(context).size.width
+              //             : MediaQuery.of(context).size.width > 500
+              //                 ? Sizes.s155
+              //                 : Sizes.s255,
+              //         height: height ?? 200,
+              //         fit: BoxFit.fill)),
               ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                  child: Image.network(data!.media!.source,
-                      width: isView!
-                          ? MediaQuery.of(context).size.width
-                          : MediaQuery.of(context).size.width > 500
-                              ? Sizes.s155
-                              : Sizes.s255,
+                  child: CachedNetworkImage(
+                      imageUrl: data!.media!.source,
+                      placeholder: (context, url) => Image.asset(
+                          eImageAssets.noImageFound2,
+                          fit: BoxFit.fill,
+                          width: MediaQuery.of(context).size.width),
+                      errorWidget: (context, url, error) => Image.asset(
+                          eImageAssets.noImageFound2,
+                          fit: BoxFit.fill,
+                          width: MediaQuery.of(context).size.width),
+                      width: MediaQuery.of(context).size.width,
                       height: height ?? 200,
                       fit: BoxFit.fill)),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

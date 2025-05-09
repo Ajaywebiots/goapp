@@ -17,13 +17,13 @@ class BusinessAllTimeSlotLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(data['days'].toString().substring(0, 2).toUpperCase(),
-            style:
-            appCss.dmDenseMedium12.textColor(appColor(context).primary))
+        Text(getDayAbbreviation(data['days']),
+                style:
+                    appCss.dmDenseMedium12.textColor(appColor(context).primary))
             .paddingAll(Insets.i10)
             .decorated(
-            shape: BoxShape.circle,
-            color: appColor(context).primary.withOpacity(0.1)),
+                shape: BoxShape.circle,
+                color: appColor(context).primary.withOpacity(0.1)),
         HSpace(Sizes.s15),
         Row(children: [
           StartSlotLayout(title: data["start_at"], isSwitch: data["status"])
@@ -32,11 +32,32 @@ class BusinessAllTimeSlotLayout extends StatelessWidget {
           StartSlotLayout(title: data["end_at"], isSwitch: data["status"])
               .inkWell(onTap: onTap)
         ]),
-    HSpace(Sizes.s15),
+        HSpace(Sizes.s15),
         FlutterSwitchCommon(value: data["status"], onToggle: onToggle)
       ]),
       if (index != list!.length - 1)
         const DottedLines().paddingSymmetric(vertical: Insets.i12)
     ]).paddingSymmetric(horizontal: Insets.i15);
+  }
+
+  String getDayAbbreviation(String day) {
+    switch (day.toLowerCase()) {
+      case 'monday':
+        return 'MN';
+      case 'tuesday':
+        return 'TU';
+      case 'wednesday':
+        return 'WD';
+      case 'thursday':
+        return 'TH';
+      case 'friday':
+        return 'FR';
+      case 'saturday':
+        return 'SA';
+      case 'sunday':
+        return 'SU';
+      default:
+        return day.substring(0, 2).toUpperCase();
+    }
   }
 }

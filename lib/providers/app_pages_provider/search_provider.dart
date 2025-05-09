@@ -32,14 +32,14 @@ class SearchProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
   TextEditingController filterSearchCtrl = TextEditingController();
   List<Categories> categoryList = [];
-  List<CategoryModel> type = [];
+  // List<CategoryModel> type = [];
   Future<ui.Image>? loadingImage;
   final FocusNode searchFocus = FocusNode();
   final FocusNode filterSearchFocus = FocusNode();
   List selectedCategory = [];
   List selectedRates = [];
-  List<Services> searchList = [];
-  List<Services> recentSearchList = [];
+  List searchList = [];
+  List recentSearchList = [];
 
   int selectedIndex = -1;
 
@@ -47,6 +47,7 @@ class SearchProvider with ChangeNotifier {
 
   onSubCategories(context, index, id) {
     selectedIndex = index;
+
     notifyListeners();
     popular = false;
     businessSearchList.clear();
@@ -73,11 +74,27 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onBack() {
-    searchList = [];
-    isSearch = false;
-    searchCtrl.text = "";
-    notifyListeners();
+  onBack(context) {
+    final dash = Provider.of<DashboardProvider>(context, listen: false);
+    if (dash.selectIndex != 0) {
+      dash.selectIndex = 0;
+
+      log("hhhh ${dash.selectIndex}");
+      notifyListeners();
+      searchList = [];
+      isSearch = false;
+      searchCtrl.text = "";
+      selectedCategory = [];
+      selectedRates = [];
+      selectIndex = 0;
+      lowerVal = 0.0;
+      upperVal = maxPrice;
+      slider = 0;
+      notifyListeners();
+
+      return false;
+    }
+    return true;
   }
 
   BusinessDetailModel? businessDetail;
@@ -94,7 +111,7 @@ class SearchProvider with ChangeNotifier {
           "${api.businessDetails}$id/details", [], ApiType.get,
           isToken: true);
 
-      if (value.isSuccess == true && value.data['responseStatus'] == 1) {
+      if (value.isSuccess == true) {
         BusinessDetailModel businessDetailModel =
             BusinessDetailModel.fromJson(value.data);
         businessDetail = businessDetailModel;
@@ -169,6 +186,7 @@ class SearchProvider with ChangeNotifier {
 
   onFilter(index) {
     selectIndex = index;
+
     notifyListeners();
   }
 
@@ -241,12 +259,12 @@ class SearchProvider with ChangeNotifier {
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
     // Start a new debounce timer
-    debounceTimer = Timer(Duration(milliseconds: 500), () {
+    debounceTimer = Timer(Duration(milliseconds: 50), () {
       final query = searchCtrl.text.trim();
       log("rrrrr $query");
       if (query.isEmpty) {
         getBusinessSearchAPI(context);
-      } else if (query.length >= 3) {
+      } else if (query.length >= 2) {
         fetchSearchResults(query, id, isPopular: isPopular);
       }
     });
@@ -264,7 +282,7 @@ class SearchProvider with ChangeNotifier {
               ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
+        if (value.isSuccess == true) {
           businessSearchList.clear();
           BusinessSearchModel businessSearchModel =
               BusinessSearchModel.fromJson(value.data);
@@ -406,19 +424,19 @@ class SearchProvider with ChangeNotifier {
           }));
         }).then((value) {
       final dash = Provider.of<DashboardProvider>(context, listen: false);
-      getCategory();
+      // getCategory();
       dash.notifyListeners();
       filterSearchCtrl.text = "";
     });
   }
 
   //category list
-  getCategory({search}) async {
-    // categoryList =
-    // appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
-    type = appArray.type.map((e) => CategoryModel.fromJson(e)).toList();
-    notifyListeners();
-  }
+  // getCategory({search}) async {
+  //   // categoryList =
+  //   // appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
+  //   type = appArray.type.map((e) => CategoryModel.fromJson(e)).toList();
+  //   notifyListeners();
+  // }
 
   onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
@@ -681,16 +699,14 @@ class SearchProvider with ChangeNotifier {
 
       apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            // hideLoading(context);
-            businessSearchList.clear();
-            notifyListeners();
-            BusinessSearchModel businessSearchModel =
-                BusinessSearchModel.fromJson(value.data);
-            notifyListeners();
-            businessSearchList.addAll(businessSearchModel.businesses);
-            notifyListeners();
-          }
+          // hideLoading(context);
+          businessSearchList.clear();
+          notifyListeners();
+          BusinessSearchModel businessSearchModel =
+              BusinessSearchModel.fromJson(value.data);
+          notifyListeners();
+          businessSearchList.addAll(businessSearchModel.businesses);
+          notifyListeners();
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -711,54 +727,54 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onFeatured(context, Services? services, id, {inCart}) async {
-    if (inCart) {
-      route.pop(context);
-      // route.pushNamed(context, routeName.cartScreen);
-    } else {
-      onBook(context, services!,
-          addTap: () => onAdd(id),
-          minusTap: () => onRemoveService(context, id)).then((e) {
-        searchList[id].selectedRequiredServiceMan =
-            searchList[id].requiredServicemen;
-        notifyListeners();
-      });
-    }
-  }
+  // onFeatured(context, Services? services, id, {inCart}) async {
+  //   if (inCart) {
+  //     route.pop(context);
+  //     // route.pushNamed(context, routeName.cartScreen);
+  //   } else {
+  //     onBook(context, services!,
+  //         addTap: () => onAdd(id),
+  //         minusTap: () => onRemoveService(context, id)).then((e) {
+  //       searchList[id].selectedRequiredServiceMan =
+  //           searchList[id].requiredServicemen;
+  //       notifyListeners();
+  //     });
+  //   }
+  // }
 
-  onTapFeatures(context, Services? services, id) async {
-    List<Services> saveList = [];
-    dynamic save = pref!.getString(session.recentSearch);
-
-    if (save == null) {
-      saveList.add(services!);
-    } else {
-      final List<dynamic> jsonData =
-          jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
-
-      saveList = jsonData.map<Services>((jsonList) {
-        return Services.fromJson(jsonList);
-      }).toList();
-
-      if (saveList.length == 5) {
-        saveList.removeAt(0);
-        saveList.add(services!);
-      } else {
-        int ind = saveList.indexWhere((element) => services!.id == element.id);
-
-        if (ind < 0) {
-          saveList.add(services!);
-        }
-      }
-    }
-
-    recentSearchList = saveList;
-
-    pref!.setString(session.recentSearch, jsonEncode(saveList));
-    notifyListeners();
-    // route.pushNamed(context, routeName.businessDetailsScreen,
-    //     arg: services!.id);
-  }
+  // onTapFeatures(context, Services? services, id) async {
+  //   List<Services> saveList = [];
+  //   dynamic save = pref!.getString(session.recentSearch);
+  //
+  //   if (save == null) {
+  //     saveList.add(services!);
+  //   } else {
+  //     final List<dynamic> jsonData =
+  //         jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
+  //
+  //     saveList = jsonData.map<Services>((jsonList) {
+  //       return Services.fromJson(jsonList);
+  //     }).toList();
+  //
+  //     if (saveList.length == 5) {
+  //       saveList.removeAt(0);
+  //       saveList.add(services!);
+  //     } else {
+  //       int ind = saveList.indexWhere((element) => services!.id == element.id);
+  //
+  //       if (ind < 0) {
+  //         saveList.add(services!);
+  //       }
+  //     }
+  //   }
+  //
+  //   recentSearchList = saveList;
+  //
+  //   pref!.setString(session.recentSearch, jsonEncode(saveList));
+  //   notifyListeners();
+  //   // route.pushNamed(context, routeName.businessDetailsScreen,
+  //   //     arg: services!.id);
+  // }
 
   onRemoveService(context, index) {
     if (int.parse(searchList[index].selectedRequiredServiceMan!) == 1) {
@@ -802,16 +818,14 @@ class SearchProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            // hideLoading(context);
-            businessSearchList.clear();
-            notifyListeners();
-            BusinessSearchModel businessSearchModel =
-                BusinessSearchModel.fromJson(value.data);
-            notifyListeners();
-            businessSearchList.addAll(businessSearchModel.businesses);
-            notifyListeners();
-          }
+          // hideLoading(context);
+          businessSearchList.clear();
+          notifyListeners();
+          BusinessSearchModel businessSearchModel =
+              BusinessSearchModel.fromJson(value.data);
+          notifyListeners();
+          businessSearchList.addAll(businessSearchModel.businesses);
+          notifyListeners();
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -868,9 +882,7 @@ class SearchProvider with ChangeNotifier {
     }
   }*/
 
-  void onReady() {}
-
-  addReviewTap(context, RateAppProvider? value) {
+  addReviewTap(context, RateAppProvider? value, {bool isBusiness = false}) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -959,17 +971,18 @@ class SearchProvider with ChangeNotifier {
                       BottomSheetButtonCommon(
                               textOne: appFonts.cancel,
                               textTwo: appFonts.submit,
-                              applyTap: () => Provider.of<RateAppProvider>(
-                                      context,
-                                      listen: false)
-                                  .onSubmit(
-                                      context,
-                                      isBusiness: true,
-                                      appObjectId: businessDetail
-                                          ?.business?.appObject?.appObjectId,
-                                      appObjectType: businessDetail
-                                          ?.business?.appObject?.appObjectType,
-                                      id: businessDetail?.business?.id),
+                              applyTap: () {
+                                Provider.of<RateAppProvider>(context,
+                                        listen: false)
+                                    .onSubmit(context,
+                                        isBusiness: isBusiness,
+                                        appObjectId:
+                                            businessDetail?.business?.appObject
+                                                ?.appObjectId,
+                                        appObjectType: businessDetail?.business
+                                            ?.appObject?.appObjectType,
+                                        id: businessDetail?.business?.id);
+                              },
                               clearTap: () => value?.clearAll(context))
                           .backgroundColor(appColor(context).whiteColor)
                           .alignment(Alignment.bottomCenter)

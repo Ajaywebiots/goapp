@@ -43,9 +43,6 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                     await Permission.location.request();
                   }
                 });
-                final bookingCtrl =
-                    Provider.of<BookingProvider>(context, listen: false);
-                bookingCtrl.onReady(context, value);
               });
               Provider.of<ProfileDetailProvider>(context, listen: false)
                   .getProfileDetailDataAPI(context);
@@ -77,32 +74,15 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                             return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  appColor(context).isDark
-                                      ? SvgPicture.asset(
-                                          value.selectIndex == index
-                                              ? appArray.dashboardList[index]
-                                                  ["icon2"]!
-                                              : appArray.dashboardList[index]
-                                                  ["icon"]!,
-                                          height: Sizes.s24,
-                                          width: Sizes.s24,
-                                          colorFilter: ColorFilter.mode(
-                                              (appColor(context).isDark &&
-                                                      value.selectIndex ==
-                                                          index)
-                                                  ? appColor(context).primary
-                                                  : appColor(context).darkText,
-                                              BlendMode.srcIn),
-                                          fit: BoxFit.scaleDown)
-                                      : SvgPicture.asset(
-                                          value.selectIndex == index
-                                              ? appArray.dashboardList[index]
-                                                  ["icon2"]!
-                                              : appArray.dashboardList[index]
-                                                  ["icon"]!,
-                                          height: Sizes.s24,
-                                          width: Sizes.s24,
-                                          fit: BoxFit.scaleDown),
+                                  SvgPicture.asset(
+                                      value.selectIndex == index
+                                          ? appArray.dashboardList[index]
+                                              ["icon2"]!
+                                          : appArray.dashboardList[index]
+                                              ["icon"]!,
+                                      height: Sizes.s24,
+                                      width: Sizes.s24,
+                                      fit: BoxFit.scaleDown),
                                   const VSpace(Sizes.s5),
                                   Text(
                                       language(

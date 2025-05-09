@@ -170,7 +170,7 @@ final english = {
   "categoryList": "Category List",
   "couponTypeList": "Coupon Type List",
   "businessCategoryList": "Business Category List",
-  "blogCategoryList": "Blog Category List",
+  "blogCategory": "Blog Category",
   "filterBy": "Filter by",
   "clearAll": "Clear All",
   "apply": "Apply",

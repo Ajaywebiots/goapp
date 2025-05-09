@@ -80,26 +80,25 @@ class _AttractionScreenState extends State<AttractionScreen>
                                   height: Sizes.s100)))
                       : SafeArea(
                           child: ListView(children: [
-                            SearchTextFieldCommon(
-                                hintText: "Search for things to do",
-                                focusNode: attraction.searchFocus,
-                                controller: attraction.searchCtrl,
-                                onChanged: (v) {
-                                  if (v.isEmpty) {
-                                    attraction.searchList = [];
-                                    attraction.notifyListeners();
-                                  }
-                                },
-                                // onFieldSubmitted: (v) =>
-                                //     attraction.searchService(context),
-                                suffixIcon: FilterIconCommon(
-                                    selectedFilter: attraction
-                                        .totalCountFilter()
-                                        .toString(),
-                                    onTap: () => attraction.onBottomSheet(
-                                        context, attraction))),
-                            const VSpace(Sizes.s20),
-                            /* */ /* attraction.txtFeaturedSearch.text.isEmpty
+                          SearchTextFieldCommon(
+                              hintText: "Search for things to do",
+                              focusNode: attraction.searchFocus,
+                              controller: attraction.searchCtrl,
+                              onChanged: (v) {
+                                if (v.isEmpty) {
+                                  attraction.searchList = [];
+                                  attraction.notifyListeners();
+                                }
+                              },
+                              // onFieldSubmitted: (v) =>
+                              //     attraction.searchService(context),
+                              suffixIcon: FilterIconCommon(
+                                  selectedFilter:
+                                      attraction.totalCountFilter().toString(),
+                                  onTap: () => attraction.onBottomSheet(
+                                      context, attraction))),
+                          const VSpace(Sizes.s20),
+                          /* */ /* attraction.txtFeaturedSearch.text.isEmpty
                           ? */ /*Column(children: [
                               ...dash.firstTwoBlogList.asMap().entries.map((e) =>
                                   FeatureAttractionLayout(
@@ -111,64 +110,61 @@ class _AttractionScreenState extends State<AttractionScreen>
                             ])
                           : attraction.searchList.isNotEmpty
                           ?*/
-                            if (attraction.attractionsSearchList.isEmpty)
-                              EmptyLayout(
-                                  topHeight:
-                                      MediaQuery.of(context).size.height * 0.08,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                  isButtonShow: false,
-                                  title: language(
-                                      context, appFonts.noResultsWereFound),
-                                  subtitle: language(context, appFonts.sorry),
-                                  widget: Image.asset(eImageAssets.noNoti,
-                                      height: Sizes.s200)),
-                            Consumer<AttractionProvider>(
-                                builder: (context, value, child) {
-                              return Column(children: [
-                                ...attraction.attractionsSearchList
-                                    .asMap()
-                                    .entries
-                                    .map((e) => FeatureAttractionLayout(
-                                        bColor: appColor(context).borderStroke,
-                                        data: e.value,
-                                        isHome: true,
-                                        addOrRemoveTap: () {
-                                          final previousFavourite =
-                                              e.value.isFavourite;
-                                          e.value.isFavourite =
-                                              !previousFavourite;
-                                          Provider.of<CommonApiProvider>(
+                          if (attraction.attractionsSearchList.isEmpty)
+                            EmptyLayout(
+                                topHeight:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.09,
+                                isButtonShow: false,
+                                title: language(
+                                    context, appFonts.noResultsWereFound),
+                                subtitle: language(context, appFonts.sorry),
+                                widget: Image.asset(eImageAssets.noNoti,
+                                    height: Sizes.s200)),
+                          Consumer<AttractionProvider>(
+                              builder: (context, value, child) {
+                            return Column(children: [
+                              ...attraction.attractionsSearchList
+                                  .asMap()
+                                  .entries
+                                  .map((e) => FeatureAttractionLayout(
+                                      bColor: appColor(context).borderStroke,
+                                      data: e.value,
+                                      isHome: true,
+                                      addOrRemoveTap: () {
+                                        final previousFavourite =
+                                            e.value.isFavourite;
+                                        e.value.isFavourite =
+                                            !previousFavourite;
+                                        Provider.of<CommonApiProvider>(context,
+                                                listen: false)
+                                            .toggleFavAPI(
+                                                context,
+                                                previousFavourite,
+                                                e.value.appObject!
+                                                    .appObjectType,
+                                                e.value.appObject!.appObjectId,
+                                                onSuccess: () {
+                                          Provider.of<AttractionProvider>(
                                                   context,
                                                   listen: false)
-                                              .toggleFavAPI(
+                                              .getAttractionSearchAPI(context);
+                                          Provider.of<HomeScreenProvider>(
                                                   context,
-                                                  previousFavourite,
-                                                  e.value.appObject!
-                                                      .appObjectType,
-                                                  e.value.appObject!
-                                                      .appObjectId,
-                                                  onSuccess: () {
-                                            Provider.of<AttractionProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .getAttractionSearchAPI(
-                                                    context);
-                                            Provider.of<HomeScreenProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .homeFeed(context);
-                                          });
+                                                  listen: false)
+                                              .homeFeed(context);
+                                        });
 
-                                          value.notifyListeners();
-                                        },
-                                        onTap: () {
-                                          attraction.attractionsDetailsAPI(
-                                              context, e.value.id);
-                                        }))
-                              ]);
-                            })
-                            /* : Column(children: [
+                                        value.notifyListeners();
+                                      },
+                                      onTap: () {
+                                        attraction.attractionsDetailsAPI(
+                                            context, e.value.id);
+                                      }))
+                            ]);
+                          })
+                          /* : Column(children: [
                                   Stack(children: [
                                     Image.asset(eImageAssets.noSearch,
                                             height: Sizes.s346)
@@ -202,8 +198,7 @@ class _AttractionScreenState extends State<AttractionScreen>
                                                   appColor(context).lightText))
                                       .paddingSymmetric(horizontal: Insets.i10)
                                 ])*/
-                          ]).paddingSymmetric(horizontal: Insets.i20),
-                        ))));
+                        ]).paddingSymmetric(horizontal: Insets.i20)))));
     });
   }
 }

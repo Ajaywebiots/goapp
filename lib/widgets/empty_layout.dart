@@ -28,8 +28,7 @@ class EmptyLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: topHeight),
-          SizedBox(height: Insets.i50),
+          SizedBox(height: topHeight ?? Insets.i50),
           widget ?? const SizedBox(),
           SizedBox(height: Insets.i80),
           SizedBox(height: height),
@@ -39,10 +38,9 @@ class EmptyLayout extends StatelessWidget {
                     appCss.dmDenseBold18.textColor(appColor(context).darkText)),
             const SizedBox(height: 8),
             Text(language(context, subtitle ?? ""),
-                    textAlign: TextAlign.center,
-                    style: appCss.dmDenseRegular14
-                        .textColor(appColor(context).lightText))
-                .paddingSymmetric(horizontal: Insets.i10)
+                textAlign: TextAlign.center,
+                style: appCss.dmDenseRegular14
+                    .textColor(appColor(context).lightText))
           ]),
           const SizedBox(height: Insets.i25),
           if (isButtonShow)

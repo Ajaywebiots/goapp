@@ -17,12 +17,12 @@ class CategoriesDetailsProvider with ChangeNotifier {
   int? exValue = appArray.experienceList[0]["id"];
   String selectedExp = appArray.experienceList[0]["title"];
   List selectedRates = [];
-  List<Services> serviceList = [];
+  // List<Services> serviceList = [];
   // CategoryModel? categoryModel;
   bool val = true;
   double maxPrice = 100.0, minPrice = 0.0, lowerVal = 00.0, upperVal = 90.0;
-  Services? services;
-  List<ProviderModel> providerList = [];
+  // Services? services;
+  // List<ProviderModel> providerList = [];
   List selectedProvider = [];
 
   onSwitch(value) {
@@ -86,35 +86,35 @@ class CategoriesDetailsProvider with ChangeNotifier {
   //   return count.toString();
   // }
 
-  fetchProviderByFilter() async {
-    providerList = [];
-    try {
-      List<ProviderModel> newLList = appArray.providerExpList
-          .map((e) => ProviderModel.fromJson(e))
-          .toList();
-      notifyListeners();
-      if (filterSearchCtrl.text.isNotEmpty) {
-        newLList.asMap().entries.forEach((element) {
-          log("dsd :${element.value.name!.toString().toLowerCase().replaceAll(" ", "")}");
-          if (element.value.name!
-              .toString()
-              .toLowerCase()
-              .replaceAll(" ", "")
-              .contains(filterSearchCtrl.text)) {
-            providerList.add(element.value);
-          }
-        });
-        notifyListeners();
-      } else {
-        providerList = appArray.providerExpList
-            .map((e) => ProviderModel.fromJson(e))
-            .toList();
-        notifyListeners();
-      }
-    } catch (e) {
-      log("EEE :$e");
-    }
-  }
+  // fetchProviderByFilter() async {
+  //   providerList = [];
+  //   try {
+  //     List<ProviderModel> newLList = appArray.providerExpList
+  //         .map((e) => ProviderModel.fromJson(e))
+  //         .toList();
+  //     notifyListeners();
+  //     if (filterSearchCtrl.text.isNotEmpty) {
+  //       newLList.asMap().entries.forEach((element) {
+  //         log("dsd :${element.value.name!.toString().toLowerCase().replaceAll(" ", "")}");
+  //         if (element.value.name!
+  //             .toString()
+  //             .toLowerCase()
+  //             .replaceAll(" ", "")
+  //             .contains(filterSearchCtrl.text)) {
+  //           providerList.add(element.value);
+  //         }
+  //       });
+  //       notifyListeners();
+  //     } else {
+  //       providerList = appArray.providerExpList
+  //           .map((e) => ProviderModel.fromJson(e))
+  //           .toList();
+  //       notifyListeners();
+  //     }
+  //   } catch (e) {
+  //     log("EEE :$e");
+  //   }
+  // }
 
   onCategoryChange(index) {
     if (!selectedProvider.contains(index)) {
@@ -209,7 +209,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
 
     // getServiceByCategoryId(context, categoryModel?.id);
 
-    fetchProviderByFilter();
+    // fetchProviderByFilter();
     notifyListeners();
   }
 
@@ -268,8 +268,8 @@ class CategoriesDetailsProvider with ChangeNotifier {
     lowerVal = 00.0;
     upperVal = 100.0;
     slider = 0;
-    serviceList =
-        appArray.servicesList.map((e) => Services.fromJson(e)).toList();
+    // serviceList =
+    //     appArray.servicesList.map((e) => Services.fromJson(e)).toList();
     notifyListeners();
     route.pop(context);
     notifyListeners();

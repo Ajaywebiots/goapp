@@ -23,27 +23,22 @@ class AllTimeSlotLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Expanded(
-          child: Text(data["days"],
-              style: appCss.dmDenseMedium12
-                  .textColor(appColor(context).primary))
-              .paddingAll(Insets.i10),
-        ),
-
-
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(data["days"],
+            style: appCss.dmDenseMedium12.textColor(appColor(context).primary)),
         Row(children: [
-          Container(
-              height: 38,
-              decoration: BoxDecoration(
-                  color: appColor(context).stroke,
-                  borderRadius: BorderRadius.all(Radius.circular(6)))),
+          // Container(
+          //     height: 38,
+          //     decoration: BoxDecoration(
+          //         color: appColor(context).stroke,
+          //         borderRadius: BorderRadius.all(Radius.circular(6)))),
           StartSlotLayout(title: data["start_at"], isSwitch: data["status"])
               .inkWell(onTap: onTap),
           const HSpace(Sizes.s20),
           StartSlotLayout(title: data["end_at"], isSwitch: data["status"])
               .inkWell(onTap: onTapSecond)
-        ]).padding(right: 35)      ]),
+        ])
+      ]),
       if (index != list!.length - 1)
         DottedLines(color: appColor(context).stroke)
             .paddingSymmetric(vertical: Insets.i12)

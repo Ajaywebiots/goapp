@@ -30,8 +30,6 @@ import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/providers/common_providers/common_api_provider.dart';
 import 'package:goapp/services/user_services.dart';
-import 'package:upgrader/upgrader.dart';
-
 import 'common/theme/app_theme.dart';
 import 'config.dart';
 import 'firebase_options.dart';
@@ -60,86 +58,62 @@ class _MyAppState extends State<MyApp> {
         future: SharedPreferences.getInstance(),
         builder: (context1, AsyncSnapshot<SharedPreferences> snapData) {
           if (snapData.hasData) {
-            return MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => ThemeService(snapData.data!, context)),
-                  ChangeNotifierProvider(create: (_) => SplashProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => LanguageProvider(snapData.data!)),
-                  ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => ServicesDetailsProvider()),
-                  ChangeNotifierProvider(create: (_) => LoginProvider()),
-                  ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
-                  ChangeNotifierProvider(create: (_) => ProfileProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => SignUpCompanyProvider()),
-                  // ChangeNotifierProvider(
-                  //     create: (_) => FeaturedBusinessProvider()),
-                  ChangeNotifierProvider(create: (_) => BookingProvider()),
-                  ChangeNotifierProvider(create: (_) => ContactUsProvider()),
-                  // ChangeNotifierProvider(create: (_) => ProviderDetailsProvider()),
+            return MultiProvider(providers: [
+              ChangeNotifierProvider(
+                  create: (_) => ThemeService(snapData.data!, context)),
+              ChangeNotifierProvider(create: (_) => SplashProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => LanguageProvider(snapData.data!)),
+              ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
+              ChangeNotifierProvider(create: (_) => ServicesDetailsProvider()),
+              ChangeNotifierProvider(create: (_) => LoginProvider()),
+              ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
+              ChangeNotifierProvider(create: (_) => ProfileProvider()),
+              ChangeNotifierProvider(create: (_) => SignUpCompanyProvider()),
+              // ChangeNotifierProvider(
+              //     create: (_) => FeaturedBusinessProvider()),
+              // ChangeNotifierProvider(create: (_) => BookingProvider()),
+              ChangeNotifierProvider(create: (_) => ContactUsProvider()),
+              // ChangeNotifierProvider(create: (_) => ProviderDetailsProvider()),
 
-                  ChangeNotifierProvider(create: (_) => DashboardProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => LoginWithPhoneProvider()),
-                  ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => ForgetPasswordProvider()),
-                  ChangeNotifierProvider(create: (_) => RegisterProvider()),
-                  ChangeNotifierProvider(create: (_) => SocialRegProvider()),
-                  ChangeNotifierProvider(create: (_) => SearchProvider()),
-                  ChangeNotifierProvider(create: (_) => MyReviewProvider()),
-                  ChangeNotifierProvider(create: (_) => CommonApiProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => BusinessReviewsProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => LatestBLogDetailsProvider()),
-                  // ChangeNotifierProvider(
-                  //     create: (_) => ResetPasswordProvider()),
-                  ChangeNotifierProvider(create: (_) => LoadingProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => InAppForgotPassProvider()),
-                  ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
-                  ChangeNotifierProvider(create: (_) => AttractionProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => FavouriteListProvider()),
-                  ChangeNotifierProvider(create: (_) => NoInternetProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => VerifyResetPasswordProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => ChangePasswordProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => CommonPermissionProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => CategoriesDetailsProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => CategoriesListProvider()),
-                  ChangeNotifierProvider(create: (_) => NotificationProvider()),
-                  ChangeNotifierProvider(create: (_) => RateAppProvider()),
-                  ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
-                  ChangeNotifierProvider(create: (_) => OfferProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => BusinessDetailsProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => BusinessTimeSlotProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => ProfileDetailProvider()),
-                  ChangeNotifierProvider(
-                      create: (_) => AppSettingProvider(snapData.data!)),
-                  ChangeNotifierProvider(
-                      create: (_) => ServiceReviewProvider()),
-                ],
-                child: UpgradeAlert(
-                    dialogStyle: UpgradeDialogStyle.cupertino,
-                    showIgnore: false,
-                    showLater: false,
-                    barrierDismissible: false,
-                    upgrader: Upgrader(
-                        storeController: UpgraderStoreController(
-                            onAndroid: () => UpgraderPlayStore())),
-                    child: const RouteToPage()));
+              ChangeNotifierProvider(create: (_) => DashboardProvider()),
+              ChangeNotifierProvider(create: (_) => LoginWithPhoneProvider()),
+              ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
+              ChangeNotifierProvider(create: (_) => ForgetPasswordProvider()),
+              ChangeNotifierProvider(create: (_) => RegisterProvider()),
+              ChangeNotifierProvider(create: (_) => SocialRegProvider()),
+              ChangeNotifierProvider(create: (_) => SearchProvider()),
+              ChangeNotifierProvider(create: (_) => MyReviewProvider()),
+              ChangeNotifierProvider(create: (_) => CommonApiProvider()),
+              ChangeNotifierProvider(create: (_) => BusinessReviewsProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => LatestBLogDetailsProvider()),
+              // ChangeNotifierProvider(
+              //     create: (_) => ResetPasswordProvider()),
+              ChangeNotifierProvider(create: (_) => LoadingProvider()),
+              ChangeNotifierProvider(create: (_) => InAppForgotPassProvider()),
+              ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
+              ChangeNotifierProvider(create: (_) => AttractionProvider()),
+              ChangeNotifierProvider(create: (_) => FavouriteListProvider()),
+              ChangeNotifierProvider(create: (_) => NoInternetProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => VerifyResetPasswordProvider()),
+              ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
+              ChangeNotifierProvider(create: (_) => CommonPermissionProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => CategoriesDetailsProvider()),
+              ChangeNotifierProvider(create: (_) => CategoriesListProvider()),
+              ChangeNotifierProvider(create: (_) => NotificationProvider()),
+              ChangeNotifierProvider(create: (_) => RateAppProvider()),
+              ChangeNotifierProvider(create: (_) => TimeSlotProvider()),
+              ChangeNotifierProvider(create: (_) => OfferProvider()),
+              ChangeNotifierProvider(create: (_) => BusinessDetailsProvider()),
+              ChangeNotifierProvider(create: (_) => BusinessTimeSlotProvider()),
+              ChangeNotifierProvider(create: (_) => ProfileDetailProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => AppSettingProvider(snapData.data!)),
+              ChangeNotifierProvider(create: (_) => ServiceReviewProvider()),
+            ], child: const RouteToPage());
           } else {
             return MaterialApp(
                 theme: AppTheme.fromType(ThemeType.light).themeData,

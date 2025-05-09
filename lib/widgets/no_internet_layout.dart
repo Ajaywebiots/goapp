@@ -52,12 +52,11 @@ class _NoInternetLayoutState extends State<NoInternetLayout> {
         setState(() {});
       }
     });
-    return Stack(
-      children: [
-        widget.child,
-        if (!isInternet)
-          Consumer<NoInternetProvider>(builder: (context1, value, child) {
-            return Scaffold(
+    return Stack(children: [
+      widget.child,
+      if (!isInternet)
+        Consumer<NoInternetProvider>(builder: (context1, value, child) {
+          return Scaffold(
               body: EmptyLayout(
                   isButtonShow: false,
                   title: language(context, appFonts.oppsYour),
@@ -85,10 +84,8 @@ class _NoInternetLayoutState extends State<NoInternetLayout> {
                                     child: Image.asset(eImageAssets.caution,
                                         height: Sizes.s30, width: Sizes.s30)))
                           ]))
-                  ])),
-            );
-          })
-      ],
-    );
+                  ])));
+        })
+    ]);
   }
 }

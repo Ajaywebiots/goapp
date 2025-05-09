@@ -186,14 +186,14 @@ class Rating {
     required this.reviewCount,
   });
 
-  final double? starts;
+  final dynamic starts;
   final int? reviewCount;
 
   factory Rating.fromJson(Map<String, dynamic> json) {
     return Rating(
-      starts: json["starts"],
-      reviewCount: json["reviewCount"],
-    );
+        starts:
+            (json["starts"] is num) ? (json["starts"] as num).toDouble() : null,
+        reviewCount: json["reviewCount"] ?? 0);
   }
 }
 

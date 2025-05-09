@@ -106,43 +106,37 @@ class RegisterProvider extends ChangeNotifier {
               isToken: false)
           .then((value) async {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            hideLoading(context);
-            log("ssss ${value.data['token']}");
-            token = value.data['token'];
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            await pref.setInt(session.id, value.data['user']['id']);
-            await pref.setString(session.accessToken, value.data['token']);
-            log("token session.id ${pref.getInt(session.id)}");
-            log("accessToken ${pref.getString(session.accessToken)}");
+          hideLoading(context);
+          log("ssss ${value.data['token']}");
+          token = value.data['token'];
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          await pref.setInt(session.id, value.data['user']['id']);
+          await pref.setString(session.accessToken, value.data['token']);
+          log("token session.id ${pref.getInt(session.id)}");
+          log("accessToken ${pref.getString(session.accessToken)}");
 
-            pref.setString(session.tokenExpiration, value.data['expiration']);
+          pref.setString(session.tokenExpiration, value.data['expiration']);
 
-            final homePvr =
-                Provider.of<HomeScreenProvider>(context, listen: false);
-            final searchPvr =
-                Provider.of<SearchProvider>(context, listen: false);
-            final attractionPvr =
-                Provider.of<AttractionProvider>(context, listen: false);
-            final offerPvr = Provider.of<OfferProvider>(context, listen: false);
-            final dash = Provider.of<DashboardProvider>(context, listen: false);
-            final catListPvr =
-                Provider.of<CategoriesListProvider>(context, listen: false);
-            homePvr.homeFeed(context);
-            searchPvr.getBusinessSearchAPI(context, isFilter: false);
-            attractionPvr.getAttractionSearchAPI(context);
-            offerPvr.getViewAllOfferAPI();
+          final homePvr =
+              Provider.of<HomeScreenProvider>(context, listen: false);
+          final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+          final attractionPvr =
+              Provider.of<AttractionProvider>(context, listen: false);
+          final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+          final dash = Provider.of<DashboardProvider>(context, listen: false);
+          final catListPvr =
+              Provider.of<CategoriesListProvider>(context, listen: false);
+          homePvr.homeFeed(context);
+          searchPvr.getBusinessSearchAPI(context, isFilter: false);
+          attractionPvr.getAttractionSearchAPI(context);
+          offerPvr.getViewAllOfferAPI();
 
-            catListPvr.getCategoriesData(context);
-            offerPvr.getCategoriesData(context);
+          catListPvr.getCategoriesData(context);
+          offerPvr.getCategoriesData(context);
 
-            dash.selectIndex = 0;
+          dash.selectIndex = 0;
 
-            route.pushNamedAndRemoveUntil(context, routeName.dashboard);
-          } else {
-            hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
-          }
+          route.pushNamedAndRemoveUntil(context, routeName.dashboard);
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);

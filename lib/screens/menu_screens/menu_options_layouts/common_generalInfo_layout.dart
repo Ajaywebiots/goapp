@@ -1,9 +1,8 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:goapp/providers/bottom_providers/profile_provider.dart';
-
-import '../../../config.dart';
-import '../../../widgets/DirectionalityRtl.dart';
-import '../../../widgets/dotted_line.dart';
+import 'package:goapp/config.dart';
+import 'package:goapp/widgets/DirectionalityRtl.dart';
+import 'package:goapp/widgets/dotted_line.dart';
 
 class CommonGeneralInfoLayout extends StatelessWidget {
   const CommonGeneralInfoLayout({super.key});

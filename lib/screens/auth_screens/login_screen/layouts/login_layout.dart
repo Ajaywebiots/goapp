@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
-
-import '../../../../config.dart';
+import 'package:goapp/config.dart';
 
 class LoginLayout extends StatelessWidget {
   const LoginLayout({super.key});
@@ -31,22 +30,18 @@ class LoginLayout extends StatelessWidget {
                 Expanded(
                     child: TextFieldCommon(
                         keyboardType: TextInputType.number,
-                        validator: (phone) => Validation().phoneValidation(
-                            context, phone, sss.selectedCountry!),
+                        validator: (phone) =>
+                            Validation().phoneValidation(context, phone),
                         controller: sss.numberController,
                         isNumber: true,
                         focusNode: sss.phoneFocus,
-                        hintText:
-                            language(context, appFonts.enterPhoneNumber))),
+                        hintText: language(context, appFonts.enterPhoneNumber)))
               ]).paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s15),
               const VSpace(Sizes.s26),
               ButtonCommon(
                   title: language(context, appFonts.loginNow),
                   onTap: () {
-                    /*=>
-                            value.onLogin(context)*/
-
                     sss.onTapOtp(context);
                   }).paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s26),
@@ -64,7 +59,7 @@ class LoginLayout extends StatelessWidget {
                         style: appCss.dmDenseMedium14
                             .textColor(appColor(context).primary))
                   ])).alignment(Alignment.center),
-              const VSpace(Sizes.s15),
+              const VSpace(Sizes.s15)
             ]).paddingSymmetric(vertical: Insets.i20)
       ]);
     });

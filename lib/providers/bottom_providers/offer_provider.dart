@@ -38,22 +38,20 @@ class OfferProvider extends ChangeNotifier {
       apiServices.commonApi(api.offerCategories, [], ApiType.get).then((value) {
         if (value.isSuccess == true) {
           categoryList.clear();
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
+          notifyListeners();
 
-            log("API Response: attractionCategories ${value.data}");
-            OfferCategoriesModel categoryModel =
-                OfferCategoriesModel.fromJson(value.data);
+          log("API Response: attractionCategories ${value.data}");
+          OfferCategoriesModel categoryModel =
+              OfferCategoriesModel.fromJson(value.data);
 
-            // Clear old list and add new parsed categories
+          // Clear old list and add new parsed categories
 
-            notifyListeners();
-            categoryList.addAll(categoryModel.categories as List<Categories>);
+          notifyListeners();
+          categoryList.addAll(categoryModel.categories as List<Categories>);
 
-            log("categoryList offers ${categoryList}");
-            // hideLoading(context);
-            notifyListeners();
-          }
+          log("categoryList offers ${categoryList}");
+          // hideLoading(context);
+          notifyListeners();
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -158,12 +156,12 @@ class OfferProvider extends ChangeNotifier {
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
     // Start a new debounce timer
-    debounceTimer = Timer(Duration(milliseconds: 500), () {
+    debounceTimer = Timer(Duration(milliseconds: 50), () {
       final query = searchCtrl.text.trim();
       log("rrrrr $query");
       if (query.isEmpty) {
         onReady();
-      } else if (query.length >= 3) {
+      } else if (query.length >= 2) {
         fetchSearchResults(query);
       }
     });
@@ -177,13 +175,11 @@ class OfferProvider extends ChangeNotifier {
           .commonApi("${api.offerSearch}?name=$query", [], ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.data['responseStatus'] == 1) {
-          offerViewAllList.clear();
-          OfferSearchModel offerSearchModel =
-              OfferSearchModel.fromJson(value.data);
-          offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
-          notifyListeners();
-        }
+        offerViewAllList.clear();
+        OfferSearchModel offerSearchModel =
+            OfferSearchModel.fromJson(value.data);
+        offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
+        notifyListeners();
       });
     } catch (e) {
       log("Search error: $e");

@@ -13,9 +13,6 @@ class CouponLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dash = Provider.of<DashboardProvider>(context, listen: false);
-    bool isFav = false;
-
     return DirectionalityRtl(
         child: Container(
             padding: EdgeInsets.only(bottom: Insets.i12),

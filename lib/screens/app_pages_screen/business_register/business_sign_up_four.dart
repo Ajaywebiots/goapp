@@ -24,13 +24,17 @@ class BusinessSignUpFour extends StatelessWidget {
                             .asMap()
                             .entries
                             .map((e) => Text(language(context, e.value),
-                                    style: appCss.dmDenseBold13
+                                    style: appCss.dmDenseMedium12
                                         .textColor(appColor(context).lightText))
                                 .paddingOnly(
                                     right: e.key == 0
-                                        ? Insets.i50
+                                        ? MediaQuery.of(context).size.width *
+                                            (30 / 360)
                                         : e.key == 1
-                                            ? Insets.i50
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                (53 / 360)
                                             : Insets.i10))
                             .toList())
                     .paddingSymmetric(horizontal: Insets.i15),

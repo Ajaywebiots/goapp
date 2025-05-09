@@ -11,6 +11,7 @@ import 'package:path/path.dart';
 import '../../config.dart';
 import '../../models/api_model/profile_detail_model.dart';
 import '../../screens/app_pages_screen/profile_detail_screen/layouts/selection_option_layout.dart';
+import '../../screens/app_pages_screen/profile_detail_screen/layouts/update_phone_verify_layout.dart';
 import '../../services/api_service.dart';
 
 class ProfileDetailProvider with ChangeNotifier {
@@ -65,6 +66,8 @@ class ProfileDetailProvider with ChangeNotifier {
   }
 
   onReady(context) {
+    originalPhone = txtPhone.text;
+
     getProfileDetailDataAPI(context);
     notifyListeners();
   }
@@ -141,16 +144,14 @@ class ProfileDetailProvider with ChangeNotifier {
           .commonApi("${api.profile}$userId/profile", [], ApiType.get,
               isToken: true)
           .then((value) {
+        log("mmm");
         if (value.isSuccess == true) {
           ProfileDetailModel profileDetail =
               ProfileDetailModel.fromJson(value.data);
           if (profileDetail.responseStatus == 1) {
             loadProfile(profileDetail.userProfile!);
           }
-        } /*else {
-          // Navigator.pushNamedAndRemoveUntil(
-          //     context, routeName.login, (Route<dynamic> route) => false);
-        }*/
+        }
       });
       notifyListeners();
     } catch (e, s) {
@@ -158,12 +159,53 @@ class ProfileDetailProvider with ChangeNotifier {
     }
   }
 
+  bool isCountDown = true;
+
   changeDialCode(country) {
     dialCode = country.dialCode!;
     notifyListeners();
   }
 
+  Future<void> verifyPhoneOtp(BuildContext context) async {
+    showLoading(context);
+
+    try {
+      final response = await apiServices.commonApi(
+          "${api.otpVerify}/${otpController.text}/verify", [], ApiType.patch,
+          isToken: false);
+
+      hideLoading(context);
+
+      if (response.isSuccess == true) {
+        originalPhone = txtPhone.text;
+
+        Navigator.pop(context);
+
+        await submitProfileUpdate(context);
+      } else {
+        snackBarMessengers(context,
+            message: response.message ?? "Invalid OTP", color: Colors.red);
+      }
+    } catch (e, s) {
+      hideLoading(context);
+      log("OTP Verification Error: $e\n$s");
+      snackBarMessengers(context,
+          message: "Something went wrong. Please try again.",
+          color: Colors.red);
+    }
+  }
+
+  final TextEditingController otpController = TextEditingController();
+
+  String? originalPhone;
+  final GlobalKey<FormState> verify = GlobalKey<FormState>();
+
   updateProfileDetailDataAPI(context) async {
+    if (originalPhone != null && txtPhone.text != originalPhone) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => const UpdatePhoneVerifyLayout()));
+      return;
+    }
     SharedPreferences pref = await SharedPreferences.getInstance();
     final int? userId = pref.getInt(session.id);
     String inputDate = birthday.text;
@@ -201,6 +243,47 @@ class ProfileDetailProvider with ChangeNotifier {
       }
     } catch (e, s) {
       log("Error updating profile: $e === $s");
+    }
+  }
+
+  Future<void> submitProfileUpdate(BuildContext context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+
+    DateTime date = DateFormat("dd/MM/yyyy").parse(birthday.text);
+    String output = date.toIso8601String().split('.').first;
+
+    final body = {
+      "firstName": txtFName.text,
+      "lastName": txtLName.text,
+      "email": txtEmail.text,
+      "phoneNumberPrefix": dialCode,
+      "phoneNumber": txtPhone.text,
+      "birthday": output
+    };
+
+    try {
+      final response = await apiServices.commonApi(
+        "${api.profile}$userId/profile",
+        body,
+        ApiType.patch,
+        isToken: true,
+      );
+
+      if (response.isSuccess == true) {
+        getProfileDetailDataAPI(context);
+        if (imageFile != null) uploadImageUsingCommonApi(imageFile!);
+
+        snackBarMessengers(context,
+            message: "Update Successful",
+            color: appColor(context).primary,
+            isDuration: true);
+      } else {
+        snackBarMessengers(context,
+            message: response.message ?? "Update failed", color: Colors.red);
+      }
+    } catch (e, s) {
+      log("Profile Update Error: $e\n$s");
     }
   }
 }

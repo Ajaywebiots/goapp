@@ -141,11 +141,8 @@ class _TextFieldCommonState extends State<TextFieldCommon> {
                         vertical: widget.vertical ?? Insets.i15),
                 suffixIcon: widget.suffixIcon,
                 prefixIcon: widget.isPrefImage == true
-                    ? Image.asset(
-                        widget.prefixImage.toString(),
-                        cacheHeight: 25,
-                        cacheWidth: 25,
-                      )
+                    ? Image.asset(widget.prefixImage.toString(), height: Insets.i4)
+                        .marginSymmetric(vertical: 10)
                     : widget.isNumber == true
                         ? null
                         : SvgPicture.asset(widget.prefixIcon!,

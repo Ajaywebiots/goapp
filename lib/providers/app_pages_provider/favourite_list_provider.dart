@@ -45,14 +45,12 @@ class FavouriteListProvider with ChangeNotifier {
         notifyListeners();
         if (value.isSuccess == true) {
           offerList.clear();
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
-            OfferSearchModel offerSearchModel =
-                OfferSearchModel.fromJson(value.data);
-            offerList.addAll(offerSearchModel.offers as List<Offer>);
-            notifyListeners();
-            log("offerList $offerList");
-          }
+          notifyListeners();
+          OfferSearchModel offerSearchModel =
+              OfferSearchModel.fromJson(value.data);
+          offerList.addAll(offerSearchModel.offers as List<Offer>);
+          notifyListeners();
+          log("offerList $offerList");
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -128,15 +126,14 @@ class FavouriteListProvider with ChangeNotifier {
         notifyListeners();
         if (value.isSuccess == true) {
           businessList.clear();
-          if (value.data['responseStatus'] == 1) {
-            businessList.clear();
-            notifyListeners();
-            BusinessSearchModel businessSearchModel =
-                BusinessSearchModel.fromJson(value.data);
-            businessList.addAll(businessSearchModel.businesses);
-            notifyListeners();
-            log("businessList businessList $businessList");
-          }
+
+          businessList.clear();
+          notifyListeners();
+          BusinessSearchModel businessSearchModel =
+              BusinessSearchModel.fromJson(value.data);
+          businessList.addAll(businessSearchModel.businesses);
+          notifyListeners();
+          log("businessList businessList $businessList");
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -168,14 +165,13 @@ class FavouriteListProvider with ChangeNotifier {
         notifyListeners();
         if (value.isSuccess == true) {
           attractionList.clear();
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
-            AttractionsSearchModel businessSearchModel =
-                AttractionsSearchModel.fromJson(value.data);
-            attractionList.addAll(businessSearchModel.attractions);
-            notifyListeners();
-            log("offerList $attractionList");
-          }
+
+          notifyListeners();
+          AttractionsSearchModel businessSearchModel =
+              AttractionsSearchModel.fromJson(value.data);
+          attractionList.addAll(businessSearchModel.attractions);
+          notifyListeners();
+          log("offerList $attractionList");
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
@@ -207,14 +203,13 @@ class FavouriteListProvider with ChangeNotifier {
         notifyListeners();
         if (value.isSuccess == true) {
           blogList.clear();
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
-            ArticlesSearchModel blogSearchModel =
-                ArticlesSearchModel.fromJson(value.data);
-            blogList.addAll(blogSearchModel.articles);
-            notifyListeners();
-            log("offerList $blogList");
-          }
+
+          notifyListeners();
+          ArticlesSearchModel blogSearchModel =
+              ArticlesSearchModel.fromJson(value.data);
+          blogList.addAll(blogSearchModel.articles);
+          notifyListeners();
+          log("offerList $blogList");
         } else {
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);

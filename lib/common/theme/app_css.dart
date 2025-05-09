@@ -157,6 +157,8 @@ class AppCss {
       dmDense(fontWeight: regular, fontsize: FontSizes.f12);
   TextStyle dmDenseRegular11 =
       dmDense(fontWeight: regular, fontsize: FontSizes.f11);
+  TextStyle dmDenseRegular10 =
+      dmDense(fontWeight: regular, fontsize: FontSizes.f10);
 
   /// light 300
   TextStyle dmDenseLight16 =

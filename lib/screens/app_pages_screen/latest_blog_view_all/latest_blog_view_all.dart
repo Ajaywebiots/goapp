@@ -13,69 +13,72 @@ class LatestBlogViewAll extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LatestBLogDetailsProvider>(
         builder: (context, value, child) {
-      return StatefulWrapper(
-          onInit: () => Future.delayed(
-              const Duration(milliseconds: 100), () => value.onReady(context)),
-          child: DirectionalityRtl(
-              child: Scaffold(
-                  appBar: AppBarCommon(
-                      title: language(context, appFonts.articles),
-                      onTap: () {
-                        route.pop(context);
-                        value.searchCtrl.text = "";
-                        value.selectedCategory = [];
-                      }),
-                  body: SafeArea(
-                    child: SingleChildScrollView(
-                        child: Container(
-                            alignment: Alignment.center,
-                            child: Column(children: [
-                              SearchTextFieldCommon(
-                                  hintText: "Search for articles",
-                                  controller: value.searchCtrl,
-                                  focusNode: value.searchFocus,
-                                  suffixIcon: FilterIconCommon(
-                                      selectedFilter: value
-                                          .selectedCategory.length
-                                          .toString(),
-                                      onTap: () =>
-                                          value.showBottomBlogFilter(context))),
-                              VSpace(Insets.i20),
-                              ...value.articlesSearchList.asMap().entries.map(
-                                  (e) => LatestBlogLayout(
-                                          onTap: () => value.detailsDataAPI(
-                                              context, e.value.id),
-                                          data: e.value,
-                                          rPadding: 0,
-                                          isView: true,
-                                          addOrRemoveTap: () {
-                                            final previousFavourite =
-                                                e.value.isFavourite;
-                                            e.value.isFavourite =
-                                                !previousFavourite;
-                                            value.notifyListeners();
-                                            final common =
-                                                Provider.of<CommonApiProvider>(
-                                                    context,
-                                                    listen: false);
-                                            common.toggleFavAPI(
-                                                onSuccess: () => Provider.of<
-                                                            LatestBLogDetailsProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .getArticlesSearchAPI(
-                                                        context),
+      return DirectionalityRtl(
+          child: Scaffold(
+              appBar: AppBarCommon(
+                  title: language(context, appFonts.articles),
+                  onTap: () {
+                    route.pop(context);
+                    value.searchCtrl.text = "";
+                    value.selectedCategory = [];
+                  }),
+              body: SafeArea(
+                  child: Column(children: [
+                SearchTextFieldCommon(
+                    hintText: "Search for articles",
+                    controller: value.searchCtrl,
+                    focusNode: value.searchFocus,
+                    suffixIcon: FilterIconCommon(
+                        selectedFilter:
+                            value.selectedCategory.length.toString(),
+                        onTap: () => value.showBottomBlogFilter(context))),
+                VSpace(Insets.i15),
+                Expanded(
+                    child: value.articlesSearchList.isEmpty
+                        ? SingleChildScrollView(
+                            child: EmptyLayout(
+                                topHeight:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.09,
+                                isButtonShow: false,
+                                title: language(
+                                    context, appFonts.noResultsWereFound),
+                                subtitle: language(context, appFonts.sorry),
+                                widget: Image.asset(eImageAssets.noNoti,
+                                    height: Sizes.s200)))
+                        : ListView.builder(
+                            itemCount: value.articlesSearchList.length,
+                            itemBuilder: (context, index) {
+                              final article = value.articlesSearchList[index];
+                              return LatestBlogLayout(
+                                  onTap: () =>
+                                      value.detailsDataAPI(context, article.id),
+                                  data: article,
+                                  rPadding: 0,
+                                  isView: true,
+                                  addOrRemoveTap: () {
+                                    final previousFavourite =
+                                        article.isFavourite;
+                                    article.isFavourite = !previousFavourite;
+                                    value.notifyListeners();
+                                    final common =
+                                        Provider.of<CommonApiProvider>(context,
+                                            listen: false);
+                                    common.toggleFavAPI(
+                                        onSuccess: () => Provider.of<
+                                                    LatestBLogDetailsProvider>(
                                                 context,
-                                                previousFavourite,
-                                                e.value.appObject!
-                                                    .appObjectType,
-                                                e.value.appObject!.appObjectId);
-                                          })
-                                      .width(MediaQuery.of(context).size.width))
-                            ])
-                                .paddingSymmetric(horizontal: Insets.i20)
-                                .marginOnly(bottom: Insets.i15))),
-                  ))));
+                                                listen: false)
+                                            .getArticlesSearchAPI(context),
+                                        context,
+                                        previousFavourite,
+                                        article.appObject!.appObjectType,
+                                        article.appObject!.appObjectId);
+                                  }).width(MediaQuery.of(context).size.width);
+                            })),
+                VSpace(Insets.i15)
+              ]).paddingSymmetric(horizontal: Insets.i20))));
     });
   }
 }

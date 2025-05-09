@@ -25,35 +25,34 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
       return SafeArea(
           child: Scaffold(
               appBar: AppBar(
-                leadingWidth: 60,
-                title: Text(
-                    language(
-                        context,
-                        value.pageIndex == 0
-                            ? "Business Details"
-                            : value.pageIndex == 1
-                                ? "Business Location"
-                                : value.pageIndex == 2
-                                    ? "Business Contact"
-                                    : value.pageIndex == 3
-                                        ? "Business Working Hours"
-                                        : "Business Gallery"),
-                    style: appCss.dmDenseMedium18
-                        .textColor(appColor(context).darkText)),
-                centerTitle: true,
-                leading: CommonArrow(
-                        arrow: languages.isUserRTl
-                            ? eSvgAssets.arrowRight
-                            : eSvgAssets.arrowLeft,
-                        onTap: () => value.goBack(context))
-                    .padding(vertical: Insets.i8, left: 20),
-                actions: [
-                  if (value.pageIndex == 0)
-                    SvgPicture.asset(eSvgAssets.translate)
-                        .inkWell(onTap: () => value.translateTap(context))
-                        .padding(horizontal: Sizes.s20)
-                ],
-              ),
+                  leadingWidth: 60,
+                  title: Text(
+                      language(
+                          context,
+                          value.pageIndex == 0
+                              ? "Business Details"
+                              : value.pageIndex == 1
+                                  ? "Business Location"
+                                  : value.pageIndex == 2
+                                      ? "Business Contact"
+                                      : value.pageIndex == 3
+                                          ? "Business Working Hours"
+                                          : "Business Gallery"),
+                      style: appCss.dmDenseMedium18
+                          .textColor(appColor(context).darkText)),
+                  centerTitle: true,
+                  leading: CommonArrow(
+                          arrow: languages.isUserRTl
+                              ? eSvgAssets.arrowRight
+                              : eSvgAssets.arrowLeft,
+                          onTap: () => value.goBack(context))
+                      .padding(vertical: Insets.i8, left: 20),
+                  actions: [
+                    if (value.pageIndex == 0)
+                      SvgPicture.asset(eSvgAssets.translate)
+                          .inkWell(onTap: () => value.translateTap(context))
+                          .padding(horizontal: Sizes.s20)
+                  ]),
               body: SingleChildScrollView(
                   child: Column(children: [
                 VSpace(Sizes.s25),

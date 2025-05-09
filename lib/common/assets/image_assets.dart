@@ -129,6 +129,7 @@ class ImageAssets {
   final package = "assets/images/package.png";
   final applyCoupon = "assets/images/applyCoupon.png";
   final coupon = "assets/images/coupon.png";
+  final detailCoupon = "assets/images/detailCoupon.png";
   final couponDark = "assets/images/couponDark.png";
   final booked = "assets/images/booked.png";
   final failedBook = "assets/images/failedBook.png";

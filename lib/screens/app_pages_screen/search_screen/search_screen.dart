@@ -37,7 +37,6 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   void initState() {
     super.initState();
-    // Initialize with the passed selectedIndex or default to 0.
     selectedCategoryIndex = widget.selectedIndex;
 
     final categoryListPvr =
@@ -88,8 +87,9 @@ class _SearchScreenState extends State<SearchScreen>
                 // searchPvr.onReady();
               }),
           child: PopScope(
-              canPop: true,
-              onPopInvoked: (didPop) => searchPvr.onBack(),
+              canPop: false,
+              onPopInvokedWithResult: (didPop, result) =>
+                  searchPvr.onBack(context),
               child: DirectionalityRtl(
                   child: Scaffold(
                       appBar: AppBarCommon(
@@ -106,7 +106,7 @@ class _SearchScreenState extends State<SearchScreen>
                               searchPvr.popular = true;
                               searchPvr.isPopularSelected = false;
 
-                              searchPvr.onBack();
+                              searchPvr.onBack(context);
                               route.pop(context);
                               dashPvr.notifyListeners();
                             }
@@ -207,33 +207,44 @@ class _SearchScreenState extends State<SearchScreen>
                                                                           context)
                                                                       .darkText))
                                                     ]))
-                                                .paddingOnly(right: Insets.i20)
-                                            : SizedBox.shrink(),
+                                                .paddingOnly(
+                                                    right: Insets.i20, left: 2)
+                                            : Container(),
                                         ...categoryListPvr.categoryList
                                             .asMap()
                                             .entries
                                             .map((e) {
                                           return TopCategoriesLayout(
-                                              index: e.key,
-                                              data: e.value,
-                                              selectedIndex:
-                                                  selectedCategoryIndex,
-                                              onTap: () {
-                                                setState(() {
-                                                  selectedCategoryIndex = e.key;
-                                                });
-                                                searchPvr.onSubCategories(
-                                                    context,
-                                                    e.key,
-                                                    e.value.categoryId);
-                                              }).paddingOnly(right: Insets.i20);
+                                                  index: e.key,
+                                                  data: e.value,
+                                                  selectedIndex:
+                                                      selectedCategoryIndex,
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedCategoryIndex =
+                                                          e.key;
+                                                    });
+                                                    searchPvr.onSubCategories(
+                                                        context,
+                                                        e.key,
+                                                        e.value.categoryId);
+                                                  })
+                                              .marginOnly(
+                                                  left: e.key == 0 ? 0 : 7,
+                                                  right: 7);
                                         })
                                       ]).padding(
-                                          vertical: Insets.i15,
-                                          left: Insets.i20)),
-                                  const VSpace(Sizes.s15),
+                                          top: Insets.i15,
+                                          bottom: searchPvr
+                                                  .businessSearchList.isEmpty
+                                              ? 0
+                                              : 15)),
+                                  searchPvr.businessSearchList.isEmpty
+                                      ? VSpace(Insets.i1)
+                                      : const VSpace(Sizes.s10),
                                   searchPvr.businessSearchList.isEmpty
                                       ? EmptyLayout(
+                                          topHeight: 40,
                                           isButtonShow: false,
                                           title: language(context,
                                               appFonts.noResultsWereFound),

@@ -60,86 +60,58 @@ extension StyledWidget on Widget {
               EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
           child: this);
 
-  Widget paddingOnly({
-    double left = 0.0,
-    double top = 0.0,
-    double right = 0.0,
-    double bottom = 0.0,
-  }) =>
+  Widget paddingOnly(
+          {double left = 0.0,
+          double top = 0.0,
+          double right = 0.0,
+          double bottom = 0.0}) =>
       Padding(
           padding: EdgeInsets.only(
               top: top, left: left, right: right, bottom: bottom),
           child: this);
 
-  Widget opacity(
-    double opacity, {
-    bool animate = false,
-    bool alwaysIncludeSemantics = false,
-  }) =>
+  Widget opacity(double opacity,
+          {bool animate = false, bool alwaysIncludeSemantics = false}) =>
       Opacity(
-        opacity: opacity,
-        alwaysIncludeSemantics: alwaysIncludeSemantics,
-        child: this,
-      );
+          opacity: opacity,
+          alwaysIncludeSemantics: alwaysIncludeSemantics,
+          child: this);
 
-  Widget offstage({
-    bool offstage = true,
-  }) =>
-      Offstage(
-        key: key,
-        offstage: offstage,
-        child: this,
-      );
+  Widget offstage({bool offstage = true}) =>
+      Offstage(key: key, offstage: offstage, child: this);
 
   Widget alignment(
     AlignmentGeometry alignment, {
     bool animate = false,
   }) =>
-      Align(
-        alignment: alignment,
-        child: this,
-      );
+      Align(alignment: alignment, child: this);
 
-  Widget backgroundColor(Color color, {bool animate = false}) => DecoratedBox(
-        decoration: BoxDecoration(color: color),
-        child: this,
-      );
+  Widget backgroundColor(Color color, {bool animate = false}) =>
+      DecoratedBox(decoration: BoxDecoration(color: color), child: this);
 
   Widget backgroundImage(DecorationImage image, {bool animate = false}) =>
-      DecoratedBox(
-        decoration: BoxDecoration(image: image),
-        child: this,
-      );
+      DecoratedBox(decoration: BoxDecoration(image: image), child: this);
 
   Widget backgroundGradient(Gradient gradient, {bool animate = false}) =>
-      DecoratedBox(
-        decoration: BoxDecoration(gradient: gradient),
-        child: this,
-      );
+      DecoratedBox(decoration: BoxDecoration(gradient: gradient), child: this);
 
-  Widget backgroundLinearGradient({
-    AlignmentGeometry begin = Alignment.centerLeft,
-    AlignmentGeometry end = Alignment.centerRight,
-    List<Color>? colors,
-    List<double>? stops,
-    TileMode tileMode = TileMode.clamp,
-    GradientTransform? transform,
-    bool animate = false,
-  }) {
+  Widget backgroundLinearGradient(
+      {AlignmentGeometry begin = Alignment.centerLeft,
+      AlignmentGeometry end = Alignment.centerRight,
+      List<Color>? colors,
+      List<double>? stops,
+      TileMode tileMode = TileMode.clamp,
+      GradientTransform? transform,
+      bool animate = false}) {
     BoxDecoration decoration = BoxDecoration(
-      gradient: LinearGradient(
-        begin: begin,
-        end: end,
-        colors: colors ?? [],
-        stops: stops,
-        tileMode: tileMode,
-        transform: transform,
-      ),
-    );
-    return DecoratedBox(
-      decoration: decoration,
-      child: this,
-    );
+        gradient: LinearGradient(
+            begin: begin,
+            end: end,
+            colors: colors ?? [],
+            stops: stops,
+            tileMode: tileMode,
+            transform: transform));
+    return DecoratedBox(decoration: decoration, child: this);
   }
 
   Widget backgroundRadialGradient(
@@ -153,21 +125,16 @@ extension StyledWidget on Widget {
       GradientTransform? transform,
       bool animate = false}) {
     BoxDecoration decoration = BoxDecoration(
-      gradient: RadialGradient(
-        center: center,
-        radius: radius,
-        colors: colors ?? [],
-        stops: stops,
-        tileMode: tileMode,
-        focal: focal,
-        focalRadius: focalRadius,
-        transform: transform,
-      ),
-    );
-    return DecoratedBox(
-      decoration: decoration,
-      child: this,
-    );
+        gradient: RadialGradient(
+            center: center,
+            radius: radius,
+            colors: colors ?? [],
+            stops: stops,
+            tileMode: tileMode,
+            focal: focal,
+            focalRadius: focalRadius,
+            transform: transform));
+    return DecoratedBox(decoration: decoration, child: this);
   }
 
   Widget backgroundSweepGradient(
@@ -198,101 +165,68 @@ extension StyledWidget on Widget {
 
   Widget backgroundBlendMode(BlendMode blendMode, {bool animate = false}) =>
       DecoratedBox(
-        decoration: BoxDecoration(backgroundBlendMode: blendMode),
-        child: this,
-      );
+          decoration: BoxDecoration(backgroundBlendMode: blendMode),
+          child: this);
 
-  Widget backgroundBlur(
-    double sigma, {
-    bool animate = false,
-  }) =>
-      BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: sigma,
-          sigmaY: sigma,
-        ),
-        child: this,
-      );
+  Widget backgroundBlur(double sigma, {bool animate = false}) => BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma), child: this);
 
-  Widget borderRadius({
-    double? all,
-    double? topLeft,
-    double? topRight,
-    double? bottomLeft,
-    double? bottomRight,
-    bool animate = false,
-  }) {
+  Widget borderRadius(
+      {double? all,
+      double? topLeft,
+      double? topRight,
+      double? bottomLeft,
+      double? bottomRight,
+      bool animate = false}) {
     BoxDecoration decoration = BoxDecoration(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(topLeft ?? all ?? 0.0),
-        topRight: Radius.circular(topRight ?? all ?? 0.0),
-        bottomLeft: Radius.circular(bottomLeft ?? all ?? 0.0),
-        bottomRight: Radius.circular(bottomRight ?? all ?? 0.0),
-      ),
-    );
-    return DecoratedBox(
-      decoration: decoration,
-      child: this,
-    );
-  }
-
-  Widget borderRadiusDirectional({
-    double? all,
-    double? topStart,
-    double? topEnd,
-    double? bottomStart,
-    double? bottomEnd,
-    bool animate = false,
-  }) {
-    BoxDecoration decoration = BoxDecoration(
-      borderRadius: BorderRadiusDirectional.only(
-        topStart: Radius.circular(topStart ?? all ?? 0.0),
-        topEnd: Radius.circular(topEnd ?? all ?? 0.0),
-        bottomStart: Radius.circular(bottomStart ?? all ?? 0.0),
-        bottomEnd: Radius.circular(bottomEnd ?? all ?? 0.0),
-      ),
-    );
-    return DecoratedBox(
-      decoration: decoration,
-      child: this,
-    );
-  }
-
-  Widget clipRRect({
-    double? all,
-    double? topLeft,
-    double? topRight,
-    double? bottomLeft,
-    double? bottomRight,
-    CustomClipper<RRect>? clipper,
-    Clip clipBehavior = Clip.antiAlias,
-    bool animate = false,
-  }) =>
-      ClipRRect(
-        clipper: clipper,
-        clipBehavior: clipBehavior,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(topLeft ?? all ?? 0.0),
-          topRight: Radius.circular(topRight ?? all ?? 0.0),
-          bottomLeft: Radius.circular(bottomLeft ?? all ?? 0.0),
-          bottomRight: Radius.circular(bottomRight ?? all ?? 0.0),
-        ),
-        child: this,
-      );
+            topLeft: Radius.circular(topLeft ?? all ?? 0.0),
+            topRight: Radius.circular(topRight ?? all ?? 0.0),
+            bottomLeft: Radius.circular(bottomLeft ?? all ?? 0.0),
+            bottomRight: Radius.circular(bottomRight ?? all ?? 0.0)));
+    return DecoratedBox(decoration: decoration, child: this);
+  }
 
-  Widget clipRect({
-    CustomClipper<Rect>? clipper,
-    Clip clipBehavior = Clip.hardEdge,
-  }) =>
-      ClipRect(
-        clipper: clipper,
-        clipBehavior: clipBehavior,
-        child: this,
-      );
+  Widget borderRadiusDirectional(
+      {double? all,
+      double? topStart,
+      double? topEnd,
+      double? bottomStart,
+      double? bottomEnd,
+      bool animate = false}) {
+    BoxDecoration decoration = BoxDecoration(
+        borderRadius: BorderRadiusDirectional.only(
+            topStart: Radius.circular(topStart ?? all ?? 0.0),
+            topEnd: Radius.circular(topEnd ?? all ?? 0.0),
+            bottomStart: Radius.circular(bottomStart ?? all ?? 0.0),
+            bottomEnd: Radius.circular(bottomEnd ?? all ?? 0.0)));
+    return DecoratedBox(decoration: decoration, child: this);
+  }
 
-  Widget clipOval() => ClipOval(
-        child: this,
-      );
+  Widget clipRRect(
+          {double? all,
+          double? topLeft,
+          double? topRight,
+          double? bottomLeft,
+          double? bottomRight,
+          CustomClipper<RRect>? clipper,
+          Clip clipBehavior = Clip.antiAlias,
+          bool animate = false}) =>
+      ClipRRect(
+          clipper: clipper,
+          clipBehavior: clipBehavior,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(topLeft ?? all ?? 0.0),
+              topRight: Radius.circular(topRight ?? all ?? 0.0),
+              bottomLeft: Radius.circular(bottomLeft ?? all ?? 0.0),
+              bottomRight: Radius.circular(bottomRight ?? all ?? 0.0)),
+          child: this);
+
+  Widget clipRect(
+          {CustomClipper<Rect>? clipper, Clip clipBehavior = Clip.hardEdge}) =>
+      ClipRect(clipper: clipper, clipBehavior: clipBehavior, child: this);
+
+  Widget clipOval() => ClipOval(child: this);
 
   Widget border({
     double? all,

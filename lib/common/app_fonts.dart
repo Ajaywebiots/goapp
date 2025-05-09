@@ -171,7 +171,7 @@ class AppFonts {
   final categoryList = "categoryList";
   final couponTypeList = "couponTypeList";
   final businessCategoryList = "businessCategoryList";
-  final blogCategoryList = "blogCategoryList";
+  final blogCategory = "blogCategory";
   final filterBy = "filterBy";
   final clearAll = "clearAll";
   final apply = "apply";

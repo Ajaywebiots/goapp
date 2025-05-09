@@ -1,4 +1,4 @@
-import 'package:nb_utils/nb_utils.dart';
+import 'package:goapp/screens/bottom_screens/home_screen/layouts/qr_scanner_screen.dart';
 
 import '../../../../config.dart';
 import '../../../../providers/bottom_providers/home_screen_provider.dart';
@@ -11,67 +11,57 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeScreenProvider>(builder: (context1, value, child) {
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        /* Row(children: [
-          const HSpace(Sizes.s20),
-          CommonArrow(
-              onTap: () => value.locationTap(context),
-              arrow: eSvgAssets.location,
-              svgColor: appColor(context).primary,
-              color: appColor(context).primary.withOpacity(0.2)),
-          const HSpace(Sizes.s10),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(language(context, appFonts.currentLocation),
-                          style: appCss.dmDenseRegular12
-                              .textColor(appColor(context).lightText)),
-                      const HSpace(Sizes.s5),
-                      SvgPicture.asset(eSvgAssets.arrowDown)
-                    ]).inkWell(onTap: () => value.locationTap(context)),
-                SizedBox(
-                  width: Sizes.s180,
-                  child: Text(language(context, appFonts.salamina),
-                      overflow: TextOverflow.ellipsis,
-                      style: appCss.dmDenseBold14
-                          .textColor(appColor(context).darkText)),
-                )
-              ])
-        ]),*/
-        Row(children: [
-          const HSpace(Sizes.s20),
-          Image.asset(eImageAssets.appLogo, height: 70),
-          Text(language(context, appFonts.goSalamina),
-              style: appCss.outfitMedium26
-                  .textColor(appColor(context).darkText)
-                  .textHeight(1))
-        ]),
-        Row(children: [
-          const HSpace(Sizes.s10),
-          Container(
-                  alignment: Alignment.center,
-                  height: Sizes.s40,
-                  width: Sizes.s40,
-                  child: SvgPicture.asset(eSvgAssets.notification,
-                      alignment: Alignment.center,
-                      fit: BoxFit.scaleDown,
-                      colorFilter: ColorFilter.mode(
-                          appColor(context).darkText, BlendMode.srcIn)))
-              .decorated(
-                  shape: BoxShape.circle, color: appColor(context).fieldCardBg)
-              .inkWell(onTap: () => value.notificationTap(context))
-              .paddingOnly(
-                  right: rtl(context) ? 0 : Insets.i20,
-                  left: rtl(context) ? Insets.i20 : 0)
-        ])
-      ]);
-    });
+    return FutureBuilder<SharedPreferences>(
+        future: SharedPreferences.getInstance(),
+        builder: (context, snapshot) {
+          final prefs = snapshot.data;
+          final accountType = prefs?.getString(session.accountType);
+          final showIcon = accountType?.toLowerCase() == 'business';
+          return Consumer<HomeScreenProvider>(
+              builder: (context1, value, child) {
+            return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(children: [
+                    const HSpace(Sizes.s15),
+                    Image.asset(eImageAssets.appLogo, height: Insets.i60),
+                    Text(language(context, appFonts.goSalamina),
+                        style: appCss.outfitMedium26
+                            .textColor(appColor(context).darkText))
+                  ]),
+                  Row(children: [
+                    if (showIcon)
+                      Image.asset(
+                              width: 32,
+                              height: 32,
+                              "assets/images/qrCodeScanner.png")
+                          .inkWell(onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const QRScannerScreen()));
+                      }),
+                    const HSpace(Sizes.s10),
+                    Container(
+                            alignment: Alignment.center,
+                            height: Sizes.s40,
+                            width: Sizes.s40,
+                            child: SvgPicture.asset(eSvgAssets.notification,
+                                alignment: Alignment.center,
+                                fit: BoxFit.scaleDown,
+                                colorFilter: ColorFilter.mode(
+                                    appColor(context).darkText,
+                                    BlendMode.srcIn)))
+                        .decorated(
+                            shape: BoxShape.circle,
+                            color: appColor(context).fieldCardBg)
+                        .inkWell(onTap: () => value.notificationTap(context))
+                        .paddingOnly(
+                            right: rtl(context) ? 0 : Insets.i20,
+                            left: rtl(context) ? Insets.i20 : 0)
+                  ])
+                ]);
+          });
+        });
   }
 }

@@ -34,7 +34,7 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                               : eSvgAssets.arrowLeft,
                           onTap: () => route.pop(context))
                       .marginOnly(left: Insets.i20),
-                  title: Text(language(context, appFonts.profileDetails),
+                  title: Text(language(context, appFonts.myProfile),
                       style: appCss.dmDenseBold18
                           .textColor(appColor(context).darkText))),
               body: SafeArea(
@@ -82,7 +82,7 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                       // value.uploadImageUsingCommonApi(value.imageFile!);
                       value.updateProfileDetailDataAPI(context);
                     })
-              ]).paddingSymmetric(horizontal: Insets.i20)))));
+              ]).padding(horizontal: Insets.i20, bottom: Insets.i20)))));
     });
   }
 }

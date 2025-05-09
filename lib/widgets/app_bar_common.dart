@@ -13,7 +13,7 @@ class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
           leadingWidth: 60,
           title: Text(language(context, title!),
               style:
-                  appCss.dmDenseMedium18.textColor(appColor(context).darkText)),
+                  appCss.dmDenseBold18.textColor(appColor(context).darkText)),
           centerTitle: true,
           leading: CommonArrow(
                   arrow: languages.isUserRTl

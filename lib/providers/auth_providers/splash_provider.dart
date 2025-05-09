@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
+import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
 import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
@@ -24,7 +25,8 @@ class SplashProvider extends ChangeNotifier {
           bool? isIntro = pref.getBool(session.isIntro) ?? false;
           String? token = pref.getString(session.accessToken);
           String? expirationString = pref.getString(session.tokenExpiration);
-
+          final role = pref.getString(session.accountType);
+          log("role:::: ${role}");
           log("access token::: $token");
           log("expirationString::: $expirationString");
           Provider.of<SplashProvider>(context, listen: false).dispose();
@@ -32,6 +34,8 @@ class SplashProvider extends ChangeNotifier {
           log("isIntro::$isIntro");
           final homePvr =
               Provider.of<HomeScreenProvider>(context, listen: false);
+          Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+              .getArticlesSearchAPI(context);
           final searchPvr = Provider.of<SearchProvider>(context, listen: false);
           final attractionPvr =
               Provider.of<AttractionProvider>(context, listen: false);

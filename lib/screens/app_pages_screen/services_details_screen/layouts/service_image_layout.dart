@@ -72,9 +72,9 @@ class ServiceImageLayout extends StatelessWidget {
             ? Container()
             : Padding(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.225),
+                    top: MediaQuery.of(context).size.height * 0.235),
                 child: Container(
-                    height: 82,
+                    height: Sizes.s82,
                     decoration: BoxDecoration(
                       color: Colors.grey,
                       shape: BoxShape.circle,

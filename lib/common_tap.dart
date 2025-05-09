@@ -13,18 +13,18 @@ const googleMapLink = 'https://www.google.com/maps/search/?api=1&query=';
 const wpLink = 'whatsapp://send?phone=';
 bool isOpen = false;
 
-onBook(context, Services service,
-    {GestureTapCallback? addTap,
-    minusTap,
-    isPackage = false,
-    packageServiceId}) async {
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
-  if (isGuest == false) {
-  } else {
-    route.pushAndRemoveUntil(context);
-  }
-}
+// onBook(context, Services service,
+//     {GestureTapCallback? addTap,
+//     minusTap,
+//     isPackage = false,
+//     packageServiceId}) async {
+//   SharedPreferences preferences = await SharedPreferences.getInstance();
+//   bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
+//   if (isGuest == false) {
+//   } else {
+//     route.pushAndRemoveUntil(context);
+//   }
+// }
 
 commonUrlTap(context, String address,
     {LaunchMode launchMode = LaunchMode.inAppWebView}) async {

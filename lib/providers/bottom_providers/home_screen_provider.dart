@@ -165,14 +165,14 @@ class HomeScreenProvider with ChangeNotifier {
   // List<OfferModel> offerList = []; ////
   List<model.Offer> couponOfferList = [];
 
-  List<ProviderModel> highestRateList = [];
-  List<CurrencyModel> currencyList = [];
+  // List<ProviderModel> highestRateList = [];
+  // List<CurrencyModel> currencyList = [];
 
   // List<CouponModel> couponList = [];
   List<Categories> categoryList = [];
-  List<ServicePackageModel> servicePackagesList = [];
-  List<ServicePackageModel> firstThreeServiceList = [];
-  List<Services> featuredServiceList = [];
+  // List<ServicePackageModel> servicePackagesList = [];
+  // List<ServicePackageModel> firstThreeServiceList = [];
+  // List<Services> featuredServiceList = [];
 
   List<model.Business> firstTwoFeaturedServiceList = [];
   List<model.Attraction> firstTwoHighRateList = [];
@@ -269,14 +269,14 @@ class HomeScreenProvider with ChangeNotifier {
     return discount;
   }
 
-  List<BlogFilterModel> blogFilterList = [];
+  // List<BlogFilterModel> blogFilterList = [];
 
-  getBlogFilter({search}) async {
-    blogFilterList = appArray.blogFilterList
-        .map((e) => BlogFilterModel.fromJson(e))
-        .toList();
-    notifyListeners();
-  }
+  // getBlogFilter({search}) async {
+  //   blogFilterList = appArray.blogFilterList
+  //       .map((e) => BlogFilterModel.fromJson(e))
+  //       .toList();
+  //   notifyListeners();
+  // }
 
   // onBottomSheet(context) {
   //   notifyListeners();

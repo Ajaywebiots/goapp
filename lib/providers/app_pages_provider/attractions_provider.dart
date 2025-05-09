@@ -19,7 +19,7 @@ import '../bottom_providers/dashboard_provider.dart';
 class AttractionProvider with ChangeNotifier {
   final FocusNode searchFocus = FocusNode();
 
-  List<ProviderModel> searchList = [];
+  List searchList = [];
   AnimationController? animationController;
   TextEditingController txtFeaturedSearch = TextEditingController();
 
@@ -56,16 +56,14 @@ class AttractionProvider with ChangeNotifier {
           .then((value) {
         log("value.data ${value.data}");
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
-            isLoading = false;
-            attractionsSearchList.clear();
-            AttractionsSearchModel attractionsSearchModel =
-                AttractionsSearchModel.fromJson(value.data);
+          notifyListeners();
+          isLoading = false;
+          attractionsSearchList.clear();
+          AttractionsSearchModel attractionsSearchModel =
+              AttractionsSearchModel.fromJson(value.data);
 
-            attractionsSearchList.addAll(attractionsSearchModel.attractions);
-            log("attractionsSearchList $attractionsSearchList");
-          }
+          attractionsSearchList.addAll(attractionsSearchModel.attractions);
+          log("attractionsSearchList $attractionsSearchList");
         } else {
           isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
@@ -94,7 +92,7 @@ class AttractionProvider with ChangeNotifier {
 
       log("value.data['responseStatus']::${value.data}");
 
-      if (value.isSuccess == true && value.data['responseStatus'] == 1) {
+      if (value.isSuccess == true) {
         log("DDDDDD:${value.data}");
         AttractionsDetailsModel attractionsDetailModel =
             AttractionsDetailsModel.fromJson(value.data);
@@ -111,8 +109,8 @@ class AttractionProvider with ChangeNotifier {
           (Route<dynamic> route) => false,
         );
       }
-    } catch (e) {
-      log("attractionsDetailsAPI :: $e");
+    } catch (e, s) {
+      log("attractionsDetailsAPI :: $e ==> $s");
     } finally {
       isNavigatingAttraction = false;
       notifyListeners();
@@ -127,20 +125,18 @@ class AttractionProvider with ChangeNotifier {
           .commonApi(api.attractionCategories, [], ApiType.get)
           .then((value) {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            notifyListeners();
+          notifyListeners();
 
-            log("API Response: attractionCategories ${value.data}");
-            AttractionsCategoriesModel categoryModel =
-                AttractionsCategoriesModel.fromJson(value.data);
-            notifyListeners();
-            // Clear old list and add new parsed categories
-            categoryList.clear();
-            notifyListeners();
-            categoryList.addAll(categoryModel.categories ?? []);
-            // hideLoading(context);
-            notifyListeners();
-          }
+          log("API Response: attractionCategories ${value.data}");
+          AttractionsCategoriesModel categoryModel =
+              AttractionsCategoriesModel.fromJson(value.data);
+          notifyListeners();
+          // Clear old list and add new parsed categories
+          categoryList.clear();
+          notifyListeners();
+          categoryList.addAll(categoryModel.categories ?? []);
+          // hideLoading(context);
+          notifyListeners();
         } else {
           isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
@@ -166,13 +162,12 @@ class AttractionProvider with ChangeNotifier {
 
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
-    // Start a new debounce timer
-    debounceTimer = Timer(Duration(milliseconds: 500), () {
+    debounceTimer = Timer(Duration(milliseconds: 50), () {
       final query = searchCtrl.text.trim();
       log("rrrrr $query");
       if (query.isEmpty) {
         getAttractionSearchAPI(context);
-      } else if (query.length >= 3) {
+      } else if (query.length >= 2) {
         fetchSearchResults(query, context);
       }
     });
@@ -193,16 +188,14 @@ class AttractionProvider with ChangeNotifier {
               isToken: true)
           .then((value) {
         if (value.isSuccess == true) {
-          if (value.data['responseStatus'] == 1) {
-            isLoading = false;
-            attractionsSearchList.clear();
-            AttractionsSearchModel attractionsSearchModel =
-                AttractionsSearchModel.fromJson(value.data);
-            attractionsSearchList.addAll(attractionsSearchModel.attractions);
+          isLoading = false;
+          attractionsSearchList.clear();
+          AttractionsSearchModel attractionsSearchModel =
+              AttractionsSearchModel.fromJson(value.data);
+          attractionsSearchList.addAll(attractionsSearchModel.attractions);
 
-            log("search aaaa $attractionsSearchList");
-            notifyListeners();
-          }
+          log("search aaaa $attractionsSearchList");
+          notifyListeners();
         } else {
           isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
@@ -303,7 +296,7 @@ class AttractionProvider with ChangeNotifier {
       log("Final API URL: $url");
 
       apiServices.commonApi(url, [], ApiType.get, isToken: true).then((value) {
-        if (value.isSuccess! && value.data['responseStatus'] == 1) {
+        if (value.isSuccess == true) {
           // hideLoading(context);
           attractionsSearchList.clear();
           notifyListeners();
@@ -699,31 +692,31 @@ class AttractionProvider with ChangeNotifier {
   }
 
   //featured package list
-  getFeaturedPackage(HomeScreenProvider homePvr) async {
-    searchList = [];
-    if (txtFeaturedSearch.text.isNotEmpty) {
-      for (var data in homePvr.highestRateList) {
-        if (data.name!
-            .toLowerCase()
-            .contains(txtFeaturedSearch.text.toLowerCase())) {
-          if (!searchList.contains(data)) {
-            searchList.add(data);
-          }
-          notifyListeners();
-        }
-      }
-    } else {
-      notifyListeners();
-    }
-  }
-
-  onBack(HomeScreenProvider homePvr, context) {
-    txtFeaturedSearch.text = "";
-    searchList = [];
-    notifyListeners();
-    getFeaturedPackage(homePvr);
-    route.pop(context);
-  }
+  // getFeaturedPackage(HomeScreenProvider homePvr) async {
+  //   searchList = [];
+  //   if (txtFeaturedSearch.text.isNotEmpty) {
+  //     for (var data in homePvr.highestRateList) {
+  //       if (data.name!
+  //           .toLowerCase()
+  //           .contains(txtFeaturedSearch.text.toLowerCase())) {
+  //         if (!searchList.contains(data)) {
+  //           searchList.add(data);
+  //         }
+  //         notifyListeners();
+  //       }
+  //     }
+  //   } else {
+  //     notifyListeners();
+  //   }
+  // }
+  //
+  // onBack(HomeScreenProvider homePvr, context) {
+  //   txtFeaturedSearch.text = "";
+  //   searchList = [];
+  //   notifyListeners();
+  //   // getFeaturedPackage(homePvr);
+  //   route.pop(context);
+  // }
 
   @override
   void dispose() {

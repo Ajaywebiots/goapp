@@ -41,10 +41,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       onTap: () => route.pop(context)).paddingAll(Insets.i8)),
               body: SafeArea(
                   child: value.reviewList.isEmpty
-                      ? Center(
-                          child: Text(language(context, "No reviews available"),
-                              style: appCss.dmDenseMedium16
-                                  .textColor(appColor(context).lightText)))
+                      ? EmptyLayout(
+                          isButtonShow: false,
+                          title: language(context, appFonts.noResultsWereFound),
+                          subtitle: language(context, appFonts.sorry),
+                          widget: Image.asset(eImageAssets.noNoti,
+                              height: Sizes.s200))
                       : ListView.builder(
                           itemCount: value.reviewList.length,
                           itemBuilder: (context, index) {

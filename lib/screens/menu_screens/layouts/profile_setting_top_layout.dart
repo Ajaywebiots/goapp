@@ -32,7 +32,7 @@ class ProfileSettingTopLayout extends StatelessWidget {
                                   appColor(context)
                                       .whiteBg
                                       .withValues(alpha: 0.7))),
-                          Text(language(context, ddd.memberStatus ?? ""),
+                          Text(language(context, ddd.accountType ?? ""),
                               style: appCss.dmDenseMedium13
                                   .textColor(appColor(context).whiteBg))
                         ]),
@@ -45,7 +45,7 @@ class ProfileSettingTopLayout extends StatelessWidget {
                                   appColor(context)
                                       .whiteBg
                                       .withValues(alpha: 0.7))),
-                          Text(ddd.accountType ?? "",
+                          Text(ddd.memberStatus ?? "",
                               style: appCss.dmDenseMedium13
                                   .textColor(appColor(context).whiteBg))
                         ])

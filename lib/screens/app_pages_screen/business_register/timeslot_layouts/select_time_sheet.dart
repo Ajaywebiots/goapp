@@ -24,7 +24,7 @@ class SelectTimeSheet extends StatelessWidget {
                 Text(language(context, "Select Time"),
                     style: appCss.dmDenseblack18
                         .textColor(appColor(context).darkText)),
-                const Icon(CupertinoIcons.multiply)
+                Icon(CupertinoIcons.multiply, color: appColor(context).darkText)
                     .inkWell(onTap: () => route.pop(context))
               ]).paddingAll(Insets.i20),
               Row(

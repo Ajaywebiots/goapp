@@ -46,7 +46,6 @@ class HomeBody extends StatelessWidget {
                     alignment: WrapAlignment.center,
                     direction: Axis.horizontal,
                     children: value.categoryList
-                        .take(8)
                         .toList()
                         .asMap()
                         .entries

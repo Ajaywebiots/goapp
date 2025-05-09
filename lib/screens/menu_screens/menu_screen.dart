@@ -14,36 +14,32 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileProvider>(builder: (context, profilePvr, child) {
-      return StatefulWrapper(
-          onInit: () => Future.delayed(
-              const Duration(milliseconds: 100), () => profilePvr.onReady()),
-          child: DirectionalityRtl(
-              child: SafeArea(
-                  child: Scaffold(
-                      appBar: AppBarCommon(
-                          title: "Settings",
-                          onTap: () {
-                            if (isHomeScreen) {
-                              final dash = Provider.of<DashboardProvider>(
-                                  context,
-                                  listen: false);
-                              final homePvr = Provider.of<HomeScreenProvider>(
-                                  context,
-                                  listen: true);
-                              dash.selectIndex = 0;
-                              dash.notifyListeners();
-                              homePvr.notifyListeners();
-                            }
-                          }),
-                      body: SingleChildScrollView(
-                          child: Column(children: [
-                        ProfileSettingTopLayout(),
-                        VSpace(Sizes.s15),
-                        ProfileOptionsLayout()
-                      ]).padding(
-                              horizontal: Insets.i20,
-                              top: Insets.i20,
-                              bottom: Insets.i50))))));
+      return DirectionalityRtl(
+          child: SafeArea(
+              child: Scaffold(
+                  appBar: AppBarCommon(
+                      title: "Settings",
+                      onTap: () {
+                        if (isHomeScreen) {
+                          final dash = Provider.of<DashboardProvider>(context,
+                              listen: false);
+                          final homePvr = Provider.of<HomeScreenProvider>(
+                              context,
+                              listen: false);
+                          dash.selectIndex = 0;
+                          dash.notifyListeners();
+                          homePvr.notifyListeners();
+                        }
+                      }),
+                  body: SingleChildScrollView(
+                      child: Column(children: [
+                    ProfileSettingTopLayout(),
+                    VSpace(Sizes.s15),
+                    ProfileOptionsLayout()
+                  ]).padding(
+                          horizontal: Insets.i20,
+                          top: Insets.i10,
+                          bottom: Insets.i50)))));
     });
   }
 }

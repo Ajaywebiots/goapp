@@ -37,24 +37,18 @@ class TextFieldLayout extends StatelessWidget {
       const VSpace(Sizes.s15),
       ContainerWithTextLayout(title: language(context, appFonts.phoneNo)),
       const VSpace(Sizes.s10),
-      // RegisterWidgetClass().phoneTextBox(
-      //     context, value!.txtPhone, value!.phoneFocus,
-      //     dialCode: value?.dialCode,
-      //     onChanged: (CountryCodeCustom? code) => value!.changeDialCode(code!),
-      //     onFieldSubmitted: (values) => validation.fieldFocusChange(
-      //         context, value!.phoneFocus, value!.phoneFocus)),
       IntrinsicHeight(
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CountryListLayout(
             onChanged: (CountryCodeCustom? code) =>
                 value!.changeDialCode(code!),
-            dialCode: value!.dialCode), // Fallback to +91),
+            dialCode: value!.dialCode),
         const HSpace(Sizes.s4),
         Expanded(
             child: TextFieldCommon(
                 keyboardType: TextInputType.number,
-                // validator: (phone) =>
-                //     Validation().phoneValidation(context, phone),
+                validator: (phone) =>
+                    Validation().phoneValidation(context, phone),
                 controller: value!.txtPhone,
                 onFieldSubmitted: (values) => validation.fieldFocusChange(
                     context, value!.phoneFocus, value!.phoneFocus),

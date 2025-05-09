@@ -68,13 +68,8 @@ class AppArray {
           ),
         ),
         MenuItem(
-          title: 'My Offers',
-          icon: SvgPicture.asset(
-            eSvgAssets.offerOut,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'My Offers',
+            icon: SvgPicture.asset(eSvgAssets.offerOut, height: 18, width: 18)),
         MenuItem(
           title: 'Offer Bookings',
           icon: SvgPicture.asset(
@@ -117,45 +112,23 @@ class AppArray {
 
   List<MenuItem> menuItems(context) => [
         MenuItem(
-          title: 'Business Club',
-          icon: SvgPicture.asset(
-            "assets/svg/business.svg",
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Business Club',
+            icon: SvgPicture.asset("assets/svg/business.svg",
+                height: 18, width: 18)),
         MenuItem(
-          title: 'Travel Guide',
-          icon: SvgPicture.asset(
-            eSvgAssets.global,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Travel Guide',
+            icon: SvgPicture.asset(eSvgAssets.global, height: 18, width: 18)),
         MenuItem(
-          title: 'Salamina Municipality',
-          icon: SvgPicture.asset(
-            "assets/svg/municipal.svg",
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Salamina Municipality',
+            icon: SvgPicture.asset("assets/svg/municipal.svg",
+                height: 18, width: 18)),
         MenuItem(
-          title: 'My Account',
-          icon: SvgPicture.asset(
-            "assets/svg/myAccount.svg",
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'My Account',
+            icon: SvgPicture.asset("assets/svg/myAccount.svg",
+                height: 18, width: 18)),
         MenuItem(
-          title: 'App Details',
-          icon: SvgPicture.asset(
-            eSvgAssets.mobile,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'App Details',
+            icon: SvgPicture.asset(eSvgAssets.mobile, height: 18, width: 18)),
         MenuItem(
             title: 'Customer Support',
             icon: SvgPicture.asset(eSvgAssets.email,
@@ -644,7 +617,8 @@ class AppArray {
           'rating': "4.0",
           "description": '“This is amazing service i have ever get”',
           "showReview": true,
-          "createDate": "04-05-2025",  'time':"12 min ago"
+          "createDate": "04-05-2025",
+          'time': "12 min ago"
         },
         {
           "id": 2,
@@ -652,7 +626,8 @@ class AppArray {
           'rating': "4.0",
           "description": '“This is amazing service i have ever get”',
           "showReview": false,
-          "createDate": "",  'time':"12 min ago"
+          "createDate": "",
+          'time': "12 min ago"
         },
         {
           "id": 3,
@@ -660,7 +635,8 @@ class AppArray {
           'rating': "4.0",
           "description": '“This is amazing service i have ever get”',
           "showReview": true,
-          "createDate": "",  'time':"12 min ago"
+          "createDate": "",
+          'time': "12 min ago"
         },
         {
           "id": 4,
@@ -669,7 +645,7 @@ class AppArray {
           "description": '“This is amazing service i have ever get”',
           "showReview": false,
           "createDate": "",
-          'time':"12 min ago"
+          'time': "12 min ago"
         },
       ];
 
@@ -1140,7 +1116,7 @@ class AppArray {
     {"id": 2, "title": appFonts.highestServed},
     {"id": 3, "title": appFonts.lowestServed},
   ];
-  List businessCategory = ["Restaurant", "Baar", "Cafe"];
+  List businessCategory = ["Restaurant", "Bar", "Cafe"];
   List priceRange = ["10-100", "100-1000", "10000-10,000"];
   List offerType = ["Free Gift", "Coupon", "Voucher"];
 
@@ -1246,7 +1222,6 @@ class AppArray {
       ]
     }
   ];
-
 
   var businessReviewRating = [
     {"stars": 5, "percentage": 84},
@@ -4160,41 +4135,34 @@ class AppArray {
   };
 
   List get businessOfferList => [
-    {
-      "name": "Coffee House",
-      "title": "Buy 1 Get 1 Free on all drinks",
-      "tag": "5% OFF",
-      "image": {
-        "source": eImageAssets.appLogo
-      },
-      "expirationDate": DateTime.now().add(Duration(days: 10)),
-      "isFavourite": true,
-      "bookingsCount": "85"
-    },
-    {
-      "name": "Pizza Planet",
-      "title": "20% Off on orders above \$25",
-      "tag": "Buy 1 GET 1",
-      "image": {
-        "source": eImageAssets.appLogo
-      },
-      "expirationDate": DateTime.now().add(Duration(days: 5)),
-      "isFavourite": false,
-      "bookingsCount": "85"
-    },
-    {
-      "name": "Salon Bliss",
-      "title": "Flat 30% Off on Haircuts",
-      "tag": "10€ OFF",
-      "image": {
-        "source": eImageAssets.appLogo
-      },
-      "expirationDate": DateTime.now().add(Duration(days: 15)),
-      "isFavourite": true,
-      "bookingsCount": "85"
-    }
-  ];
-
+        {
+          "name": "Coffee House",
+          "title": "Buy 1 Get 1 Free on all drinks",
+          "tag": "5% OFF",
+          "image": {"source": eImageAssets.appLogo},
+          "expirationDate": DateTime.now().add(Duration(days: 10)),
+          "isFavourite": true,
+          "bookingsCount": "85"
+        },
+        {
+          "name": "Pizza Planet",
+          "title": "20% Off on orders above \$25",
+          "tag": "Buy 1 GET 1",
+          "image": {"source": eImageAssets.appLogo},
+          "expirationDate": DateTime.now().add(Duration(days: 5)),
+          "isFavourite": false,
+          "bookingsCount": "85"
+        },
+        {
+          "name": "Salon Bliss",
+          "title": "Flat 30% Off on Haircuts",
+          "tag": "10€ OFF",
+          "image": {"source": eImageAssets.appLogo},
+          "expirationDate": DateTime.now().add(Duration(days: 15)),
+          "isFavourite": true,
+          "bookingsCount": "85"
+        }
+      ];
 
   var offerList = [
     {
