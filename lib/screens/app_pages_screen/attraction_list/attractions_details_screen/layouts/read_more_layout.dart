@@ -1,4 +1,4 @@
-import '../../../../config.dart';
+import '../../../../../config.dart';
 
 class ReadMoreLayout extends StatelessWidget {
   final String? text;

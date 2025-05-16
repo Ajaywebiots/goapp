@@ -15,7 +15,7 @@ class TextFieldBody extends StatelessWidget {
           const VSpace(Sizes.s8),
           DropdownButtonFormField<SupportSubject>(
                   value: value.selectedIndex != null
-                      ? value.subjects[value.selectedIndex!]
+                      ? value.subjects[value.selectedIndex]
                       : null,
                   onChanged: (SupportSubject? newValue) {
                     value.selectedIndex = value.subjects
@@ -50,17 +50,28 @@ class TextFieldBody extends StatelessWidget {
                   }).toList())
               .marginSymmetric(horizontal: Insets.i20),
           const VSpace(Sizes.s15),
-          ContainerWithTextLayout(title: language(context, "Message")),
+          ContainerWithTextLayout(title: language(context, appFonts.email)),
           const VSpace(Sizes.s8),
           TextFieldCommon(
-                  hintText: language(context, appFonts.writeHere),
-                  minLines: 15,
-                  maxLines: 15,
+                  prefixIcon: eSvgAssets.email,
+                  hintText: language(context, appFonts.enterEmail),
                   focusNode: value.messageFocus,
                   validator: (val) => validation.commonValidation(context, val),
                   isNumber: true,
                   controller: value.messageController)
-              .padding(horizontal: Insets.i20, bottom: Insets.i46)
+              .marginSymmetric(horizontal: Insets.i20),
+          const VSpace(Sizes.s15),
+          ContainerWithTextLayout(title: language(context, "Message")),
+          const VSpace(Sizes.s8),
+          TextFieldCommon(
+                  hintText: language(context, appFonts.writeHere),
+                  minLines: 10,
+                  maxLines: 10,
+                  focusNode: value.messageFocus,
+                  validator: (val) => validation.commonValidation(context, val),
+                  isNumber: true,
+                  controller: value.messageController)
+              .padding(horizontal: Insets.i20, bottom: Insets.i20)
         ]).paddingSymmetric(vertical: Insets.i20));
   }
 }

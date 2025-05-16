@@ -25,15 +25,27 @@ class CouponLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      data!.image == null
-                          ? CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage(eImageAssets.noImageFound2))
-                              .padding(right: Insets.i10)
-                          : CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(data!.image!.source))
-                              .padding(right: Insets.i10),
+                      CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 20,
+                          backgroundImage: null,
+                          child: ClipOval(
+                              child: CachedNetworkImage(
+                                  imageUrl: data?.image?.source ?? '',
+                                  fit: BoxFit.cover,
+                                  width: 48,
+                                  height: 48,
+                                  placeholder: (context, url) => Image.asset(
+                                      eImageAssets.noImageFound2,
+                                      fit: BoxFit.cover,
+                                      width: 48,
+                                      height: 48),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(eImageAssets.noImageFound2,
+                                          fit: BoxFit.cover,
+                                          width: 48,
+                                          height: 48)))).padding(
+                          right: Insets.i10),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(

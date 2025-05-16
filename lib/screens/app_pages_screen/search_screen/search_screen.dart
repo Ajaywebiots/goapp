@@ -45,28 +45,30 @@ class _SearchScreenState extends State<SearchScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Optional: Find matching index by comparing translatedValue if needed.
-      final matchedIndex = categoryListPvr.categoryList.indexWhere((cat) =>
+      /*final matchedIndex = categoryListPvr.categoryList.indexWhere((cat) =>
           cat.translatedValue?.trim().toLowerCase() ==
           categoryListPvr
               .categoryList[selectedCategoryIndex ?? 0].translatedValue
               ?.trim()
-              .toLowerCase());
+              .toLowerCase());*/
 
-      if (matchedIndex != 0) {
-        final matchedCategory = categoryListPvr.categoryList[matchedIndex];
-        searchPvr.onSubCategories(
-            context, matchedIndex, matchedCategory.categoryId);
+      final pendingName = searchPvr.pendingCategoryName;
+      if (pendingName != null) {
+        final matchedIndex = categoryListPvr.categoryList.indexWhere(
+            (cat) => cat.translatedValue?.trim().toLowerCase() == pendingName);
 
-        // Update the local state as well so that UI reflects the selected index.
-        setState(() {
-          selectedCategoryIndex = matchedIndex;
-          log(" eee $selectedCategoryIndex");
-          log(" matchedIndex $matchedIndex");
-        });
+        if (matchedIndex != -1) {
+          final matchedCategory = categoryListPvr.categoryList[matchedIndex];
+          searchPvr.onSubCategories(
+              context, matchedIndex, matchedCategory.categoryId);
 
-        // Scroll to position (if needed)
-        _scrollController.animateTo(matchedIndex * 80.0,
-            duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+          setState(() {
+            selectedCategoryIndex = matchedIndex;
+          });
+
+          _scrollController.animateTo(matchedIndex * 80.0,
+              duration: Duration(milliseconds: 100), curve: Curves.easeInOut);
+        }
       }
     });
   }
@@ -192,7 +194,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                                   fit: BoxFit.fill,
                                                                   height: Sizes.s24,
                                                                   width: Sizes.s24)
-                                                              .paddingAll(Insets.i17)),
+                                                              .paddingAll(Insets.i15)),
                                                       VSpace(Insets.i8),
                                                       Text(
                                                           language(context,
@@ -208,7 +210,8 @@ class _SearchScreenState extends State<SearchScreen>
                                                                       .darkText))
                                                     ]))
                                                 .paddingOnly(
-                                                    right: Insets.i20, left: 2)
+                                                    right: Insets.i20,
+                                                    left: Insets.i2)
                                             : Container(),
                                         ...categoryListPvr.categoryList
                                             .asMap()

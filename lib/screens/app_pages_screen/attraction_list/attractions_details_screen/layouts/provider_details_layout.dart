@@ -1,5 +1,5 @@
-import '../../../../config.dart';
-import '../../../../widgets/dotted_line.dart';
+import '../../../../../config.dart';
+import '../../../../../widgets/dotted_line.dart';
 
 class ProviderDetailsLayout extends StatelessWidget {
   final String? pName, rating, experience, service, image;

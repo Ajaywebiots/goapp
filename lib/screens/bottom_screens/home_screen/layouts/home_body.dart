@@ -14,9 +14,14 @@ import '../../../../widgets/heading_row_common.dart';
 import 'expert_business_layout.dart';
 import 'featured_business_layout.dart';
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
 
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<SearchProvider, DashboardProvider, CategoriesListProvider>(
@@ -32,56 +37,55 @@ class HomeBody extends StatelessWidget {
             value.categoryList.isEmpty
                 ? SizedBox.shrink()
                 : HeadingRowCommon(
-                        title: appFonts.topCategories,
-                        isTextSize: true,
-                        onTap: () => route.pushNamed(
-                            context, routeName.categoriesListScreen))
-                    .paddingSymmetric(horizontal: Insets.i20),
+                    title: appFonts.topCategories,
+                    isTextSize: true,
+                    onTap: () {
+                      Provider.of<DashboardProvider>(context, listen: false)
+                          .isInCategoryListing = true;
+                      route.pushNamed(context, routeName.categoriesListScreen);
+                    }).paddingSymmetric(horizontal: Insets.i20),
             value.categoryList.isEmpty
                 ? SizedBox.shrink()
                 : const VSpace(Sizes.s15),
             value.categoryList.isEmpty
                 ? SizedBox.shrink()
-                : Wrap(
-                    alignment: WrapAlignment.center,
-                    direction: Axis.horizontal,
-                    children: value.categoryList
-                        .toList()
-                        .asMap()
-                        .entries
-                        .map((element) {
-                      return TopCategoriesLayout(
-                              // isHomeScreen: true,
-                              // onTap: () {
-                              //   route.pushNamed(context, routeName.search);
-                              //   search.onSubCategories(context, element.key,
-                              //       element.value.categoryId);
-                              // },
-                              data: element.value,
-                              selectedIndex: value.cIndex,
-                              index: element.key)
-                          .padding(
-                              bottom: Insets.i20,
-                              horizontal:
-                                  MediaQuery.of(context).size.width / 35)
-                          .inkWell(onTap: () {
-                        final selectedCategory = element.value;
-                        final selectedIndex = selectedCategory.categoryId;
-
-                        log("selectedIndex ss ${selectedCategory.translatedValue}");
-                        // Navigate to the second screen and pass data
-                        log("value.categoryList::${selectedCategory.categoryId}");
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SearchScreen(
-                                        selectedIndex: selectedIndex! - 1)))
-                            .then((value) {
-                          searchPvr.onSubCategories(
-                              context, element.key, element.value.categoryId!);
-                        });
-                      });
-                    }).toList()),
+                : Consumer<DashboardProvider>(builder: (context, sss, child) {
+                    return Wrap(
+                        alignment: WrapAlignment.center,
+                        direction: Axis.horizontal,
+                        children: value.categoryList
+                            .toList()
+                            .asMap()
+                            .entries
+                            .map((element) {
+                          return TopCategoriesLayout(
+                                  // isHomeScreen: true,
+                                  onTap: () {
+                                    setState(() {
+                                      sss.selectIndex = 1;
+                                      sss.notifyListeners();
+                                      log("dash.selectIndex::${dash.selectIndex}");
+                                    });
+                                    final selectedCategory = element.value;
+                                    final dashProvider =
+                                        Provider.of<DashboardProvider>(context,
+                                            listen: false);
+                                    final searchProvider =
+                                        Provider.of<SearchProvider>(context,
+                                            listen: false);
+                                    searchProvider.setPendingCategoryName(
+                                        selectedCategory.translatedValue ?? '');
+                                    sss.notifyListeners();
+                                  },
+                                  data: element.value,
+                                  selectedIndex: value.cIndex,
+                                  index: element.key)
+                              .padding(
+                                  bottom: Insets.i20,
+                                  horizontal:
+                                      MediaQuery.of(context).size.width / 35);
+                        }).toList());
+                  }),
             value.firstTwoFeaturedServiceList.isEmpty
                 ? Container()
                 : const VSpace(Sizes.s25),

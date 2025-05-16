@@ -268,7 +268,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
 
   getArticlesSearchAPI(context) async {
     notifyListeners();
-    showLoading(context);
+    // showLoading(context);
     try {
       apiServices
           .commonApi(api.blogSearch, [], ApiType.get, isToken: true)
@@ -276,7 +276,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
         notifyListeners();
         log("value.data ${value.data}");
         if (value.isSuccess == true) {
-          hideLoading(context);
+          // hideLoading(context);
           notifyListeners();
           articlesSearchList.clear();
           ArticlesSearchModel articlesSearchModel =
@@ -293,7 +293,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
       });
     } catch (e) {
       notifyListeners();
-      hideLoading(context);
+      // hideLoading(context);
       log("getArticlesSearchAPI :::");
     }
   }

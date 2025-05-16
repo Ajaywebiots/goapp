@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:goapp/services/api_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../config.dart';
@@ -14,8 +16,8 @@ class SignUpCompanyProvider with ChangeNotifier {
   GlobalKey<FormState> signupFreelanceFormKey1 = GlobalKey<FormState>();
   GlobalKey<FormState> signupFreelanceFormKey2 = GlobalKey<FormState>();
   double slider = 0.0;
-  String dialCode = "+91";
-  String providerDialCode = "+91";
+  String dialCode = "+30";
+  String providerDialCode = "+30";
 
   String? chosenValue;
   String? chosenRange;
@@ -536,16 +538,40 @@ class SignUpCompanyProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  int? businessId;
+
   onNext(BuildContext context) async {
     log("INDEX :$pageIndex");
 
     if (pageIndex == 0) {
-      // Validate or skip
-      pageIndex++;
+      final id = await signUpBusinessAPI();
+      if (id != null) {
+        businessId = id;
+        pageIndex++;
+      } else {
+        log("Business signup failed, cannot proceed.");
+        return;
+      }
     } else if (pageIndex == 1) {
-      if (signupFormKey2.currentState!.validate()) pageIndex++;
+      // Step 2: Business location
+      final success = await businessLocationAPI(businessId!);
+      log("Business Location API success: $success");
+
+      if (success ?? false) {
+        pageIndex++;
+      } else {
+        return;
+      }
     } else if (pageIndex == 2) {
-      if (signupFormKey3.currentState!.validate()) pageIndex++;
+      // Step 2: Business location
+      final success = await businessContactAPI(businessId!);
+      log("Business Location API success: $success");
+
+      if (success == true) {
+        pageIndex++;
+      } else {
+        return;
+      }
     } else if (pageIndex == 3) {
       pageIndex++;
     } else if (pageIndex == 4) {
@@ -554,13 +580,12 @@ class SignUpCompanyProvider with ChangeNotifier {
 
     log("INDEXEPAGE $pageIndex");
 
-    // ✅ Handle final step explicitly
     if (pageIndex == 5) {
       isBusiness = true;
       pageIndex = 0;
       notifyListeners();
 
-      // ✅ Use Future.microtask to allow state changes before navigation
+      // ✅ Use Future.micro task to allow state changes before navigation
       Future.microtask(() {
         route.pushNamedAndRemoveUntil(context, routeName.dashboard);
       });
@@ -572,7 +597,11 @@ class SignUpCompanyProvider with ChangeNotifier {
   void onBusinessOnTap(context, data, index) {
     log("data.title::${data.title}///}");
     switch (data.title) {
-      case "DashBoard":
+      // case "My Business":
+      //   route.pushNamed(context, routeName.myBusinessScreen);
+      //   break;
+      case "Business Users":
+        route.pushNamed(context, routeName.businessUserScreen);
         break;
       case "Business Reviews":
         route.pushNamed(context, routeName.businessReviewsScreen);
@@ -589,6 +618,151 @@ class SignUpCompanyProvider with ChangeNotifier {
       default:
         throw UnsupportedError(
             'DefaultFirebaseOptions are not supported for this platform.');
+    }
+  }
+
+  businessLocationAPI(businessID) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final int? userId = pref.getInt(session.id);
+
+      if (userId == null) {
+        log("User ID is null. Cannot proceed with location API.");
+        return;
+      }
+
+      final body = {
+        "addressId": 1,
+        "street": street.text,
+        "countryId": 91,
+        "cityId": 1101,
+        "zipCode": zipCode.text,
+        "longitude": longitude.text,
+        "latitude": latitude.text
+      };
+
+      final String url =
+          "${api.registerBusiness}$userId/business/$businessID/location";
+
+      log("🌐 Location API URL: $url");
+      log("📨 Location API Body: ${jsonEncode(body)}");
+
+      final value =
+          await apiServices.commonApi(url, body, ApiType.post, isToken: true);
+
+      if (value.isSuccess == true) {
+        final businessID = value.data?["businessId"];
+        if (businessID != null) {
+          log("✅ Business location with ID: $businessID");
+          return businessID;
+        } else {
+          log("❗ businessID is null in API response.");
+          return null;
+        }
+      } else {
+        log("❌ Location API failed: ${value.message}");
+        return false;
+      }
+    } catch (e) {
+      log("🚨 Exception in businessLocationAPI: $e");
+      return false;
+    }
+  }
+
+  businessContactAPI(businessID) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final int? userId = pref.getInt(session.id);
+
+      if (userId == null) {
+        log("User ID is null. Cannot proceed with location API.");
+        return;
+      }
+
+      final body = {
+        "phoneNumber": "+91-8041234567",
+        "facebook": "https://www.facebook.com/timesofindia",
+        "instagram": "https://www.instagram.com/indiatimes/",
+        "tikTok": "https://www.tiktok.com/@indiacomedy",
+        "youTube": "https://www.youtube.com/@TimesofIndia",
+        "website": "https://timesofindia.indiatimes.com",
+        "email": "toieditorial@timesgroup.com"
+      };
+
+      final String url =
+          "${api.registerBusiness}$userId/business/$businessID/channels";
+
+      log("🌐 Location API URL: $url");
+      log("📨 Location API Body: ${jsonEncode(body)}");
+
+      final value =
+          await apiServices.commonApi(url, body, ApiType.post, isToken: true);
+
+      if (value.isSuccess == true) {
+        final businessID = value.data?["businessId"];
+        if (businessID != null) {
+          log("✅ Business channels with ID: $businessID");
+          return businessID;
+        } else {
+          log("❗ businessID is null in API response.");
+          return null;
+        }
+      } else {
+        log("❌ API call failed: ${value.message}");
+        return null;
+      }
+    } catch (error) {
+      log("🚨 API Exception: $error");
+      return null;
+    }
+  }
+
+  signUpBusinessAPI() async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final int? userId = pref.getInt(session.id);
+
+      if (userId == null) {
+        log("User ID is null. Cannot proceed with registration.");
+        return;
+      }
+
+      final body = {
+        "language": 1,
+        "name": businessName.text.trim(),
+        "categoryId": 1,
+        "priceRangeId": 2,
+        "phoneNumber": companyPhone.text.trim(),
+        "firstName": contactFirstName.text.trim(),
+        "lastName": contactLastName.text.trim(),
+        "email": emailCtrl.text.trim(),
+        "description": description.text.trim()
+      };
+
+      final String url = "${api.registerBusiness}$userId/business";
+
+      log("📤 API URL: $url");
+      log("📦 API Request Body: ${jsonEncode(body)}");
+
+      final value =
+          await apiServices.commonApi(url, body, ApiType.post, isToken: true);
+
+      if (value.isSuccess == true) {
+        final businessID = value.data?["businessId"];
+        if (businessID != null) {
+          log("✅ Business registered with ID: $businessID");
+          return businessID;
+        } else {
+          log("❗ businessID is null in API response.");
+          return null;
+        }
+      } else {
+        log("❌ API call failed: ${value.message}");
+        return null;
+      }
+    } catch (error) {
+      log("🚨 API Exception: $error");
+      return null;
     }
   }
 }

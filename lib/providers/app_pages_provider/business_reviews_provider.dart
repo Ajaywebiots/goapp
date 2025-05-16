@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import '../../config.dart';
 
-
-class BusinessReviewsProvider extends ChangeNotifier{
+class BusinessReviewsProvider extends ChangeNotifier {
   // List<Reviews> reviews = [];
   bool isPositionedRight = false;
   bool isAnimateOver = false;
@@ -18,8 +17,8 @@ class BusinessReviewsProvider extends ChangeNotifier{
   int? editingReviewId;
   int? exValue = appArray.reviewLowHighList[0]["id"];
 
+  List<Map<String, dynamic>> reviews = [];
 
-  List<Map<String, dynamic>> reviews = []; // Or List<MyReviewModel>
   onReview(val) {
     exValue = val;
 
@@ -32,11 +31,11 @@ class BusinessReviewsProvider extends ChangeNotifier{
       notifyListeners();
     }
   }
+
   void loadReviewForEditing(String reviewText, int ratingIndex, int reviewId) {
     rateController.text = reviewText;
     selectedIndex = ratingIndex;
     editingReviewId = reviewId;
     notifyListeners();
   }
-
 }

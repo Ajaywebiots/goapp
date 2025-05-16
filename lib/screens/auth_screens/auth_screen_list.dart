@@ -1,5 +1,3 @@
-export '../../screens/auth_screens/change_password_screen/change_password_screen.dart';
-export '../../screens/auth_screens/change_password_screen/layouts/change_password_layout.dart';
 export '../../screens/auth_screens/forgot_password_screen/forgot_password_screen.dart';
 export '../../screens/auth_screens/login_screen/layouts/auth_button_common.dart';
 export '../../screens/auth_screens/login_screen/layouts/continue_with_container.dart';
@@ -7,10 +5,6 @@ export '../../screens/auth_screens/login_screen/layouts/login_layout.dart';
 export '../../screens/auth_screens/login_screen/login_screen.dart';
 export '../../screens/auth_screens/login_with_phone_screen/layouts/country_list_layout.dart';
 export '../../screens/auth_screens/login_with_phone_screen/login_with_phone_screen.dart';
-export '../../screens/auth_screens/on_boarding_screen/layouts/animation_fourth_layout.dart';
-export '../../screens/auth_screens/on_boarding_screen/layouts/animation_layout.dart';
-export '../../screens/auth_screens/on_boarding_screen/layouts/animation_second_layout.dart';
-export '../../screens/auth_screens/on_boarding_screen/layouts/animation_third_layout.dart';
 export '../../screens/auth_screens/on_boarding_screen/layouts/bottom_layout.dart';
 export '../../screens/auth_screens/on_boarding_screen/layouts/dot_indicator_layout.dart';
 export '../../screens/auth_screens/on_boarding_screen/layouts/language_drop_down_layout.dart';

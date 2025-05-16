@@ -24,6 +24,7 @@ import '../../services/api_service.dart';
 import '../../widgets/dotted_line.dart';
 import '../../widgets/edit_review_layout.dart';
 import '../bottom_providers/dashboard_provider.dart';
+import 'attractions_provider.dart';
 import 'categories_details_provider.dart';
 
 class SearchProvider with ChangeNotifier {
@@ -32,6 +33,7 @@ class SearchProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
   TextEditingController filterSearchCtrl = TextEditingController();
   List<Categories> categoryList = [];
+
   // List<CategoryModel> type = [];
   Future<ui.Image>? loadingImage;
   final FocusNode searchFocus = FocusNode();
@@ -44,19 +46,32 @@ class SearchProvider with ChangeNotifier {
   int selectedIndex = -1;
 
   bool isLoading = false;
+  int? selectedCategoryId;
+// Modified onSubCategories to handle category selection without navigation
+  onSubCategories(context, int index, int? id) async {
+    if (selectedIndex == index && selectedCategoryId == id) {
+      // Avoid redundant API calls if the same category is selected
+      return;
+    }
 
-  onSubCategories(context, index, id) {
     selectedIndex = index;
-
-    notifyListeners();
+    selectedCategoryId = id;
     popular = false;
+    isPopularSelected = false;
     businessSearchList.clear();
-    log("cateeee $id");
-    getBusinessSearchAPI(context, id: id, isFilter: true);
-    // onSubCategoriesStored(context, index, id);
-    notifyListeners();
-    log("idid:$id");
-    // getServiceByCategoryId(context, id);
+    selectedCategory.clear();
+    selectedRates.clear();
+    lowerVal = 0.0;
+    upperVal = maxPrice;
+    slider = 0;
+    searchCtrl.clear();
+    isSearch = false;
+
+    log("Selected Category Index: $index, ID: $id");
+    notifyListeners(); // Ensure UI updates immediately
+
+    // Fetch business data for the selected category
+    await getBusinessSearchAPI(context, id: id, isFilter: true);
   }
 
   ui.FrameInfo? image, image1;
@@ -430,14 +445,6 @@ class SearchProvider with ChangeNotifier {
     });
   }
 
-  //category list
-  // getCategory({search}) async {
-  //   // categoryList =
-  //   // appArray.categoryList.map((e) => CategoryModel.fromJson(e)).toList();
-  //   type = appArray.type.map((e) => CategoryModel.fromJson(e)).toList();
-  //   notifyListeners();
-  // }
-
   onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
       selectedCategory.add(id);
@@ -457,32 +464,6 @@ class SearchProvider with ChangeNotifier {
     return total.toString();
   }
 
-  // String totalCountFilter() {
-  //   int count = 0;
-  //   if (selectedCategory.isNotEmpty) {
-  //     print('Selected Category is not empty');
-  //     count++;
-  //   }
-  //   /* if (!(lowerVal == 0.0 && (upperVal == maxPrice || upperVal == 100.0))) {
-  //     print('Price filter applied');
-  //     count++;
-  //   }*/
-  //   if (selectedRates.isNotEmpty) {
-  //     print('Selected rates is not empty');
-  //     count++;
-  //   }
-  //   if (slider != 0.0) {
-  //     print('Slider is not zero');
-  //     count++;
-  //   }
-  //   if (isSelect != null) {
-  //     print('isSelect is not null');
-  //     count++;
-  //   }
-  //   print('Total Count: $count');
-  //   return count.toString();
-  // }
-
   //clear filter
   clearFilter(context) {
     isPopularSelected = false;
@@ -499,156 +480,6 @@ class SearchProvider with ChangeNotifier {
     getBusinessSearchAPI(context);
     notifyListeners();
   }
-
-  // search list
-  /*searchService(context, {isPop = false}) async {
-    log("categoryList :::$selectedCategory");
-    log("selectedRates :::$selectedRates");
-    log("slider :::$slider");
-
-    */ /* if (isPop) {
-      route.pop(context);
-    }*/ /*
-
-    */ /* final locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
-    searchList = [];
-    notifyListeners();
-    String apiUrl = "";
-    if (isSelect != null &&
-        !isSelect! &&
-        selectedCategory.isEmpty &&
-        selectedRates.isEmpty &&
-        lowerVal == 0 &&
-        upperVal == 100) {
-      apiUrl =
-          "${api.service}?latitude=${position!.latitude}&longitude=${position!.longitude}";
-    }
-    if (selectedCategory.isNotEmpty) {
-      apiUrl =
-          "${api.service}?categoryIds=$selectedCategory&latitude=${position!.latitude}&longitude=${position!.longitude}";
-    }
-    if (selectedRates.isNotEmpty) {
-      apiUrl =
-          "${api.service}?categoryIds=$selectedCategory&latitude=${position!.latitude}&longitude=${position!.longitude}&rating=$selectedRates";
-    }
-
-    if (selectedRates.isNotEmpty && selectedCategory.isNotEmpty) {
-      apiUrl =
-          "${api.service}?categoryIds=$selectedCategory&latitude=${position!.latitude}&longitude=${position!.longitude}&rating=$selectedRates";
-    }
-
-    if (lowerVal != 0 && upperVal != 100) {
-      apiUrl =
-          "${api.service}?min=$lowerVal&max$upperVal&latitude=${position!.latitude}&longitude=${position!.longitude}";
-    }
-
-    if (isSelect != null && !isSelect!) {
-      apiUrl =
-          "${api.service}?latitude=${position!.latitude}&longitude=${position!.longitude}&distance=$slider";
-    }
-
-    if (isSelect != null && !isSelect! && selectedRates.isNotEmpty) {
-      apiUrl =
-          "${api.service}?latitude=${position!.latitude}&longitude=${position!.longitude}&distance=$slider&rating$selectedRates";
-    }
-
-    if (isSelect != null && !isSelect! && selectedCategory.isNotEmpty) {
-      apiUrl =
-          "${api.service}?latitude=${position!.latitude}&longitude=${position!.longitude}&distance=$slider&categoryIds$selectedCategory";
-    }
-
-    if (isSelect != null &&
-        !isSelect! &&
-        selectedRates.isNotEmpty &&
-        selectedCategory.isNotEmpty) {
-      apiUrl =
-          "${api.service}?latitude=${position!.latitude}&longitude=${position!.longitude}&distance=$slider&rating$selectedRates&categoryIds$selectedCategory";
-    }
-
-    if (lowerVal != 0 && upperVal != 100 && selectedCategory.isNotEmpty) {
-      apiUrl =
-          "${api.service}?categoryIds=$selectedCategory&min=$lowerVal&max$upperVal&latitude=${position!.latitude}&longitude=${position!.longitude}";
-    }
-
-    if (lowerVal != 0 && upperVal != 100 && selectedRates.isNotEmpty) {
-      apiUrl =
-          "${api.service}?rating=$selectedRates&min=$lowerVal&max$upperVal&latitude=${position!.latitude}&longitude=${position!.longitude}";
-    }
-
-    if (lowerVal != 0 &&
-        upperVal != 100 &&
-        selectedRates.isNotEmpty &&
-        selectedCategory.isNotEmpty) {
-      apiUrl =
-          "${api.service}?categoryIds=$selectedCategory&rating=$selectedRates&min=$lowerVal&max$upperVal&latitude=${position!.latitude}&longitude=${position!.longitude}";
-    }
-
-    if (lowerVal != 0 &&
-        upperVal != 100 &&
-        selectedCategory.isNotEmpty &&
-        selectedRates.isNotEmpty &&
-        isSelect!) {
-      apiUrl =
-          "${api.service}?categoryIds=$selectedCategory&min=$lowerVal&max$upperVal&latitude=${position!.latitude}&longitude=${position!.longitude}&distance=$slider&rating=$selectedRates";
-    }
-
-    if (lowerVal != 0 && upperVal != 100 && isSelect!) {
-      apiUrl =
-          "${api.service}?min=$lowerVal&max$upperVal&latitude=${position!.latitude}&longitude=${position!.longitude}&distance=$slider";
-    }
-    if (searchCtrl.text.isNotEmpty) {
-      apiUrl =
-          "${api.service}?latitude=${position!.latitude}&longitude=${position!.longitude}&search=${searchCtrl.text}";
-    } else {
-      searchList = [];
-    }
-    log("SER : $apiUrl");
-    try {
-      searchList = [];
-      notifyListeners();
-      await apiServices.getApi(apiUrl, []).then((value) {
-        if (value.isSuccess!) {
-          for (var data in value.data) {
-            if (!searchList.contains(Services.fromJson(data))) {
-              searchList.add(Services.fromJson(data));
-            }
-          }
-        }
-        if (isPop) {
-          route.pop(context);
-        }
-        if (searchList.isNotEmpty) {
-          isSearch = false;
-        } else {
-          isSearch = true;
-        }
-        notifyListeners();
-      });
-    } catch (e) {
-      log("ERRROEEE searchService $e");
-      notifyListeners();
-    }*/ /*
-    */ /*searchList = [];
-
-    List<Services> serviceList =
-        appArray.servicesList.map((e) => Services.fromJson(e)).toList();
-    for (var search in serviceList) {
-      log("search.title!. :${search.title!} // ${searchCtrl.text}");
-      if (search.title!
-          .toLowerCase()
-          .replaceAll(" ", "")
-          .contains(searchCtrl.text)) {
-        searchList.add(search);
-      }
-      notifyListeners();
-    }
-    if (searchList.isNotEmpty) {
-      isSearch = false;
-    } else {
-      isSearch = true;
-    }*/ /*
-  }*/
 
   Uri buildUriWithRepeatedKeys(String baseUrl, Map<String, dynamic> params) {
     List<String> queryParts = [];
@@ -727,55 +558,6 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // onFeatured(context, Services? services, id, {inCart}) async {
-  //   if (inCart) {
-  //     route.pop(context);
-  //     // route.pushNamed(context, routeName.cartScreen);
-  //   } else {
-  //     onBook(context, services!,
-  //         addTap: () => onAdd(id),
-  //         minusTap: () => onRemoveService(context, id)).then((e) {
-  //       searchList[id].selectedRequiredServiceMan =
-  //           searchList[id].requiredServicemen;
-  //       notifyListeners();
-  //     });
-  //   }
-  // }
-
-  // onTapFeatures(context, Services? services, id) async {
-  //   List<Services> saveList = [];
-  //   dynamic save = pref!.getString(session.recentSearch);
-  //
-  //   if (save == null) {
-  //     saveList.add(services!);
-  //   } else {
-  //     final List<dynamic> jsonData =
-  //         jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
-  //
-  //     saveList = jsonData.map<Services>((jsonList) {
-  //       return Services.fromJson(jsonList);
-  //     }).toList();
-  //
-  //     if (saveList.length == 5) {
-  //       saveList.removeAt(0);
-  //       saveList.add(services!);
-  //     } else {
-  //       int ind = saveList.indexWhere((element) => services!.id == element.id);
-  //
-  //       if (ind < 0) {
-  //         saveList.add(services!);
-  //       }
-  //     }
-  //   }
-  //
-  //   recentSearchList = saveList;
-  //
-  //   pref!.setString(session.recentSearch, jsonEncode(saveList));
-  //   notifyListeners();
-  //   // route.pushNamed(context, routeName.businessDetailsScreen,
-  //   //     arg: services!.id);
-  // }
-
   onRemoveService(context, index) {
     if (int.parse(searchList[index].selectedRequiredServiceMan!) == 1) {
       route.pop(context);
@@ -799,43 +581,88 @@ class SearchProvider with ChangeNotifier {
   bool isPopularSelected = false;
   List<Business> businessSearchList = [];
 
-  getBusinessSearchAPI(context, {int? id, bool? isFilter}) async {
+  getBusinessSearchAPI(context, {int? id, bool? isFilter = true}) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-    Position position = await homePvr.getCurrentLocation();
+    Position position;
+    try {
+      position = await homePvr.getCurrentLocation();
+    } catch (e) {
+      log("Location error: $e");
+      // isLoading = false;
+      notifyListeners();
+      return;
+    }
+
     double lat = position.latitude;
     double lon = position.longitude;
 
-    final filterList =
-        "${api.businessSearch}?categories=$id&currentLongitude=$lon&currentLatitude=$lat";
+    String apiUrl = id != null && isFilter == true
+        ? "${api.businessSearch}?categories=$id&currentLongitude=$lon&currentLatitude=$lat"
+        : "${api.businessSearch}?currentLongitude=$lon&currentLatitude=$lat";
+
     try {
-      apiServices
-          .commonApi(
-              isFilter == true
-                  ? filterList
-                  : "${api.businessSearch}?currentLongitude=$lon&currentLatitude=$lat",
-              [],
-              ApiType.get,
-              isToken: true)
-          .then((value) {
-        if (value.isSuccess == true) {
-          // hideLoading(context);
-          businessSearchList.clear();
-          notifyListeners();
-          BusinessSearchModel businessSearchModel =
-              BusinessSearchModel.fromJson(value.data);
-          notifyListeners();
-          businessSearchList.addAll(businessSearchModel.businesses);
-          notifyListeners();
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
-        }
-      });
+      // isLoading = true;
+      notifyListeners();
+
+      final value =
+          await apiServices.commonApi(apiUrl, [], ApiType.get, isToken: true);
+
+      if (value.isSuccess == true) {
+        businessSearchList.clear();
+        BusinessSearchModel businessSearchModel =
+            BusinessSearchModel.fromJson(value.data);
+        businessSearchList.addAll(businessSearchModel.businesses);
+        log("Fetched ${businessSearchList.length} businesses for category ID: $id");
+      } else {
+        log("API failed: ${value.message}");
+        Navigator.pushNamedAndRemoveUntil(
+            context, routeName.login, (Route<dynamic> route) => false);
+      }
     } catch (e) {
-      // hideLoading(context);
-      log("getBusinessSearchAPI :::");
+      log("getBusinessSearchAPI error: $e");
+    } finally {
+      // isLoading = false;
+      notifyListeners();
     }
   }
+
+  // getBusinessSearchAPI(context, {int? id, bool? isFilter}) async {
+  //   final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
+  //   Position position = await homePvr.getCurrentLocation();
+  //   double lat = position.latitude;
+  //   double lon = position.longitude;
+  //
+  //   final filterList =
+  //       "${api.businessSearch}?categories=$id&currentLongitude=$lon&currentLatitude=$lat";
+  //   try {
+  //     apiServices
+  //         .commonApi(
+  //             isFilter == true
+  //                 ? filterList
+  //                 : "${api.businessSearch}?currentLongitude=$lon&currentLatitude=$lat",
+  //             [],
+  //             ApiType.get,
+  //             isToken: true)
+  //         .then((value) {
+  //       if (value.isSuccess == true) {
+  //         // hideLoading(context);
+  //         businessSearchList.clear();
+  //         notifyListeners();
+  //         BusinessSearchModel businessSearchModel =
+  //             BusinessSearchModel.fromJson(value.data);
+  //         notifyListeners();
+  //         businessSearchList.addAll(businessSearchModel.businesses);
+  //         notifyListeners();
+  //       } else {
+  //         Navigator.pushNamedAndRemoveUntil(
+  //             context, routeName.login, (Route<dynamic> route) => false);
+  //       }
+  //     });
+  //   } catch (e) {
+  //     // hideLoading(context);
+  //     log("getBusinessSearchAPI :::");
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -844,51 +671,14 @@ class SearchProvider with ChangeNotifier {
     super.dispose();
   }
 
-  /*Timer? debounceTimer;
-
-  SearchProvider() {
-    searchCtrl.addListener(onSearchChange);
-  }
-
-  onSearchChange() {
-    if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
-    log("rrrrr ssss${searchCtrl.text}");
-    // Start a new debounce timer
-    debounceTimer = Timer(Duration(milliseconds: 500), () {
-      final query = searchCtrl.text.trim();
-      log("rrrrr $query");
-      if (query.length >= 3) {
-        fetchSearchResults(query);
-      }
-    });
-  }
-
-  void fetchSearchResults(String query) {
-    try {
-      apiServices
-          .commonApi("${api.businessSearch}?name=$query", [], ApiType.get,
-              isToken: true)
-          .then((value) {
-        if (value.data['responseStatus'] == 0) {
-          businessSearchList.clear();
-          BusinessSearchModel businessSearchModel =
-              BusinessSearchModel.fromJson(value.data);
-          businessSearchList.addAll(businessSearchModel.businesses);
-          notifyListeners();
-        }
-      });
-    } catch (e) {
-      log("Search error: $e");
-    }
-  }*/
-
   addReviewTap(context, RateAppProvider? value, {bool isBusiness = false}) {
+    log("isssss $isBusiness");
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (context) {
           return AnimatedPadding(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 100),
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: SafeArea(
@@ -972,16 +762,32 @@ class SearchProvider with ChangeNotifier {
                               textOne: appFonts.cancel,
                               textTwo: appFonts.submit,
                               applyTap: () {
+                                final attract = Provider.of<AttractionProvider>(
+                                    context,
+                                    listen: false);
+                                final attractions =
+                                    attract.attractionsDetail?.attraction;
                                 Provider.of<RateAppProvider>(context,
                                         listen: false)
-                                    .onSubmit(context,
+                                    .onSubmit(
+                                        context,
                                         isBusiness: isBusiness,
                                         appObjectId:
-                                            businessDetail?.business?.appObject
-                                                ?.appObjectId,
-                                        appObjectType: businessDetail?.business
-                                            ?.appObject?.appObjectType,
-                                        id: businessDetail?.business?.id);
+                                            isBusiness == true
+                                                ? businessDetail?.business
+                                                    ?.appObject?.appObjectId
+                                                : attractions
+                                                    ?.appObject?.appObjectId,
+                                        appObjectType:
+                                            isBusiness ==
+                                                    true
+                                                ? businessDetail?.business
+                                                    ?.appObject?.appObjectType
+                                                : attractions
+                                                    ?.appObject?.appObjectType,
+                                        id: isBusiness == true
+                                            ? businessDetail?.business?.id
+                                            : attractions?.id);
                               },
                               clearTap: () => value?.clearAll(context))
                           .backgroundColor(appColor(context).whiteColor)
@@ -989,5 +795,12 @@ class SearchProvider with ChangeNotifier {
                     ]))
               ])).bottomSheetExtension(context))));
         });
+  }
+
+  String? pendingCategoryName;
+
+  void setPendingCategoryName(String name) {
+    pendingCategoryName = name.trim().toLowerCase();
+    notifyListeners();
   }
 }

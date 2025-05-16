@@ -62,7 +62,6 @@ class _AttractionScreenState extends State<AttractionScreen>
                           attraction.selectedRates.clear();
                           attraction.getAttractionSearchAPI(context);
                           route.pop(context);
-
                           // attraction.onBack(homePvr, context);
                         }
                       }),

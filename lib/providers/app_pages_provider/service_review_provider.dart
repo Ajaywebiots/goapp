@@ -51,6 +51,7 @@ class ServiceReviewProvider with ChangeNotifier {
   }
 
   attractionsReviewListAPI({int? id}) {
+    log("message $id");
     notifyListeners();
     apiServices
         .commonApi("${api.attractionReviewsList}$id/reviews", [], ApiType.get)

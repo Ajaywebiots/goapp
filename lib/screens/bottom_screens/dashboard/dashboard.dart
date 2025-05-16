@@ -1,15 +1,12 @@
 import 'dart:developer';
-
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:goapp/providers/app_pages_provider/my_review_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import '../../../config.dart';
-import '../../../providers/app_pages_provider/profile_detail_provider.dart';
-import '../../../providers/bottom_providers/booking_provider.dart';
-import '../../../providers/bottom_providers/dashboard_provider.dart';
-import '../../../widgets/DirectionalityRtl.dart';
-import '../../../widgets/no_internet_layout.dart';
+import 'package:goapp/config.dart';
+import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
+import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
+import 'package:goapp/widgets/DirectionalityRtl.dart';
+import 'package:goapp/widgets/no_internet_layout.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});

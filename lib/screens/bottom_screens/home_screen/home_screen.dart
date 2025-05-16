@@ -146,12 +146,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         dash.firstTwoBlogList.isEmpty
                             ? Container()
                             : HeadingRowCommon(
-                                    title: language(
-                                        context, appFonts.latestArticles),
-                                    isTextSize: true,
-                                    onTap: () => route.pushNamed(
-                                        context, routeName.latestBlogViewAll))
-                                .paddingSymmetric(horizontal: Insets.i20),
+                                title:
+                                    language(context, appFonts.latestArticles),
+                                isTextSize: true,
+                                onTap: () {
+                                  Provider.of<DashboardProvider>(context,
+                                          listen: false)
+                                      .isInCategoryListing = true;
+                                  route.pushNamed(
+                                      context, routeName.latestBlogViewAll);
+                                }).paddingSymmetric(horizontal: Insets.i20),
                         dash.firstTwoBlogList.isEmpty
                             ? Container()
                             : SingleChildScrollView(
@@ -163,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             .asMap()
                                             .entries
                                             .map((e) => LatestBlogLayout(
-                                                height: 160,
+                                                height: Insets.i160,
                                                 onTap: () {
                                                   Provider.of<LatestBLogDetailsProvider>(
                                                           context,

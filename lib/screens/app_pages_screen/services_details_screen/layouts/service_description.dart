@@ -22,7 +22,7 @@ import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 class ServiceDescription extends StatefulWidget {
   final BusinessSec? businessData;
 
-  ServiceDescription({super.key, this.businessData});
+  const ServiceDescription({super.key, this.businessData});
 
   @override
   State<ServiceDescription> createState() => _ServiceDescriptionState();
@@ -594,10 +594,19 @@ END:VCARD
     });
   }
 
-  Future<void> makePhoneCall(phoneNumber) async {
+  Future<void> makePhoneCall(String? phoneNumber) async {
+    if (phoneNumber == null || phoneNumber.trim().isEmpty) {
+      print('Phone number is null or empty');
+      return;
+    }
+
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+
     if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
+      await launchUrl(
+        launchUri,
+        mode: LaunchMode.externalApplication,
+      );
     } else {
       throw 'Could not launch $launchUri';
     }

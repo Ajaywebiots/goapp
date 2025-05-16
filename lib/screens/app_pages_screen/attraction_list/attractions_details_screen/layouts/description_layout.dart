@@ -1,4 +1,4 @@
-import '../../../../config.dart';
+import '../../../../../config.dart';
 
 class DescriptionLayout extends StatelessWidget {
   final String? icon, title, subtitle;

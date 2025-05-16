@@ -59,7 +59,18 @@ class TopCategoriesLayout extends StatelessWidget {
                                     : appColor(context).trans),
                         borderRadius: SmoothBorderRadius(
                             cornerRadius: AppRadius.r10, cornerSmoothing: 1))),
-            child: Image.network(data.icon, cacheHeight: 25)),
+            child: Padding(
+                padding: const EdgeInsets.all(Insets.i15),
+                child: CachedNetworkImage(
+                    imageUrl: data.icon,
+                    cacheKey: data.icon,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => Image.asset(
+                        eImageAssets.noImageFound2,
+                        fit: BoxFit.contain),
+                    errorWidget: (context, url, error) => Image.asset(
+                        eImageAssets.noImageFound2,
+                        fit: BoxFit.contain)))),
         const VSpace(Sizes.s8),
         Marquee(
             directionMarguee: DirectionMarguee.oneDirection,

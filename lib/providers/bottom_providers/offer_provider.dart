@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/services/api_service.dart';
-
 import '../../models/api_model/home_feed_model.dart';
 import '../../models/api_model/offer_categories_model.dart';
 import '../../models/api_model/offer_search_model.dart';
 import '../../models/api_model/offers_details_model.dart';
-import '../../screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
 
 class OfferProvider extends ChangeNotifier {
   onReady() {

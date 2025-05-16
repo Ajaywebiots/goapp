@@ -23,7 +23,6 @@ import 'package:goapp/providers/app_pages_provider/services_details_provider.dar
 import 'package:goapp/providers/app_pages_provider/time_slot_provider.dart';
 import 'package:goapp/providers/auth_providers/social_register_provider.dart';
 import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
-import 'package:goapp/providers/bottom_providers/booking_provider.dart';
 import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
@@ -70,12 +69,7 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
               ChangeNotifierProvider(create: (_) => ProfileProvider()),
               ChangeNotifierProvider(create: (_) => SignUpCompanyProvider()),
-              // ChangeNotifierProvider(
-              //     create: (_) => FeaturedBusinessProvider()),
-              // ChangeNotifierProvider(create: (_) => BookingProvider()),
               ChangeNotifierProvider(create: (_) => ContactUsProvider()),
-              // ChangeNotifierProvider(create: (_) => ProviderDetailsProvider()),
-
               ChangeNotifierProvider(create: (_) => DashboardProvider()),
               ChangeNotifierProvider(create: (_) => LoginWithPhoneProvider()),
               ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
@@ -88,8 +82,6 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => BusinessReviewsProvider()),
               ChangeNotifierProvider(
                   create: (_) => LatestBLogDetailsProvider()),
-              // ChangeNotifierProvider(
-              //     create: (_) => ResetPasswordProvider()),
               ChangeNotifierProvider(create: (_) => LoadingProvider()),
               ChangeNotifierProvider(create: (_) => InAppForgotPassProvider()),
               ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
@@ -139,13 +131,6 @@ class RouteToPage extends StatefulWidget {
 }
 
 class _RouteToPageState extends State<RouteToPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    setState(() {});
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeService>(builder: (context, theme, child) {

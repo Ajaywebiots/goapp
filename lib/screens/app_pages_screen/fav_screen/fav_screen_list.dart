@@ -52,7 +52,6 @@ class _FavScreenListState extends State<FavScreenList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                     DropdownButtonFormField2<String>(
-                            isExpanded: true,
                             value: favPvr.selectedOption,
                             onChanged: (String? newValue) {
                               if (newValue != null) {
@@ -87,7 +86,7 @@ class _FavScreenListState extends State<FavScreenList> {
                             selectedItemBuilder: (BuildContext context) {
                               return favPvr.options.map<Widget>((option) {
                                 return Row(
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
                                           width: 24,

@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/categories_list_provider.dart';
 import '../../../providers/app_pages_provider/search_provider.dart';
@@ -7,9 +11,14 @@ import '../../bottom_screens/home_screen/layouts/top_categories_layout.dart';
 import '../search_screen/search_screen.dart';
 import 'layouts/categories_list_layout.dart';
 
-class CategoriesListScreen extends StatelessWidget {
+class CategoriesListScreen extends StatefulWidget {
   const CategoriesListScreen({super.key});
 
+  @override
+  State<CategoriesListScreen> createState() => _CategoriesListScreenState();
+}
+
+class _CategoriesListScreenState extends State<CategoriesListScreen> {
   @override
   Widget build(BuildContext context) {
     final dash = Provider.of<DashboardProvider>(context, listen: true);
@@ -38,28 +47,66 @@ class CategoriesListScreen extends StatelessWidget {
                         .map((e) => CategoriesListLayout(
                             data: e.value,
                             onTap: () {
-                              final search = Provider.of<SearchProvider>(
-                                  context,
-                                  listen: false);
-                              final selectedCategory = e.value;
-                              final selectedIndex = selectedCategory.categoryId;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SearchScreen(
-                                          selectedIndex: selectedIndex! -
-                                              1))).then((value) {
-                                search.onSubCategories(
-                                    context, e.key, e.value.categoryId);
+                              route.pop(context);
+                              setState(() {
+                                dash.selectIndex = 1;
+                                dash.notifyListeners();
+                                log("dash.selectIndex::${dash.selectIndex}");
                               });
-                              // Provider.of<CategoriesListProvider>(context,
-                              //         listen: false)
-                              //     .selectCategory(e.value, e.key);
-                              // route.pushNamed(context, routeName.search,
-                              //     arg: e.key);
+                              final selectedCategory = e.value;
+                              final dashProvider =
+                                  Provider.of<DashboardProvider>(context,
+                                      listen: false);
+                              final searchProvider =
+                                  Provider.of<SearchProvider>(context,
+                                      listen: false);
+                              searchProvider.setPendingCategoryName(
+                                  selectedCategory.translatedValue ?? '');
+                              dash.notifyListeners();
                             }))
                         .toList())
-              ]).paddingAll(Insets.i20))));
+              ]).paddingAll(Insets.i20)),
+              bottomNavigationBar:
+                  Consumer<ThemeService>(builder: (themeContext, theme, child) {
+                return AnimatedBottomNavigationBar.builder(
+                    elevation: 18,
+                    activeIndex: dash.selectIndex,
+                    height: 76,
+                    gapLocation: GapLocation.none,
+                    shadow: BoxShadow(
+                        color: appColor(context).darkText.withOpacity(0.12),
+                        blurRadius: 20,
+                        spreadRadius: 25),
+                    // notchSmoothness: NotchSmoothness.softEdge,
+                    leftCornerRadius: AppRadius.r18,
+                    rightCornerRadius: AppRadius.r18,
+                    backgroundColor: appColor(context).whiteBg,
+                    onTap: (index) => dash.onTap(index, context),
+                    itemCount: appArray.dashboardList.length,
+                    tabBuilder: (int index, bool isActive) {
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                                dash.selectIndex == index
+                                    ? appArray.dashboardList[index]["icon2"]!
+                                    : appArray.dashboardList[index]["icon"]!,
+                                height: Sizes.s24,
+                                width: Sizes.s24,
+                                fit: BoxFit.scaleDown),
+                            const VSpace(Sizes.s5),
+                            Text(
+                                language(context,
+                                    appArray.dashboardList[index]["title"]!),
+                                overflow: TextOverflow.ellipsis,
+                                style: dash.selectIndex == index
+                                    ? appCss.dmDenseMedium14
+                                        .textColor(appColor(context).primary)
+                                    : appCss.dmDenseRegular14
+                                        .textColor(appColor(context).darkText))
+                          ]);
+                    });
+              })));
     });
   }
 }

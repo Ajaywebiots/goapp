@@ -6,7 +6,6 @@ export '../providers/auth_providers/login_with_phone_provider.dart';
 export '../providers/auth_providers/verify_otp_provider.dart';
 export '../providers/auth_providers/forget_password_provider.dart';
 export '../providers/auth_providers/register_provider.dart';
-export '../providers/auth_providers/reset_password_provider.dart';
 export '../providers/auth_providers/change_password_provider.dart';
 export '../providers/common_providers/common_permission_provider.dart';
 export '../providers/common_providers/no_internet_provider.dart';

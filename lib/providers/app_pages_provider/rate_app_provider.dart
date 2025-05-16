@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/search_provider.dart';
+import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
 import 'package:goapp/services/api_service.dart';
 // import 'package:in_app_review/in_app_review.dart';
 
@@ -11,6 +12,7 @@ import '../../models/review_model.dart';
 class RateAppProvider with ChangeNotifier {
   int selectedIndex = 3;
   bool isServiceRate = false, isServiceManRate = false;
+
   // Reviews? review;
   String? serviceId, serviceManId;
   TextEditingController rateController = TextEditingController();
@@ -28,16 +30,17 @@ class RateAppProvider with ChangeNotifier {
 */
   onTapEmoji(index) async {
     selectedIndex = index;
-
     notifyListeners();
   }
 
-  onSubmit(context,
-      {appObjectId, appObjectType, int? id, bool? isBusiness = false}) async {
-    log("tytytytyt ${isBusiness}");
+  onSubmit(BuildContext context,
+      {required bool isBusiness,
+      int? id,
+      int? appObjectId,
+      int? appObjectType}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final body = {
-      "rate": selectedIndex,
+      "rate": selectedIndex + 1,
       "title": "",
       "content": rateController.text
     };
@@ -52,12 +55,20 @@ class RateAppProvider with ChangeNotifier {
       log("value.data ${value.data}");
       if (value.isSuccess == true) {
         route.pop(context);
+
         isBusiness == true
             ? Provider.of<SearchProvider>(context, listen: false)
                 .businessDetailsAPI(context, id, isNotRouting: true)
             : Provider.of<AttractionProvider>(context, listen: false)
                 .attractionsDetailsAPI(context, id, isNotRoute: true);
+        log("---- ==== $id");
+        isBusiness == true
+            ? Provider.of<ServiceReviewProvider>(context, listen: false)
+                .businessReviewListAPI(id: id)
+            : Provider.of<ServiceReviewProvider>(context, listen: false)
+                .attractionsReviewListAPI(id: id);
         rateController.text = "";
+        selectedIndex = 3;
       }
     });
   }

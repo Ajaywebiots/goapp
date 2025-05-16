@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
+import 'package:nb_utils/nb_utils.dart';
 
-import '../../../config.dart';
-import '../../../providers/app_pages_provider/favourite_list_provider.dart';
-import '../../../providers/app_pages_provider/service_review_provider.dart';
-import '../../../providers/app_pages_provider/services_details_provider.dart';
-import '../../../widgets/DirectionalityRtl.dart';
-import '../../../widgets/dotted_line.dart';
-import '../../../widgets/edit_review_layout.dart';
-import '../../../widgets/heading_row_common.dart';
-import '../services_details_screen/layouts/service_review_layout.dart';
+import '../../../../config.dart';
+import '../../../../providers/app_pages_provider/favourite_list_provider.dart';
+import '../../../../providers/app_pages_provider/service_review_provider.dart';
+import '../../../../providers/app_pages_provider/services_details_provider.dart';
+import '../../../../widgets/DirectionalityRtl.dart';
+import '../../../../widgets/dotted_line.dart';
+import '../../../../widgets/edit_review_layout.dart';
+import '../../../../widgets/heading_row_common.dart';
+import '../../services_details_screen/layouts/service_review_layout.dart';
 import 'layouts/attractions_service_desc.dart';
 import 'layouts/service_image_layout.dart';
 
@@ -23,8 +24,8 @@ class AttractionDetailScreen extends StatelessWidget {
     return Consumer<FavouriteListProvider>(builder: (context2, favCtrl, child) {
       return Consumer<ServicesDetailsProvider>(
           builder: (context1, serviceCtrl, child) {
-        final attract = Provider.of<AttractionProvider>(context);
         final value = Provider.of<RateAppProvider>(context, listen: false);
+        final attract = Provider.of<AttractionProvider>(context);
         final attractions = attract.attractionsDetail?.attraction;
         return DirectionalityRtl(
             child: Scaffold(

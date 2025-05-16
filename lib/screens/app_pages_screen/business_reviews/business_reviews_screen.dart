@@ -29,10 +29,9 @@ class BusinessReviewsScreen extends StatelessWidget {
                           : eSvgAssets.arrowLeft,
                       onTap: () => route.pop(context)).paddingAll(Insets.i8)),
               body: SafeArea(
-                  child: ListView(
-                children: [
-                  VSpace(Sizes.s20),
-                  Row(
+                  child: ListView(children: [
+                VSpace(Sizes.s20),
+                Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -84,68 +83,62 @@ class BusinessReviewsScreen extends StatelessWidget {
                           color:
                               appColor(context).primary.withValues(alpha: 0.1),
                           border: Border.all(color: appColor(context).primary),
-                          borderRadius: BorderRadius.circular(AppRadius.r20)),
-                    ],
-                  ),
-                  const VSpace(Sizes.s15),
-                  Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(5, (i) {
-                            int star = 5 - i;
-                            var matchingStar =
-                                appArray.businessReviewRating.firstWhere(
-                              (element) => element["stars"] == star,
-                              orElse: () => {"stars": star, "percentage": 0},
-                            );
-
-                            return Padding(
+                          borderRadius: BorderRadius.circular(AppRadius.r20))
+                    ]),
+                const VSpace(Sizes.s15),
+                Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(5, (i) {
+                          int star = 5 - i;
+                          var matchingStar = appArray.businessReviewRating
+                              .firstWhere((element) => element["stars"] == star,
+                                  orElse: () =>
+                                      {"stars": star, "percentage": 0});
+                          return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: ProgressBarLayout(
-                                data: matchingStar["percentage"] ?? 0,
-                                index: i,
-                                list: [],
-                              ),
-                            );
-                          }))
-                      .paddingSymmetric(
-                          vertical: Insets.i15, horizontal: Insets.i20)
-                      .boxBorderExtension(context, isShadow: true)
-                      .paddingDirectional(horizontal: Sizes.s20),
-                  const VSpace(Sizes.s45),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(language(context, appFonts.review),
-                                style: appCss.dmDenseMedium16
-                                    .textColor(appColor(context).darkText))
-                            .paddingOnly(bottom: 40),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: DropDownLayout(
-                                isIcon: false,
-                                val: value.exValue,
-                                categoryList: appArray.reviewLowHighList,
-                                onChanged: (val) => value.onReview(val)))
-                      ]).paddingDirectional(horizontal: Sizes.s20),
-                  appArray.businessReviewList.isEmpty
-                      ? Center(
-                          child: Text(language(context, "No reviews available"),
+                                  data: matchingStar["percentage"] ?? 0,
+                                  index: i,
+                                  list: []));
+                        }))
+                    .paddingSymmetric(
+                        vertical: Insets.i15, horizontal: Insets.i20)
+                    .boxBorderExtension(context, isShadow: true)
+                    .paddingDirectional(horizontal: Sizes.s20),
+                const VSpace(Sizes.s45),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(language(context, appFonts.review),
                               style: appCss.dmDenseMedium16
-                                  .textColor(appColor(context).lightText)))
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: appArray.businessReviewList.length,
-                          itemBuilder: (context, index) {
-                            final review = appArray.businessReviewList[index];
-                            return BusinessReviewLayout(
-                              index: index,
-                              data: review,
-                            ).paddingOnly(top: index == 0 ? 10 : 0);
-                          }),
-                ],
-              ))));
+                                  .textColor(appColor(context).darkText))
+                          .paddingOnly(bottom: 40),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: DropDownLayout(
+                              isIcon: false,
+                              val: value.exValue,
+                              categoryList: appArray.reviewLowHighList,
+                              onChanged: (val) => value.onReview(val)))
+                    ]).paddingDirectional(horizontal: Sizes.s20),
+                appArray.businessReviewList.isEmpty
+                    ? Center(
+                        child: Text(language(context, "No reviews available"),
+                            style: appCss.dmDenseMedium16
+                                .textColor(appColor(context).lightText)))
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: appArray.businessReviewList.length,
+                        itemBuilder: (context, index) {
+                          final review = appArray.businessReviewList[index];
+                          return BusinessReviewLayout(
+                            index: index,
+                            data: review,
+                          ).paddingOnly(top: index == 0 ? 10 : 0);
+                        })
+              ]))));
     });
   }
 }

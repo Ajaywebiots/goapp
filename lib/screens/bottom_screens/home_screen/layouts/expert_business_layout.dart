@@ -44,13 +44,14 @@ class FeatureAttractionLayout extends StatelessWidget {
                                 ? CachedNetworkImage(
                                     imageUrl: data.image!.source,
                                     fit: BoxFit.fill,
-                                    placeholder: (context, url) => Container(
-                                        color: appColor(context).skeletonColor),
+                                    placeholder: (context, url) => Image.asset(
+                                        eImageAssets.noImageFound2,
+                                        fit: BoxFit.cover),
                                     errorWidget: (context, url, error) =>
-                                        Image.asset(eImageAssets.noImageFound3,
-                                            fit: BoxFit.fill))
-                                : Image.asset(eImageAssets.noImageFound4,
-                                    fit: BoxFit.fill)))
+                                        Image.asset(eImageAssets.noImageFound2,
+                                            fit: BoxFit.cover))
+                                : Image.asset(eImageAssets.noImageFound2,
+                                    fit: BoxFit.cover)))
                     .boxShapeExtension(),
                 const HSpace(Sizes.s10),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

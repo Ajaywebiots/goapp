@@ -26,46 +26,50 @@ class VerifyOtpProvider with ChangeNotifier {
 
     showLoading(context);
     try {
-      final value = await apiServices.commonApi(
-          "${api.otpVerify}/${otpController.text}/verify", [], ApiType.patch,
-          isToken: false);
+      await apiServices
+          .commonApi("${api.otpVerify}/${otpController.text}/verify", [],
+              ApiType.patch,
+              isToken: false)
+          .then((value) async {
+        if (value.isSuccess == true) {
+          hideLoading(context);
+          final SharedPreferences pref = await SharedPreferences.getInstance();
+          token = value.data['token'];
 
-      if (value.isSuccess == true) {
-        hideLoading(context);
-        final SharedPreferences pref = await SharedPreferences.getInstance();
-        token = value.data['token'];
+          await pref.setInt(session.id, value.data['user']['id']);
+          await pref.setString(session.accessToken, value.data['token']);
+          await pref.setString(
+              session.tokenExpiration, value.data['expiration']);
+          await pref.setString(session.accountType,
+              value.data['user']['accountType']['accountTypeName']);
+          await pref.setString(session.accountRole,
+              value.data['user']['accountRole']['accountRoleName']);
 
-        await pref.setInt(session.id, value.data['user']['id']);
-        await pref.setString(session.accessToken, value.data['token']);
-        await pref.setString(session.tokenExpiration, value.data['expiration']);
-        await pref.setString(session.accountType,
-            value.data['user']['accountType']['accountTypeName']);
-        await pref.setString(session.accountRole,
-            value.data['user']['accountRole']['accountRoleName']);
+          final homePvr =
+              Provider.of<HomeScreenProvider>(context, listen: false);
+          final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+          final attractionPvr =
+              Provider.of<AttractionProvider>(context, listen: false);
+          final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+          final dash = Provider.of<DashboardProvider>(context, listen: false);
+          final catListPvr =
+              Provider.of<CategoriesListProvider>(context, listen: false);
 
-        final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-        final searchPvr = Provider.of<SearchProvider>(context, listen: false);
-        final attractionPvr =
-            Provider.of<AttractionProvider>(context, listen: false);
-        final offerPvr = Provider.of<OfferProvider>(context, listen: false);
-        final dash = Provider.of<DashboardProvider>(context, listen: false);
-        final catListPvr =
-            Provider.of<CategoriesListProvider>(context, listen: false);
+          homePvr.homeFeed(context);
+          searchPvr.getBusinessSearchAPI(context, isFilter: false);
+          attractionPvr.getAttractionSearchAPI(context);
+          offerPvr.getViewAllOfferAPI();
+          catListPvr.getCategoriesData(context);
+          offerPvr.getCategoriesData(context);
 
-        homePvr.homeFeed(context);
-        searchPvr.getBusinessSearchAPI(context, isFilter: false);
-        attractionPvr.getAttractionSearchAPI(context);
-        offerPvr.getViewAllOfferAPI();
-        catListPvr.getCategoriesData(context);
-        offerPvr.getCategoriesData(context);
-
-        dash.selectIndex = 0;
-        route.pushNamedAndRemoveUntil(context, routeName.dashboard);
-      } else {
-        hideLoading(context);
-        Navigator.pushNamedAndRemoveUntil(
-            context, routeName.login, (route) => false);
-      }
+          dash.selectIndex = 0;
+          route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+        } else {
+          hideLoading(context);
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.login, (route) => false);
+        }
+      });
     } catch (e) {
       hideLoading(context);
       log("Error verifying OTP: $e");

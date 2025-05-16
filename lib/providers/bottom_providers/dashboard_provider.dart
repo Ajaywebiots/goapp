@@ -4,7 +4,7 @@ import 'package:goapp/screens/menu_screens/menu_screen.dart';
 
 import '../../config.dart';
 import '../../models/index.dart';
-import '../../screens/app_pages_screen/attractions_screen/attractions_screen.dart';
+import '../../screens/app_pages_screen/attraction_list/attractions_screen.dart';
 import '../../screens/bottom_screens/home_screen/home_screen.dart';
 import '../app_pages_provider/profile_detail_provider.dart';
 
@@ -32,7 +32,7 @@ class DashboardProvider with ChangeNotifier {
 
   final List<Widget> pages = [
     const HomeScreen(),
-    SearchScreen(isHomeScreen: true),
+    SearchScreen(isHomeScreen: true, selectedIndex: -1),
     CouponListScreen(isHomeScreen: true),
     AttractionScreen(isHomeScreen: true),
     MenuScreen(isHomeScreen: true)
@@ -64,33 +64,23 @@ class DashboardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onTap(index, context) async {
-    selectIndex = index;
+  bool isInCategoryListing = false;
 
-    // if (selectIndex != 0) {
-    //   // final homeCtrl = Provider.of<HomeScreenProvider>(context, listen: false);
-    //   // homeCtrl.animationController!.stop();
-    //   // homeCtrl.notifyListeners();
-    // } else {
-    //   if (selectIndex == 3) {
-    //     // SharedPreferences preferences = await SharedPreferences.getInstance();
-    //     // bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
-    //     // if (isGuest == false) {
-    //     //   final homeCtrl =
-    //     //       Provider.of<HomeScreenProvider>(context, listen: false);
-    //     //   homeCtrl.animationController!.reset();
-    //     //   homeCtrl.notifyListeners();
-    //     // } else {
-    //     //   route.pushAndRemoveUntil(context);
-    //     // }
-    //   } else {
-    //     // final homeCtrl =
-    //     //     Provider.of<HomeScreenProvider>(context, listen: false);
-    //     // homeCtrl.animationController!.reset();
-    //     // homeCtrl.notifyListeners();
-    //   }
-    // }
-    notifyListeners();
+  void onTap(int index, BuildContext context) {
+    if (isInCategoryListing) {
+      if (Navigator.of(context).canPop()) {
+        Navigator.pop(context);
+      }
+      isInCategoryListing = false;
+
+      Future.delayed(Duration(milliseconds: 0), () {
+        selectIndex = index;
+        notifyListeners();
+      });
+    } else {
+      selectIndex = index;
+      notifyListeners();
+    }
   }
 
   //banner list

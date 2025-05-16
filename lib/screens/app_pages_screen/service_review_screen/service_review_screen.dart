@@ -139,8 +139,12 @@ class ServiceReviewScreen extends StatelessWidget {
                                       serviceCtrl.onReview(val)))
                         ]),
                     const VSpace(Sizes.s15),
-                    ...?serviceCtrl.reviewListData?.reviews.asMap().entries.map(
-                        (e) => ServiceReviewLayout(
+                    ...?serviceCtrl.reviewListData?.reviews
+                        .asMap()
+                        .entries
+                        .toList()
+                        .reversed
+                        .map((e) => ServiceReviewLayout(
                             data: e.value,
                             index: e.key,
                             list: serviceCtrl.reviewList))

@@ -5,7 +5,7 @@ class EmptyLayout extends StatelessWidget {
   final Widget? widget;
   final GestureTapCallback? bTap, inkOnTap;
   final bool isInk, isButtonShow, isBooking;
-  final double? height, topHeight;
+  final double? height, topHeight, horizon;
 
   const EmptyLayout(
       {super.key,
@@ -20,7 +20,8 @@ class EmptyLayout extends StatelessWidget {
       this.isButtonShow = true,
       this.isBooking = false,
       this.height,
-      this.topHeight});
+      this.topHeight,
+      this.horizon});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class EmptyLayout extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: appCss.dmDenseRegular14
                     .textColor(appColor(context).lightText))
-          ]),
+          ]).paddingSymmetric(horizontal: horizon ?? 0),
           const SizedBox(height: Insets.i25),
           if (isButtonShow)
             Column(children: [

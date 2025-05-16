@@ -146,8 +146,7 @@ class OptionScreenLayout extends StatelessWidget {
                                         routeName.subscriptionPlanScreen),
                                   };
 
-                                  actions[title]
-                                      ?.call(); // Call the corresponding function if available
+                                  actions[title]?.call();
                                 }
                               }),
                           if (index < items.length - 1)

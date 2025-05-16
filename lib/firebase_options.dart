@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'gosalamina-b581d.firebasestorage.app',
     measurementId: 'G-0B7TT317M7',
   );
-
 }

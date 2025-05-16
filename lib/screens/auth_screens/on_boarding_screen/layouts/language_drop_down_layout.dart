@@ -55,12 +55,12 @@ class LanguageDropDownLayout extends StatelessWidget {
                             spreadRadius: AppRadius.r5)
                       ],
                 border: Border.all(color: appColor(context).fieldCardBg))),
-        if (onBoardingCtrl.selectIndex !=
-            onBoardingCtrl.onBoardingList.length - 1)
-          Text(language(context, appFonts.skip),
-                  style: appCss.dmDenseMedium14
-                      .textColor(appColor(context).lightText))
-              .inkWell(onTap: () => onBoardingCtrl.onSkip(context))
+        // if (onBoardingCtrl.selectIndex !=
+        //     onBoardingCtrl.onBoardingList.length - 1)
+        Text(language(context, appFonts.skip),
+                style: appCss.dmDenseMedium14
+                    .textColor(appColor(context).lightText))
+            .inkWell(onTap: () => onBoardingCtrl.onSkip(context))
       ]);
     });
   }

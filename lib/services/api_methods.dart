@@ -51,6 +51,8 @@ class ApiMethods {
 
   String supportSub = "/app/support/subject";
   String support = "/app/support";
+  String registerBusiness = "/user/";
+  String businessLocation = "/user/";
 
 // //
 // String homeFeed = '/api/App/home/feed';

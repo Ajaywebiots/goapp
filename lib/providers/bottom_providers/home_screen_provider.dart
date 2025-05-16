@@ -32,6 +32,21 @@ class HomeScreenProvider with ChangeNotifier {
 
   List selectedCategory = [];
 
+  // Add these for category selection
+  int? selectedCategoryIndex;
+  Categories? selectedCategory1;
+
+  // Method to update selected category
+  void selectCategory(int index, Categories category, BuildContext context) {
+    selectedCategoryIndex = index;
+    selectedCategory1 = category;
+    notifyListeners();
+
+    // Fetch data for the selected category using SearchProvider
+    final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+    searchPvr.onSubCategories(context, index, category.categoryId);
+  }
+
   void handleBannerTap(AppObject? appObject, BuildContext context) {
     final int? type = appObject?.appObjectType;
     final int? id = appObject?.appObjectId;
@@ -197,28 +212,26 @@ class HomeScreenProvider with ChangeNotifier {
         log("isToken::");
         if (value.isSuccess == true) {
           isLoading = false;
-          if (value.data['responseStatus'] == 1) {
-            // hideLoading(context);
-            log("ajay hariyani ${value.data}");
-            isLoading = false;
-            HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
-            bannerList = [];
-            couponOfferList = [];
-            categoryList = [];
-            firstTwoFeaturedServiceList = [];
-            firstTwoHighRateList = [];
-            // businessCategories = [];
-            firstTwoBlogList = [];
-            bannerList.addAll(homeFeedModel.banners as Iterable<model.Banner>);
-            couponOfferList.addAll(homeFeedModel.offers);
-            categoryList.addAll(homeFeedModel.categories);
-            firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
-            firstTwoBlogList.addAll(homeFeedModel.articles);
-            firstTwoHighRateList.addAll(homeFeedModel.attractions);
-            log("Updated bannerList: ${bannerList.length} items");
+          // hideLoading(context);
+          log("ajay hariyani ${value.data}");
+          isLoading = false;
+          HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
+          bannerList = [];
+          couponOfferList = [];
+          categoryList = [];
+          firstTwoFeaturedServiceList = [];
+          firstTwoHighRateList = [];
+          // businessCategories = [];
+          firstTwoBlogList = [];
+          bannerList.addAll(homeFeedModel.banners as Iterable<model.Banner>);
+          couponOfferList.addAll(homeFeedModel.offers);
+          categoryList.addAll(homeFeedModel.categories);
+          firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
+          firstTwoBlogList.addAll(homeFeedModel.articles);
+          firstTwoHighRateList.addAll(homeFeedModel.attractions);
+          log("Updated bannerList: ${bannerList.length} items");
 
-            notifyListeners();
-          }
+          notifyListeners();
         } else {
           isLoading = false;
           Navigator.pushNamedAndRemoveUntil(

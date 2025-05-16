@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../config.dart';
 import '../models/app_model/MenuItem.dart';
+import '../models/app_model/my_business_app_model.dart';
 
 class AppArray {
   List<Map<String, dynamic>> buttonItemsB(bool isFavourite) => [
@@ -44,56 +45,44 @@ class AppArray {
 
   List<MenuItem> businessMenuList() => [
         MenuItem(
-          title: 'Dashboard',
-          icon: SvgPicture.asset(
-            eSvgAssets.box,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Dashboard',
+            icon: SvgPicture.asset(eSvgAssets.box, height: 18, width: 18)),
         MenuItem(
-          title: 'Business Profile',
-          icon: SvgPicture.asset(
-            "assets/svg/bank.svg",
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'My Business',
+            icon:
+                SvgPicture.asset("assets/svg/bank.svg", height: 18, width: 18)),
         MenuItem(
-          title: 'Business Reviews',
-          icon: SvgPicture.asset(
-            eSvgAssets.starOut,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Business Reviews',
+            icon: SvgPicture.asset(eSvgAssets.starOut, height: 18, width: 18)),
         MenuItem(
             title: 'My Offers',
             icon: SvgPicture.asset(eSvgAssets.offerOut, height: 18, width: 18)),
         MenuItem(
-          title: 'Offer Bookings',
-          icon: SvgPicture.asset(
-            eSvgAssets.emptyWallet,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Offer Bookings',
+            icon: SvgPicture.asset(eSvgAssets.emptyWallet,
+                height: 18, width: 18)),
         MenuItem(
-          title: 'Business Users',
-          icon: SvgPicture.asset(
-            eSvgAssets.people,
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Business Users',
+            icon: SvgPicture.asset(eSvgAssets.people, height: 18, width: 18)),
         MenuItem(
-          title: 'Subscription Plans',
-          icon: SvgPicture.asset(
-            "assets/svg/crown.svg",
-            height: 18,
-            width: 18,
-          ),
-        ),
+            title: 'Subscription Plans',
+            icon:
+                SvgPicture.asset("assets/svg/crown.svg", height: 18, width: 18))
+      ];
+
+  List<Restaurant> restaurants() => [
+        Restaurant(
+            id: '1',
+            name: 'Belair All Day Bar And Resto',
+            imageUrl: eImageAssets.fs1,
+            lastUpdate: '12/5/2005',
+            logo: eImageAssets.noImageFound3),
+        Restaurant(
+            id: '2',
+            name: 'Ouzeri Paralia',
+            imageUrl: eImageAssets.fs2,
+            lastUpdate: '12/5/2005',
+            logo: eImageAssets.noImageFound3)
       ];
 
   var durationList = [

@@ -1,4 +1,4 @@
-import '../../../../config.dart';
+import '../../../../../config.dart';
 
 class ServiceImageLayout extends StatelessWidget {
   final String? image;

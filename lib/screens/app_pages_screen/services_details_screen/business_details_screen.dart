@@ -139,7 +139,8 @@ class BusinessDetailsScreen extends StatelessWidget {
               ButtonCommon(
                       margin: Insets.i20,
                       title: appFonts.addReview,
-                      onTap: () => searchPvr.addReviewTap(context, value))
+                      onTap: () => searchPvr.addReviewTap(context, value,
+                          isBusiness: true))
                   .decorated(color: appColor(context).whiteBg)
             ]).marginOnly(bottom: Insets.i20))
       ]))));

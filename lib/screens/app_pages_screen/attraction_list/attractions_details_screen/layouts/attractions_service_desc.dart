@@ -10,15 +10,15 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../config.dart';
-import '../../../../models/api_model/attractions_details_model.dart';
-import '../../../../models/api_model/business_details_model.dart';
-import '../../../../models/app_model/contact_vcf_file_model.dart';
-import '../../../../providers/app_pages_provider/time_slot_provider.dart';
-import '../../../../providers/bottom_providers/home_screen_provider.dart';
-import '../../../../providers/common_providers/common_api_provider.dart';
-import '../../../../widgets/common_gallery_screen.dart';
-import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
+import '../../../../../config.dart';
+import '../../../../../models/api_model/attractions_details_model.dart';
+import '../../../../../models/api_model/business_details_model.dart';
+import '../../../../../models/app_model/contact_vcf_file_model.dart';
+import '../../../../../providers/app_pages_provider/time_slot_provider.dart';
+import '../../../../../providers/bottom_providers/home_screen_provider.dart';
+import '../../../../../providers/common_providers/common_api_provider.dart';
+import '../../../../../widgets/common_gallery_screen.dart';
+import '../../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescriptions extends StatefulWidget {
   final Attraction? attractionData;
@@ -570,6 +570,7 @@ END:VCARD
   }
 
   Future<void> makePhoneCall(phoneNumber) async {
+    log("phoneNumber:::$phoneNumber");
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
