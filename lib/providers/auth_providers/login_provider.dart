@@ -6,7 +6,7 @@ import 'package:goapp/config.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginProvider with ChangeNotifier {
-  TextEditingController userName = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   SharedPreferences? pref;
@@ -39,6 +39,9 @@ class LoginProvider with ChangeNotifier {
 
   double? currentLatitude;
   double? currentLongitude;
+
+  final FocusNode userNameFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
 
   locationPermission() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();

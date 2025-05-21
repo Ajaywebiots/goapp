@@ -1,11 +1,8 @@
 import '../../../../config.dart';
 import '../../../../models/api_model/attractions_details_model.dart' as attract;
-import '../../../../widgets/dotted_line.dart';
-import '../../../../widgets/flutter_switch_common.dart';
 import '../../../../widgets/heading_row_common.dart';
 import '../../../../widgets/profile_pic_common.dart';
 import '../../../app_pages_screen/services_details_screen/layouts/service_review_layout.dart';
-import '../offer_booking_screen.dart';
 
 class BusinessDashboardScreen extends StatelessWidget {
   BusinessDashboardScreen({super.key});
@@ -129,69 +126,45 @@ class BusinessDashboardScreen extends StatelessWidget {
             HeadingRowCommon(
                 title: "Business Users", isTextSize: true, onTap: () {}),
             VSpace(Insets.i20),
-            GridView.builder(
+            ListView.builder(
                 itemCount: staffList().length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 0.65),
                 itemBuilder: (context, index) {
                   final staff = staffList()[index];
-                  return Column(mainAxisSize: MainAxisSize.min, children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: Image.asset(staff['image'],
-                            height: 56, width: 56, fit: BoxFit.cover)),
-                    VSpace(Insets.i10),
-                    Text(staff['name'],
-                        style: appCss.dmDenseMedium13
-                            .textColor(appColor(context).darkText)),
-                    Text(staff['role'],
-                        style: appCss.dmDenseRegular12
-                            .textColor(appColor(context).lightText)),
-                    const DottedLines().paddingSymmetric(vertical: Insets.i12),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Active status",
-                              style: appCss.dmDenseRegular13
-                                  .textColor(appColor(context).darkText)),
-                          FlutterSwitchCommon(
-                              value: staff["isActive"], onToggle: (value) {})
+                  return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                        Row(children: [
+                          CircleAvatar(
+                              backgroundImage: AssetImage(staff['image'])),
+                          HSpace(Insets.i10),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(staff['name'],
+                                    style: appCss.dmDenseMedium13
+                                        .textColor(appColor(context).darkText)),
+                                VSpace(Insets.i2),
+                                Text(staff['contact'],
+                                    style: appCss.dmDenseRegular12
+                                        .textColor(appColor(context).lightText))
+                              ])
                         ]),
-                    VSpace(Insets.i15),
-                    Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                            color: const Color(0xFFEDEEF0),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(eSvgAssets.calling,
-                                  color: appColor(context).lightText),
-                              Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 26),
-                                  height: 18,
-                                  width: 1,
-                                  color: appColor(context).stroke),
-                              SvgPicture.asset(eSvgAssets.mail)
-                            ]))
-                  ])
-                      .paddingSymmetric(horizontal: 12, vertical: 12)
+                        CommonArrow(arrow: eSvgAssets.edit, isThirteen: true)
+                      ])
+                      .paddingSymmetric(
+                          horizontal: Insets.i12, vertical: Insets.i12)
                       .boxShapeExtension(
                           color: appColor(context).whiteBg,
                           radius: AppRadius.r12)
                       .decorated(boxShadow: [
                     BoxShadow(
-                        blurRadius: 3,
-                        spreadRadius: 2,
+                        blurRadius: 5,
+                        spreadRadius: 3,
                         offset: Offset(1, 2),
                         color: appColor(context).darkText.withOpacity(0.05))
-                  ]);
+                  ]).marginOnly(bottom: 10);
                 }),
             VSpace(Insets.i30)
           ]).marginSymmetric(horizontal: Insets.i20)
@@ -201,15 +174,13 @@ class BusinessDashboardScreen extends StatelessWidget {
   List<Map<String, dynamic>> staffList() => [
         {
           "name": "Dori Doreau",
-          "role": "Manager",
-          "image": eImageAssets.img3,
-          "isActive": true
+          "contact": "+30 694 6665555",
+          "image": eImageAssets.img3
         },
         {
           "name": "Angela Bower",
-          "role": "Waiter",
-          "image": eImageAssets.img4,
-          "isActive": true
+          "contact": "+30 694 6665555",
+          "image": eImageAssets.img4
         }
       ];
 

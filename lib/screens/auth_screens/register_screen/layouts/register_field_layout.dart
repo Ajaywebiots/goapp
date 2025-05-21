@@ -52,19 +52,7 @@ class RegisterFieldLayout extends StatelessWidget {
             //             validation.nameValidation(context, value))
             //     .paddingSymmetric(horizontal: Insets.i20),
             // const VSpace(Sizes.s15),
-            // ContainerWithTextLayout(title: language(context, appFonts.email)),
-            // const VSpace(Sizes.s8),
-            // TextFieldCommon(
-            //         controller: register.txtEmail,
-            //         hintText: language(context, appFonts.enterEmail),
-            //         focusNode: register.emailFocus,
-            //         onFieldSubmitted: (value) => validation.fieldFocusChange(
-            //             context, register.emailFocus, register.phoneFocus),
-            //         prefixIcon: eSvgAssets.email,
-            //         validator: (value) =>
-            //             validation.emailValidation(context, value))
-            //     .paddingSymmetric(horizontal: Insets.i20),
-            // const VSpace(Sizes.s15),
+
             ContainerWithTextLayout(
                 title: language(context, appFonts.phoneNumber)),
             const VSpace(Sizes.s10),
@@ -76,6 +64,19 @@ class RegisterFieldLayout extends StatelessWidget {
                 onFieldSubmitted: (value) => validation.fieldFocusChange(
                     context, register.phoneFocus, register.passwordFocus)),
             const VSpace(Sizes.s15),
+            ContainerWithTextLayout(title: language(context, appFonts.email)),
+            const VSpace(Sizes.s8),
+            TextFieldCommon(
+                    controller: register.txtEmail,
+                    hintText: language(context, appFonts.enterEmail),
+                    focusNode: register.emailFocus,
+                    onFieldSubmitted: (value) => validation.fieldFocusChange(
+                        context, register.emailFocus, register.phoneFocus),
+                    prefixIcon: eSvgAssets.email,
+                    validator: (value) =>
+                        validation.emailValidation(context, value))
+                .paddingSymmetric(horizontal: Insets.i20),
+            // const VSpace(Sizes.s15),
             // ContainerWithTextLayout(
             //     title: language(context, appFonts.password)),
             // const VSpace(Sizes.s8),

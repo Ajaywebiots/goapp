@@ -285,9 +285,6 @@ class LatestBLogDetailsProvider with ChangeNotifier {
           articlesSearchList.addAll(articlesSearchModel.articles);
           notifyListeners();
           log("articlesSearchList $articlesSearchList");
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
         }
         notifyListeners();
       });

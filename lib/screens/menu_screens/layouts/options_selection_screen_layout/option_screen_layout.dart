@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
 import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 
@@ -108,9 +106,13 @@ class OptionScreenLayout extends StatelessWidget {
                                           Provider.of<DashboardProvider>(
                                               context,
                                               listen: false);
+                                      // Provider.of<SearchProvider>(context,
+                                      //         listen: false)
+                                      //     .onBack(context, isProfile: true);
+
+                                      route.pop(context);
                                       dash.selectIndex = 1;
-                                      route.pushNamedAndRemoveUntil(
-                                          context, routeName.dashboard);
+                                      dash.refreshData();
                                     },
                                     "Travel Information": () => route.pushNamed(
                                         context, routeName.latestBlogViewAll),

@@ -13,6 +13,8 @@ class TermsLayout extends StatelessWidget {
     return Consumer2<SocialRegProvider, RegisterProvider>(
         builder: (context, sCtrl, register, child) {
       return Row(children: [
+        const SmallContainer(),
+        const HSpace(Sizes.s20),
         Container(
                 height: Sizes.s20,
                 width: Sizes.s20,
@@ -54,7 +56,7 @@ class TermsLayout extends StatelessWidget {
                       register.isCheckBoxCheck(!register.isCheck);
                     })
             ]))
-      ]).paddingSymmetric(horizontal: Insets.i20);
+      ]);
     });
   }
 }

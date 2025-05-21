@@ -89,7 +89,7 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onBack(context) {
+  onBack(context, isProfile) {
     final dash = Provider.of<DashboardProvider>(context, listen: false);
     if (dash.selectIndex != 0) {
       dash.selectIndex = 0;
@@ -108,6 +108,9 @@ class SearchProvider with ChangeNotifier {
       notifyListeners();
 
       return false;
+    } if(isProfile==true){
+log("DDDDDDD::${isProfile}");
+      return true;
     }
     return true;
   }

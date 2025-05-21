@@ -1,11 +1,4 @@
-import 'package:goapp/screens/app_pages_screen/coupon_list_screen/coupon_list_screen.dart';
-import 'package:goapp/screens/app_pages_screen/search_screen/search_screen.dart';
-import 'package:goapp/screens/menu_screens/menu_screen.dart';
-
 import '../../config.dart';
-import '../../models/index.dart';
-import '../../screens/app_pages_screen/attraction_list/attractions_screen.dart';
-import '../../screens/bottom_screens/home_screen/home_screen.dart';
 import '../app_pages_provider/profile_detail_provider.dart';
 
 class DashboardProvider with ChangeNotifier {

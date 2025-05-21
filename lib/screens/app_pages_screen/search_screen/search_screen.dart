@@ -91,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen>
           child: PopScope(
               canPop: false,
               onPopInvokedWithResult: (didPop, result) =>
-                  searchPvr.onBack(context),
+                  searchPvr.onBack(context,false),
               child: DirectionalityRtl(
                   child: Scaffold(
                       appBar: AppBarCommon(
@@ -108,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen>
                               searchPvr.popular = true;
                               searchPvr.isPopularSelected = false;
 
-                              searchPvr.onBack(context);
+                              searchPvr.onBack(context,false);
                               route.pop(context);
                               dashPvr.notifyListeners();
                             }
