@@ -51,4 +51,5 @@ class RouteName {
   final String businessDashBoardScreen = '/businessDashBoardScreen';
   final String myBusinessScreen = '/myBusinessScreen';
   final String businessUserScreen = '/businessUserScreen';
+  final String addBusinessUserScreen = '/addBusinessUserScreen';
 }

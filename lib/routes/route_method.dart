@@ -1,5 +1,6 @@
 import 'package:goapp/config.dart';
 
+import '../screens/menu_screens/layouts/my_business_layout/add_business_user_screen.dart';
 import '../screens/menu_screens/layouts/my_business_layout/business_user_screen.dart';
 import '../screens/menu_screens/layouts/my_business_layout/my_business_screen.dart';
 
@@ -45,5 +46,6 @@ class AppRoute {
     routeName.businessOfferDetails: (p0) => const BusinessOfferDetails(),
     routeName.myBusinessScreen: (p0) => const MyBusinessScreen(),
     routeName.businessUserScreen: (p0) => const BusinessUserScreen(),
+    routeName.addBusinessUserScreen: (p0) => const AddBusinessUserScreen(),
   };
 }

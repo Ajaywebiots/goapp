@@ -35,7 +35,7 @@ class OptionScreenLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<LanguageProvider, ProfileProvider>(
-        builder: (context1, languageCtrl, value, child) {
+        builder: (context1, languages, value, child) {
       final items = getMenuItems(context, title, value);
       return DirectionalityRtl(
           child: Scaffold(
@@ -44,8 +44,7 @@ class OptionScreenLayout extends StatelessWidget {
                   centerTitle: true,
                   leadingWidth: 80,
                   leading: CommonArrow(
-                    arrow: languageCtrl.getLocal() == "ar" ||
-                            languageCtrl.getLocal() == "el"
+                    arrow: languages.isUserRTl
                         ? eSvgAssets.arrowRight
                         : eSvgAssets.arrowLeft,
                     onTap: () => route.pop(context),

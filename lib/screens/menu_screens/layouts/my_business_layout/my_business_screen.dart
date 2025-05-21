@@ -10,20 +10,21 @@ class MyBusinessScreen extends StatelessWidget {
           appBar: AppBar(
               leadingWidth: 60,
               title: Text(language(context, "My Business"),
-                  style: appCss.dmDenseMedium18
+                  style: appCss.dmDenseBold18
                       .textColor(appColor(context).darkText)),
               centerTitle: true,
               actions: [
                 SizedBox(
-                        height: Sizes.s40,
-                        width: Sizes.s40,
-                        child: SvgPicture.asset(eSvgAssets.add)
-                            .marginAll(8)
-                            .decorated(
-                                shape: BoxShape.circle,
-                                color: appColor(context).fieldCardBg)
-                            .inkWell(onTap: () {}))
-                    .paddingOnly(right: 20)
+                    height: Sizes.s40,
+                    width: Sizes.s40,
+                    child: SvgPicture.asset(eSvgAssets.add)
+                        .marginAll(8)
+                        .decorated(
+                            shape: BoxShape.circle,
+                            color: appColor(context).fieldCardBg)
+                        .inkWell(onTap: () {
+                      route.push(context, routeName.appSetting);
+                    })).paddingOnly(right: 20)
               ],
               leading: CommonArrow(
                       arrow: languages.isUserRTl

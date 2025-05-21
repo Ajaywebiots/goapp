@@ -597,9 +597,9 @@ class SignUpCompanyProvider with ChangeNotifier {
   void onBusinessOnTap(context, data, index) {
     log("data.title::${data.title}///}");
     switch (data.title) {
-      // case "My Business":
-      //   route.pushNamed(context, routeName.myBusinessScreen);
-      //   break;
+      case "My Business":
+        route.pushNamed(context, routeName.myBusinessScreen);
+        break;
       case "Business Users":
         route.pushNamed(context, routeName.businessUserScreen);
         break;
