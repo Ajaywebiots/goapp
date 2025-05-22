@@ -13,7 +13,7 @@ class OfferBookingScreen extends StatelessWidget {
                     .paddingDirectional(horizontal: Sizes.s20)
               ],
               leadingWidth: 60,
-              title: Text(language(context, "Bookings (6)"),
+              title: Text(language(context, "All Offer Bookings (4)"),
                   style: appCss.dmDenseBold18
                       .textColor(appColor(context).darkText)),
               centerTitle: true,
@@ -66,9 +66,8 @@ class OfferBookingScreen extends StatelessWidget {
                                               .textColor(
                                                   appColor(context).darkText)),
                                       Text(sale.time,
-                                          style: appCss.dmDenseRegular12
-                                              .textColor(
-                                                  appColor(context).darkText))
+                                          style: appCss.dmDenseBold15.textColor(
+                                              appColor(context).darkText))
                                     ])
                               ])
                         ])); /*ListTile(
@@ -91,7 +90,7 @@ class OfferBookingScreen extends StatelessWidget {
                               style: appCss.dmDenseRegular16
                                   .textColor(appColor(context).darkText))
                         ]));*/
-              }).marginSymmetric(horizontal: 20));
+              }).marginOnly(top: Insets.i10).marginSymmetric(horizontal: 20));
     });
   }
 }
@@ -100,29 +99,33 @@ final List<Sale> sales = [
   Sale(
       name: 'Liam Carter',
       seller: 'Avi Amar',
-      date: '27/4/2025',
-      time: '09:15'),
+      date: '29/4/2025 10:23',
+      time: '10€ Off'),
   Sale(
       name: 'Ava Thompson',
       seller: 'Avi Amar',
-      date: '25/4/2025',
-      time: '14:47'),
-  Sale(name: 'Mason Lee', seller: 'Avi Amar', date: '30/4/2025', time: '11:30'),
+      date: '29/4/2025 10:23',
+      time: '10€ Off'),
+  Sale(
+      name: 'Mason Lee',
+      seller: 'Avi Amar',
+      date: '29/4/2025 10:23',
+      time: '10€ Off'),
   Sale(
       name: 'Sophia Garcia',
       seller: 'Avi Amar',
-      date: '28/4/2025',
-      time: '16:05'),
+      date: '29/4/2025 10:23',
+      time: '10€ Off'),
   Sale(
       name: 'Benjamin Clark',
       seller: 'Avi Amar',
-      date: '29/4/2025',
-      time: '08:40'),
+      date: '29/4/2025 10:23',
+      time: '10€ Off'),
   Sale(
       name: 'Isabella Wright',
       seller: 'Avi Amar',
-      date: '26/4/2025',
-      time: '13:22'),
+      date: '29/4/2025 10:23',
+      time: '10€ Off'),
 ];
 
 class Sale {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../config.dart';
 import '../app_pages_provider/profile_detail_provider.dart';
 
@@ -5,7 +7,8 @@ class DashboardProvider with ChangeNotifier {
   static const pageSize = 1;
   SharedPreferences? pref;
   bool isFav = false;
-
+  int previousTabIndex = 0;
+  String? previousRoute;
   TextEditingController searchCtrl = TextEditingController();
   final FocusNode searchFocus = FocusNode();
 
@@ -30,6 +33,14 @@ class DashboardProvider with ChangeNotifier {
     AttractionScreen(isHomeScreen: true),
     MenuScreen(isHomeScreen: true)
   ];
+
+  bool cameFromProfileSubPage = false;
+
+  void goToTabFromProfile(int index, BuildContext context) {
+    cameFromProfileSubPage = true;
+    selectIndex = index;
+    notifyListeners();
+  }
 
   onInit(context) {
     Provider.of<ProfileDetailProvider>(context, listen: false)
@@ -58,7 +69,7 @@ class DashboardProvider with ChangeNotifier {
   }
 
   bool isInCategoryListing = false;
-
+  bool isBack = false;
   void onTap(int index, BuildContext context) {
     if (isInCategoryListing) {
       if (Navigator.of(context).canPop()) {
@@ -72,6 +83,11 @@ class DashboardProvider with ChangeNotifier {
       });
     } else {
       selectIndex = index;
+      if (index == 1) {
+        isBack = true;
+        log("message=-=-=-=-=-=-=-=-=-${isBack}");
+        notifyListeners();
+      }
       notifyListeners();
     }
   }

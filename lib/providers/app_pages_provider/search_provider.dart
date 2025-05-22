@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui' as ui;
 
@@ -10,20 +9,19 @@ import 'package:goapp/models/api_model/business_category_model.dart';
 import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 
-import '../../common_tap.dart';
 import '../../models/api_model/business_details_model.dart';
 import '../../models/api_model/business_search_model.dart';
 import '../../models/api_model/home_feed_model.dart';
-import '../../models/category_model.dart';
-import '../../models/service_model.dart';
 import '../../screens/app_pages_screen/search_screen/filter_tap_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/second_filter.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/third_filter.dart';
+import '../../screens/menu_screens/layouts/options_selection_screen_layout/option_screen_layout.dart';
 import '../../services/api_service.dart';
 import '../../widgets/dotted_line.dart';
 import '../../widgets/edit_review_layout.dart';
 import '../bottom_providers/dashboard_provider.dart';
+import '../bottom_providers/profile_provider.dart';
 import 'attractions_provider.dart';
 import 'categories_details_provider.dart';
 
@@ -47,6 +45,7 @@ class SearchProvider with ChangeNotifier {
 
   bool isLoading = false;
   int? selectedCategoryId;
+
 // Modified onSubCategories to handle category selection without navigation
   onSubCategories(context, int index, int? id) async {
     if (selectedIndex == index && selectedCategoryId == id) {
@@ -89,12 +88,24 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onBack(context, isProfile) {
+  onBack(context) {
     final dash = Provider.of<DashboardProvider>(context, listen: false);
-    if (dash.selectIndex != 0) {
-      dash.selectIndex = 0;
+    final pro = Provider.of<ProfileProvider>(context, listen: false);
+    log("value.isProfileBack::${dash.selectIndex}");
+    if (pro.isProfileBack == true) {
+      log("Back from profile, returning to previous tab: ${dash.previousTabIndex}");
+      pro.isProfileBack = false;
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return OptionScreenLayout(title: "Business Club");
+      }));
+      notifyListeners();
 
+      return true;
+    } else /* if (dash.selectIndex != 0)*/ {
       log("hhhh ${dash.selectIndex}");
+      dash.selectIndex = 0;
+      pro.isProfileBack = false;
+
       notifyListeners();
       searchList = [];
       isSearch = false;
@@ -107,9 +118,9 @@ class SearchProvider with ChangeNotifier {
       slider = 0;
       notifyListeners();
 
-      return false;
-    } if(isProfile==true){
-log("DDDDDDD::${isProfile}");
+      // Replace current screen with dashboard (index 0)
+      Navigator.pushNamedAndRemoveUntil(
+          context, routeName.dashboard, (route) => false);
       return true;
     }
     return true;

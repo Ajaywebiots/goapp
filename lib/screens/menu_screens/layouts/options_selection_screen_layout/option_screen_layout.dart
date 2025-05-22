@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
 import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
 
@@ -42,11 +44,18 @@ class OptionScreenLayout extends StatelessWidget {
                   centerTitle: true,
                   leadingWidth: 80,
                   leading: CommonArrow(
-                    arrow: languages.isUserRTl
-                        ? eSvgAssets.arrowRight
-                        : eSvgAssets.arrowLeft,
-                    onTap: () => route.pop(context),
-                  ).paddingAll(Insets.i8),
+                      arrow: languages.isUserRTl
+                          ? eSvgAssets.arrowRight
+                          : eSvgAssets.arrowLeft,
+                      onTap: () {
+                        final dash = Provider.of<DashboardProvider>(context,
+                            listen: false);
+
+                        value.isProfileBack == false;
+                        log("DDDDDD:${dash.selectIndex = 4}");
+                        route.pushNamedAndRemoveUntil(
+                            context, routeName.dashboard);
+                      }).paddingAll(Insets.i8),
                   title: Text(language(context, title),
                       style: appCss.dmDenseBold18
                           .textColor(appColor(context).darkText))),
@@ -82,6 +91,7 @@ class OptionScreenLayout extends StatelessWidget {
                               trailing: SvgPicture.asset(eSvgAssets.arrowRight,
                                   color: appColor(context).lightText),
                               onTap: () {
+                                log("message=-====-=-=-=-=-=-=${item.destination}");
                                 if (item.destination != null) {
                                   route.push(context, item.destination!);
                                 } else {
@@ -106,13 +116,15 @@ class OptionScreenLayout extends StatelessWidget {
                                           Provider.of<DashboardProvider>(
                                               context,
                                               listen: false);
-                                      // Provider.of<SearchProvider>(context,
-                                      //         listen: false)
-                                      //     .onBack(context, isProfile: true);
 
-                                      route.pop(context);
+                                      log("PROFILE::${value.isProfileBack}");
+                                      value.isProfileBack = true;
+
                                       dash.selectIndex = 1;
                                       dash.refreshData();
+                                      if (Navigator.of(context).canPop()) {
+                                        Navigator.pop(context);
+                                      }
                                     },
                                     "Travel Information": () => route.pushNamed(
                                         context, routeName.latestBlogViewAll),
@@ -121,18 +133,26 @@ class OptionScreenLayout extends StatelessWidget {
                                           Provider.of<DashboardProvider>(
                                               context,
                                               listen: false);
+                                      log("PROFILE::${value.isProfileBack}");
+                                      value.isProfileBack = true;
                                       dash.selectIndex = 2;
-                                      route.pushNamedAndRemoveUntil(
-                                          context, routeName.dashboard);
+                                      dash.refreshData();
+                                      route.pop(context);
+                                      /*  route.pushNamedAndRemoveUntil(
+                                          context, routeName.dashboard); */
                                     },
                                     "Explore Points of Interest": () {
                                       final dash =
                                           Provider.of<DashboardProvider>(
                                               context,
                                               listen: false);
+                                      log("PROFILE::${value.isProfileBack}");
+                                      value.isProfileBack = true;
                                       dash.selectIndex = 3;
-                                      route.pushNamedAndRemoveUntil(
-                                          context, routeName.dashboard);
+                                      dash.refreshData();
+                                      route.pop(context);
+                                      /*  route.pushNamedAndRemoveUntil(
+                                          context, routeName.dashboard); */
                                     },
                                     "Terms & Conditions": () =>
                                         value.appPagesAPI(context, "TERMS"),

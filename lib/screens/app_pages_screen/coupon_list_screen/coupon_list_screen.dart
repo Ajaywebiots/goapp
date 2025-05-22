@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:goapp/models/api_model/offer_search_model.dart' as models;
 import 'package:goapp/providers/bottom_providers/offer_provider.dart';
+import 'package:goapp/providers/bottom_providers/profile_provider.dart';
+import 'package:goapp/screens/menu_screens/layouts/options_selection_screen_layout/option_screen_layout.dart';
 
 import '../../../config.dart';
 import '../../../models/api_model/home_feed_model.dart';
@@ -38,9 +40,27 @@ class _CouponListScreenState extends State<CouponListScreen> {
                   appBar: AppBarCommon(
                       title: language(context, appFonts.offers),
                       onTap: () {
+                        final dash = Provider.of<DashboardProvider>(context,
+                            listen: false);
+                        final pro = Provider.of<ProfileProvider>(context,
+                            listen: false);
+                        log("pro.isProfileBack==true::${pro.isProfileBack == true}");
+                        if (pro.isProfileBack == true) {
+                          pro.isProfileBack = false;
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return OptionScreenLayout(title: "Business Club");
+                          }));
+                          setState(() {}); /*  searchPvr.onBack(context); */
+                        } else {
+                          dash.selectIndex = 0;
+                          pro.isProfileBack = false;
+                          setState(() {});
+                          /*  route.pop(context); */
+                        }
                         if (widget.isHomeScreen) {
-                          final dash = Provider.of<DashboardProvider>(context,
-                              listen: false);
+                          /*    final dash = Provider.of<DashboardProvider>(context,
+                              listen: false); */
                           dash.selectIndex = 0;
                           dash.notifyListeners();
                         } else {

@@ -9,6 +9,7 @@ import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 import 'package:goapp/widgets/filter_icon_common.dart';
 
+import '../../../providers/bottom_providers/profile_provider.dart';
 import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
@@ -75,8 +76,8 @@ class _SearchScreenState extends State<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<CategoriesListProvider, SearchProvider>(
-        builder: (context1, categoryListPvr, searchPvr, child) {
+    return Consumer3<ProfileProvider, CategoriesListProvider, SearchProvider>(
+        builder: (context1, value, categoryListPvr, searchPvr, child) {
       // final args = ModalRoute.of(context)?.settings.arguments as Categories?;
       // final selectedIndex = (args?.categoryId ?? 1) - 1;
 
@@ -89,9 +90,9 @@ class _SearchScreenState extends State<SearchScreen>
                 // searchPvr.onReady();
               }),
           child: PopScope(
-              canPop: false,
+              canPop: true,
               onPopInvokedWithResult: (didPop, result) =>
-                  searchPvr.onBack(context,false),
+                  searchPvr.onBack(context),
               child: DirectionalityRtl(
                   child: Scaffold(
                       appBar: AppBarCommon(
@@ -100,15 +101,25 @@ class _SearchScreenState extends State<SearchScreen>
                             final dashPvr = Provider.of<DashboardProvider>(
                                 context,
                                 listen: false);
+                            final pro = Provider.of<ProfileProvider>(context,
+                                listen: false);
+                            log("pro.isProfileBack==true::${pro.isProfileBack == true}");
+                            if (pro.isProfileBack == true) {
+                              searchPvr.onBack(context);
+                            } else {
+                              dashPvr.selectIndex = 0;
+                              /*  route.pop(context); */
+                            }
+                            // searchPvr.onBack(context);
                             if (widget.isHomeScreen == true) {
                               dashPvr.selectIndex = 0;
+
                               dashPvr.notifyListeners();
                             } else {
                               log("dddd vvv");
                               searchPvr.popular = true;
                               searchPvr.isPopularSelected = false;
 
-                              searchPvr.onBack(context,false);
                               route.pop(context);
                               dashPvr.notifyListeners();
                             }

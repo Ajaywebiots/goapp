@@ -11,7 +11,7 @@ import 'dashboard_provider.dart';
 class ProfileProvider with ChangeNotifier {
   AnimationController? controller;
   Animation<Offset>? offsetAnimation;
-
+  bool isProfileBack = false;
   SharedPreferences? preferences;
   List<ProfileModel> profileLists = [];
   bool isPositionedRight = false;

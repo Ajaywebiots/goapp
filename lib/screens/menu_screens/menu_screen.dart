@@ -20,6 +20,7 @@ class MenuScreen extends StatelessWidget {
                   appBar: AppBarCommon(
                       title: "Settings",
                       onTap: () {
+                        profilePvr.isProfileBack == false;
                         if (isHomeScreen) {
                           final dash = Provider.of<DashboardProvider>(context,
                               listen: false);
@@ -27,6 +28,7 @@ class MenuScreen extends StatelessWidget {
                               context,
                               listen: false);
                           dash.selectIndex = 0;
+                          profilePvr.isProfileBack == false;
                           dash.notifyListeners();
                           homePvr.notifyListeners();
                         }

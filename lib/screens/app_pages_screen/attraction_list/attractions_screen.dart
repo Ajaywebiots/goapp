@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
+import 'package:goapp/providers/bottom_providers/profile_provider.dart';
+import 'package:goapp/screens/menu_screens/layouts/options_selection_screen_layout/option_screen_layout.dart';
 
 import '../../../config.dart';
 import '../../../providers/app_pages_provider/attractions_provider.dart';
@@ -49,6 +53,24 @@ class _AttractionScreenState extends State<AttractionScreen>
                   appBar: AppBarCommon(
                       title: language(context, appFonts.exploreAttractions),
                       onTap: () {
+                        final dash = Provider.of<DashboardProvider>(context,
+                            listen: false);
+                        final pro = Provider.of<ProfileProvider>(context,
+                            listen: false);
+                        log("pro.isProfileBack==true::${pro.isProfileBack == true}");
+                        if (pro.isProfileBack == true) {
+                          pro.isProfileBack = false;
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return OptionScreenLayout(title: "Travel Guide");
+                          }));
+                          setState(() {}); /*  searchPvr.onBack(context); */
+                        } else {
+                          dash.selectIndex = 0;
+                          pro.isProfileBack = false;
+                          setState(() {});
+                          /*  route.pop(context); */
+                        }
                         if (widget.isHomeScreen) {
                           final dash = Provider.of<DashboardProvider>(context,
                               listen: false);
