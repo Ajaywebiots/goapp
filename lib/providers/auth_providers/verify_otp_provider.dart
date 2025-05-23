@@ -22,6 +22,8 @@ class VerifyOtpProvider with ChangeNotifier {
   Duration myDuration = const Duration(seconds: 60);
 
   Future<void> onTapVerification(context) async {
+    final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
+
     if (!otpKey.currentState!.validate()) return;
 
     showLoading(context);
@@ -64,6 +66,8 @@ class VerifyOtpProvider with ChangeNotifier {
 
           dash.selectIndex = 0;
           route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+          sss.email.text = "";
+          sss.numberController.text = "";
         } else {
           hideLoading(context);
           Navigator.pushNamedAndRemoveUntil(
@@ -130,10 +134,13 @@ class VerifyOtpProvider with ChangeNotifier {
     final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
     try {
       showLoading(context);
-      var body = {
-        "phoneNumber": sss.numberController.text,
-        "phoneNumberPrefix": sss.dialCode
-      };
+      var body = sss.selectedMethod == ContactMethod.email
+          ? {"email": sss.email.text}
+          : {
+              "phoneNumber": sss.numberController.text,
+              "phoneNumberPrefix": sss.dialCode
+            };
+
       log("body ${body}");
       apiServices
           .commonApi(api.otp, body, ApiType.post, isToken: false)

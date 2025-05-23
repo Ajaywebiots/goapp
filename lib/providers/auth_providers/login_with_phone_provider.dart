@@ -15,6 +15,8 @@ class LoginWithPhoneProvider with ChangeNotifier {
   double? currentLatitude;
   double? currentLongitude;
 
+  ContactMethod selectedMethod = ContactMethod.email;
+
   changeDialCode(CountryCodeCustom country) {
     log("ssskjlhdajksdhas $dialCode ====> ${country.dialCode}");
     dialCode = country.dialCode!;
@@ -73,8 +75,54 @@ class LoginWithPhoneProvider with ChangeNotifier {
     }
   }
 
+  TextEditingController email = TextEditingController();
+  final FocusNode userNameFocus = FocusNode();
+
+  onTapEmailOtp(context) {
+    verificationCode = "";
+    final verifyOtp = Provider.of<VerifyOtpProvider>(context, listen: false);
+    verifyOtp.otpController.text = "";
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (globalKey.currentState!.validate()) {
+      try {
+        showLoading(context);
+        var body = {"email": email.text};
+        log("ddd ${body}");
+        apiServices
+            .commonApi(api.otp, body, ApiType.post, isToken: false)
+            .then((value) async {
+          log("dasdasdasd ${value.data}");
+          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
+          hideLoading(context);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          log("token.toString ${token.toString()}");
+          await prefs.setString('authToken', token.toString());
+          log("ssss ${value.data}");
+          log("ssss ${value.data['code']}");
+          /*if (value.data['code'].isNotEmpty) {
+            // SharedPreferences prefs = await SharedPreferences.getInstance();
+            // log("token.toString ${token.toString()}");
+            // await prefs.setString('authToken', token.toString());
+            log("ssss ${value.data}");
+            log("ssss ${value.data['code']}");
+            hideLoading(context);
+
+          } else {
+            hideLoading(context);
+            showMessage(context, value.data['responseMessage']);
+          }*/
+        });
+      } catch (e) {
+        hideLoading(context);
+        log("EEEE : login $e");
+      }
+    }
+  }
+
   onTapOtp(context) {
     verificationCode = "";
+    final verifyOtp = Provider.of<VerifyOtpProvider>(context, listen: false);
+    verifyOtp.otpController.text = "";
     FocusManager.instance.primaryFocus?.unfocus();
     if (globalKey.currentState!.validate()) {
       try {

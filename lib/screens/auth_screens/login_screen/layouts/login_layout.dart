@@ -11,8 +11,6 @@ class LoginLayout extends StatefulWidget {
 }
 
 class _LoginLayoutState extends State<LoginLayout> {
-  ContactMethod selectedMethod = ContactMethod.email;
-
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(builder: (context1, value, child) {
@@ -34,25 +32,23 @@ class _LoginLayoutState extends State<LoginLayout> {
               Row(mainAxisSize: MainAxisSize.min, children: [
                 CustomRadioButton(
                     text: "Email Address",
-                    isSelected: selectedMethod == ContactMethod.email,
-                    onTap: () =>
-                        setState(() => selectedMethod = ContactMethod.email)),
+                    isSelected: sss.selectedMethod == ContactMethod.email,
+                    onTap: () => setState(
+                        () => sss.selectedMethod = ContactMethod.email)),
                 const SizedBox(width: 16),
                 CustomRadioButton(
                     text: "Phone Number",
-                    isSelected: selectedMethod == ContactMethod.phone,
-                    onTap: () =>
-                        setState(() => selectedMethod = ContactMethod.phone))
+                    isSelected: sss.selectedMethod == ContactMethod.phone,
+                    onTap: () => setState(
+                        () => sss.selectedMethod = ContactMethod.phone))
               ]).marginOnly(left: Insets.i20, bottom: Insets.i15),
-              if (selectedMethod == ContactMethod.email)
+              if (sss.selectedMethod == ContactMethod.email)
                 TextFieldCommon(
                         validator: (userName) =>
                             Validation().emailValidation(context, userName),
-                        controller: value.email,
+                        controller: sss.email,
                         hintText: language(context, appFonts.enterEmail),
-                        focusNode: value.userNameFocus,
-                        onFieldSubmitted: (val) => validation.fieldFocusChange(
-                            context, value.userNameFocus, value.passwordFocus),
+                        focusNode: sss.userNameFocus,
                         prefixIcon: eSvgAssets.email)
                     .paddingSymmetric(horizontal: Insets.i20)
               else
@@ -76,7 +72,8 @@ class _LoginLayoutState extends State<LoginLayout> {
               ButtonCommon(
                   title: language(context, appFonts.loginNow),
                   onTap: () {
-                    if (selectedMethod == ContactMethod.email) {
+                    if (sss.selectedMethod == ContactMethod.email) {
+                      sss.onTapEmailOtp(context);
                     } else {
                       sss.onTapOtp(context);
                     }

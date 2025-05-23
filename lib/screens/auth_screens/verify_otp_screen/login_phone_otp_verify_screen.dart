@@ -33,8 +33,9 @@ class LoginPhoneOtpVerifyScreen extends StatelessWidget {
                       title: language(context, appFonts.verifyOtp),
                       subTitle: language(context, appFonts.enterTheCode),
                       isNumber: true,
-                      number:
-                          "\"${sss.dialCode} ${sss.numberController.text}\""))
+                      number: sss.selectedMethod == ContactMethod.email
+                          ? "\"${sss.email.text}\""
+                          : "\"${sss.dialCode} ${sss.numberController.text}\""))
             ]),
             SizedBox(
                 child: Form(
