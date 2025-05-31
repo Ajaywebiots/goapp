@@ -3,16 +3,15 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:goapp/config.dart';
+import 'package:goapp/models/api_model/profile_detail_model.dart';
+import 'package:goapp/screens/app_pages_screen/profile_detail_screen/layouts/selection_option_layout.dart';
+import 'package:goapp/screens/app_pages_screen/profile_detail_screen/layouts/update_phone_verify_layout.dart';
+import 'package:goapp/services/api_service.dart';
 import 'package:goapp/widgets/alert_message_common.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
-
-import '../../config.dart';
-import '../../models/api_model/profile_detail_model.dart';
-import '../../screens/app_pages_screen/profile_detail_screen/layouts/selection_option_layout.dart';
-import '../../screens/app_pages_screen/profile_detail_screen/layouts/update_phone_verify_layout.dart';
-import '../../services/api_service.dart';
 
 class ProfileDetailProvider with ChangeNotifier {
   TextEditingController txtFName = TextEditingController();

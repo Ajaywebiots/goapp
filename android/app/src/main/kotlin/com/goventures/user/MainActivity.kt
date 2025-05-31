@@ -1,4 +1,4 @@
-package com.goventures.user
+package com.goventures.app
 
 import io.flutter.embedding.android.FlutterActivity
 

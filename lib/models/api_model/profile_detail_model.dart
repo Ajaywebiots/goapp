@@ -136,12 +136,11 @@ class Image {
 
   factory Image.fromJson(Map<String, dynamic> json) {
     return Image(
-      imageId: json["imageId"],
-      mediaType: json["mediaType"],
-      source: json["source"],
-      mediaStatus: json["mediaStatus"],
-      sortOrder: json["sortOrder"],
-    );
+        imageId: json["imageId"],
+        mediaType: json["mediaType"],
+        source: json["source"],
+        mediaStatus: json["mediaStatus"],
+        sortOrder: json["sortOrder"]);
   }
 
   @override

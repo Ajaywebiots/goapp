@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1023162809872',
     projectId: 'gosalamina-b581d',
     storageBucket: 'gosalamina-b581d.firebasestorage.app',
-    iosBundleId: 'com.goventures.user',
+    iosBundleId: 'com.goventures.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1023162809872',
     projectId: 'gosalamina-b581d',
     storageBucket: 'gosalamina-b581d.firebasestorage.app',
-    iosBundleId: 'com.goventures.user',
+    iosBundleId: 'com.goventures.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
