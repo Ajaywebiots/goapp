@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1023162809872:android:1e61a9c498a19178881495",
+        "mobilesdk_app_id": "1:1023162809872:android:68f449b4f017f0ad881495",
         "android_client_info": {
           "package_name": "com.goventures.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1023162809872-ciq39ouft8is0t8pdh0nto8vcbts67tc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goventures.app",
+            "certificate_hash": "9f1550282b4ce84d6275e64b2f394360ef2ea7d0"
+          }
+        },
+        {
+          "client_id": "1023162809872-esihpuusk6jds3nungq6n6598unoobud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCY0pCOWr1-zz0uX6gL52buqBkgAsI8LY0"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023162809872-esihpuusk6jds3nungq6n6598unoobud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1023162809872-c1d38vn1it1cgpmnc11q1g2ta8i6dn6o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.goventures.user"
+              }
+            }
+          ]
         }
       }
     }
