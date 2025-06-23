@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config.dart';
 import '../../../providers/app_pages_provider/register_company_provider.dart';
@@ -24,7 +25,7 @@ class ProfileOptionsLayout extends StatelessWidget {
                 children: [
                   VSpace(Insets.i10),
                   buildGridLayout(context),
-                  value.isBusiness
+                  value.isBusiness == false
                       ? myBusinessList(context, value)
                       : registerBusinessCard(context),
                   logoutButton(context, profilePvr)
@@ -129,52 +130,60 @@ class ProfileOptionsLayout extends StatelessWidget {
   }
 
   Widget myBusinessList(BuildContext context, SignUpCompanyProvider provider) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(language(context, "MY BUSINESS"),
-          style: appCss.dmDenseBold14.textColor(appColor(context).primary)),
-      Container(
-          decoration: ShapeDecoration(
-              color: appColor(context).whiteColor,
-              shadows: [
-                BoxShadow(
-                    color: appColor(context).fieldCardBg,
-                    spreadRadius: 2,
-                    blurRadius: 4)
-              ],
-              shape: SmoothRectangleBorder(
-                  side: BorderSide(color: appColor(context).fieldCardBg),
-                  borderRadius: SmoothBorderRadius(
-                      cornerRadius: AppRadius.r12, cornerSmoothing: 1))),
-          child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: appArray.businessMenuList().length,
-              itemBuilder: (context, index) {
-                final item = appArray.businessMenuList()[index];
-                return Column(children: [
-                  ListTile(
-                          onTap: () =>
-                              provider.onBusinessOnTap(context, item, index),
-                          leading: item.icon.marginAll(Insets.i12).decorated(
-                              shape: BoxShape.circle,
-                              color: appColor(context).fieldCardBg),
-                          title: Text(item.title,
-                              style: appCss.dmDenseRegular14
-                                  .textColor(appColor(context).darkText)),
-                          trailing: SvgPicture.asset(eSvgAssets.arrowRight,
-                              color: appColor(context).lightText))
-                      .paddingDirectional(
-                          top: index == 0 ? Sizes.s10 : 0,
-                          bottom:
-                              index == appArray.businessMenuList().length - 1
-                                  ? Sizes.s10
-                                  : 0),
-                  if (index < appArray.businessMenuList().length - 1)
-                    Divider(color: appColor(context).fieldCardBg, height: 0)
-                        .paddingDirectional(vertical: Sizes.s5)
-                ]);
-              })).paddingDirectional(top: Sizes.s20)
-    ]).padding(bottom: Sizes.s20);
+    return Consumer<MyBusinessProvider>(
+        builder: (context, myBusinessPvr, child) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(language(context, "MY BUSINESS"),
+            style: appCss.dmDenseBold14.textColor(appColor(context).primary)),
+        Container(
+            decoration: ShapeDecoration(
+                color: appColor(context).whiteColor,
+                shadows: [
+                  BoxShadow(
+                      color: appColor(context).fieldCardBg,
+                      spreadRadius: 2,
+                      blurRadius: 4)
+                ],
+                shape: SmoothRectangleBorder(
+                    side: BorderSide(color: appColor(context).fieldCardBg),
+                    borderRadius: SmoothBorderRadius(
+                        cornerRadius: AppRadius.r12, cornerSmoothing: 1))),
+            child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: appArray.businessMenuList().length,
+                itemBuilder: (context, index) {
+                  final item = appArray.businessMenuList()[index];
+                  return Column(children: [
+                    ListTile(
+                            onTap: () {
+                              provider.onBusinessOnTap(context, item, index);
+                              if (item.title == "My Business") {
+                                log("ccxx cxcxcx cx");
+                                myBusinessPvr.fetchBusinesses();
+                              }
+                            },
+                            leading: item.icon.marginAll(Insets.i12).decorated(
+                                shape: BoxShape.circle,
+                                color: appColor(context).fieldCardBg),
+                            title: Text(item.title,
+                                style: appCss.dmDenseRegular14
+                                    .textColor(appColor(context).darkText)),
+                            trailing: SvgPicture.asset(eSvgAssets.arrowRight,
+                                color: appColor(context).lightText))
+                        .paddingDirectional(
+                            top: index == 0 ? Sizes.s10 : 0,
+                            bottom:
+                                index == appArray.businessMenuList().length - 1
+                                    ? Sizes.s10
+                                    : 0),
+                    if (index < appArray.businessMenuList().length - 1)
+                      Divider(color: appColor(context).fieldCardBg, height: 0)
+                          .paddingDirectional(vertical: Sizes.s5)
+                  ]);
+                })).paddingDirectional(top: Sizes.s20)
+      ]).padding(bottom: Sizes.s20);
+    });
   }
 
   Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {

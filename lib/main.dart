@@ -1,33 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:goapp/providers/app_pages_provider/app_setting_provider.dart';
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
-import 'package:goapp/providers/app_pages_provider/business_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/business_reviews_provider.dart';
-import 'package:goapp/providers/app_pages_provider/business_time_slot_provider.dart';
-import 'package:goapp/providers/app_pages_provider/categories_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
-import 'package:goapp/providers/app_pages_provider/favourite_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/in_app_forgot_pass_provider.dart';
-import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/my_review_provider.dart';
-import 'package:goapp/providers/app_pages_provider/notification_provider.dart';
-import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
-import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
-import 'package:goapp/providers/app_pages_provider/register_company_provider.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
-import 'package:goapp/providers/app_pages_provider/services_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/time_slot_provider.dart';
-import 'package:goapp/providers/auth_providers/social_register_provider.dart';
-import 'package:goapp/providers/auth_providers/verify_reset_password_provider.dart';
-import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
-import 'package:goapp/providers/bottom_providers/profile_provider.dart';
-import 'package:goapp/providers/common_providers/common_api_provider.dart';
 import 'package:goapp/services/user_services.dart';
 import 'common/theme/app_theme.dart';
 import 'config.dart';
@@ -71,6 +44,7 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => SignUpCompanyProvider()),
               ChangeNotifierProvider(create: (_) => ContactUsProvider()),
               ChangeNotifierProvider(create: (_) => DashboardProvider()),
+              ChangeNotifierProvider(create: (_) => MyBusinessProvider()),
               ChangeNotifierProvider(create: (_) => LoginWithPhoneProvider()),
               ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
               ChangeNotifierProvider(create: (_) => ForgetPasswordProvider()),

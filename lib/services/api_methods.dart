@@ -53,6 +53,7 @@ class ApiMethods {
   String support = "/app/support";
   String registerBusiness = "/user/";
   String businessLocation = "/user/";
+  String myBusinessList = "/user/";
 
 // //
 // String homeFeed = '/api/App/home/feed';

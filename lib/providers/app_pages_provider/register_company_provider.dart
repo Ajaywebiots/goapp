@@ -554,24 +554,24 @@ class SignUpCompanyProvider with ChangeNotifier {
       }
     } else if (pageIndex == 1) {
       // Step 2: Business location
-      final success = await businessLocationAPI(businessId!);
-      log("Business Location API success: $success");
-
-      if (success ?? false) {
+      // final success = await businessLocationAPI(businessId!);
+      // log("Business Location API success: $success");
+      pageIndex++;
+      /*if (success ?? false) {
         pageIndex++;
       } else {
         return;
-      }
+      }*/
     } else if (pageIndex == 2) {
       // Step 2: Business location
-      final success = await businessContactAPI(businessId!);
-      log("Business Location API success: $success");
-
-      if (success == true) {
-        pageIndex++;
-      } else {
-        return;
-      }
+      // final success = await businessContactAPI(businessId!);
+      // log("Business Location API success: $success");
+      pageIndex++;
+      // if (success == true) {
+      //   pageIndex++;
+      // } else {
+      //   return;
+      // }
     } else if (pageIndex == 3) {
       pageIndex++;
     } else if (pageIndex == 4) {
@@ -597,9 +597,9 @@ class SignUpCompanyProvider with ChangeNotifier {
   void onBusinessOnTap(context, data, index) {
     log("data.title::${data.title}///}");
     switch (data.title) {
-      // case "My Business":
-      //   route.pushNamed(context, routeName.myBusinessScreen);
-      //   break;
+      case "My Business":
+        route.pushNamed(context, routeName.myBusinessScreen);
+        break;
       // case "Business Users":
       //   route.pushNamed(context, routeName.businessUserScreen);
       //   break;
