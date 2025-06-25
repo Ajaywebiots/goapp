@@ -44,7 +44,11 @@ class ContactUsProvider with ChangeNotifier {
   submitSupportAPI(context) async {
     final subjectId = subjects[selectedIndex].id;
 
-    final body = {"subjectId": subjectId, "text": messageController.text};
+    final body = {
+      "subjectId": subjectId,
+      "email": emailController.text,
+      "text": messageController.text
+    };
 
     log("dddd $body");
     apiServices

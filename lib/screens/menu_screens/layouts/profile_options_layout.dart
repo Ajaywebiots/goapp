@@ -112,7 +112,7 @@ class ProfileOptionsLayout extends StatelessWidget {
                     Expanded(
                         child: Text(
                             overflow: TextOverflow.fade,
-                            language(context, "Register your business")
+                            language(context, appFonts.registerYourBusiness)
                                 .toString(),
                             style: appCss.dmDenseMedium16
                                 .textColor(appColor(context).darkText))),

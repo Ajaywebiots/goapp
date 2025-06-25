@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:goapp/models/api_model/edit_business_model.dart';
+import 'package:goapp/services/api_service.dart';
+
 import '../../../../config.dart';
 
 class MyBusinessScreen extends StatelessWidget {
@@ -24,7 +29,7 @@ class MyBusinessScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: appColor(context).fieldCardBg)
                         .inkWell(onTap: () {
-                      route.push(context, routeName.appSetting);
+                      route.pushNamed(context, routeName.companyDetailsScreen);
                     })).paddingOnly(right: 20)
               ],
               leading: CommonArrow(
@@ -35,7 +40,7 @@ class MyBusinessScreen extends StatelessWidget {
                   .padding(vertical: Insets.i8, left: 20)),
           body: Column(children: [
             myBusinessPvr.businesses.isEmpty
-                ? VSpace(Insets.i40)
+                ? VSpace(Insets.i100)
                 : VSpace(Insets.i1),
             myBusinessPvr.businesses.isEmpty
                 ? EmptyLayout(
@@ -114,8 +119,62 @@ class MyBusinessScreen extends StatelessWidget {
                                                 .textColor(appColor(context)
                                                     .darkText)),
                                         SvgPicture.asset(eSvgAssets.edit,
-                                            height: Insets.i24,
-                                            width: Insets.i24)
+                                                height: Insets.i24,
+                                                width: Insets.i24)
+                                            .inkWell(onTap: () async {
+                                          SharedPreferences pref =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          final int? userId =
+                                              pref.getInt(session.id);
+
+                                          apiServices
+                                              .commonApi(
+                                                  "${api.getBusiness}$userId/business/${myBusinessPvr.businesses[index].id}",
+                                                  [],
+                                                  ApiType.get,
+                                                  isToken: true)
+                                              .then((value1) {
+                                            if (value1.isSuccess!) {
+                                              route.pushNamed(
+                                                  context,
+                                                  routeName
+                                                      .companyDetailsScreen);
+
+                                              EditBusinessModel edit =
+                                                  EditBusinessModel.fromJson(
+                                                      value1.data);
+
+                                              final value = Provider.of<
+                                                      SignUpCompanyProvider>(
+                                                  context,
+                                                  listen: false);
+                                              log("ddd ${edit.contact!.firstName}");
+                                              value.contactFirstName.text =
+                                                  edit.contact!.firstName!;
+                                              value.contactLastName.text =
+                                                  edit.contact!.lastName!;
+                                              value.companyPhone.text =
+                                                  edit.contact!.phoneNumber!;
+                                              value.dialCode = edit
+                                                  .contact!.phoneNumberPrefix!;
+                                              value.emailCtrl.text =
+                                                  edit.contact!.email!;
+                                              value.website.text =
+                                                  edit.contact!.website!;
+                                              value.fbCtrl.text =
+                                                  edit.contact!.facebookPage!;
+                                              value.instagramCtrl.text =
+                                                  edit.contact!.instagramPage!;
+                                              value.tiktokCtrl.text =
+                                                  edit.contact!.tiktokPage!;
+                                              value.ytCtrl.text =
+                                                  edit.contact!.youtubePage!;
+                                              value.businessName.text =
+                                                  edit.business!.name!;
+                                            }
+                                          });
+                                        })
                                       ])
                                 ]).paddingSymmetric(
                                 vertical: 20, horizontal: 15)
@@ -136,8 +195,7 @@ class MyBusinessScreen extends StatelessWidget {
                                   border: Border.all(
                                       color: appColor(context).stroke))
                               .paddingOnly(bottom: Insets.i15);
-                        }).paddingSymmetric(horizontal: Insets.i20),
-                  )
+                        }).paddingSymmetric(horizontal: Insets.i20))
           ]).marginOnly(top: Insets.i20));
     });
   }

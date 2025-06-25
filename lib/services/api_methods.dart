@@ -54,6 +54,7 @@ class ApiMethods {
   String registerBusiness = "/user/";
   String businessLocation = "/user/";
   String myBusinessList = "/user/";
+  String getBusiness = "/user/";
 
 // //
 // String homeFeed = '/api/App/home/feed';
