@@ -18,7 +18,6 @@ class CollectionName {
   String messages = "messages";
   String broadcast = "broadcast";
   String groupMessage = "groupMessage";
-
   String config = "config";
   String adminStatus = "adminStatus";
   String wallpaper = "wallpaper";

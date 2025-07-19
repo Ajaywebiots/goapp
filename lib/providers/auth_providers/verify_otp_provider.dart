@@ -42,10 +42,6 @@ class VerifyOtpProvider with ChangeNotifier {
           await pref.setString(session.accessToken, value.data['token']);
           await pref.setString(
               session.tokenExpiration, value.data['expiration']);
-          await pref.setString(session.accountType,
-              value.data['user']['accountType']['accountTypeName']);
-          await pref.setString(session.accountRole,
-              value.data['user']['accountRole']['accountRoleName']);
 
           final homePvr =
               Provider.of<HomeScreenProvider>(context, listen: false);

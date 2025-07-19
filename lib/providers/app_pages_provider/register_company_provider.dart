@@ -93,16 +93,16 @@ class SignUpCompanyProvider with ChangeNotifier {
   FocusNode tiktokFocus = FocusNode();
   FocusNode ytFocus = FocusNode();
   FocusNode videoFocus = FocusNode();
-  bool isBusiness = false;
+  // bool isBusiness = false;
   String documentModel = '';
   XFile? imageFile, docFile;
 
-  Future<void> loadAccountType() async {
-    final pref = await SharedPreferences.getInstance();
-    final accountType = pref.getString(session.accountType);
-    isBusiness = accountType?.toLowerCase() == "business";
-    notifyListeners();
-  }
+  // Future<void> loadAccountType() async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   final accountType = pref.getString(session.accountType);
+  //   isBusiness = accountType?.toLowerCase() == "business";
+  //   notifyListeners();
+  // }
 
   TextEditingController companyName = TextEditingController();
 
@@ -581,7 +581,7 @@ class SignUpCompanyProvider with ChangeNotifier {
     log("INDEXEPAGE $pageIndex");
 
     if (pageIndex == 5) {
-      isBusiness = true;
+      // isBusiness = true;
       pageIndex = 0;
       notifyListeners();
 
@@ -600,9 +600,9 @@ class SignUpCompanyProvider with ChangeNotifier {
       case "My Business":
         route.pushNamed(context, routeName.myBusinessScreen);
         break;
-      // case "Business Users":
-      //   route.pushNamed(context, routeName.businessUserScreen);
-      //   break;
+      case "Business Users":
+        route.pushNamed(context, routeName.businessUserScreen);
+        break;
       case "Business Reviews":
         route.pushNamed(context, routeName.businessReviewsScreen);
         break;

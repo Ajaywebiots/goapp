@@ -23,6 +23,7 @@ class ThemeService extends ChangeNotifier {
           ? ThemeMode.dark
           : ThemeMode.light;
 
+
   void switchTheme(isTheme, index) {
     sharedPreferences.setBool(session.isDarkMode, isTheme);
     sharedPreferences.setInt(

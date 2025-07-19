@@ -1,21 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
-
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
-import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
-
 import '../../config.dart';
 
 class SplashProvider extends ChangeNotifier {
   onReady(TickerProvider sync, context) async {
     bool isAvailable = await isNetworkConnection();
     if (isAvailable) {
-      Provider.of<OnBoardingProvider>(context, listen: false)
+     await Provider.of<OnBoardingProvider>(context, listen: false)
           .onBoardingDetails();
       SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -25,10 +16,6 @@ class SplashProvider extends ChangeNotifier {
           bool? isIntro = pref.getBool(session.isIntro) ?? false;
           String? token = pref.getString(session.accessToken);
           String? expirationString = pref.getString(session.tokenExpiration);
-          final role = pref.getString(session.accountType);
-          log("role:::: ${role}");
-          log("access token::: $token");
-          log("expirationString::: $expirationString");
           Provider.of<SplashProvider>(context, listen: false).dispose();
           onDispose();
           log("isIntro::$isIntro");
@@ -72,10 +59,6 @@ class SplashProvider extends ChangeNotifier {
       Provider.of<SplashProvider>(context, listen: false).dispose();
     }
   }
-
-//setting list
-
-  //all category list
 
   bool _isDisposed = false;
 

@@ -1,10 +1,6 @@
 import 'package:flutter_html/flutter_html.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/latest_blog_details_provider.dart';
-import '../../../../providers/common_providers/common_api_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class BlogDetailsLayout extends StatelessWidget {
@@ -124,7 +120,7 @@ class BlogDetailsLayout extends StatelessWidget {
                                 fontSize: FontSize(14),
                                 color: appColor(context).darkText,
                                 fontWeight: FontWeight.w400)
-                          }),
+                          })
                         ]);
                   }).toList())
               .paddingSymmetric(horizontal: 5)

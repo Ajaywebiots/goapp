@@ -8,14 +8,9 @@ class Session {
   String themeIndex = 'themeIndex';
   String accessToken = 'accessToken';
   String tokenExpiration = 'tokenExpiration';
-  String accountType = 'accountType';
-  String accountRole = 'accountRole';
+  // String accountType = 'accountType';
+  // String accountRole = 'accountRole';
   String locale = 'locale';
-  String cart = 'cart';
   String isContinueAsGuest = 'isContinueAsGuest';
-  String recentSearch = 'recentSearch';
-  String zoneIds = 'zoneIds';
-  String priceSymbol = 'priceSymbol';
-  String currency = 'currency';
-  String currencyVal = 'currencyVal';
+
 }

@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
-
-import '../../../config.dart';
-import '../../../widgets/DirectionalityRtl.dart';
+import 'package:goapp/config.dart';
+import 'package:goapp/widgets/DirectionalityRtl.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -15,6 +14,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<OnBoardingProvider>(builder: (context, onBoardPro, child) {
+      int index = onBoardPro.selectIndex;
+      final mediaSource =
+          (index >= 0 && index < onBoardPro.onBoardingList.length)
+              ? onBoardPro.onBoardingList[index].media?.source
+              : null;
+
       return StatefulWrapper(
           onInit: () => Timer(const Duration(milliseconds: 100),
               () => onBoardPro.onReady(context)),
@@ -38,11 +43,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(onBoardPro
-                                        .onBoardingList[onBoardPro.selectIndex]
-                                        .media
-                                        ?.source ??
-                                    ''))))),
+                                image: NetworkImage(mediaSource ?? ''))))),
                 Stack(alignment: Alignment.center, children: [
                   Image.asset(eImageAssets.onBoardBox,
                           color: appColor(context).darkText.withOpacity(1))

@@ -142,7 +142,7 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  Future<void> onBoardingDetails() async {
+  onBoardingDetails() async {
     try {
       apiServices.commonApi(api.splashScreen, [], ApiType.get).then((value) {
         if (value.isSuccess!) {
