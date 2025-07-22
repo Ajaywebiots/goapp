@@ -1,16 +1,8 @@
 import 'dart:developer';
-
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
-import 'package:goapp/providers/app_pages_provider/categories_list_provider.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 import 'package:goapp/widgets/filter_icon_common.dart';
-
-import '../../../providers/bottom_providers/profile_provider.dart';
-import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/top_categories_layout.dart';

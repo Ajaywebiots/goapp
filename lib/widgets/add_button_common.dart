@@ -7,19 +7,19 @@ class AddButtonCommon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: ShapeDecoration(
-            color: appColor(context).primary,
-            shape: SmoothRectangleBorder(
-                borderRadius: SmoothBorderRadius(
-                    cornerRadius: AppRadius.r8, cornerSmoothing: 1))),
-        child: SizedBox(
-          width: Sizes.s60,
-          child: Text("+ ${language(context, appFonts.add)}",
-                  overflow: TextOverflow.clip,
-                  style: appCss.dmDenseMedium12
-                      .textColor(appColor(context).whiteColor))
-              .padding(horizontal: Insets.i12, vertical: Insets.i10),
-        )).inkWell(onTap: onTap);
+            decoration: ShapeDecoration(
+                color: appColor(context).primary,
+                shape: SmoothRectangleBorder(
+                    borderRadius: SmoothBorderRadius(
+                        cornerRadius: AppRadius.r8, cornerSmoothing: 1))),
+            child: SizedBox(
+                width: Sizes.s60,
+                child: Text("+ ${language(context, appFonts.add)}",
+                        overflow: TextOverflow.clip,
+                        style: appCss.dmDenseMedium12
+                            .textColor(appColor(context).whiteColor))
+                    .padding(horizontal: Insets.i12, vertical: Insets.i10)))
+        .inkWell(onTap: onTap);
   }
 }
 

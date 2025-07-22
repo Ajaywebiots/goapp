@@ -230,7 +230,27 @@ final english = {
   "save": "Save",
   "accountType": "Account Type",
   "membershipStatus": "Membership Status",
-  "enterCode": "Enter Code"
+  "enterCode": "Enter Code",
+  "businessClub": "Business Club",
+  "travelGuide": "Travel Guide",
+  "salaminaMunicipality": "Salamina Municipality",
+  "myAccount": "My Account",
+  "appDetails": "App Details",
+  "customerSupport": "Customer Support",
+
+  "businessListings": "Business Listings",
+  "specialOffers": "Special Offers",
+  "howToJoin?": "How to Join?",
+  "explorePointsOfInterest": "Explore Points of Interest",
+  "travelInformation": "Travel Information",
+  "municipalityMessages": "Municipality Messages",
+  "theMayorOfSalamina": "The Mayor of Salamina",
+  "emergencyNumbers": "Emergency Numbers",
+  "favouriteLists": "Favourite Lists",
+
+  "selectLanguage": "Select Language",
+  "myMembership": "My Membership",
+  "termsConditions": "Terms & Conditions",
 
   // "openingHours": "Opening Hours"
 };

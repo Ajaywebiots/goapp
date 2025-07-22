@@ -1,5 +1,4 @@
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/profile_detail_provider.dart';
 import '../../../auth_screens/verify_otp_screen/layouts/common_otp_layout.dart';
 
 class UpdatePhoneVerifyLayout extends StatelessWidget {

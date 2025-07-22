@@ -1,6 +1,4 @@
-
 import 'dart:developer';
-
 import 'package:goapp/config.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -18,5 +16,4 @@ class CommonPermissionProvider extends ChangeNotifier {
       return false;
     }
   }
-
 }

@@ -1,14 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:dio/dio.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
 import 'package:intl/intl.dart';
-
-import '../../../config.dart';
-import '../../../providers/common_providers/common_api_provider.dart';
-import '../../../widgets/DirectionalityRtl.dart';
+import 'package:goapp/config.dart';
+import 'package:goapp/widgets/DirectionalityRtl.dart';
 
 class OfferDetailsScreen extends StatefulWidget {
   const OfferDetailsScreen({super.key});

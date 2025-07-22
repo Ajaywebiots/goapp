@@ -1,5 +1,4 @@
 import '../../../config.dart';
-import '../../../providers/auth_providers/verify_reset_password_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import 'layouts/common_otp_layout.dart';
 

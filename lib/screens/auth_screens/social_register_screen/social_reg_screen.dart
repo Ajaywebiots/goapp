@@ -1,5 +1,4 @@
 import '../../../config.dart';
-import '../../../providers/auth_providers/social_register_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 
 class SocialRegScreen extends StatelessWidget {

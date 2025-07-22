@@ -1,7 +1,4 @@
-import 'package:goapp/screens/bottom_screens/home_screen/layouts/qr_scanner_screen.dart';
-
 import '../../../../config.dart';
-import '../../../../providers/bottom_providers/home_screen_provider.dart';
 
 class HomeAppBar extends StatelessWidget {
   final String? location;
@@ -14,7 +11,6 @@ class HomeAppBar extends StatelessWidget {
     return FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
         builder: (context, snapshot) {
-
           return Consumer<HomeScreenProvider>(
               builder: (context1, value, child) {
             return Row(
@@ -36,8 +32,7 @@ class HomeAppBar extends StatelessWidget {
                               alignment: Alignment.center,
                               fit: BoxFit.scaleDown,
                               colorFilter: ColorFilter.mode(
-                                  appColor(context).darkText,
-                                  BlendMode.srcIn)))
+                                  appColor(context).darkText, BlendMode.srcIn)))
                       .decorated(
                           shape: BoxShape.circle,
                           color: appColor(context).fieldCardBg)

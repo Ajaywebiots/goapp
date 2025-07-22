@@ -1,5 +1,4 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../../config.dart';
 
 class RatingLayout extends StatelessWidget {

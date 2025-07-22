@@ -42,13 +42,12 @@ class BusinessTimeSlotProvider with ChangeNotifier {
 
   selectTimeBottomSheet(context) {
     showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context2) {
-        return SelectTimeSheet();
-      },
-    );
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (context2) {
+          return SelectTimeSheet();
+        });
   }
 
   onHourChange(index) {

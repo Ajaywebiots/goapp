@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-
 import '../config.dart';
 
 class TextFieldCommon extends StatefulWidget {

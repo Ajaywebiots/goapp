@@ -1,16 +1,8 @@
 import 'dart:developer';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/services/api_service.dart';
-
 import '../../services/user_services.dart';
-import '../app_pages_provider/attractions_provider.dart';
-import '../app_pages_provider/categories_list_provider.dart';
-import '../app_pages_provider/search_provider.dart';
-import '../bottom_providers/dashboard_provider.dart';
-import '../bottom_providers/home_screen_provider.dart';
-import '../bottom_providers/offer_provider.dart';
 
 class RegisterProvider extends ChangeNotifier {
   bool isNewPassword = true, isConfirmPassword = true, isCheck = false;

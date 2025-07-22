@@ -1,15 +1,6 @@
 import 'dart:developer';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
-
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/attractions_provider.dart';
-import '../../../providers/app_pages_provider/favourite_list_provider.dart';
-import '../../../providers/app_pages_provider/latest_blog_details_provider.dart';
-import '../../../providers/app_pages_provider/search_provider.dart';
-import '../../../providers/bottom_providers/home_screen_provider.dart';
-import '../../../providers/bottom_providers/offer_provider.dart';
-import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../bottom_screens/home_screen/layouts/expert_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';

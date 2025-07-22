@@ -3,15 +3,10 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:goapp/models/api_model/offer_search_model.dart' as models;
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
-import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/screens/menu_screens/layouts/options_selection_screen_layout/option_screen_layout.dart';
 
 import '../../../config.dart';
 import '../../../models/api_model/home_feed_model.dart';
-import '../../../providers/bottom_providers/dashboard_provider.dart';
-import '../../../providers/bottom_providers/home_screen_provider.dart';
-import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../services/api_service.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/checkbox_common.dart';

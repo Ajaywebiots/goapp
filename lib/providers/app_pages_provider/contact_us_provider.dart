@@ -22,6 +22,7 @@ class ContactUsProvider with ChangeNotifier {
   getInit(context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     rate = data['rate'];
+
     messageController.text = data['desc'];
     notifyListeners();
   }
@@ -54,6 +55,7 @@ class ContactUsProvider with ChangeNotifier {
     apiServices
         .commonApi(api.support, body, ApiType.post, isToken: true)
         .then((value) {
+      emailController.clear();
       messageController.clear();
       selectedIndex = 0;
       showDialog(

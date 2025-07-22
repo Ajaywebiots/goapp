@@ -1,5 +1,4 @@
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/notification_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import 'layouts/notification_layout.dart';
 

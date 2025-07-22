@@ -5,6 +5,7 @@ class BottomSheetButtonCommon extends StatelessWidget {
   final String? textOne, textTwo;
   final bool isRateComplete;
   final Widget? iconOne, iconTwo;
+
   const BottomSheetButtonCommon(
       {super.key,
       this.applyTap,

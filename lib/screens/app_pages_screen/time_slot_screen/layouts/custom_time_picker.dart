@@ -1,5 +1,4 @@
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/time_slot_provider.dart';
 
 class CustomTimePicker extends StatelessWidget {
   final Function(int) onScroll;

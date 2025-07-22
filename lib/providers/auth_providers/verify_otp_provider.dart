@@ -1,16 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:goapp/config.dart';
-
 import '../../services/api_service.dart';
 import '../../services/user_services.dart';
-import '../app_pages_provider/attractions_provider.dart';
-import '../app_pages_provider/categories_list_provider.dart';
-import '../app_pages_provider/search_provider.dart';
-import '../bottom_providers/dashboard_provider.dart';
-import '../bottom_providers/home_screen_provider.dart';
-import '../bottom_providers/offer_provider.dart';
 
 class VerifyOtpProvider with ChangeNotifier {
   TextEditingController otpController = TextEditingController();

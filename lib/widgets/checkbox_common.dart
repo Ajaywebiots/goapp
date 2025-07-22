@@ -1,4 +1,4 @@
-import '../config.dart';
+import 'package:goapp/config.dart';
 
 class CheckBoxCommon extends StatelessWidget {
   final bool? isCheck;

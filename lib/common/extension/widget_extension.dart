@@ -147,20 +147,15 @@ extension StyledWidget on Widget {
       GradientTransform? transform,
       bool animate = false}) {
     BoxDecoration decoration = BoxDecoration(
-      gradient: SweepGradient(
-        center: center,
-        startAngle: startAngle,
-        endAngle: endAngle,
-        colors: colors ?? [],
-        stops: stops,
-        tileMode: tileMode,
-        transform: transform,
-      ),
-    );
-    return DecoratedBox(
-      decoration: decoration,
-      child: this,
-    );
+        gradient: SweepGradient(
+            center: center,
+            startAngle: startAngle,
+            endAngle: endAngle,
+            colors: colors ?? [],
+            stops: stops,
+            tileMode: tileMode,
+            transform: transform));
+    return DecoratedBox(decoration: decoration, child: this);
   }
 
   Widget backgroundBlendMode(BlendMode blendMode, {bool animate = false}) =>
@@ -239,25 +234,24 @@ extension StyledWidget on Widget {
     bool animate = false,
   }) {
     BoxDecoration decoration = BoxDecoration(
-      border: Border(
-        left: (left ?? all) == null
-            ? BorderSide.none
-            : BorderSide(color: color, width: left ?? all ?? 0, style: style),
-        right: (right ?? all) == null
-            ? BorderSide.none
-            : BorderSide(color: color, width: right ?? all ?? 0, style: style),
-        top: (top ?? all) == null
-            ? BorderSide.none
-            : BorderSide(color: color, width: top ?? all ?? 0, style: style),
-        bottom: (bottom ?? all) == null
-            ? BorderSide.none
-            : BorderSide(color: color, width: bottom ?? all ?? 0, style: style),
-      ),
-    );
-    return DecoratedBox(
-      decoration: decoration,
-      child: this,
-    );
+        border: Border(
+            left: (left ?? all) == null
+                ? BorderSide.none
+                : BorderSide(
+                    color: color, width: left ?? all ?? 0, style: style),
+            right: (right ?? all) == null
+                ? BorderSide.none
+                : BorderSide(
+                    color: color, width: right ?? all ?? 0, style: style),
+            top: (top ?? all) == null
+                ? BorderSide.none
+                : BorderSide(
+                    color: color, width: top ?? all ?? 0, style: style),
+            bottom: (bottom ?? all) == null
+                ? BorderSide.none
+                : BorderSide(
+                    color: color, width: bottom ?? all ?? 0, style: style)));
+    return DecoratedBox(decoration: decoration, child: this);
   }
 
   Widget decorated(

@@ -1,5 +1,3 @@
-import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
-
 import '../../../../config.dart';
 import '../../../../widgets/profile_pic_common.dart';
 

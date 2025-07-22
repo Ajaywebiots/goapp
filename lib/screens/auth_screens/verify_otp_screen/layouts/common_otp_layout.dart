@@ -1,7 +1,5 @@
 import 'package:goapp/screens/auth_screens/verify_otp_screen/layouts/otp_layout.dart';
-
 import '../../../../config.dart';
-import '../../../../providers/auth_providers/verify_reset_password_provider.dart';
 
 class CommonOtpLayout extends StatelessWidget {
   final TextEditingController? controller;

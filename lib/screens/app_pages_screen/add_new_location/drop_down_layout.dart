@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../../config.dart';
 import '../../../models/country_state_model.dart';
 import '../../../widgets/DirectionalityRtl.dart';

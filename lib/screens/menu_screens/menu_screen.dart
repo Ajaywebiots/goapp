@@ -1,7 +1,4 @@
 import '../../config.dart';
-import '../../providers/bottom_providers/dashboard_provider.dart';
-import '../../providers/bottom_providers/home_screen_provider.dart';
-import '../../providers/bottom_providers/profile_provider.dart';
 import '../../widgets/DirectionalityRtl.dart';
 import 'layouts/profile_options_layout.dart';
 import 'layouts/profile_setting_top_layout.dart';

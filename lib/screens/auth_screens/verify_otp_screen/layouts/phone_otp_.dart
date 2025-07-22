@@ -1,5 +1,4 @@
 import 'package:goapp/screens/auth_screens/verify_otp_screen/layouts/otp_layout.dart';
-
 import '../../../../config.dart';
 
 class CommonOtpLayout1 extends StatelessWidget {

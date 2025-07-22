@@ -1,5 +1,4 @@
 import 'package:webview_flutter/webview_flutter.dart';
-
 import '../../config.dart';
 
 class PayPalSubscriptionPage extends StatefulWidget {

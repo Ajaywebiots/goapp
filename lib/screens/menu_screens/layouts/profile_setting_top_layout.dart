@@ -1,6 +1,4 @@
-import 'package:goapp/providers/app_pages_provider/profile_detail_provider.dart';
 import 'package:goapp/screens/menu_screens/layouts/profile_layout.dart';
-
 import '../../../../config.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 

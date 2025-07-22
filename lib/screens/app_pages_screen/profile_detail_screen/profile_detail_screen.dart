@@ -1,5 +1,4 @@
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/profile_detail_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/profile_pic_common.dart';
 import 'layouts/text_field_layout.dart';

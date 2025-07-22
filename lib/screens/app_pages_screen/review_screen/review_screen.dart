@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/services/api_service.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/my_review_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/dotted_line.dart';
 import '../../../widgets/edit_review_layout.dart';

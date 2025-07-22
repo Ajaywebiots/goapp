@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/models/api_model/business_details_model.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -10,12 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../../config.dart';
 import '../../../../models/app_model/contact_vcf_file_model.dart';
-import '../../../../providers/app_pages_provider/search_provider.dart';
-import '../../../../providers/app_pages_provider/time_slot_provider.dart';
-import '../../../../providers/common_providers/common_api_provider.dart';
 import '../../../../widgets/common_gallery_screen.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 

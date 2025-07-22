@@ -6,7 +6,6 @@ import 'package:goapp/models/profile_model.dart';
 
 import '../../models/api_model/app_pages_model.dart';
 import '../../services/api_service.dart';
-import 'dashboard_provider.dart';
 
 class ProfileProvider with ChangeNotifier {
   AnimationController? controller;

@@ -231,5 +231,27 @@ final greek = {
   "openingHours": "Ώρες λειτουργίας",
   "accountType": "Τύπος λογαριασμού",
   "membershipStatus": "Κατάσταση συνδρομής",
-  "enterCode": "Εισαγωγή Κωδικού"
+  "enterCode": "Εισαγωγή Κωδικού",
+  "businessClub": "Επιχειρηματικός Όμιλος",
+  "travelGuide": "Ταξιδιωτικός Οδηγός",
+  "salaminaMunicipality": "Δήμος Σαλαμίνας",
+  "myAccount": "Ο Λογαριασμός μου",
+  "appDetails": "Λεπτομέρειες Εφαρμογής",
+  "customerSupport": "Υποστήριξη Πελατών",
+
+  "businessListings": "Καταχωρίσεις Επιχειρήσεων",
+  "specialOffers": "Ειδικές Προσφορές",
+  "howToJoin": "Πώς να Εγγραφείτε?",
+  "explorePointsOfInterest": "Εξερευνήστε Σημεία Ενδιαφέροντος",
+  "travelInformation": "Πληροφορίες Ταξιδιού",
+  "municipalityMessages": "Μηνύματα Δήμου",
+  "theMayorOfSalamina": "Ο Δήμαρχος Σαλαμίνας",
+  "emergencyNumbers": "Αριθμοί Έκτακτης Ανάγκης",
+  "myProfile": "Το Προφίλ μου",
+  "favouriteLists": "Λίστες Αγαπημένων",
+  "myReviews": "Οι Κριτικές μου",
+
+  "selectLanguage": "Επιλογή Γλώσσας",
+  "myMembership": "Η Συνδρομή μου",
+  "termsConditions": "Όροι & Προϋποθέσεις",
 };

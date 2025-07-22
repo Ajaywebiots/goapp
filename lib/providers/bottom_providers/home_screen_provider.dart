@@ -1,24 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/scheduler.dart';
 import 'package:goapp/config.dart';
-import 'package:goapp/models/blog_filter_model.dart';
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
-import 'package:goapp/providers/app_pages_provider/latest_blog_details_provider.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/bottom_providers/offer_provider.dart';
-import 'package:goapp/screens/app_pages_screen/latest_blog_view_all/latest_blog_view_all.dart';
-
-// import '../../config.dart' as model;
 import '../../models/api_model/business_category_model.dart';
 import '../../models/api_model/home_feed_model.dart' as model;
 import '../../models/api_model/home_feed_model.dart';
-import '../../models/currency_model.dart';
-import '../../models/provider_model.dart';
-import '../../models/service_model.dart';
-import '../../models/service_package_model.dart';
 import '../../services/api_service.dart';
-import 'dashboard_provider.dart';
 
 class HomeScreenProvider with ChangeNotifier {
   int selectIndex = 0;

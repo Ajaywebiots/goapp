@@ -1,5 +1,4 @@
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/app_setting_provider.dart';
 import '../../../../widgets/DirectionalityRtl.dart';
 
 class AppSettingLayout extends StatelessWidget {

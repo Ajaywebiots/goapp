@@ -1,5 +1,4 @@
 import 'package:goapp/config.dart';
-import 'package:goapp/widgets/on_delete_dialog.dart';
 
 class DeleteDialogProvider with ChangeNotifier {
   AnimationController? controller;

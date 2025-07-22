@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
 
@@ -56,11 +55,13 @@ class LatestBlogLayout extends StatelessWidget {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                          child: Text(language(context, data!.title),
-                              overflow: TextOverflow.ellipsis,
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).darkText))),
+                      Expanded(
+                        child: SizedBox(
+                            child: Text(language(context, data!.title),
+                                overflow: TextOverflow.ellipsis,
+                                style: appCss.dmDenseMedium15
+                                    .textColor(appColor(context).darkText))),
+                      ),
                       SvgPicture.asset(data!.isFavourite == true
                               ? 'assets/svg/fav.svg'
                               : "assets/svg/dislike.svg")

@@ -1,5 +1,4 @@
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/latest_blog_details_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import 'layouts/blog_details_layout.dart';
 

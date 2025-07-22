@@ -1,7 +1,5 @@
 import 'package:intl/intl.dart';
-
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/profile_detail_provider.dart';
 
 class TextFieldLayout extends StatelessWidget {
   final ProfileDetailProvider? value;

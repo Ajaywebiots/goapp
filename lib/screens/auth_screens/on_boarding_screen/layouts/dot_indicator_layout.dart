@@ -1,5 +1,3 @@
-import 'package:goapp/providers/app_pages_provider/register_company_provider.dart';
-
 import '../../../../config.dart';
 
 class DotIndicatorLayout extends StatelessWidget {

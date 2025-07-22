@@ -1,10 +1,6 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:goapp/models/api_model/home_feed_model.dart';
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../../config.dart';
-import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class FeatureAttractionLayout extends StatelessWidget {

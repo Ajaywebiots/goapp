@@ -342,6 +342,24 @@ class AppFonts {
   final fewMoreSteps1 = "Complete the final steps to join us.";
 
   final enterCode = "enterCode";
+  final businessClub = "businessClub";
+  final travelGuide = "travelGuide";
+  final salaminaMunicipality = "salaminaMunicipality";
+  final customerSupport = "customerSupport";
+
+  final businessListings = "businessListings";
+  final specialOffers = "specialOffers";
+  final howToJoin = "howToJoin";
+  final explorePointsOfInterest = "explorePointsOfInterest";
+  final travelInformation = "travelInformation";
+  final municipalityMessages = "municipalityMessages";
+  final theMayorOfSalamina = "theMayorOfSalamina";
+  final emergencyNumbers = "emergencyNumbers";
+  final favouriteLists = "favouriteLists";
+
+  final selectLanguage = "selectLanguage";
+  final myMembership = "myMembership";
+  final termsConditions = "termsConditions";
 
 // final openingHours = "openingHours";
 

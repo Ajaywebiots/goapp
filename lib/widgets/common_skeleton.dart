@@ -1,5 +1,4 @@
 import 'package:shimmer/shimmer.dart';
-
 import '../config.dart';
 
 class CommonSkeleton extends StatelessWidget {

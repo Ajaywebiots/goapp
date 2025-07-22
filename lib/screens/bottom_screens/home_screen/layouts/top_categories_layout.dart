@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config.dart';

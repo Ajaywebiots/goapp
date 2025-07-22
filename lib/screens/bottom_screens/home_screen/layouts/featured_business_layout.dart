@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
 import '../../../../models/api_model/home_feed_model.dart';
-import '../../../../providers/bottom_providers/home_screen_provider.dart';
 import '../../../../widgets/dotted_line.dart';
 
 class FeaturedBusinessLayout extends StatelessWidget {

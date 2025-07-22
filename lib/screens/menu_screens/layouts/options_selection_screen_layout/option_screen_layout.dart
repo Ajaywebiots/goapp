@@ -1,11 +1,6 @@
 import 'dart:developer';
-
-import 'package:goapp/providers/app_pages_provider/contact_us_provider.dart';
-import 'package:goapp/providers/bottom_providers/dashboard_provider.dart';
-
 import '../../../../config.dart';
 import '../../../../models/app_model/MenuItem.dart';
-import '../../../../providers/bottom_providers/profile_provider.dart';
 import '../../../../widgets/DirectionalityRtl.dart';
 
 class OptionScreenLayout extends StatelessWidget {
@@ -14,21 +9,20 @@ class OptionScreenLayout extends StatelessWidget {
   const OptionScreenLayout({super.key, this.title});
 
   List<MenuItem> getMenuItems(BuildContext context, String? title, value) {
-    switch (title) {
-      case 'Business Club':
-        return appArray.businessClubItems();
-      case 'Travel Guide':
-        return appArray.travelGuideItems();
-      case 'Salamina Municipality':
-        return appArray.municipalityItems();
-      case 'My Account':
-        return appArray.myAccountItems();
-      case 'App Details':
-        return appArray.appDetailsItems();
-      case 'Customer Support':
-        return appArray.customerSupportItems(context);
-      default:
-        return [];
+    if (title == appFonts.businessClub) {
+      return appArray.businessClubItems();
+    } else if (title == appFonts.travelGuide) {
+      return appArray.travelGuideItems();
+    } else if (title == appFonts.salaminaMunicipality) {
+      return appArray.municipalityItems();
+    } else if (title == appFonts.myAccount) {
+      return appArray.myAccountItems();
+    } else if (title == appFonts.appDetails) {
+      return appArray.appDetailsItems();
+    } else if (title == appFonts.customerSupport) {
+      return appArray.customerSupportItems(context);
+    } else {
+      return [];
     }
   }
 
@@ -85,7 +79,7 @@ class OptionScreenLayout extends StatelessWidget {
                               leading: item.icon.marginAll(Insets.i8).decorated(
                                   shape: BoxShape.circle,
                                   color: appColor(context).fieldCardBg),
-                              title: Text(item.title,
+                              title: Text(language(context, item.title),
                                   style: appCss.dmDenseRegular14
                                       .textColor(appColor(context).darkText)),
                               trailing: SvgPicture.asset(eSvgAssets.arrowRight,
@@ -97,6 +91,7 @@ class OptionScreenLayout extends StatelessWidget {
                                 } else {
                                   final title = item.title;
 
+                                  log("nzkfnzxd ${item.title}");
                                   final actions = <String, VoidCallback>{
                                     "About Us": () =>
                                         value.appPagesAPI(context, "ABOUTUS"),

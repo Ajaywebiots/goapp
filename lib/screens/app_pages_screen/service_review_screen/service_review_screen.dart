@@ -1,20 +1,11 @@
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/models/api_model/review_list_model.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/rate_app_provider.dart';
-import '../../../providers/app_pages_provider/service_review_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
-import '../../../widgets/dotted_line.dart';
-import '../../../widgets/edit_review_layout.dart';
 import '../add_new_location/drop_down_layout.dart';
 import '../services_details_screen/layouts/service_review_layout.dart';
 import 'layouts/progress_bar_layout.dart';
-import 'layouts/rating_layout.dart';
 
 class ServiceReviewScreen extends StatelessWidget {
   const ServiceReviewScreen({super.key});

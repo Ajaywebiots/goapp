@@ -1,6 +1,4 @@
 import 'package:flutter/gestures.dart';
-import 'package:goapp/providers/auth_providers/social_register_provider.dart';
-
 import '../../../../config.dart';
 
 class TermsLayout extends StatelessWidget {

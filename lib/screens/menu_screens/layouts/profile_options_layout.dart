@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:nb_utils/nb_utils.dart';
-
 import '../../../../config.dart';
-import '../../../providers/app_pages_provider/register_company_provider.dart';
-import '../../../providers/bottom_providers/profile_provider.dart';
 import 'options_selection_screen_layout/option_screen_layout.dart';
 
 class ProfileOptionsLayout extends StatelessWidget {
@@ -34,7 +30,7 @@ class ProfileOptionsLayout extends StatelessWidget {
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: 1,d
+            childAspectRatio: 1,
             mainAxisExtent: MediaQuery.of(context).size.height * (140 / 800)),
         itemCount: appArray.menuItems(context).length,
         itemBuilder: (context, index) {
@@ -47,7 +43,9 @@ class ProfileOptionsLayout extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         color: appColor(context).fieldCardBg),
-                    child: Text(item.title.replaceFirst(' ', '\n'),
+                    child: Text(
+                            language(
+                                context, item.title.replaceFirst(' ', '\n')),
                             textAlign: TextAlign.center,
                             style: appCss.dmDenseMedium14
                                 .textColor(appColor(context).darkText))
@@ -125,7 +123,7 @@ class ProfileOptionsLayout extends StatelessWidget {
 
   Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {
     return Container(
-        margin: const EdgeInsets.only(top:0),
+        margin: const EdgeInsets.only(top: 0),
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: ShapeDecoration(
             color: const Color(0xffF0F0F0),

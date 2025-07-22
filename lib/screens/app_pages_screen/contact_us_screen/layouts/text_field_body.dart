@@ -58,7 +58,7 @@ class TextFieldBody extends StatelessWidget {
                   focusNode: value.messageFocus,
                   validator: (val) => validation.commonValidation(context, val),
                   isNumber: true,
-                  controller: value.messageController)
+                  controller: value.emailController)
               .marginSymmetric(horizontal: Insets.i20),
           const VSpace(Sizes.s15),
           ContainerWithTextLayout(title: language(context, "Message")),

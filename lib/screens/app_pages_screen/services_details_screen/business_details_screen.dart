@@ -1,16 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
-
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/rate_app_provider.dart';
-import '../../../providers/app_pages_provider/services_details_provider.dart';
-import '../../../providers/bottom_providers/dashboard_provider.dart';
-import '../../../providers/bottom_providers/offer_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
-import '../../../widgets/dotted_line.dart';
-import '../../../widgets/edit_review_layout.dart';
 import '../../../widgets/heading_row_common.dart';
 import '../coupon_list_screen/layouts/coupon_layout.dart' show CouponLayout;
 import 'layouts/service_description.dart';

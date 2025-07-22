@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../config.dart';
 import '../models/api_model/attractions_details_model.dart' as iii;
 import '../models/api_model/business_details_model.dart';

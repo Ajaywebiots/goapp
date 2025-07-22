@@ -97,25 +97,25 @@ class AppArray {
 
   List<MenuItem> menuItems(context) => [
         MenuItem(
-            title: 'Business Club',
+            title: appFonts.businessClub,
             icon: SvgPicture.asset("assets/svg/business.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'Travel Guide',
+            title: appFonts.travelGuide,
             icon: SvgPicture.asset(eSvgAssets.global, height: 18, width: 18)),
         MenuItem(
-            title: 'Salamina Municipality',
+            title: appFonts.salaminaMunicipality,
             icon: SvgPicture.asset("assets/svg/municipal.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'My Account',
+            title: appFonts.myAccount,
             icon: SvgPicture.asset("assets/svg/myAccount.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'App Details',
+            title: appFonts.appDetails,
             icon: SvgPicture.asset(eSvgAssets.mobile, height: 18, width: 18)),
         MenuItem(
-            title: 'Customer Support',
+            title: appFonts.customerSupport,
             icon: SvgPicture.asset(eSvgAssets.email,
                 height: 18,
                 width: 18,
@@ -125,115 +125,98 @@ class AppArray {
 
   List<MenuItem> businessClubItems() => [
         MenuItem(
-            title: 'Business Listings',
+            title: appFonts.businessListings,
             icon: SvgPicture.asset("assets/svg/business.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'Special Offers',
+            title: appFonts.specialOffers,
             icon: SvgPicture.asset("assets/svg/discount-shape.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'How to Join?',
+            title: appFonts.howToJoin,
             icon:
                 SvgPicture.asset("assets/svg/bank.svg", height: 18, width: 18))
       ];
 
   List<MenuItem> travelGuideItems() => [
         MenuItem(
-            title: 'Explore Points of Interest',
+            title: appFonts.explorePointsOfInterest,
             icon: SvgPicture.asset("assets/svg/locationOut1.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'Travel Information',
+            title: appFonts.travelInformation,
             icon:
                 SvgPicture.asset("assets/svg/note.svg", height: 18, width: 18))
       ];
 
   List<MenuItem> municipalityItems() => [
         MenuItem(
-            title: 'Municipality Messages',
+            title: appFonts.municipalityMessages,
             icon: SvgPicture.asset(eSvgAssets.chat1, height: 18, width: 18)),
         MenuItem(
-            title: 'The Mayor of Salamina',
+            title: appFonts.theMayorOfSalamina,
             icon:
                 SvgPicture.asset(eSvgAssets.accountTag, height: 18, width: 18)),
         MenuItem(
-            title: 'Emergency Numbers',
+            title: appFonts.emergencyNumbers,
             icon: SvgPicture.asset(eSvgAssets.calling, height: 18, width: 18))
       ];
 
   List<MenuItem> myAccountItems() => [
         MenuItem(
-            title: 'My Profile',
-            icon: SvgPicture.asset(
-              "assets/svg/myAccount.svg",
-              height: 18,
-              width: 18,
-            ),
+            title: appFonts.myProfile,
+            icon: SvgPicture.asset("assets/svg/myAccount.svg",
+                height: 18, width: 18),
             destination: ProfileDetailScreen()),
         MenuItem(
-            title: 'Favourite Lists',
-            icon: SvgPicture.asset(
-              eSvgAssets.like,
-              height: 18,
-              width: 18,
-            ),
+            title: appFonts.favouriteList,
+            icon: SvgPicture.asset(eSvgAssets.like, height: 18, width: 18),
             destination: FavScreenList()),
         MenuItem(
-            title: 'My Reviews',
-            icon: SvgPicture.asset(
-              eSvgAssets.starOut,
-              height: 18,
-              width: 18,
-            ),
+            title: appFonts.myReviews,
+            icon: SvgPicture.asset(eSvgAssets.starOut, height: 18, width: 18),
             destination: ReviewScreen()),
         MenuItem(
-            title: 'Select Language',
+            title: appFonts.selectLanguage,
             icon: SvgPicture.asset(eSvgAssets.translate, height: 18, width: 18),
             destination: ChangeLanguageScreen()),
         MenuItem(
-            title: 'My Membership',
-            icon: SvgPicture.asset(
-              "assets/svg/crown.svg",
-              height: 18,
-              width: 18,
-            )),
+            title: appFonts.myMembership,
+            icon:
+                SvgPicture.asset("assets/svg/crown.svg", height: 18, width: 18))
       ];
 
   List<MenuItem> appDetailsItems() => [
         MenuItem(
-            title: 'About Us',
+            title: appFonts.aboutUs,
             icon: SvgPicture.asset("assets/svg/documentText.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'Terms & Conditions',
+            title: appFonts.termsConditions,
             icon: SvgPicture.asset("assets/svg/documentText.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'Privacy Policy',
+            title: appFonts.privacyPolicy,
             icon: SvgPicture.asset("assets/svg/documentText.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: 'Cancellation Policy',
+            title: appFonts.cancellationPolicy,
             icon: SvgPicture.asset("assets/svg/documentText.svg",
                 height: 18, width: 18))
       ];
 
   List<MenuItem> customerSupportItems(context) => [
         MenuItem(
-            title: 'FAQ',
-            icon: SvgPicture.asset(
-              "assets/svg/documentText.svg",
-              height: 18,
-              width: 18,
-            )),
+            title: appFonts.faq,
+            icon: SvgPicture.asset("assets/svg/documentText.svg",
+                height: 18, width: 18)),
         MenuItem(
-            title: 'Contact Us',
+            title: appFonts.contactUs,
             icon: SvgPicture.asset(eSvgAssets.mail,
                 colorFilter: ColorFilter.mode(
                     appColor(context).darkText, BlendMode.srcIn),
                 height: 18,
-                width: 18)),
+                width: 18))
       ];
 
   var languageList = [

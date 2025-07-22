@@ -1,8 +1,6 @@
 import 'package:goapp/screens/app_pages_screen/time_slot_screen/layouts/start_slot_layout.dart';
-
 import '../../../../config.dart';
 import '../../../../widgets/dotted_line.dart';
-import '../../../../widgets/flutter_switch_common.dart';
 
 class AllTimeSlotLayout extends StatelessWidget {
   final dynamic data;
