@@ -5,6 +5,7 @@ class CommonArrow extends StatelessWidget {
   final bool? isThirteen;
   final Color? color, svgColor;
   final GestureTapCallback? onTap;
+  final double? height;
 
   const CommonArrow(
       {super.key,
@@ -12,7 +13,7 @@ class CommonArrow extends StatelessWidget {
       this.color,
       this.svgColor,
       this.onTap,
-      this.isThirteen = false});
+      this.isThirteen = false, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class CommonArrow extends StatelessWidget {
             height: isThirteen == true ? Sizes.s30 : Sizes.s40,
             width: isThirteen == true ? Sizes.s30 : Sizes.s40,
             child: SvgPicture.asset(arrow!,
-                fit: BoxFit.scaleDown,
+                fit: BoxFit.scaleDown,height: height,
                 colorFilter: ColorFilter.mode(
                     svgColor ?? appColor(context).darkText, BlendMode.srcIn)))
         .decorated(

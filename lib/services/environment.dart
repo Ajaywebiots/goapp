@@ -10,7 +10,7 @@ class ApiClass {
     if (locale == "el") {
       locale = "el";
     }
-    log("ajaaaaaa aaaa aaa ${locale}");
+    log("ajaaaaaa aaaa aaa $locale");
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

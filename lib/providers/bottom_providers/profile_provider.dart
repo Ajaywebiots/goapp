@@ -12,7 +12,8 @@ class ProfileProvider with ChangeNotifier {
   Animation<Offset>? offsetAnimation;
   bool isProfileBack = false;
   SharedPreferences? preferences;
-  List<ProfileModel> profileLists = [];
+
+  // List<ProfileModel> profileLists = [];
   bool isPositionedRight = false;
   bool isAnimateOver = false;
 

@@ -97,30 +97,31 @@ class AppArray {
 
   List<MenuItem> menuItems(context) => [
         MenuItem(
+            title: appFonts.travelGuide,
+            icon: SvgPicture.asset(eSvgAssets.global, height: 18, width: 18)),
+
+        MenuItem(
             title: appFonts.businessClub,
             icon: SvgPicture.asset("assets/svg/business.svg",
                 height: 18, width: 18)),
         MenuItem(
-            title: appFonts.travelGuide,
-            icon: SvgPicture.asset(eSvgAssets.global, height: 18, width: 18)),
-        MenuItem(
             title: appFonts.salaminaMunicipality,
             icon: SvgPicture.asset("assets/svg/municipal.svg",
                 height: 18, width: 18)),
-        MenuItem(
-            title: appFonts.myAccount,
-            icon: SvgPicture.asset("assets/svg/myAccount.svg",
-                height: 18, width: 18)),
-        MenuItem(
-            title: appFonts.appDetails,
-            icon: SvgPicture.asset(eSvgAssets.mobile, height: 18, width: 18)),
+        // MenuItem(
+        //     title: appFonts.myAccount,
+        //     icon: SvgPicture.asset("assets/svg/myAccount.svg",
+        //         height: 18, width: 18)),
         MenuItem(
             title: appFonts.customerSupport,
             icon: SvgPicture.asset(eSvgAssets.email,
                 height: 18,
                 width: 18,
                 colorFilter: ColorFilter.mode(
-                    appColor(context).darkText, BlendMode.srcIn)))
+                    appColor(context).darkText, BlendMode.srcIn))),
+        MenuItem(
+            title: appFonts.appDetails,
+            icon: SvgPicture.asset(eSvgAssets.mobile, height: 18, width: 18)),
       ];
 
   List<MenuItem> businessClubItems() => [
@@ -266,52 +267,61 @@ class AppArray {
     {
       "title": appFonts.myAccount,
       "data": [
-        {"icon": eSvgAssets.like, "title": appFonts.myProfile, "isArrow": true},
+        {
+          "icon": "assets/svg/profileOut.svg",
+          "title": appFonts.myProfile,
+          "isArrow": true
+        },
         {
           "icon": eSvgAssets.like,
           "title": appFonts.favouriteList,
           "isArrow": true
         },
-        {"icon": eSvgAssets.like, "title": appFonts.myReviews, "isArrow": true},
         {
-          "icon": eSvgAssets.like,
+          "icon": eSvgAssets.starOut,
+          "title": appFonts.myReviews,
+          "isArrow": true
+        },
+        {
+          "icon": eSvgAssets.translate,
           "title": appFonts.appSettings,
           "isArrow": true
         },
         {
-          "icon": eSvgAssets.like,
+          "icon": "assets/svg/crown.svg",
           "title": appFonts.subscriptionPlans,
           "isArrow": true
         }
       ]
     },
-    {"title": appFonts.registerYourBusiness},
     {
       "title": appFonts.generalInfo,
       "data": [
-        {"icon": eSvgAssets.like, "title": appFonts.aboutUs, "isArrow": true},
         {
-          "icon": eSvgAssets.like,
-          "title": appFonts.privacyPolicy,
+          "title": appFonts.travelGuide,
+          "icon": eSvgAssets.global,
           "isArrow": true
         },
         {
-          "icon": eSvgAssets.like,
-          "title": appFonts.termCondition,
+          "title": appFonts.businessClub,
+          "icon": "assets/svg/business.svg",
           "isArrow": true
         },
         {
-          "icon": eSvgAssets.like,
-          "title": appFonts.cancellationPolicy,
+          "title": appFonts.salaminaMunicipality,
+          "icon": "assets/svg/municipal.svg",
           "isArrow": true
         },
-        {"icon": eSvgAssets.like, "title": appFonts.contactUs, "isArrow": true},
-        {"icon": eSvgAssets.like, "title": appFonts.faq, "isArrow": true},
-      ]
-    },
-    {
-      "data": [
-        {"icon": eSvgAssets.logout, "title": appFonts.logout, "isArrow": false}
+        {
+          "title": appFonts.customerSupport,
+          "icon": eSvgAssets.email,
+          "isArrow": true
+        },
+        {
+          "title": appFonts.appDetails,
+          "icon": eSvgAssets.mobile,
+          "isArrow": true
+        },
       ]
     }
   ];

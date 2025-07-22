@@ -1,7 +1,6 @@
-import 'dart:developer';
 import '../../../../config.dart';
-import '../../../../models/app_model/MenuItem.dart';
-import '../../../../widgets/DirectionalityRtl.dart';
+import 'package:goapp/models/app_model/MenuItem.dart';
+import 'package:goapp/widgets/DirectionalityRtl.dart';
 
 class OptionScreenLayout extends StatelessWidget {
   final String? title;
@@ -9,21 +8,72 @@ class OptionScreenLayout extends StatelessWidget {
   const OptionScreenLayout({super.key, this.title});
 
   List<MenuItem> getMenuItems(BuildContext context, String? title, value) {
-    if (title == appFonts.businessClub) {
+    if (title == language(context, appFonts.businessClub)) {
       return appArray.businessClubItems();
-    } else if (title == appFonts.travelGuide) {
+    } else if (title == language(context, appFonts.travelGuide)) {
       return appArray.travelGuideItems();
-    } else if (title == appFonts.salaminaMunicipality) {
+    } else if (title == language(context, appFonts.salaminaMunicipality)) {
       return appArray.municipalityItems();
-    } else if (title == appFonts.myAccount) {
+    } else if (title == language(context, appFonts.myAccount)) {
       return appArray.myAccountItems();
-    } else if (title == appFonts.appDetails) {
+    } else if (title == language(context, appFonts.appDetails)) {
       return appArray.appDetailsItems();
-    } else if (title == appFonts.customerSupport) {
+    } else if (title == language(context, appFonts.customerSupport)) {
       return appArray.customerSupportItems(context);
     } else {
       return [];
     }
+  }
+
+  Map<String, VoidCallback> getActions(
+      BuildContext context, ProfileProvider value) {
+    return {
+      language(context, appFonts.aboutUs): () =>
+          value.appPagesAPI(context, PageSlug.aboutUs),
+      language(context, appFonts.theMayorOfSalamina): () =>
+          value.appPagesAPI(context, PageSlug.mayor),
+      language(context, appFonts.contactUs): () {
+        Provider.of<ContactUsProvider>(context, listen: false)
+            .getSubjectData(context);
+      },
+      language(context, appFonts.municipalityMessages): () =>
+          value.appPagesAPI(context, PageSlug.municipalityMessages),
+      language(context, appFonts.emergencyNumbers): () =>
+          value.appPagesAPI(context, PageSlug.emergency),
+      language(context, appFonts.termsConditions): () =>
+          value.appPagesAPI(context, PageSlug.terms),
+      language(context, appFonts.privacyPolicy): () =>
+          value.appPagesAPI(context, PageSlug.privacy),
+      language(context, appFonts.cancellationPolicy): () =>
+          value.appPagesAPI(context, PageSlug.cancellation),
+      language(context, appFonts.faq): () =>
+          value.appPagesAPI(context, PageSlug.faq),
+      language(context, appFonts.howToJoin): () =>
+          route.pushNamed(context, routeName.subscriptionPlanScreen),
+      language(context, appFonts.travelInformation): () =>
+          route.pushNamed(context, routeName.latestBlogViewAll),
+      language(context, appFonts.specialOffers): () {
+        final dash = Provider.of<DashboardProvider>(context, listen: false);
+        value.isProfileBack = true;
+        dash.selectIndex = 2;
+        dash.refreshData();
+        route.pop(context);
+      },
+      language(context, appFonts.explorePointsOfInterest): () {
+        final dash = Provider.of<DashboardProvider>(context, listen: false);
+        value.isProfileBack = true;
+        dash.selectIndex = 3;
+        dash.refreshData();
+        route.pop(context);
+      },
+      language(context, appFonts.businessListings): () {
+        final dash = Provider.of<DashboardProvider>(context, listen: false);
+        value.isProfileBack = true;
+        dash.selectIndex = 1;
+        dash.refreshData();
+        if (Navigator.of(context).canPop()) Navigator.pop(context);
+      }
+    };
   }
 
   @override
@@ -31,6 +81,8 @@ class OptionScreenLayout extends StatelessWidget {
     return Consumer2<LanguageProvider, ProfileProvider>(
         builder: (context1, languages, value, child) {
       final items = getMenuItems(context, title, value);
+      final actions = getActions(context, value);
+
       return DirectionalityRtl(
           child: Scaffold(
               appBar: AppBar(
@@ -44,9 +96,8 @@ class OptionScreenLayout extends StatelessWidget {
                       onTap: () {
                         final dash = Provider.of<DashboardProvider>(context,
                             listen: false);
-
-                        value.isProfileBack == false;
-                        log("DDDDDD:${dash.selectIndex = 4}");
+                        value.isProfileBack = false;
+                        dash.selectIndex = 4;
                         route.pushNamedAndRemoveUntil(
                             context, routeName.dashboard);
                       }).paddingAll(Insets.i8),
@@ -85,84 +136,12 @@ class OptionScreenLayout extends StatelessWidget {
                               trailing: SvgPicture.asset(eSvgAssets.arrowRight,
                                   color: appColor(context).lightText),
                               onTap: () {
-                                log("message=-====-=-=-=-=-=-=${item.destination}");
                                 if (item.destination != null) {
                                   route.push(context, item.destination!);
                                 } else {
-                                  final title = item.title;
-
-                                  log("nzkfnzxd ${item.title}");
-                                  final actions = <String, VoidCallback>{
-                                    "About Us": () =>
-                                        value.appPagesAPI(context, "ABOUTUS"),
-                                    "The Mayor of Salamina": () =>
-                                        value.appPagesAPI(context, "MAYOR"),
-                                    "Contact Us": () {
-                                      Provider.of<ContactUsProvider>(context,
-                                              listen: false)
-                                          .getSubjectData(context);
-                                    },
-                                    "Municipality Messages": () =>
-                                        value.appPagesAPI(context, "MUNIMSG"),
-                                    "Emergency Numbers": () =>
-                                        value.appPagesAPI(context, "EMERGENCY"),
-                                    "Business Listings": () {
-                                      final dash =
-                                          Provider.of<DashboardProvider>(
-                                              context,
-                                              listen: false);
-
-                                      log("PROFILE::${value.isProfileBack}");
-                                      value.isProfileBack = true;
-
-                                      dash.selectIndex = 1;
-                                      dash.refreshData();
-                                      if (Navigator.of(context).canPop()) {
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                    "Travel Information": () => route.pushNamed(
-                                        context, routeName.latestBlogViewAll),
-                                    "Special Offers": () {
-                                      final dash =
-                                          Provider.of<DashboardProvider>(
-                                              context,
-                                              listen: false);
-                                      log("PROFILE::${value.isProfileBack}");
-                                      value.isProfileBack = true;
-                                      dash.selectIndex = 2;
-                                      dash.refreshData();
-                                      route.pop(context);
-                                      /*  route.pushNamedAndRemoveUntil(
-                                          context, routeName.dashboard); */
-                                    },
-                                    "Explore Points of Interest": () {
-                                      final dash =
-                                          Provider.of<DashboardProvider>(
-                                              context,
-                                              listen: false);
-                                      log("PROFILE::${value.isProfileBack}");
-                                      value.isProfileBack = true;
-                                      dash.selectIndex = 3;
-                                      dash.refreshData();
-                                      route.pop(context);
-                                      /*  route.pushNamedAndRemoveUntil(
-                                          context, routeName.dashboard); */
-                                    },
-                                    "Terms & Conditions": () =>
-                                        value.appPagesAPI(context, "TERMS"),
-                                    "Privacy Policy": () =>
-                                        value.appPagesAPI(context, "PRIVACY"),
-                                    "Cancellation Policy": () => value
-                                        .appPagesAPI(context, "CANCELLATION"),
-                                    "FAQ": () =>
-                                        value.appPagesAPI(context, "FAQ"),
-                                    "How to Join?": () => route.pushNamed(
-                                        context,
-                                        routeName.subscriptionPlanScreen),
-                                  };
-
-                                  actions[title]?.call();
+                                  final titleKey =
+                                      language(context, item.title);
+                                  actions[titleKey]?.call();
                                 }
                               }),
                           if (index < items.length - 1)
@@ -172,4 +151,16 @@ class OptionScreenLayout extends StatelessWidget {
                       })).paddingAll(Sizes.s20)));
     });
   }
+}
+
+class PageSlug {
+  static const aboutUs = "ABOUTUS";
+  static const mayor = "MAYOR";
+  static const contactUs = "CONTACTUS";
+  static const municipalityMessages = "MUNIMSG";
+  static const emergency = "EMERGENCY";
+  static const terms = "TERMS";
+  static const privacy = "PRIVACY";
+  static const cancellation = "CANCELLATION";
+  static const faq = "FAQ";
 }
