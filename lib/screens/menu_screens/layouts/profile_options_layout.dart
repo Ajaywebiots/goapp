@@ -97,30 +97,24 @@ class ProfileOptionsLayout extends StatelessWidget {
                                           onTap: () async {
                                             log("klhdfjkldsnfd dsfndfsmvf ${s.value.title}");
                                             if (s.value.title ==
-                                                language(context,
-                                                    appFonts.myProfile)) {
+                                                appFonts.myProfile) {
+                                              log("jkdfgadjksfgas ${appFonts.myProfile}");
                                               route.pushNamed(context,
                                                   routeName.profileDetails);
                                             } else if (s.value.title ==
-                                                language(context,
-                                                    appFonts.favouriteList)) {
+                                                appFonts.favouriteList) {
                                               route.pushNamed(context,
                                                   routeName.favScreenList);
                                             } else if (s.value.title ==
-                                                language(context,
-                                                    appFonts.myReviews)) {
+                                                appFonts.myReviews) {
                                               route.pushNamed(context,
                                                   routeName.reviewScreen);
                                             } else if (s.value.title ==
-                                                language(context,
-                                                    appFonts.appSettings)) {
+                                                appFonts.appSettings) {
                                               route.pushNamed(context,
                                                   routeName.changeLanguage);
                                             } else if (s.value.title ==
-                                                language(
-                                                    context,
-                                                    appFonts
-                                                        .subscriptionPlans)) {
+                                                appFonts.subscriptionPlans) {
                                               route.pushNamed(
                                                   context,
                                                   routeName
@@ -264,33 +258,28 @@ Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {
 //
 Widget registerBusinessCard(BuildContext context) {
   return Container(
-          padding: const EdgeInsets.all(Sizes.s15),
-          decoration: BoxDecoration(
-              color: const Color(0xfff99D1C).withOpacity(0.5),
-              borderRadius: const BorderRadius.all(Radius.circular(12))),
-          child: Row(children: [
-            CommonArrow(arrow: "assets/svg/bank.svg"),
-            const HSpace(Sizes.s15),
-            Expanded(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                  Expanded(
-                      child: Text(
-                          overflow: TextOverflow.fade,
-                          language(context, appFonts.registerYourBusiness)
-                              .toString(),
-                          style: appCss.dmDenseMedium16
-                              .textColor(appColor(context).darkText))),
-                  SvgPicture.asset(
-                      rtl(context)
-                          ? eSvgAssets.arrowLeft
-                          : eSvgAssets.arrowRight,
-                      colorFilter: ColorFilter.mode(
-                          appColor(context).darkText, BlendMode.srcIn))
-                ]))
-          ]))
-      .inkWell(
-          onTap: () =>
-              route.pushNamed(context, routeName.companyDetailsScreen));
+      padding: const EdgeInsets.all(Sizes.s15),
+      decoration: BoxDecoration(
+          color: const Color(0xfff99D1C).withOpacity(0.5),
+          borderRadius: const BorderRadius.all(Radius.circular(12))),
+      child: Row(children: [
+        CommonArrow(arrow: "assets/svg/bank.svg"),
+        const HSpace(Sizes.s15),
+        Expanded(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+              Expanded(
+                  child: Text(
+                      overflow: TextOverflow.fade,
+                      language(context, appFonts.registerYourBusiness)
+                          .toString(),
+                      style: appCss.dmDenseMedium16
+                          .textColor(appColor(context).darkText))),
+              SvgPicture.asset(
+                  rtl(context) ? eSvgAssets.arrowLeft : eSvgAssets.arrowRight,
+                  colorFilter: ColorFilter.mode(
+                      appColor(context).darkText, BlendMode.srcIn))
+            ]))
+      ])).inkWell(onTap: () {});
 }

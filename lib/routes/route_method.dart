@@ -33,7 +33,7 @@ class AppRoute {
     routeName.subscriptionPlanScreen: (p0) => const SubscriptionPlanScreen(),
     routeName.payPalSubscriptionPage: (p0) => PayPalSubscriptionPage(),
     routeName.signUpVerifyOtp: (p0) => const SignUpVerifyOtp(),
-    routeName.companyDetailsScreen: (p0) => const CompanyDetailsScreen(),
+    // routeName.companyDetailsScreen: (p0) => const CompanyDetailsScreen(),
     routeName.menuScreen: (p0) => const MenuScreen(),
   };
 }

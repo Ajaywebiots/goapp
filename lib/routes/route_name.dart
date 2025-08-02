@@ -43,14 +43,10 @@ class RouteName {
   // final String changePassInApp = '/changePassInApp';
   final String signUpVerifyOtp = '/signUpVerifyOtp';
   final String resetPasswordScreenInApp = '/resetPasswordScreenInApp';
-  final String companyDetailsScreen = '/companyDetailsScreen';
+  // final String companyDetailsScreen = '/companyDetailsScreen';
   final String menuScreen = '/menuScreen';
   final String businessReviewsScreen = '/businessReviewsScreen';
   final String businessOfferScreen = '/businessOfferScreen';
   final String businessOfferDetails = '/businessOfferDetails';
   final String offerBookings = '/offerBookings';
-  final String businessDashBoardScreen = '/businessDashBoardScreen';
-  final String myBusinessScreen = '/myBusinessScreen';
-  final String businessUserScreen = '/businessUserScreen';
-  final String addBusinessUserScreen = '/addBusinessUserScreen';
 }

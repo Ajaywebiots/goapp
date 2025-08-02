@@ -594,32 +594,32 @@ class SignUpCompanyProvider with ChangeNotifier {
     }
   }
 
-  void onBusinessOnTap(context, data, index) {
-    log("data.title::${data.title}///}");
-    switch (data.title) {
-      case "My Business":
-        route.pushNamed(context, routeName.myBusinessScreen);
-        break;
-      case "Business Users":
-        route.pushNamed(context, routeName.businessUserScreen);
-        break;
-      case "Business Reviews":
-        route.pushNamed(context, routeName.businessReviewsScreen);
-        break;
-      case "My Offers":
-        route.pushNamed(context, routeName.businessOfferScreen);
-        break;
-      case "Offer Bookings":
-        route.pushNamed(context, routeName.offerBookings);
-        break;
-      case "Dashboard":
-        route.pushNamed(context, routeName.businessDashBoardScreen);
-        break;
-      default:
-        throw UnsupportedError(
-            'DefaultFirebaseOptions are not supported for this platform.');
-    }
-  }
+  // void onBusinessOnTap(context, data, index) {
+  //   log("data.title::${data.title}///}");
+  //   switch (data.title) {
+  //     case "My Business":
+  //       route.pushNamed(context, routeName.myBusinessScreen);
+  //       break;
+  //     case "Business Users":
+  //       route.pushNamed(context, routeName.businessUserScreen);
+  //       break;
+  //     case "Business Reviews":
+  //       route.pushNamed(context, routeName.businessReviewsScreen);
+  //       break;
+  //     case "My Offers":
+  //       route.pushNamed(context, routeName.businessOfferScreen);
+  //       break;
+  //     case "Offer Bookings":
+  //       route.pushNamed(context, routeName.offerBookings);
+  //       break;
+  //     case "Dashboard":
+  //       route.pushNamed(context, routeName.businessDashBoardScreen);
+  //       break;
+  //     default:
+  //       throw UnsupportedError(
+  //           'DefaultFirebaseOptions are not supported for this platform.');
+  //   }
+  // }
 
   businessLocationAPI(businessID) async {
     try {
