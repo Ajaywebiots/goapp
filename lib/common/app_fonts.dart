@@ -361,6 +361,8 @@ class AppFonts {
   final myMembership = "myMembership";
   final termsConditions = "termsConditions";
 
+  final business = "business";
+
 // final openingHours = "openingHours";
 
 // final changeLanguage = "changeLanguage";

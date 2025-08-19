@@ -37,20 +37,24 @@ class LatestBlogLayout extends StatelessWidget {
               //         height: height ?? 200,
               //         fit: BoxFit.fill)),
               ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                  child: CachedNetworkImage(
-                      imageUrl: data!.media!.source,
-                      placeholder: (context, url) => Image.asset(
-                          eImageAssets.noImageFound2,
-                          fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width),
-                      errorWidget: (context, url, error) => Image.asset(
-                          eImageAssets.noImageFound2,
-                          fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width),
-                      width: MediaQuery.of(context).size.width,
-                      height: height ?? 200,
-                      fit: BoxFit.fill)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                child: CachedNetworkImage(
+                  imageUrl: data?.media?.source ?? '',
+                  placeholder: (context, url) => Image.asset(
+                    eImageAssets.noImageFound2,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    eImageAssets.noImageFound2,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  height: height ?? 200,
+                  fit: BoxFit.fill,
+                ),
+              ),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

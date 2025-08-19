@@ -242,7 +242,7 @@ class AppArray {
       "icon2": eSvgAssets.homeFill
     },
     {
-      "title": "Business",
+      "title": appFonts.business,
       "icon": eSvgAssets.bookingOut,
       "icon2": eSvgAssets.bookingFill
     },

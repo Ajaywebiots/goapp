@@ -251,6 +251,6 @@ final english = {
   "selectLanguage": "Select Language",
   "myMembership": "My Membership",
   "termsConditions": "Terms & Conditions",
-
+  "business": "Business",
   // "openingHours": "Opening Hours"
 };

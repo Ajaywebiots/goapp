@@ -22,23 +22,30 @@ class FeaturedBusinessLayout extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
-                        data.logo?.source != ""
-                            ? Container(
-                                height: Sizes.s30,
-                                width: Sizes.s30,
+                        CachedNetworkImage(
+                            imageUrl: data.logo!.source,
+                            height: Sizes.s30,
+                            width: Sizes.s30,
+                            imageBuilder: (context, imageProvider) => Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                        image:
-                                            NetworkImage(data.logo!.source))))
-                            : Container(
-                                height: Sizes.s30,
-                                width: Sizes.s30,
+                                        image: imageProvider,
+                                        fit: BoxFit.cover))),
+                            placeholder: (context, url) => Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: AssetImage(
-                                            eImageAssets.noImageFound3)))),
+                                            eImageAssets.noImageFound2),
+                                        fit: BoxFit.cover))),
+                            errorWidget: (context, url, error) => Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            eImageAssets.noImageFound2),
+                                        fit: BoxFit.cover)))),
                         const HSpace(Sizes.s10),
                         Text(language(context, data.name),
                             style: appCss.dmDenseMedium15
@@ -46,13 +53,27 @@ class FeaturedBusinessLayout extends StatelessWidget {
                       ])
                     ]).paddingAll(Insets.i15),
                 Stack(alignment: Alignment.topRight, children: [
-                  Container(
+                  CachedNetworkImage(
+                      imageUrl: data.image!.source,
                       height: Sizes.s150,
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(data.image!.source),
-                              fit: BoxFit.cover))),
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                          height: Sizes.s40,
+                          width: Sizes.s40,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.fitWidth,
+                                  image:
+                                      AssetImage(eImageAssets.noImageFound2)))),
+                      errorWidget: (context, url, error) => Container(
+                          height: Sizes.s40,
+                          width: Sizes.s40,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.fitWidth,
+                                  image: AssetImage(
+                                      eImageAssets.noImageFound2))))),
                   // if (data!.discount != "")
                   data.topOffer == null
                       ? SizedBox.shrink()

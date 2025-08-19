@@ -22,11 +22,11 @@ class BlogDetailsLayout extends StatelessWidget {
                 child: Image.asset(eGifAssets.loader, height: Sizes.s50)));
       }
       return Column(children: [
-        if (article.media?.source != null)
+        // if (article.media?.source != null)
           ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
               child: CachedNetworkImage(
-                  imageUrl: article.media!.source!,
+                  imageUrl: article.media?.source ?? "",
                   placeholder: (context, url) => Image.asset(
                       eImageAssets.noImageFound2,
                       fit: BoxFit.fill,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
@@ -80,39 +81,44 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                       .paddingDirectional(top: 15, bottom: 20),
                   isActive == true
                       ? qrBase64 != null
-                          ? Image.memory(base64Decode(qrBase64!),
-                              height: 140, width: 140, fit: BoxFit.contain)
+                          ? Image.memory(
+                              base64Decode(qrBase64!),
+                              height: 140,
+                              width: 140,
+                              fit: BoxFit.contain,
+                            )
                           : CircularProgressIndicator()
                       : ButtonCommon(
                           margin: 20,
                           title: 'Activate Offer Now',
                           onTap: () async {
-                            route.pushNamed(
-                                context, routeName.subscriptionPlanScreen);
-                            // SharedPreferences pref =
-                            //     await SharedPreferences.getInstance();
-                            // try {
-                            //   final dio = Dio();
-                            //   Response response = await dio.get(
-                            //       '${apiClass.baseUrl}${api.qrGenerate}${offers?.id}/QR/${pref.getInt(session.id)}',
-                            //       options: Options(headers: {
-                            //         'X-GoApp-Api-Key':
-                            //             'ba16106c-2d7b-4a13-bdb2-b15b19691280',
-                            //         'Authorization':
-                            //             'Bearer ${pref.getString(session.accessToken)}',
-                            //         'Content-Type': 'application/json'
-                            //       }));
-                            //
-                            //   print(response.data);
-                            //   qrBase64 = response.data.toString();
-                            //   log("value.data ${qrBase64}");
-                            //
-                            //   setState(() {
-                            //     isActive = true;
-                            //   });
-                            // } catch (e, s) {
-                            //   log("Search error: $e $s");
-                            // }
+                            SharedPreferences pref =
+                                await SharedPreferences.getInstance();
+                            log("${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}");
+                            try {
+                              final dio = Dio();
+                              Response response = await dio.get(
+                                '${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}',
+                                options: Options(headers: {
+                                  'X-GoApp-Api-Key':
+                                      'ba16106c-2d7b-4a13-bdb2-b15b19691280',
+                                  'Authorization':
+                                      'Bearer ${pref.getString(session.accessToken)}',
+                                  'Content-Type': 'application/json'
+                                }),
+                              );
+
+                              // ✅ Save QR data
+                              setState(() {
+                                qrBase64 = response.data[
+                                    'qr']; // assuming API returns base64 string in "qr"
+                                isActive = true;
+                              });
+
+                              log("QR Saved: $qrBase64");
+                            } catch (e, s) {
+                              log("Search error: $e $s");
+                            }
                           }),
                   VSpace(20),
                   Column(children: [
@@ -245,9 +251,15 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                           border: Border.all(color: Colors.white),
                           shape: BoxShape.circle),
                       child: CircleAvatar(
+                          backgroundColor: Colors.white,
                           maxRadius: 45,
-                          backgroundImage:
-                              NetworkImage(offers?.image?.source ?? "")))),
+                          child: ClipOval(
+                              child: Image.network(offers?.image?.source ?? "",
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(eImageAssets.noImageFound1,
+                                fit: BoxFit.cover);
+                          }))))),
               Positioned(
                   top: MediaQuery.of(context).size.height * 0.18,
                   right: MediaQuery.of(context).size.width * 0.08,

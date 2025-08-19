@@ -254,4 +254,5 @@ final greek = {
   "selectLanguage": "Επιλογή Γλώσσας",
   "myMembership": "Η Συνδρομή μου",
   "termsConditions": "Όροι & Προϋποθέσεις",
+  "business": "επιχείρηση",
 };

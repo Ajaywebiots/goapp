@@ -91,9 +91,7 @@ class _MyAppState extends State<MyApp> {
         });
   }
 
-
   //completed login api integration and call
-
 
   lockScreenPortrait() {
     SystemChrome.setPreferredOrientations(
