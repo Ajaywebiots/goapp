@@ -30,8 +30,8 @@ class RegisterWidgetClass {
           Expanded(
               child: TextFieldCommon(
                   keyboardType: TextInputType.number,
-                  // validator: (phone) =>
-                  //     Validation().phoneValidation(context, phone),
+                  validator: (phone) =>
+                      Validation().phoneValidation(context, phone),
                   controller: controller,
                   onFieldSubmitted: onFieldSubmitted,
                   focusNode: focus,

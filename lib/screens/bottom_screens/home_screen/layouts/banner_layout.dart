@@ -51,7 +51,8 @@ class BannerLayout extends StatelessWidget {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              if(i.tagText != "")
+                                Container(
                                   color: appColor(context).red,
                                   child: Text(i.tagText,
                                           style: appCss.dmDenseBold10.textColor(

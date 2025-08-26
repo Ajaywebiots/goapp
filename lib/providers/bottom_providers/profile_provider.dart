@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/models/profile_model.dart';
 
@@ -109,9 +110,10 @@ class ProfileProvider with ChangeNotifier {
           notifyListeners();
         }
       });
-    } catch (e) {
+    } catch (e,s) {
       notifyListeners();
-      log("EEEE getProfileDetailDataAPI:::: $e");
+      Fluttertoast.showToast(msg: e.toString(),textColor: Colors.black);
+      log("EEEE getProfileDetailDataAPI:::: $e====$s");
     }
   }
 }

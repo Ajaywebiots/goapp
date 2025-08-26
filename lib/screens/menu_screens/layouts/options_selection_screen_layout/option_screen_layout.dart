@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../config.dart';
 import 'package:goapp/models/app_model/MenuItem.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
@@ -57,21 +59,39 @@ class OptionScreenLayout extends StatelessWidget {
         value.isProfileBack = true;
         dash.selectIndex = 2;
         dash.refreshData();
-        route.pop(context);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          // Fallback to dashboard
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.dashboard, (_) => false);
+        }
       },
       language(context, appFonts.explorePointsOfInterest): () {
         final dash = Provider.of<DashboardProvider>(context, listen: false);
         value.isProfileBack = true;
         dash.selectIndex = 3;
         dash.refreshData();
-        route.pop(context);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          // Fallback to dashboard
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.dashboard, (_) => false);
+        }
       },
       language(context, appFonts.businessListings): () {
         final dash = Provider.of<DashboardProvider>(context, listen: false);
         value.isProfileBack = true;
         dash.selectIndex = 1;
         dash.refreshData();
-        if (Navigator.of(context).canPop()) Navigator.pop(context);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          // Fallback to dashboard
+          Navigator.pushNamedAndRemoveUntil(
+              context, routeName.dashboard, (_) => false);
+        }
       }
     };
   }
@@ -136,12 +156,15 @@ class OptionScreenLayout extends StatelessWidget {
                               trailing: SvgPicture.asset(eSvgAssets.arrowRight,
                                   color: appColor(context).lightText),
                               onTap: () {
+                                log("sdkjaskldajsdkla mmmmm ");
                                 if (item.destination != null) {
+                                  log("sdkjaskldajsdkla ajay ");
                                   route.push(context, item.destination!);
                                 } else {
                                   final titleKey =
                                       language(context, item.title);
                                   actions[titleKey]?.call();
+                                  log("sdkjaskldajsdkla raju - - => $titleKey ");
                                 }
                               }),
                           if (index < items.length - 1)

@@ -66,18 +66,26 @@ class ListTileLayout extends StatelessWidget {
   }
 
   Widget getImageWidget(String? icon) {
-    if (icon == null) return SizedBox();
+    if (icon == null || icon.isEmpty) return const SizedBox();
 
     if (icon.startsWith('http')) {
-      // Network image
-      return Image.network(icon, width: Insets.i24, height: Insets.i24);
+      return CachedNetworkImage(
+          imageUrl: icon,
+          width: Insets.i24,
+          height: Insets.i24,
+          placeholder: (context, url) => const SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(strokeWidth: 0.1)),
+          errorWidget: (context, url, error) =>
+              const Icon(Icons.image, size: 24, color: Colors.grey));
     } else {
-      // Asset image
       return icon.endsWith('.svg')
           ? SvgPicture.asset(icon,
               width: Insets.i24,
               height: Insets.i24,
-              colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn))
+              colorFilter:
+                  const ColorFilter.mode(Colors.black, BlendMode.srcIn))
           : Image.asset(icon, width: Insets.i24, height: Insets.i24);
     }
   }

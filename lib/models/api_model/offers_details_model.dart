@@ -35,6 +35,8 @@ class Offers {
     required this.type,
     required this.isFavourite,
     required this.appObject,
+    required this.qrCode,
+
   });
 
   final Image? heroImage;
@@ -52,6 +54,7 @@ class Offers {
   final Type? type;
   final bool? isFavourite;
   final AppObject? appObject;
+  final String? qrCode;
 
   factory Offers.fromJson(Map<String, dynamic> json) {
     return Offers(
@@ -70,6 +73,7 @@ class Offers {
       expirationDate: DateTime.tryParse(json["expirationDate"] ?? ""),
       type: json["type"] == null ? null : Type.fromJson(json["type"]),
       isFavourite: json["isFavourite"],
+      qrCode: json["qrCode"],
       appObject: json["appObject"] == null
           ? null
           : AppObject.fromJson(json["appObject"]),

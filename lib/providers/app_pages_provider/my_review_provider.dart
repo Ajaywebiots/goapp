@@ -86,7 +86,7 @@ class MyReviewProvider extends ChangeNotifier {
           MyReviewModel myReviewModel = MyReviewModel.fromJson(value.data);
           reviewList.addAll(myReviewModel.reviews);
 
-          log("fgfh $reviewList");
+          // log("fgfh $reviewList");
         }
       });
     } catch (e) {

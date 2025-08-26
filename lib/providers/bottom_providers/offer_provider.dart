@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:goapp/config.dart';
@@ -28,6 +29,7 @@ class OfferProvider extends ChangeNotifier {
   List type = [];
   List selectedCategory = [];
 
+  String? qrBase64;
   getCategoriesData(context) {
     // showLoading(context);
     notifyListeners();
@@ -257,6 +259,8 @@ class OfferProvider extends ChangeNotifier {
           OfferDetailsModel offersDetailsModel =
               OfferDetailsModel.fromJson(value.data);
           offersDetails = offersDetailsModel;
+
+          log("Offer full data: ${value.data}");
           notifyListeners();
 
           if (isNotRouting != true) {

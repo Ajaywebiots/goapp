@@ -6,6 +6,7 @@ import 'package:goapp/widgets/filter_icon_common.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/top_categories_layout.dart';
+import '../../menu_screens/layouts/options_selection_screen_layout/option_screen_layout.dart';
 
 class SearchScreen extends StatefulWidget {
   final bool isHomeScreen;
@@ -97,7 +98,14 @@ class _SearchScreenState extends State<SearchScreen>
                                 listen: false);
                             log("pro.isProfileBack==true::${pro.isProfileBack == true}");
                             if (pro.isProfileBack == true) {
-                              searchPvr.onBack(context);
+                              log("is back aaaaaa");
+                              pro.isProfileBack = false;
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return OptionScreenLayout(
+                                    title: "Business Club");
+                              }));
+                              pro.notifyListeners();
                             } else {
                               dashPvr.selectIndex = 0;
                               /*  route.pop(context); */

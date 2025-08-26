@@ -13,17 +13,15 @@ class OfferDetailsScreen extends StatefulWidget {
 }
 
 class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
-  bool isActive = false;
+  // bool isActive = false;
   bool isLike = false;
-
-  String? qrBase64;
 
   @override
   Widget build(BuildContext context) {
     final offerPvr = Provider.of<OfferProvider>(context);
     final offers = offerPvr.offersDetails?.offer;
 
-    log("offers?.isFavourite ${offers?.isFavourite}");
+    // log("offers?.isFavourite ${offers?.isFavourite}");
     return DirectionalityRtl(
         child: Scaffold(
             appBar: AppBarCommon(
@@ -73,52 +71,47 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                     HSpace(5),
                     SvgPicture.asset('assets/svg/receipt.svg'),
                     HSpace(3),
-                    Text("255 booked",
+                    Text("${offers?.redeemCounter} booked",
                         style: appCss.dmDenseRegular13
                             .textColor(appColor(context).darkText))
                   ]),
                   DottedLine(dashColor: Color(0xffE5E8EA))
                       .paddingDirectional(top: 15, bottom: 20),
-                  isActive == true
-                      ? qrBase64 != null
-                          ? Image.memory(
-                              base64Decode(qrBase64!),
-                              height: 140,
-                              width: 140,
-                              fit: BoxFit.contain,
-                            )
-                          : CircularProgressIndicator()
+                  offers?.qrCode != null
+                      ? Image.memory(base64Decode(offers?.qrCode ?? ""),
+                          height: 140, width: 140, fit: BoxFit.contain)
                       : ButtonCommon(
                           margin: 20,
                           title: 'Activate Offer Now',
                           onTap: () async {
-                            SharedPreferences pref =
-                                await SharedPreferences.getInstance();
-                            log("${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}");
-                            try {
-                              final dio = Dio();
-                              Response response = await dio.get(
-                                '${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}',
-                                options: Options(headers: {
-                                  'X-GoApp-Api-Key':
-                                      'ba16106c-2d7b-4a13-bdb2-b15b19691280',
-                                  'Authorization':
-                                      'Bearer ${pref.getString(session.accessToken)}',
-                                  'Content-Type': 'application/json'
-                                }),
-                              );
-
-                              // ✅ Save QR data
-                              setState(() {
-                                qrBase64 = response.data[
-                                    'qr']; // assuming API returns base64 string in "qr"
-                                isActive = true;
-                              });
-
-                              log("QR Saved: $qrBase64");
-                            } catch (e, s) {
-                              log("Search error: $e $s");
-                            }
+                            route.pushNamed(context, routeName.subscriptionPlanScreen);
+                            // SharedPreferences pref =
+                            //     await SharedPreferences.getInstance();
+                            // log("${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}");
+                            // try {
+                            //   final dio = Dio();
+                            //   Response response = await dio.get(
+                            //     '${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}',
+                            //     options: Options(headers: {
+                            //       'X-GoApp-Api-Key':
+                            //           'ba16106c-2d7b-4a13-bdb2-b15b19691280',
+                            //       'Authorization':
+                            //           'Bearer ${pref.getString(session.accessToken)}',
+                            //       'Content-Type': 'application/json'
+                            //     }),
+                            //   );
+                            //
+                            //   // ✅ Save QR data
+                            //   setState(() {
+                            //     qrBase64 = response.data[
+                            //         'qr']; // assuming API returns base64 string in "qr"
+                            //     isActive = true;
+                            //   });
+                            //
+                            //   log("QR Saved: $qrBase64");
+                            // } catch (e, s) {
+                            //   log("Search error: $e $s");
+                            // }
                           }),
                   VSpace(20),
                   Column(children: [
@@ -244,22 +237,18 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                 VSpace(Insets.i40),
               ]).paddingSymmetric(horizontal: Insets.i20),
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.12,
+                  top: MediaQuery.of(context).size.height * 0.14,
                   child: Container(
+                      height: Insets.i75,
+                      width: Insets.i75,
                       padding: EdgeInsets.all(Insets.i2),
                       decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: CachedNetworkImageProvider(
+                                  offers?.image?.source ?? "")),
                           border: Border.all(color: Colors.white),
-                          shape: BoxShape.circle),
-                      child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          maxRadius: 45,
-                          child: ClipOval(
-                              child: Image.network(offers?.image?.source ?? "",
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(eImageAssets.noImageFound1,
-                                fit: BoxFit.cover);
-                          }))))),
+                          shape: BoxShape.circle))),
               Positioned(
                   top: MediaQuery.of(context).size.height * 0.18,
                   right: MediaQuery.of(context).size.width * 0.08,

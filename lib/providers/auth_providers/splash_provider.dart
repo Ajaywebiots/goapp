@@ -18,19 +18,7 @@ class SplashProvider extends ChangeNotifier {
           String? expirationString = pref.getString(session.tokenExpiration);
           Provider.of<SplashProvider>(context, listen: false).dispose();
           onDispose();
-          log("isIntro::$isIntro");
-          final homePvr =
-              Provider.of<HomeScreenProvider>(context, listen: false);
-          Provider.of<LatestBLogDetailsProvider>(context, listen: false)
-              .getArticlesSearchAPI(context);
-          final searchPvr = Provider.of<SearchProvider>(context, listen: false);
-          final attractionPvr =
-              Provider.of<AttractionProvider>(context, listen: false);
-          final offerPvr = Provider.of<OfferProvider>(context, listen: false);
-          final catListPvr =
-              Provider.of<CategoriesListProvider>(context, listen: false);
-          Provider.of<ProfileDetailProvider>(context, listen: false)
-              .getProfileDetailDataAPI(context);
+
           bool isTokenValid = false;
           if (token != null && expirationString != null) {
             DateTime expirationTime = DateTime.parse(expirationString);
@@ -39,6 +27,19 @@ class SplashProvider extends ChangeNotifier {
 
           if (isIntro) {
             if (token != null && isTokenValid) {
+              log("isIntro::$isIntro");
+              final homePvr =
+              Provider.of<HomeScreenProvider>(context, listen: false);
+              Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+                  .getArticlesSearchAPI(context);
+              final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+              final attractionPvr =
+              Provider.of<AttractionProvider>(context, listen: false);
+              final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+              final catListPvr =
+              Provider.of<CategoriesListProvider>(context, listen: false);
+              Provider.of<ProfileDetailProvider>(context, listen: false)
+                  .getProfileDetailDataAPI(context);
               homePvr.homeFeed(context);
               searchPvr.getBusinessSearchAPI(context, isFilter: false);
               attractionPvr.getAttractionSearchAPI(context);

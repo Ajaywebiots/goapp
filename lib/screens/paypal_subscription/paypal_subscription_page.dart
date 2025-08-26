@@ -39,7 +39,17 @@ class _PayPalSubscriptionPageState extends State<PayPalSubscriptionPage> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Center(
-                child: Image.asset(eGifAssets.loader, height: Sizes.s50)))
+                child: Image.asset(eGifAssets.loader, height: Sizes.s50))),
+      Positioned(
+          left: MediaQuery.of(context).size.width * (20 / 360),
+          top: MediaQuery.of(context).size.height * (20 / 800),
+          child: CommonArrow(
+              onTap: () {
+                route.pop(context);
+              },
+              svgColor: appColor(context).whiteBg,
+              arrow: eSvgAssets.arrowLeft,
+              color: appColor(context).primary))
     ])));
   }
 }

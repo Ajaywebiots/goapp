@@ -15,13 +15,15 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   ArticlesDetailModel? articleDetail;
 
   onReady(context) {
+    notifyListeners();
+    log("ajksdhasd ");
     getArticlesSearchAPI(context);
     // dynamic data1 = ModalRoute.of(context)!.settings.arguments;
     // data = data1;
     blogCategoriesData(context);
     notifyListeners();
 
-    notifyListeners();
+
   }
 
   bool isNavigating = false;

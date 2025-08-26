@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:ui' as ui;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/models/api_model/business_category_model.dart';
-import 'package:goapp/providers/app_pages_provider/rate_app_provider.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-
 import '../../models/api_model/business_details_model.dart';
 import '../../models/api_model/business_search_model.dart';
 import '../../models/api_model/home_feed_model.dart';
@@ -20,10 +16,6 @@ import '../../screens/menu_screens/layouts/options_selection_screen_layout/optio
 import '../../services/api_service.dart';
 import '../../widgets/dotted_line.dart';
 import '../../widgets/edit_review_layout.dart';
-import '../bottom_providers/dashboard_provider.dart';
-import '../bottom_providers/profile_provider.dart';
-import 'attractions_provider.dart';
-import 'categories_details_provider.dart';
 
 class SearchProvider with ChangeNotifier {
   AnimationController? animationController;
@@ -46,10 +38,8 @@ class SearchProvider with ChangeNotifier {
   bool isLoading = false;
   int? selectedCategoryId;
 
-// Modified onSubCategories to handle category selection without navigation
   onSubCategories(context, int index, int? id) async {
     if (selectedIndex == index && selectedCategoryId == id) {
-      // Avoid redundant API calls if the same category is selected
       return;
     }
 
@@ -67,9 +57,7 @@ class SearchProvider with ChangeNotifier {
     isSearch = false;
 
     log("Selected Category Index: $index, ID: $id");
-    notifyListeners(); // Ensure UI updates immediately
-
-    // Fetch business data for the selected category
+    notifyListeners();
     await getBusinessSearchAPI(context, id: id, isFilter: true);
   }
 
@@ -106,22 +94,22 @@ class SearchProvider with ChangeNotifier {
       dash.selectIndex = 0;
       pro.isProfileBack = false;
 
-      notifyListeners();
-      searchList = [];
-      isSearch = false;
-      searchCtrl.text = "";
-      selectedCategory = [];
-      selectedRates = [];
-      selectIndex = 0;
-      lowerVal = 0.0;
-      upperVal = maxPrice;
-      slider = 0;
-      notifyListeners();
+    notifyListeners();
+    searchList = [];
+    isSearch = false;
+    searchCtrl.text = "";
+    selectedCategory = [];
+    selectedRates = [];
+    selectIndex = 0;
+    lowerVal = 0.0;
+    upperVal = maxPrice;
+    slider = 0;
+    notifyListeners();
 
-      // Replace current screen with dashboard (index 0)
-      Navigator.pushNamedAndRemoveUntil(
-          context, routeName.dashboard, (route) => false);
-      return true;
+    // Replace current screen with dashboard (index 0)
+    Navigator.pushNamedAndRemoveUntil(
+        context, routeName.dashboard, (route) => false);
+    return true;
     }
     return true;
   }

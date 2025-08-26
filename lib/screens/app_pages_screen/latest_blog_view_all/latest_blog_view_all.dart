@@ -6,8 +6,24 @@ import '../../../widgets/filter_icon_common.dart';
 import '../../../widgets/search_text_filed_common.dart';
 import '../../bottom_screens/home_screen/layouts/latest_blog_layout.dart';
 
-class LatestBlogViewAll extends StatelessWidget {
+class LatestBlogViewAll extends StatefulWidget {
   const LatestBlogViewAll({super.key});
+
+  @override
+  State<LatestBlogViewAll> createState() => _LatestBlogViewAllState();
+}
+
+class _LatestBlogViewAllState extends State<LatestBlogViewAll> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final value = Provider.of<LatestBLogDetailsProvider>(context,listen: false);
+    value.onReady(context);
+  }
+
 
   @override
   Widget build(BuildContext context) {
