@@ -15,7 +15,6 @@ steps:
     displayName: "Install Flutter SDK"
   - script: |
       git clone https://github.com/flutter/flutter.git -b 3.35.0 --depth 1
-      echo "##vso[task.prependpath]$(pwd)/flutter/bin"
       flutter --version
     displayName: "Install Flutter SDK (3.13.5)"
 
