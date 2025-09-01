@@ -8,7 +8,7 @@ pool:
   vmImage: "macos-latest"
 
 steps:
-  - task: UseFlutterVersion@0
+  - task: UseFlutterVersion@3.35
     inputs:
       version: "stable"
 
