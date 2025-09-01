@@ -24,22 +24,23 @@ class HomeAppBar extends StatelessWidget {
                             .textColor(appColor(context).darkText))
                   ]),
                   const HSpace(Sizes.s10),
-                  Container(
-                          alignment: Alignment.center,
-                          height: Sizes.s40,
-                          width: Sizes.s40,
-                          child: SvgPicture.asset(eSvgAssets.notification,
-                              alignment: Alignment.center,
-                              fit: BoxFit.scaleDown,
-                              colorFilter: ColorFilter.mode(
-                                  appColor(context).darkText, BlendMode.srcIn)))
-                      .decorated(
-                          shape: BoxShape.circle,
-                          color: appColor(context).fieldCardBg)
-                      .inkWell(onTap: () => value.notificationTap(context))
-                      .paddingOnly(
-                          right: rtl(context) ? 0 : Insets.i20,
-                          left: rtl(context) ? Insets.i20 : 0)
+                  InkWell(onTap: () => route.pushNamed(context, routeName.notifications),
+                    child: Container(
+                            alignment: Alignment.center,
+                            height: Sizes.s40,
+                            width: Sizes.s40,
+                            child: SvgPicture.asset(eSvgAssets.notification,
+                                alignment: Alignment.center,
+                                fit: BoxFit.scaleDown,
+                                colorFilter: ColorFilter.mode(
+                                    appColor(context).darkText, BlendMode.srcIn)))
+                        .decorated(
+                            shape: BoxShape.circle,
+                            color: appColor(context).fieldCardBg)
+                        .paddingOnly(
+                            right: rtl(context) ? 0 : Insets.i20,
+                            left: rtl(context) ? Insets.i20 : 0),
+                  )
                 ]);
           });
         });

@@ -365,14 +365,14 @@ class HomeScreenProvider with ChangeNotifier {
 
   //notification tap
   notificationTap(context) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref = await SharedPreferences.getInstance();
-    bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
-    if (isGuest == false) {
+    // SharedPreferences pref = await SharedPreferences.getInstance();
+    // pref = await SharedPreferences.getInstance();
+    // bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
+    // if (isGuest == false) {
       route.pushNamed(context, routeName.notifications);
-    } else {
-      route.pushAndRemoveUntil(context);
-    }
+    // } else {
+    //   route.pushAndRemoveUntil(context);
+    // }
   }
 
   @override

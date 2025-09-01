@@ -78,36 +78,14 @@ class _NotificationScreenState extends State<NotificationScreen>
                                                   e.value, context)))
                                           .toList())
                                   :*/
-                                /*  EmptyLayout(
-                                      isButtonShow: false,
+                                  EmptyLayout(
                                       title: appFonts.nothingHere,
                                       subtitle: appFonts.clickTheRefresh,
                                       buttonText: appFonts.refresh,
                                       horizon: 10,
                                       bTap: () => value.onRefresh(context),
                                       widget: Image.asset(eImageAssets.noNoti,
-                                          height: Sizes.s200))*/
-                              Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: Insets.i50),
-                                    widget ?? const SizedBox(),
-                                    SizedBox(height: Insets.i80),
-                                    // SizedBox(height: height),
-                                    Column(children: [
-                                      Text(language(context, appFonts.nothingHere ?? ""),
-                                          style:
-                                          appCss.dmDenseBold18.textColor(appColor(context).darkText)),
-                                      const SizedBox(height: 8),
-                                      Text(language(context, appFonts.clickTheRefresh ?? ""),
-                                          textAlign: TextAlign.center,
-                                          style: appCss.dmDenseRegular14
-                                              .textColor(appColor(context).lightText))
-                                    ]).paddingSymmetric(horizontal: 10 ?? 0),
-                                    const SizedBox(height: Insets.i25),
-
-                                      ])
+                                          height: Sizes.s200))
                                   ).paddingSymmetric(horizontal: Insets.i20))))));
     });
   }

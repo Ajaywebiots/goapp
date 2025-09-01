@@ -1,67 +1,20 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
 trigger:
-  - main   # or the branch you want to trigger builds on
+  - main
 
 pool:
-  vmImage: 'macos-latest'   # macOS can build both Android + iOS
+  vmImage: 'macos-latest'
 
 steps:
-  # Install Flutter SDK
-  - task: FlutterInstall@0
+  - task: Gradle@2
     inputs:
-      channel: 'stable'
-      version: 'latest'
-
-  # Print Flutter version to confirm
-  - script: flutter --version
-    displayName: 'Check Flutter version'
-
-  # Get project dependencies
-  - script: flutter pub get
-    displayName: 'Flutter pub get'
-
-  # Run analyzer (optional but recommended)
-  - script: flutter analyze
-    displayName: 'Flutter Analyze'
-
-  # Run unit/widget tests (optional)
-  - script: flutter test
-    displayName: 'Run Flutter Tests'
-
-  # -----------------------
-  # ANDROID BUILDS
-  # -----------------------
-
-  # Build Android APK (Release)
-  - script: flutter build apk --release
-    displayName: 'Build Android APK (Release)'
-
-  # Build Android App Bundle (AAB) for Play Store
-  - script: flutter build appbundle --release
-    displayName: 'Build Android AppBundle (Release)'
-
-  # Publish Android artifacts (so you can download from Azure DevOps)
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: 'build/app/outputs/flutter-apk/app-release.apk'
-      ArtifactName: 'android-apk'
-      publishLocation: 'Container'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: 'build/app/outputs/bundle/release/app-release.aab'
-      ArtifactName: 'android-aab'
-      publishLocation: 'Container'
-
-  # -----------------------
-  # IOS BUILDS (only runs on macOS)
-  # -----------------------
-
-  - script: flutter build ios --release --no-codesign
-    displayName: 'Build iOS App (Release, no code signing)'
-
-  # Publish iOS artifact (the generated app)
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: 'build/ios/iphoneos'
-      ArtifactName: 'ios'
-      publishLocation: 'Container'
+      workingDirectory: 'android'
+      gradleWrapperFile: 'android/gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'assembleDebug'
