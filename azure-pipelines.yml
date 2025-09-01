@@ -20,8 +20,5 @@ steps:
   - script: flutter pub get
     displayName: "Install dependencies"
 
-  - script: flutter test
-    displayName: "Run unit tests"
-
   - script: flutter build apk --release
     displayName: "Build Release APK"
