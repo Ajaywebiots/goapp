@@ -1,24 +1,22 @@
-# Android
-# Build your Android project with Gradle.
-# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+# Azure DevOps Pipeline for Android (Flutter)
+# Docs: https://docs.microsoft.com/azure/devops/pipelines/languages/android
 
 trigger:
   - main
 
 pool:
-  vmImage: 'macos-latest'
+  vmImage: "macos-latest"
 
 steps:
   - task: UseFlutterVersion@0
     inputs:
-    version: 'stable'
+      version: "stable"
 
   - script: flutter pub get
-    displayName: 'Install dependencies'
+    displayName: "Install dependencies"
 
   - script: flutter test
-    displayName: 'Run unit tests'
+    displayName: "Run unit tests"
 
   - script: flutter build apk --release
-    displayName: 'Build Release APK'
+    displayName: "Build Release APK"
