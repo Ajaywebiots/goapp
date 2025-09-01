@@ -8,9 +8,11 @@ pool:
   vmImage: "macos-latest"
 
 steps:
-  - task: UseFlutterVersion@3.35
-    inputs:
-      version: "stable"
+  - script: |
+      git clone https://github.com/flutter/flutter.git -b stable --depth 1
+      echo "##vso[task.prependpath]$(pwd)/flutter/bin"
+      flutter --version
+    displayName: "Install Flutter SDK"
 
   - script: flutter pub get
     displayName: "Install dependencies"
