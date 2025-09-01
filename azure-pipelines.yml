@@ -13,18 +13,17 @@ steps:
       echo "##vso[task.prependpath]$(pwd)/flutter/bin"
       flutter --version
     displayName: "Install Flutter SDK"
-
   - script: |
-      export PATH="$PATH:$(pwd)/flutter/bin"
-      flutter pub get
+      git clone https://github.com/flutter/flutter.git -b 3.35.0 --depth 1
+      echo "##vso[task.prependpath]$(pwd)/flutter/bin"
+      flutter --version
+    displayName: "Install Flutter SDK (3.13.5)"
+
+  - script: flutter pub get
     displayName: "Install dependencies"
 
-  - script: |
-      export PATH="$PATH:$(pwd)/flutter/bin"
-      flutter test
+  - script: flutter test
     displayName: "Run unit tests"
 
-  - script: |
-      export PATH="$PATH:$(pwd)/flutter/bin"
-      flutter build apk --release
+  - script: flutter build apk --release
     displayName: "Build Release APK"
