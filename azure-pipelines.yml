@@ -8,11 +8,23 @@ pool:
   vmImage: "macos-latest"
 
 steps:
-  - script: flutter pub get
+  - script: |
+      git clone https://github.com/flutter/flutter.git -b stable --depth 1
+      echo "##vso[task.prependpath]$(pwd)/flutter/bin"
+      flutter --version
+    displayName: "Install Flutter SDK"
+
+  - script: |
+      export PATH="$PATH:$(pwd)/flutter/bin"
+      flutter pub get
     displayName: "Install dependencies"
 
-  - script: flutter test
+  - script: |
+      export PATH="$PATH:$(pwd)/flutter/bin"
+      flutter test
     displayName: "Run unit tests"
 
-  - script: flutter build apk --release
+  - script: |
+      export PATH="$PATH:$(pwd)/flutter/bin"
+      flutter build apk --release
     displayName: "Build Release APK"
