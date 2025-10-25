@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import '../../config.dart';
-import '../../screens/app_pages_screen/time_slot_screen/layouts/select_time_sheet.dart';
 
 class TimeSlotProvider with ChangeNotifier {
   TextEditingController hourGap = TextEditingController();
@@ -18,32 +17,32 @@ class TimeSlotProvider with ChangeNotifier {
 
   String? gapValue;
 
-  onToggle(data, val) {
+  void onToggle(data, val) {
     data["status"] = val;
     notifyListeners();
   }
 
-  onMonthChange(val) {
+  void onMonthChange(val) {
     gapValue = val;
     notifyListeners();
   }
 
-  onHourScroll(index) {
+  void onHourScroll(index) {
     scrollHourIndex = index;
     notifyListeners();
   }
 
-  onMinScroll(index) {
+  void onMinScroll(index) {
     scrollMinIndex = index;
     notifyListeners();
   }
 
-  onDayScroll(index) {
+  void onDayScroll(index) {
     scrollDayIndex = index;
     notifyListeners();
   }
 
-  selectTimeBottomSheet(context, val, index, type) {
+  void selectTimeBottomSheet(context, val, index, type) {
     scrollHourIndex = 0;
     scrollMinIndex = 0;
     notifyListeners();
@@ -58,7 +57,7 @@ class TimeSlotProvider with ChangeNotifier {
     // );
   }
 
-  onAddTime(val, index, context, type) {
+  void onAddTime(val, index, context, type) {
     int hr = scrollHourIndex + 1;
     int mn = scrollMinIndex + 1;
 
@@ -76,22 +75,22 @@ class TimeSlotProvider with ChangeNotifier {
     route.pop(context);
   }
 
-  onHourChange(index) {
+  void onHourChange(index) {
     scrollHourIndex = index;
     notifyListeners();
   }
 
-  onMinChange(index) {
+  void onMinChange(index) {
     scrollMinIndex = index;
     notifyListeners();
   }
 
-  onAmPmChange(index) {
+  void onAmPmChange(index) {
     scrollDayIndex = index;
     notifyListeners();
   }
 
-  onUpdateHour(context) {
+  void onUpdateHour(context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialogCommon(

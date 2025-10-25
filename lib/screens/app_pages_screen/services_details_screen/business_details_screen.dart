@@ -106,7 +106,7 @@ class BusinessDetailsScreen extends StatelessWidget {
                   isNotStatic: true,
                   style: appCss.dmDenseMedium16
                       .textColor(appColor(context).darkText),
-                  title: language(context, "Latest Reviews"),
+                  title: language(context, appFonts.latestReviews),
                   onTap: () => {
                         route.pushNamed(context, routeName.serviceReviewScreen),
                         Provider.of<ServiceReviewProvider>(context,

@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 
 import '../config.dart';
 import '../models/app_model/MenuItem.dart';
@@ -140,15 +139,38 @@ class AppArray {
       ];
 
   List<MenuItem> travelGuideItems() => [
+    MenuItem(
+        title: appFonts.travelBlog,
+        icon:
+        SvgPicture.asset("assets/svg/note.svg", height: 18, width: 18)),
         MenuItem(
-            title: appFonts.explorePointsOfInterest,
-            icon: SvgPicture.asset("assets/svg/locationOut1.svg",
+            title: appFonts.theMayorOfSalamina,
+            icon: SvgPicture.asset("assets/svg/note.svg",
                 height: 18, width: 18)),
-        MenuItem(
-            title: appFonts.travelInformation,
-            icon:
-                SvgPicture.asset("assets/svg/note.svg", height: 18, width: 18))
+    MenuItem(
+        title: appFonts.emergencyNumbers,
+        icon: SvgPicture.asset(eSvgAssets.calling, height: 18, width: 18))
       ];
+
+  List<MenuItem> companyItems() => [
+    MenuItem(
+      title: appFonts.aboutUs,
+      icon: SvgPicture.asset("assets/svg/documentText.svg", height: 18, width: 18),
+    ),
+    MenuItem(
+      title: appFonts.termsConditions,
+      icon: SvgPicture.asset("assets/svg/documentText.svg", height: 18, width: 18),
+    ),
+    MenuItem(
+      title: appFonts.privacyPolicy,
+      icon: SvgPicture.asset("assets/svg/documentText.svg", height: 18, width: 18),
+    ),
+    MenuItem(
+      title: appFonts.cancellationPolicy,
+      icon: SvgPicture.asset("assets/svg/documentText.svg", height: 18, width: 18),
+    ),
+  ];
+
 
   List<MenuItem> municipalityItems() => [
         MenuItem(
@@ -158,9 +180,6 @@ class AppArray {
             title: appFonts.theMayorOfSalamina,
             icon:
                 SvgPicture.asset(eSvgAssets.accountTag, height: 18, width: 18)),
-        MenuItem(
-            title: appFonts.emergencyNumbers,
-            icon: SvgPicture.asset(eSvgAssets.calling, height: 18, width: 18))
       ];
 
   List<MenuItem> myAccountItems() => [
@@ -257,7 +276,7 @@ class AppArray {
       "icon2": eSvgAssets.cartFill
     },
     {
-      "title": "More",
+      "title": appFonts.more,
       "icon": eSvgAssets.profileOut,
       "icon2": eSvgAssets.profileFill
     }
@@ -303,25 +322,35 @@ class AppArray {
           "isArrow": true
         },
         {
-          "title": appFonts.businessClub,
-          "icon": "assets/svg/business.svg",
-          "isArrow": true
-        },
-        {
-          "title": appFonts.salaminaMunicipality,
-          "icon": "assets/svg/municipal.svg",
-          "isArrow": true
-        },
-        {
-          "title": appFonts.customerSupport,
+          "title": appFonts.contactUs,
           "icon": eSvgAssets.email,
           "isArrow": true
         },
         {
-          "title": appFonts.appDetails,
-          "icon": eSvgAssets.mobile,
+          "title": appFonts.company,
+          "icon": "assets/svg/municipal.svg",
           "isArrow": true
         },
+        // {
+        //   "title": appFonts.businessClub,
+        //   "icon": "assets/svg/business.svg",
+        //   "isArrow": true
+        // },
+        // {
+        //   "title": appFonts.salaminaMunicipality,
+        //   "icon": "assets/svg/municipal.svg",
+        //   "isArrow": true
+        // },
+        // {
+        //   "title": appFonts.customerSupport,
+        //   "icon": eSvgAssets.email,
+        //   "isArrow": true
+        // },
+        // {
+        //   "title": appFonts.appDetails,
+        //   "icon": eSvgAssets.mobile,
+        //   "isArrow": true
+        // },
       ]
     }
   ];

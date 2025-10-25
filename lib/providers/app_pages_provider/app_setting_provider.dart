@@ -8,18 +8,18 @@ class AppSettingProvider with ChangeNotifier {
 
   AppSettingProvider(this.sharedPreferences);
 
-  heightMQ(context) {
+  double heightMQ(context) {
     double height = MediaQuery.of(context).size.height;
     return height;
   }
 
-  widthMQ(context) {
+  double widthMQ(context) {
     double width = MediaQuery.of(context).size.width;
     return width;
   }
 
-  onTapData(context, index) {
-    log("dsf ssss${index}");
+  void onTapData(context, index) {
+    log("dsf ssss$index");
     if (index == 0) {
       route.pushNamed(context, routeName.changeLanguage);
     } else {
@@ -27,7 +27,7 @@ class AppSettingProvider with ChangeNotifier {
     }
   }
 
-  onChangeButton(index) async {
+  Future<void> onChangeButton(index) async {
     selectIndex = index;
     notifyListeners();
   }

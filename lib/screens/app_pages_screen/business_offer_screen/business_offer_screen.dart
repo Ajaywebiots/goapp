@@ -1,9 +1,7 @@
 import 'package:goapp/screens/app_pages_screen/business_offer_screen/layout/business_offer_layout.dart';
 
 import '../../../config.dart';
-import '../../../providers/bottom_providers/offer_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
-import '../coupon_list_screen/layouts/coupon_layout.dart';
 
 class BusinessOfferScreen extends StatelessWidget {
   const BusinessOfferScreen({super.key});

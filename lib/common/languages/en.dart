@@ -205,6 +205,8 @@ final english = {
   "myProfile": "My Profile",
   "favouriteList": "Favourite List",
   "myReviews": "My Reviews",
+  "editReview": "Edit Review",
+  "travelBlog": "Travel Blog",
   "appSettings": "Select Language",
   "subscriptionPlans": "My Membership",
   "registerYourBusiness": "Register your business",
@@ -247,10 +249,32 @@ final english = {
   "theMayorOfSalamina": "The Mayor of Salamina",
   "emergencyNumbers": "Emergency Numbers",
   "favouriteLists": "Favourite Lists",
+  "businessList": "Business List",
+  "pointsOfInterestList": "Points of Interest List",
+  "attractionList": "Attraction List",
+  "blogList": "Blog List",
 
   "selectLanguage": "Select Language",
   "myMembership": "My Membership",
   "termsConditions": "Terms & Conditions",
+  "company": "Company",
   "business": "Business",
+  "settings":"Settings",
+  "birthday" : "Birthday",
+  "offerList": "Offer List",
+  "latestBlog": "Latest Blog",
+  "articleList": "Article List",
+  "more":"More",
+  "selectSubject": "Select Subject",
+  "message": "Message",
+  "searchForThingsToDo": "Search for things to do",
+  "searchForOffers": "Search for offers",
+  "searchBusiness": "Search business"
+
+
+
+
+
+
   // "openingHours": "Opening Hours"
 };

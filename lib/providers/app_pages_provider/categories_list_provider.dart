@@ -1,12 +1,9 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:goapp/services/api_service.dart';
 
 import '../../config.dart';
 import '../../models/api_model/business_category_model.dart';
-import '../../models/category_model.dart';
-import '../bottom_providers/dashboard_provider.dart';
 
 class CategoriesListProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
@@ -17,7 +14,7 @@ class CategoriesListProvider with ChangeNotifier {
   final FocusNode searchFocus = FocusNode();
   int? selectedIndex;
 
-  onGrid() {
+  void onGrid() {
     isGrid = !isGrid;
     notifyListeners();
   }
@@ -42,7 +39,7 @@ class CategoriesListProvider with ChangeNotifier {
     notifyListeners();
   }*/
 
-  getCategoriesData(context) {
+  void getCategoriesData(context) {
     // showLoading(context);
     notifyListeners();
     apiServices
@@ -67,7 +64,7 @@ class CategoriesListProvider with ChangeNotifier {
     });
   }
 
-  searchCategory(context, DashboardProvider dash) async {
+  Future<void> searchCategory(context, DashboardProvider dash) async {
     categoryList = [];
     notifyListeners();
     /*try {

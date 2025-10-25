@@ -23,41 +23,50 @@ class FeatureAttractionLayout extends StatelessWidget {
         builder: (context1, att, value, child) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(children: [
-                Container(
-                        height: Sizes.s72,
-                        width: Sizes.s72,
-                        decoration: BoxDecoration(
-                            color: appColor(context).skeletonColor,
-                            borderRadius: BorderRadius.circular(AppRadius.r10)),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(AppRadius.r10),
-                            child: data.image != null &&
-                                    data.image!.source.isNotEmpty
-                                ? CachedNetworkImage(
-                                    imageUrl: data.image!.source,
-                                    fit: BoxFit.fill,
-                                    placeholder: (context, url) => Image.asset(
-                                        eImageAssets.noImageFound2,
-                                        fit: BoxFit.cover),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(eImageAssets.noImageFound2,
-                                            fit: BoxFit.cover))
-                                : Image.asset(eImageAssets.noImageFound2,
-                                    fit: BoxFit.cover)))
-                    .boxShapeExtension(),
-                const HSpace(Sizes.s10),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  SizedBox(
-                      width: 176,
-                      child: Text(language(context, data.name),
-                          overflow: TextOverflow.fade,
-                          maxLines: 2,
-                          style: appCss.dmDenseMedium14
-                              .textColor(appColor(context).darkText))),
+              Container(
+                      height: Sizes.s72,
+                      width: Sizes.s72,
+                      decoration: BoxDecoration(
+                          color: appColor(context).skeletonColor,
+                          borderRadius: BorderRadius.circular(AppRadius.r10)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(AppRadius.r10),
+                          child: data.image != null &&
+                                  data.image!.source.isNotEmpty
+                              ? CachedNetworkImage(
+                                  imageUrl: data.image!.source,
+                                  fit: BoxFit.fill,
+                                  placeholder: (context, url) => Image.asset(
+                                      eImageAssets.noImageFound2,
+                                      fit: BoxFit.cover),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(eImageAssets.noImageFound2,
+                                          fit: BoxFit.cover))
+                              : Image.asset(eImageAssets.noImageFound2,
+                                  fit: BoxFit.cover)))
+                  .boxShapeExtension(),
+              const HSpace(Sizes.s10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                          width: 300 - 118,
+                          child: Text(language(context, data.name),
+                              overflow: TextOverflow.fade,
+                              maxLines: 2,
+                              style: appCss.dmDenseMedium14
+                                  .textColor(appColor(context).darkText))),
+                      const HSpace(Sizes.s10),
+                      SvgPicture.asset(data.isFavourite == true
+                              ? 'assets/svg/fav.svg'
+                              : "assets/svg/dislike.svg")
+                          .inkWell(onTap: addOrRemoveTap)
+                    ],
+                  ),
                   Row(children: [
                     RatingBar(
                         glow: false,
@@ -89,120 +98,53 @@ class FeatureAttractionLayout extends StatelessWidget {
                   (data.location?.selfLocationdistance ?? 0) <= 0
                       ? Container()
                       : Row(children: [
-                          SvgPicture.asset(eSvgAssets.locationOut,
-                              height: Sizes.s20,
-                              colorFilter: ColorFilter.mode(
-                                  appColor(context).darkText, BlendMode.srcIn)),
-                          const HSpace(Sizes.s5),
-                          Text(language(context, appFonts.viewOnMap),
-                              overflow: TextOverflow.ellipsis,
-                              style: appCss.dmDenseRegular12
-                                  .textColor(appColor(context).darkText)),
-                          const HSpace(Sizes.s5),
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Insets.i3, horizontal: Insets.i5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(AppRadius.r4)),
-                                  color: appColor(context).greenColor),
-                              child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset('assets/svg/locator.svg'),
-                                    const HSpace(Sizes.s3),
-                                    Text(
-                                        "${data.location!.selfLocationdistance!.toInt()} ${language(context, appFonts.km)}",
-                                        style: appCss.dmDenseMedium10.textColor(
-                                            appColor(context).whiteColor))
-                                  ]))
-                        ]).inkWell(onTap: () async {
-                          final lat = data.location?.latitude;
-                          final lng = data.location?.longitude;
-
-                          if (lat != null && lng != null) {
-                            final url = Uri.parse(
-                                "https://www.google.com/maps/search/?api=1&query=$lat,$lng");
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url,
-                                  mode: LaunchMode.externalApplication);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Could not open Maps')));
-                            }
-                          }
-                        })
-                ]),
-
-                /* Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    SvgPicture.asset(eSvgAssets.locationOut,
+                        height: Sizes.s20,
+                        colorFilter: ColorFilter.mode(
+                            appColor(context).darkText, BlendMode.srcIn)),
+                    const HSpace(Sizes.s5),
+                    Text(language(context, appFonts.viewOnMap),
+                        overflow: TextOverflow.ellipsis,
+                        style: appCss.dmDenseRegular12
+                            .textColor(appColor(context).darkText)),
+                    const HSpace(Sizes.s5),
+                    Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: Insets.i3, horizontal: Insets.i5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(AppRadius.r4)),
+                            color: appColor(context).greenColor),
+                        child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              SizedBox(
-                                  width: 176,
-                                  child: Text(language(context, data!.name!),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: appCss.dmDenseMedium14
-                                          .textColor(appColor(context).darkText))),
-                              SvgPicture.asset(data!.isFav == true
-                                      ? 'assets/svg/fav.svg'
-                                      : "assets/svg/dislike.svg")
-                                  .inkWell(onTap: () {
-                                value.setState();
-                                data!.isFav = !data!.isFav!;
-                                value.setState();
-                              })
-                            ]),
-                        const VSpace(Sizes.s5),
+                              SvgPicture.asset('assets/svg/locator.svg'),
+                              const HSpace(Sizes.s3),
+                              Text(
+                                  "${data.location!.selfLocationdistance!.toInt()} ${language(context, appFonts.km)}",
+                                  style: appCss.dmDenseMedium10.textColor(
+                                      appColor(context).whiteColor))
+                            ]))
+                  ]).inkWell(onTap: () async {
+                    final lat = data.location?.latitude;
+                    final lng = data.location?.longitude;
+                    if (lat != null && lng != null) {
+                      final url = Uri.parse(
+                          "https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url,
+                            mode: LaunchMode.externalApplication);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Could not open Maps')));
+                      }
+                    }
+                  })
 
-                        // Ratings
-                        Row(children: [
-                          Row(
-                              children: List.generate(
-                                  (data?.reviewRatings ?? 0).toInt(),
-                                  (index) => SvgPicture.asset(eSvgAssets.star))),
-                          const HSpace(Sizes.s3),
-                          Text("(${data!.totalReviewRating} Reviews)",
-                              style: appCss.dmDenseRegular12
-                                  .textColor(appColor(context).darkText))
-                        ]),
-                        const VSpace(Sizes.s8),
+                ],
+              )
 
-                        Row(children: [
-                          SvgPicture.asset(eSvgAssets.locationOut,
-                              height: Sizes.s20),
-                          const HSpace(Sizes.s5),
-                          Text(language(context, appFonts.viewOnMap),
-                              overflow: TextOverflow.ellipsis,
-                              style: appCss.dmDenseRegular12
-                                  .textColor(appColor(context).darkText)),
-                          const HSpace(Sizes.s5),
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Insets.i3, horizontal: Insets.i5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(AppRadius.r4)),
-                                  color: appColor(context).greenColor),
-                              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                                SvgPicture.asset('assets/svg/locator.svg'),
-                                const HSpace(Sizes.s3),
-                                Text(language(context, data!.distance),
-                                    style: appCss.dmDenseMedium10
-                                        .textColor(appColor(context).whiteColor))
-                              ]))
-                        ])
-                      ]).paddingOnly(left: Insets.i10)*/
-              ]),
-              SvgPicture.asset(data.isFavourite == true
-                      ? 'assets/svg/fav.svg'
-                      : "assets/svg/dislike.svg")
-                  .inkWell(onTap: addOrRemoveTap)
             ]),
         Row(children: [
           DottedLines(

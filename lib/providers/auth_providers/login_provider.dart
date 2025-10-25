@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
@@ -15,7 +14,7 @@ class LoginProvider with ChangeNotifier {
   // final FocusNode passwordFocus = FocusNode();
   // bool isPassword = true;
 
-  onLogin(context) {
+  void onLogin(context) {
     /* FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
       login(context);
@@ -43,7 +42,7 @@ class LoginProvider with ChangeNotifier {
   final FocusNode userNameFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
 
-  locationPermission() async {
+  Future<void> locationPermission() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       log("Location services are disabled.");
@@ -89,7 +88,7 @@ class LoginProvider with ChangeNotifier {
     log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
   }
 
-  signInWithGoogle(context) async {
+  Future<void> signInWithGoogle(context) async {
     try {
       locationPermission();
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -200,7 +199,7 @@ class LoginProvider with ChangeNotifier {
         final OAuthCredential credential =
             FacebookAuthProvider.credential(accessToken.tokenString);
         log("userCredential ${credential.appleFullPersonName?.nickname}");
-        log("userCredential ${credential}");
+        log("userCredential $credential");
         route.pushNamed(context, routeName.dashboard);
         return await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
@@ -219,6 +218,8 @@ class LoginProvider with ChangeNotifier {
       rethrow; // rethrow the exception
     }
   }
+
+  
 // Future<void> loginWithFacebook() async {
 //   final LoginResult result = await FacebookAuth.instance
 //       .login(permissions: ['email', 'public_profile']);

@@ -15,14 +15,14 @@ class LoginWithPhoneProvider with ChangeNotifier {
 
   ContactMethod selectedMethod = ContactMethod.email;
 
-  changeDialCode(CountryCodeCustom country) {
+  void changeDialCode(CountryCodeCustom country) {
     log("ssskjlhdajksdhas $dialCode ====> ${country.dialCode}");
     dialCode = country.dialCode!;
     log("ssskjlhdajksdhassss $dialCode");
     notifyListeners();
   }
 
-  locationPermission() async {
+  Future<void> locationPermission() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       log("Location services are disabled.");
@@ -59,69 +59,63 @@ class LoginWithPhoneProvider with ChangeNotifier {
     // Fetch fresh location in background
     Position position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.medium,
-            timeLimit: Duration(
-                seconds: 5)) // If it takes too long, return what we have
+            timeLimit: Duration(seconds: 5))
         .catchError((e) {
       log("Failed to fetch fresh location: $e");
-      return lastPosition; // Use last known location if fresh location fails
+      return lastPosition;
     });
 
-    if (position != null) {
-      currentLatitude = position.latitude;
-      currentLongitude = position.longitude;
-      log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
+    currentLatitude = position.latitude;
+    currentLongitude = position.longitude;
+    log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
     }
-  }
 
   TextEditingController email = TextEditingController();
   final FocusNode userNameFocus = FocusNode();
 
-  onTapEmailOtp(context) {
+  Future<void> onTapEmailOtp(BuildContext context) async {
     verificationCode = "";
     final verifyOtp = Provider.of<VerifyOtpProvider>(context, listen: false);
     verifyOtp.otpController.text = "";
     FocusManager.instance.primaryFocus?.unfocus();
+
     if (globalKey.currentState!.validate()) {
       try {
         showLoading(context);
         var body = {"email": email.text};
-        log("ddd ${body}");
-        apiServices
-            .commonApi(api.otp, body, ApiType.post, isToken: false)
-            .then((value) async {
-          log("dasdasdasd ${value.data}");
-          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
-          hideLoading(context);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          log("token.toString ${token.toString()}");
-          await prefs.setString('authToken', token.toString());
-          log("ssss ${value.data}");
-          log("ssss ${value.data['code']}");
-          /*if (value.data['code'].isNotEmpty) {
-            // SharedPreferences prefs = await SharedPreferences.getInstance();
-            // log("token.toString ${token.toString()}");
-            // await prefs.setString('authToken', token.toString());
-            log("ssss ${value.data}");
-            log("ssss ${value.data['code']}");
-            hideLoading(context);
+        log("Request body: $body");
 
-          } else {
-            hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
-          }*/
-        });
+        final value = await apiServices.commonApi(api.otp, body, ApiType.post,
+            isToken: false);
+
+        log("API Response: ${value.data}");
+
+        hideLoading(context);
+
+        if (value.data['responseStatus'] == 1 &&
+            value.data['code'] != null &&
+            value.data['code'].toString().isNotEmpty) {
+          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
+
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('authToken', token.toString());
+        } else {
+          showMessage(context, 'Invalid credentials');
+        }
       } catch (e) {
         hideLoading(context);
-        log("EEEE : login $e");
+        log("Error in onTapEmailOtp: $e");
+        showMessage(context, 'Something went wrong');
       }
     }
   }
 
-  onTapOtp(context) {
+  Future<void> onTapOtp(BuildContext context) async {
     verificationCode = "";
     final verifyOtp = Provider.of<VerifyOtpProvider>(context, listen: false);
     verifyOtp.otpController.text = "";
     FocusManager.instance.primaryFocus?.unfocus();
+
     if (globalKey.currentState!.validate()) {
       try {
         showLoading(context);
@@ -129,37 +123,33 @@ class LoginWithPhoneProvider with ChangeNotifier {
           "phoneNumberPrefix": dialCode,
           "phoneNumber": numberController.text
         };
-        log("ddd ${body}");
-        apiServices
-            .commonApi(api.otp, body, ApiType.post, isToken: false)
-            .then((value) async {
-          log("dasdasdasd ${value.data}");
-          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
-          hideLoading(context);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          log("token.toString ${token.toString()}");
-          await prefs.setString('authToken', token.toString());
-          log("ssss ${value.data}");
-          log("ssss ${value.data['code']}");
-          /*if (value.data['code'].isNotEmpty) {
-            // SharedPreferences prefs = await SharedPreferences.getInstance();
-            // log("token.toString ${token.toString()}");
-            // await prefs.setString('authToken', token.toString());
-            log("ssss ${value.data}");
-            log("ssss ${value.data['code']}");
-            hideLoading(context);
+        log("Request body: $body");
 
-          } else {
-            hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
-          }*/
-        });
+        final value = await apiServices.commonApi(api.otp, body, ApiType.post,
+            isToken: false);
+
+        log("API Response: ${value.data}");
+
+        hideLoading(context);
+
+        // ✅ Check response before navigating
+        if (value.data['responseStatus'] == 1 &&
+            value.data['code'] != null &&
+            value.data['code'].toString().isNotEmpty) {
+          // Success → navigate
+          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
+
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('authToken', token.toString());
+        } else {
+          // Failure → show message
+          showMessage(context, "Invalid credentials");
+        }
       } catch (e) {
         hideLoading(context);
-        log("EEEE : login $e");
+        log("Error in onTapOtp: $e");
+        showMessage(context, 'Something went wrong');
       }
     }
   }
-
-////
 }

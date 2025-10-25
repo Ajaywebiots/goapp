@@ -29,50 +29,69 @@ class RegisterProvider extends ChangeNotifier {
   final FocusNode confirmPasswordFocus = FocusNode();
 
   //new password see tap
-  newPasswordSeenTap() {
+  void newPasswordSeenTap() {
     isNewPassword = !isNewPassword;
     notifyListeners();
   }
 
   //confirm password see tap
-  confirmPasswordSeenTap() {
+  void confirmPasswordSeenTap() {
     isConfirmPassword = !isConfirmPassword;
     notifyListeners();
   }
 
-  signUp(context) async {
+  Future<void> signUp(BuildContext context) async {
     try {
       FocusManager.instance.primaryFocus?.unfocus();
-      if (isCheck == false) {
+
+      if (!isCheck) {
         Fluttertoast.showToast(
-            msg: language(context, appFonts.pleaseCheckTerms));
-      } else if (registerFormKey.currentState!.validate() && isCheck == true) {
+          msg: language(context, appFonts.pleaseCheckTerms),
+        );
+        return;
+      }
+
+      if (registerFormKey.currentState!.validate()) {
         showLoading(context);
         notifyListeners();
+
         var body = {
           "phoneNumberPrefix": dialCode,
           "firstName": enterFName.text,
           "lastName": enterLName.text,
-          "phoneNumber": txtPhone.text
+          "phoneNumber": txtPhone.text,
+          "email": txtEmail.text,
         };
-        log("body : $body");
-        apiServices.commonApi(api.register, body, ApiType.post).then((value) {
-          if (value.isSuccess == true) {
-            log("ssss ${value.data}");
-            hideLoading(context);
-            phoneOtp(context);
-          } else {
-            Navigator.pushNamedAndRemoveUntil(
-                context, routeName.login, (Route<dynamic> route) => false);
-          }
-        });
+        log("Request body: $body");
+
+        final value = await apiServices.commonApi(
+          api.register,
+          body,
+          ApiType.post,
+        );
+
+        hideLoading(context);
+
+        // ✅ Only proceed on success
+        if (value.isSuccess == true &&
+            value.data != null &&
+            value.data['responseStatus'] == 1) {
+          log("Registration success: ${value.data}");
+          phoneOtp(context);
+        } else {
+          log("Registration failed: ${value.data}");
+          showMessage(
+              context, value.data['responseMessage'] ?? 'Registration failed');
+        }
       }
     } catch (e) {
-      log("EEEE : signUp $e");
+      hideLoading(context);
+      log("Error in signUp: $e");
+      showMessage(context, 'Something went wrong');
     }
   }
 
-  phoneOtp(context) {
+  void phoneOtp(context) {
     try {
       apiServices
           .commonApi(api.otp, {"phoneNumber": txtPhone.text}, ApiType.post,
@@ -89,7 +108,7 @@ class RegisterProvider extends ChangeNotifier {
     }
   }
 
-  verifyPhoneOtp(context) async {
+  Future<void> verifyPhoneOtp(context) async {
     showLoading(context);
     try {
       apiServices
@@ -140,12 +159,12 @@ class RegisterProvider extends ChangeNotifier {
     }
   }
 
-  isCheckBoxCheck(value) {
+  void isCheckBoxCheck(value) {
     isCheck = value;
     notifyListeners();
   }
 
-  onBack() {
+  void onBack() {
     enterFName.text = "";
     enterLName.text = "";
     userNameCtrl.text = "";
@@ -157,7 +176,7 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeDialCode(CountryCodeCustom country) {
+  void changeDialCode(CountryCodeCustom country) {
     dialCode = country.dialCode!;
     notifyListeners();
   }

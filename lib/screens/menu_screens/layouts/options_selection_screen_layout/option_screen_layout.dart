@@ -9,23 +9,33 @@ class OptionScreenLayout extends StatelessWidget {
 
   const OptionScreenLayout({super.key, this.title});
 
+  // List<MenuItem> getMenuItems(BuildContext context, String? title, value) {
+  //   if (title == language(context, appFonts.businessClub)) {
+  //     return appArray.businessClubItems();
+  //   } else if (title == language(context, appFonts.travelGuide)) {
+  //     return appArray.travelGuideItems();
+  //   } else if (title == language(context, appFonts.salaminaMunicipality)) {
+  //     return appArray.municipalityItems();
+  //   } else if (title == language(context, appFonts.myAccount)) {
+  //     return appArray.myAccountItems();
+  //   } else if (title == language(context, appFonts.appDetails)) {
+  //     return appArray.appDetailsItems();
+  //   } else if (title == language(context, appFonts.customerSupport)) {
+  //     return appArray.customerSupportItems(context);
+  //   } else {
+  //     return [];
+  //   }
+  // }
   List<MenuItem> getMenuItems(BuildContext context, String? title, value) {
-    if (title == language(context, appFonts.businessClub)) {
-      return appArray.businessClubItems();
-    } else if (title == language(context, appFonts.travelGuide)) {
+    if (title == language(context, appFonts.travelGuide)) {
       return appArray.travelGuideItems();
-    } else if (title == language(context, appFonts.salaminaMunicipality)) {
-      return appArray.municipalityItems();
-    } else if (title == language(context, appFonts.myAccount)) {
-      return appArray.myAccountItems();
-    } else if (title == language(context, appFonts.appDetails)) {
-      return appArray.appDetailsItems();
-    } else if (title == language(context, appFonts.customerSupport)) {
-      return appArray.customerSupportItems(context);
+    } else if (title == language(context, appFonts.company)) {
+      return appArray.companyItems();
     } else {
       return [];
     }
   }
+
 
   Map<String, VoidCallback> getActions(
       BuildContext context, ProfileProvider value) {
@@ -34,12 +44,14 @@ class OptionScreenLayout extends StatelessWidget {
           value.appPagesAPI(context, PageSlug.aboutUs),
       language(context, appFonts.theMayorOfSalamina): () =>
           value.appPagesAPI(context, PageSlug.mayor),
-      language(context, appFonts.contactUs): () {
-        Provider.of<ContactUsProvider>(context, listen: false)
-            .getSubjectData(context);
-      },
-      language(context, appFonts.municipalityMessages): () =>
-          value.appPagesAPI(context, PageSlug.municipalityMessages),
+      // language(context, appFonts.contactUs): () {
+      //   Provider.of<ContactUsProvider>(context, listen: false)
+      //       .getSubjectData(context);
+      //   route.pushNamed(context, routeName.contactUs);
+      // },
+
+      // language(context, appFonts.municipalityMessages): () =>
+      //     value.appPagesAPI(context, PageSlug.municipalityMessages),
       language(context, appFonts.emergencyNumbers): () =>
           value.appPagesAPI(context, PageSlug.emergency),
       language(context, appFonts.termsConditions): () =>
@@ -48,11 +60,11 @@ class OptionScreenLayout extends StatelessWidget {
           value.appPagesAPI(context, PageSlug.privacy),
       language(context, appFonts.cancellationPolicy): () =>
           value.appPagesAPI(context, PageSlug.cancellation),
-      language(context, appFonts.faq): () =>
-          value.appPagesAPI(context, PageSlug.faq),
-      language(context, appFonts.howToJoin): () =>
-          route.pushNamed(context, routeName.subscriptionPlanScreen),
-      language(context, appFonts.travelInformation): () =>
+      // language(context, appFonts.faq): () =>
+      //     value.appPagesAPI(context, PageSlug.faq),
+
+
+      language(context, appFonts.travelBlog): () =>
           route.pushNamed(context, routeName.latestBlogViewAll),
       language(context, appFonts.specialOffers): () {
         final dash = Provider.of<DashboardProvider>(context, listen: false);
@@ -67,6 +79,7 @@ class OptionScreenLayout extends StatelessWidget {
               context, routeName.dashboard, (_) => false);
         }
       },
+
       language(context, appFonts.explorePointsOfInterest): () {
         final dash = Provider.of<DashboardProvider>(context, listen: false);
         value.isProfileBack = true;
@@ -75,7 +88,6 @@ class OptionScreenLayout extends StatelessWidget {
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
         } else {
-          // Fallback to dashboard
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.dashboard, (_) => false);
         }
@@ -171,19 +183,24 @@ class OptionScreenLayout extends StatelessWidget {
                             Divider(
                                 color: appColor(context).fieldCardBg, height: 0)
                         ]);
-                      })).paddingAll(Sizes.s20)));
-    });
+                      })).paddingAll(Sizes.s20)));});
   }
 }
 
 class PageSlug {
-  static const aboutUs = "ABOUTUS";
-  static const mayor = "MAYOR";
-  static const contactUs = "CONTACTUS";
-  static const municipalityMessages = "MUNIMSG";
-  static const emergency = "EMERGENCY";
-  static const terms = "TERMS";
-  static const privacy = "PRIVACY";
-  static const cancellation = "CANCELLATION";
-  static const faq = "FAQ";
+  static const aboutUs = "aboutus";
+  static const terms = "terms";
+  static const cancellation = "cancellation";
+  static const privacy = "privacy";
+  static const emergency = "emergency";
+  static const mayor = "mayor";
+
+
+  // static const contactUs = "contactUs";
+  // static const municipalityMessages = "municipalityMessages";
+  //
+  //
+  //
+  //
+  // static const faq = "faq";
 }

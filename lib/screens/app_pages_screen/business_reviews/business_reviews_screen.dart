@@ -2,11 +2,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goapp/screens/app_pages_screen/business_reviews/layout/business_review_layout.dart';
 
 import '../../../config.dart';
-import '../../../models/api_model/review_list_model.dart';
-import '../../../providers/app_pages_provider/business_reviews_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../add_new_location/drop_down_layout.dart';
-import '../review_screen/layouts/review_layout.dart';
 import '../service_review_screen/layouts/progress_bar_layout.dart';
 
 class BusinessReviewsScreen extends StatelessWidget {

@@ -15,32 +15,32 @@ class BusinessTimeSlotProvider with ChangeNotifier {
 
   int? gapValue = -1;
 
-  onToggle(data, val) {
+  void onToggle(data, val) {
     data["status"] = val;
     notifyListeners();
   }
 
-  onMonthChange(val) {
+  void onMonthChange(val) {
     gapValue = val;
     notifyListeners();
   }
 
-  onHourScroll(index) {
+  void onHourScroll(index) {
     scrollHourIndex = index;
     notifyListeners();
   }
 
-  onMinScroll(index) {
+  void onMinScroll(index) {
     scrollMinIndex = index;
     notifyListeners();
   }
 
-  onDayScroll(index) {
+  void onDayScroll(index) {
     scrollDayIndex = index;
     notifyListeners();
   }
 
-  selectTimeBottomSheet(context) {
+  void selectTimeBottomSheet(context) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -50,17 +50,17 @@ class BusinessTimeSlotProvider with ChangeNotifier {
         });
   }
 
-  onHourChange(index) {
+  void onHourChange(index) {
     scrollHourIndex = index;
     notifyListeners();
   }
 
-  onMinChange(index) {
+  void onMinChange(index) {
     scrollMinIndex = index;
     notifyListeners();
   }
 
-  onAmPmChange(index) {
+  void onAmPmChange(index) {
     scrollDayIndex = index;
     notifyListeners();
   }

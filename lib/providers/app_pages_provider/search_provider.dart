@@ -38,7 +38,7 @@ class SearchProvider with ChangeNotifier {
   bool isLoading = false;
   int? selectedCategoryId;
 
-  onSubCategories(context, int index, int? id) async {
+  Future<void> onSubCategories(context, int index, int? id) async {
     if (selectedIndex == index && selectedCategoryId == id) {
       return;
     }
@@ -70,13 +70,13 @@ class SearchProvider with ChangeNotifier {
   bool? isSelect, isSearch = false;
   int ratingIndex = 0, selectedFilterCount = 0;
 
-  onSliderChange(handlerIndex, lowerValue, upperValue) {
+  void onSliderChange(handlerIndex, lowerValue, upperValue) {
     lowerVal = lowerValue;
     upperVal = upperValue;
     notifyListeners();
   }
 
-  onBack(context) {
+  bool onBack(context) {
     final dash = Provider.of<DashboardProvider>(context, listen: false);
     final pro = Provider.of<ProfileProvider>(context, listen: false);
     log("value.isProfileBack::${dash.selectIndex}");
@@ -118,7 +118,7 @@ class SearchProvider with ChangeNotifier {
 
   bool isNavigating = false;
 
-  businessDetailsAPI(context, id, {bool isNotRouting = false}) async {
+Future<void> businessDetailsAPI(context, id, {bool isNotRouting = false}) async {
     if (isNavigating) return;
     isNavigating = true;
     notifyListeners();
@@ -127,6 +127,8 @@ class SearchProvider with ChangeNotifier {
       final value = await apiServices.commonApi(
           "${api.businessDetails}$id/details", [], ApiType.get,
           isToken: true);
+
+      log("adgashjdas ${value.data}");
 
       if (value.isSuccess == true) {
         BusinessDetailModel businessDetailModel =
@@ -149,7 +151,7 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
-  onTapRating(id) {
+  void onTapRating(id) {
     if (!selectedRates.contains(id)) {
       selectedRates.add(id);
     } else {
@@ -158,19 +160,19 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onChange() {
+  void onChange() {
     isSelect = false;
     notifyListeners();
   }
 
-  onChange1() {
+  void onChange1() {
     isSelect = true;
     notifyListeners();
   }
 
   double sliderValue = 0.0;
 
-  onChangeSlider(sVal) {
+  void onChangeSlider(sVal) {
     notifyListeners();
     sliderValue = sVal;
     notifyListeners();
@@ -187,11 +189,11 @@ class SearchProvider with ChangeNotifier {
     return fi;
   }
 
-  loadImage1() async {}
+  Future<void> loadImage1() async {}
 
   ui.Image? customImage;
 
-  slidingValue(newValue) {
+  void slidingValue(newValue) {
     log("slide $slider");
     log("slidnewValuee $newValue");
     slider = newValue;
@@ -201,13 +203,13 @@ class SearchProvider with ChangeNotifier {
   int selectCategoryIndex = 0;
   int selectIndex = 0;
 
-  onFilter(index) {
+  void onFilter(index) {
     selectIndex = index;
 
     notifyListeners();
   }
 
-  onAnimate(context) async {
+  Future<void> onAnimate(context) async {
     // pref = await SharedPreferences.getInstance();
 
     notifyListeners();
@@ -272,7 +274,7 @@ class SearchProvider with ChangeNotifier {
   // }
 
   void onSearchChange(context, id, {isPopular}) {
-    log("searchPvr.selectIndex ${id}");
+    log("searchPvr.selectIndex $id");
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
     // Start a new debounce timer
@@ -314,7 +316,7 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
-  onBottomSheet(context, value1) {
+  void onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -447,7 +449,7 @@ class SearchProvider with ChangeNotifier {
     });
   }
 
-  onCategoryChange(context, id) {
+  void onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
       selectedCategory.add(id);
     } else {
@@ -467,7 +469,7 @@ class SearchProvider with ChangeNotifier {
   }
 
   //clear filter
-  clearFilter(context) {
+  void clearFilter(context) {
     isPopularSelected = false;
     selectedCategory = [];
     selectedRates = [];
@@ -503,7 +505,7 @@ class SearchProvider with ChangeNotifier {
 
   bool isFilter = false;
 
-  searchService(BuildContext context, {bool isPop = false}) async {
+  Future<void> searchService(BuildContext context, {bool isPop = false}) async {
     isPopularSelected = true;
     notifyListeners();
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
@@ -552,7 +554,7 @@ class SearchProvider with ChangeNotifier {
     } catch (e) {}
   }
 
-  searchClear() {
+  void searchClear() {
     notifyListeners();
 
     searchCtrl.text = "";
@@ -560,7 +562,7 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onRemoveService(context, index) {
+  void onRemoveService(context, index) {
     if (int.parse(searchList[index].selectedRequiredServiceMan!) == 1) {
       route.pop(context);
     } else {
@@ -571,7 +573,7 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onAdd(index) {
+  void onAdd(index) {
     int count = int.parse(searchList[index].selectedRequiredServiceMan!);
     count++;
     searchList[index].selectedRequiredServiceMan = count.toString();
@@ -583,7 +585,7 @@ class SearchProvider with ChangeNotifier {
   bool isPopularSelected = false;
   List<Business> businessSearchList = [];
 
-  getBusinessSearchAPI(context, {int? id, bool? isFilter = true}) async {
+  Future<void> getBusinessSearchAPI(context, {int? id, bool? isFilter = true}) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position;
     try {
@@ -673,7 +675,7 @@ class SearchProvider with ChangeNotifier {
     super.dispose();
   }
 
-  addReviewTap(context, RateAppProvider? value, {bool isBusiness = false}) {
+  void addReviewTap(context, RateAppProvider? value, {bool isBusiness = false}) {
     log("isssss $isBusiness");
     showModalBottomSheet(
         isScrollControlled: true,

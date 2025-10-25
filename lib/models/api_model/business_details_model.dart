@@ -90,8 +90,8 @@ class BusinessSec {
       location:
           json["location"] == null ? null : Location.fromJson(json["location"]),
       topOffer: json["topOffer"],
-      contact:
-          json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+      contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+
       isFavourite: json["isFavourite"],
       appObject: json["appObject"] == null
           ? null

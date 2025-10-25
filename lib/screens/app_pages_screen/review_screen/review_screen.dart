@@ -28,7 +28,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           child: Scaffold(
               appBar: AppBar(
                   leadingWidth: 80,
-                  title: Text(language(context, "My Reviews"),
+                  title: Text(language(context, appFonts.myReviews),
                       style: appCss.dmDenseBold18
                           .textColor(appColor(context).darkText)),
                   centerTitle: true,
@@ -108,7 +108,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                                         children: [
                                                           Text(
                                                               language(context,
-                                                                  "Edit Review"),
+                                                                  appFonts.editReview),
                                                               style: appCss
                                                                   .dmDenseMedium18
                                                                   .textColor(appColor(

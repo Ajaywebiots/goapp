@@ -3,7 +3,7 @@ import '../config.dart';
 
 
 class NavigationClass {
-  pushNamedAndRemoveUntil(context, pageName, {arg}) =>
+  Future<Object?> pushNamedAndRemoveUntil(context, pageName, {arg}) =>
       Navigator.pushNamedAndRemoveUntil(
         context,
         pageName,
@@ -11,32 +11,32 @@ class NavigationClass {
             (route) => false,
       );
 
-  pushNamed(context, pageName, {arg}) async{
+  Future<Object?>? pushNamed(context, pageName, {arg}) async{
     final result = await  Navigator.pushNamed(context, pageName, arguments: arg,);
     return result;
   }
 
-  push(context, pageName, {arg}) async{
+  Future push(context, pageName, {arg}) async{
     final result = await  Navigator.push(context, MaterialPageRoute(builder: (context) => pageName,));
     return result;
   }
 
 
 
-  pop(context,{arg}) {
+  void pop(context,{arg}) {
     Navigator.pop(context, arg);
   }
 
-  popAndPushNamed(context,pageName, {arg,result}) {
+  void popAndPushNamed(context,pageName, {arg,result}) {
     Navigator.popAndPushNamed(context, pageName,arguments: arg,result: result,);
 
   }
 
-  pushReplacementNamed(context,pageName,{args}){
+  void pushReplacementNamed(context,pageName,{args}){
     Navigator.pushReplacementNamed(context, pageName,arguments: args,);
   }
 
-  pushAndRemoveUntil(context,{args}){
+  void pushAndRemoveUntil(context,{args}){
 
     Navigator.of(context).pushAndRemoveUntil(
       // the new route

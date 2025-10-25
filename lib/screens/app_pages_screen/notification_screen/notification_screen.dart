@@ -1,6 +1,5 @@
 import '../../../config.dart';
 import '../../../widgets/DirectionalityRtl.dart';
-import 'layouts/notification_layout.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -43,10 +42,6 @@ class _NotificationScreenState extends State<NotificationScreen>
                                   }).paddingAll(Insets.i18),
                               actions: [
                                 if (value.notificationList.isNotEmpty)
-                                  CommonArrow(
-                                      arrow: eSvgAssets.readAll,
-                                      onTap: () => value.readAll(context)),
-                                if (value.notificationList.isNotEmpty)
                                   const HSpace(Sizes.s10),
                                 if (value.notificationList.isNotEmpty)
                                   CommonArrow(
@@ -64,10 +59,10 @@ class _NotificationScreenState extends State<NotificationScreen>
                                           left: rtl(context) ? Insets.i20 : 0)
                               ]),
                           body: RefreshIndicator(
-                              onRefresh: () async {
-                                value.getNotificationList(context);
-                              },
-                              child: /*value.notificationList.isNotEmpty
+                                  onRefresh: () async {
+                                    value.getNotificationList(context);
+                                  },
+                                  child: /*value.notificationList.isNotEmpty
                                   ? ListView(
                                       children: value.notificationList
                                           .asMap()
@@ -78,15 +73,16 @@ class _NotificationScreenState extends State<NotificationScreen>
                                                   e.value, context)))
                                           .toList())
                                   :*/
-                                  EmptyLayout(
-                                      title: appFonts.nothingHere,
-                                      subtitle: appFonts.clickTheRefresh,
-                                      buttonText: appFonts.refresh,
-                                      horizon: 10,
-                                      bTap: () => value.onRefresh(context),
-                                      widget: Image.asset(eImageAssets.noNoti,
-                                          height: Sizes.s200))
-                                  ).paddingSymmetric(horizontal: Insets.i20))))));
+                                      EmptyLayout(
+                                          title: appFonts.nothingHere,
+                                          subtitle: appFonts.clickTheRefresh,
+                                          buttonText: appFonts.refresh,
+                                          horizon: 10,
+                                          bTap: () => value.onRefresh(context),
+                                          widget: Image.asset(
+                                              eImageAssets.noNoti,
+                                              height: Sizes.s200)))
+                              .paddingSymmetric(horizontal: Insets.i20))))));
     });
   }
 }

@@ -23,17 +23,17 @@ class SocialRegProvider extends ChangeNotifier {
   final FocusNode passwordFocus = FocusNode();
   final FocusNode confirmPasswordFocus = FocusNode();
 
-  changeDialCode(CountryCodeCustom country) {
+  void changeDialCode(CountryCodeCustom country) {
     dialCode = country.dialCode!;
     notifyListeners();
   }
 
-  isCheckBoxCheck(value) {
+  void isCheckBoxCheck(value) {
     isCheck = value;
     notifyListeners();
   }
 
-  onInit(context) {
+  void onInit(context) {
     final args = ModalRoute.of(context)?.settings.arguments;
     if (args is UserCredential) {
       txtEmail.text = args.user?.email ?? "";

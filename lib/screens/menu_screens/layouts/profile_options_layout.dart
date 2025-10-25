@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:goapp/screens/menu_screens/layouts/profile_option_layout.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../config.dart';
 import '../../../models/profile_model.dart';
 import 'options_selection_screen_layout/option_screen_layout.dart';
@@ -115,10 +116,15 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   routeName.changeLanguage);
                                             } else if (s.value.title ==
                                                 appFonts.subscriptionPlans) {
+                                              route.pushNamed(context, routeName.subscriptionPlanScreen);
+                                            } else if (s.value.title ==
+                                                appFonts.contactUs) {
                                               route.pushNamed(
                                                   context,
                                                   routeName
-                                                      .subscriptionPlanScreen);
+                                                      .contactUs);
+                                              Provider.of<ContactUsProvider>(context, listen: false)
+                                                  .getSubjectData(context);
                                             } else {
                                               Navigator.push(context,
                                                   MaterialPageRoute(
@@ -257,29 +263,55 @@ Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {
 // }
 //
 Widget registerBusinessCard(BuildContext context) {
-  return Container(
+  return InkWell(
+    onTap: () async {
+      final Uri url = Uri.parse('https://dev.gosalamina.com/app');
+      if (await canLaunchUrl(url)) {
+        await launchUrl(
+          url,
+          mode: LaunchMode.inAppBrowserView,
+        );
+      } else {
+        throw 'Could not launch $url';
+      }
+    },
+    child: Container(
       padding: const EdgeInsets.all(Sizes.s15),
       decoration: BoxDecoration(
-          color: const Color(0xfff99D1C).withOpacity(0.5),
-          borderRadius: const BorderRadius.all(Radius.circular(12))),
-      child: Row(children: [
-        CommonArrow(arrow: "assets/svg/bank.svg"),
-        const HSpace(Sizes.s15),
-        Expanded(
+        color: const Color(0xfff99D1C).withOpacity(0.5),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+      ),
+      child: Row(
+        children: [
+          CommonArrow(arrow: "assets/svg/bank.svg"),
+          const HSpace(Sizes.s15),
+          Expanded(
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-              Expanded(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
                   child: Text(
-                      overflow: TextOverflow.fade,
-                      language(context, appFonts.registerYourBusiness)
-                          .toString(),
-                      style: appCss.dmDenseMedium16
-                          .textColor(appColor(context).darkText))),
-              SvgPicture.asset(
-                  rtl(context) ? eSvgAssets.arrowLeft : eSvgAssets.arrowRight,
+                    language(context, appFonts.registerYourBusiness)
+                        .toString(),
+                    overflow: TextOverflow.fade,
+                    style: appCss.dmDenseMedium16
+                        .textColor(appColor(context).darkText),
+                  ),
+                ),
+                SvgPicture.asset(
+                  rtl(context)
+                      ? eSvgAssets.arrowLeft
+                      : eSvgAssets.arrowRight,
                   colorFilter: ColorFilter.mode(
-                      appColor(context).darkText, BlendMode.srcIn))
-            ]))
-      ])).inkWell(onTap: () {});
+                    appColor(context).darkText,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

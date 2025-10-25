@@ -1,4 +1,3 @@
-import '../config.dart';
 
 class CollectionName {
   String admin = "admin";

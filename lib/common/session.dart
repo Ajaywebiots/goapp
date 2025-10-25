@@ -8,6 +8,7 @@ class Session {
   String themeIndex = 'themeIndex';
   String accessToken = 'accessToken';
   String tokenExpiration = 'tokenExpiration';
+  String loginSession = 'loginSession';
   // String accountType = 'accountType';
   // String accountRole = 'accountRole';
   String locale = 'locale';

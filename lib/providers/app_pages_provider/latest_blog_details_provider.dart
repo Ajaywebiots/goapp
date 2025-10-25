@@ -14,7 +14,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   // Article? data;
   ArticlesDetailModel? articleDetail;
 
-  onReady(context) {
+  void onReady(context) {
     notifyListeners();
     log("ajksdhasd ");
     getArticlesSearchAPI(context);
@@ -28,7 +28,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
 
   bool isNavigating = false;
 
-  detailsDataAPI(context, value, {isNotRouting = false}) {
+  void detailsDataAPI(context, value, {isNotRouting = false}) {
     if (isNavigating) return;
     isNavigating = true;
 
@@ -69,7 +69,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
   final FocusNode searchFocus = FocusNode();
 
-  showBottomBlogFilter(context) {
+  void showBottomBlogFilter(context) {
     {
       showModalBottomSheet(
           isScrollControlled: true,
@@ -166,7 +166,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
 
   bool isLike = false;
 
-  setState() {
+  void setState() {
     notifyListeners();
   }
 
@@ -178,7 +178,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   //   }
   // }
 
-  clearFilter(context) {
+  void clearFilter(context) {
     selectedCategory = [];
     // selectedRates = [];
     // searchList = [];
@@ -193,7 +193,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
   }
 
 // blogCategoriesData (blog Categorries)
-  blogCategoriesData(context) {
+  void blogCategoriesData(context) {
     showLoading(context);
     notifyListeners();
     apiServices.commonApi(api.blogCategories, [], ApiType.get).then((value) {
@@ -268,7 +268,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
 
   List articlesSearchList = [];
 
-  getArticlesSearchAPI(context) async {
+  Future<void> getArticlesSearchAPI(context) async {
     notifyListeners();
     // showLoading(context);
     try {
@@ -297,7 +297,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     }
   }
 
-  likeDislike() {
+  void likeDislike() {
     // data!.isFavourite = !data!.isFavourite;
     notifyListeners();
   }
@@ -308,7 +308,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
     searchCtrl.addListener(onSearchChange);
   }
 
-  onSearchChange() {
+  void onSearchChange() {
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
     log("rrrrr ssss${searchCtrl.text}");
     // Start a new debounce timer

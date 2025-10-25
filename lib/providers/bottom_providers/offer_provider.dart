@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:goapp/config.dart';
@@ -10,14 +9,14 @@ import '../../models/api_model/offer_search_model.dart';
 import '../../models/api_model/offers_details_model.dart';
 
 class OfferProvider extends ChangeNotifier {
-  onReady() {
+  void onReady() {
     getViewAllOfferAPI();
     notifyListeners();
   }
 
   double slider = 0.0;
 
-  slidingValue(newValue) {
+  void slidingValue(newValue) {
     log("slide $slider");
     log("slidnewValuee $newValue");
     slider = newValue;
@@ -30,7 +29,7 @@ class OfferProvider extends ChangeNotifier {
   List selectedCategory = [];
 
   String? qrBase64;
-  getCategoriesData(context) {
+  void getCategoriesData(context) {
     // showLoading(context);
     notifyListeners();
     try {
@@ -48,7 +47,7 @@ class OfferProvider extends ChangeNotifier {
           notifyListeners();
           categoryList.addAll(categoryModel.categories as List<Categories>);
 
-          log("categoryList offers ${categoryList}");
+          log("categoryList offers $categoryList");
           // hideLoading(context);
           notifyListeners();
         } else {
@@ -62,7 +61,7 @@ class OfferProvider extends ChangeNotifier {
     }
   }
 
-  onCategoryChange(context, id) {
+  void onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
       selectedCategory.add(id);
     } else {
@@ -74,7 +73,7 @@ class OfferProvider extends ChangeNotifier {
 
   int selectIndex = 0;
 
-  onFilter(index) {
+  void onFilter(index) {
     selectIndex = index;
     notifyListeners();
   }
@@ -201,7 +200,7 @@ class OfferProvider extends ChangeNotifier {
     route.pop(context);
   }
 
-  getViewAllOfferAPI() {
+  void getViewAllOfferAPI() {
     notifyListeners();
     try {
       apiServices
@@ -245,7 +244,7 @@ class OfferProvider extends ChangeNotifier {
 
   OfferDetailsModel? offersDetails;
 
-  offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
+  void offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
     if (isNavigating) return;
     isNavigating = true;
 

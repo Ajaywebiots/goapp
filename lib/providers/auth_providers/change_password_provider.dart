@@ -17,31 +17,31 @@ class ChangePasswordProvider extends ChangeNotifier {
   double slider = 4.0;
 
   //old password see tap
-  oldPasswordSeenTap() {
+  void oldPasswordSeenTap() {
     isOldPassword = !isOldPassword;
     notifyListeners();
   }
 
   //new password see tap
-  newPasswordSeenTap() {
+  void newPasswordSeenTap() {
     isNewPassword = !isNewPassword;
     notifyListeners();
   }
 
   //confirm password see tap
-  confirmPasswordSeenTap() {
+  void confirmPasswordSeenTap() {
     isConfirmPassword = !isConfirmPassword;
     notifyListeners();
   }
 
-  updatePassword(context) {
+  void updatePassword(context) {
     FocusManager.instance.primaryFocus?.unfocus();
     if (resetFormKey.currentState!.validate()) {
       resetPassword(context);
     }
   }
 
-  resetPassword(context) async {
+  Future<void> resetPassword(context) async {
     showLoading(context);
     notifyListeners();
 /*
@@ -70,7 +70,7 @@ class ChangePasswordProvider extends ChangeNotifier {
     }*/
   }
 
-  static getDisposableProviders(BuildContext context) {
+  static List<LoginProvider> getDisposableProviders(BuildContext context) {
     return [
       Provider.of<LoginProvider>(context, listen: false),
       //...other disposable providers
@@ -83,7 +83,7 @@ class ChangePasswordProvider extends ChangeNotifier {
     });
   }
 
-  getArg(context) async {
+  Future<void> getArg(context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     if (data != null) {

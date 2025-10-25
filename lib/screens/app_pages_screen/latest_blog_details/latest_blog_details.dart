@@ -11,7 +11,7 @@ class LatestBlogDetailsScreen extends StatelessWidget {
         builder: (context, value, child) {
       return DirectionalityRtl(
           child: Scaffold(
-              appBar: AppBarCommon(title: language(context, "Latest blog")),
+              appBar: AppBarCommon(title: language(context, appFonts.latestBlog)),
               body: SafeArea(
                   child: SingleChildScrollView(
                       child: Column(children: [

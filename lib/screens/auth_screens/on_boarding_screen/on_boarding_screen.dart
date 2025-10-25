@@ -33,17 +33,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     .paddingSymmetric(horizontal: Insets.i20)
                     .paddingOnly(top: Insets.i20, bottom: Insets.i10),
                 Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: Color(0xffD2D3D4)),
-                        shape: BoxShape.circle),
-                    child: Container(
-                        height: Insets.i300,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 3, color: Colors.white),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(mediaSource ?? ''))))),
+                  height: Insets.i432,
+                  width: Insets.i335,
+                  margin: EdgeInsets.only(
+                      left: Insets.i20, right: Insets.i20, bottom: Insets.i5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(mediaSource ?? ''))),
+                ),
                 Stack(alignment: Alignment.center, children: [
                   Image.asset(eImageAssets.onBoardBox,
                           color: appColor(context).darkText.withOpacity(1))

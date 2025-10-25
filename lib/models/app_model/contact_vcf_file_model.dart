@@ -11,9 +11,9 @@ String generateVCF(List<Map<String, dynamic>> items, String businessName) {
   for (var item in items) {
     final label = item['label']?.toString().toLowerCase() ?? '';
     final value = item['contactAction']?.toString() ?? '';
-    if (label.contains('+') || label.contains('tel'))
+    if (label.contains('+') || label.contains('tel')) {
       phone = value;
-    else if (label.contains('@'))
+    } else if (label.contains('@'))
       email = value;
     else if (label.contains('facebook'))
       facebook = value;

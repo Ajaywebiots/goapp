@@ -1,428 +1,516 @@
+import 'dart:developer';
+import 'package:shimmer/shimmer.dart';
 import '../../../config.dart';
-import '../../../widgets/DirectionalityRtl.dart';
+import '../../../models/api_model/profile_detail_model.dart';
+import '../../../services/api_service.dart';
 
-class SubscriptionPlanScreen extends StatelessWidget {
+class SubscriptionPlanScreen extends StatefulWidget {
   const SubscriptionPlanScreen({super.key});
 
   @override
+  State<SubscriptionPlanScreen> createState() => _SubscriptionPlanScreenState();
+}
+
+class _SubscriptionPlanScreenState extends State<SubscriptionPlanScreen> {
+  bool isLoading = true;
+  String? membershipType;
+  String? status;
+  String? joinDate;
+  String? renewDate;
+  bool hasSubscription = false;
+  dynamic membershipId;
+
+  ProfileDetailModel? profileDetailModel;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSubscriptionData();
+  }
+
+  Future<void> fetchSubscriptionData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+    try {
+      await apiServices
+          .commonApi(
+              "${api.subscriptions}$userId/subscriptions", [], ApiType.get,
+              isToken: true)
+          .then((value) async {
+        if (value.data != null && value.data['membership'] != null) {
+          final membership = value.data['membership'];
+
+          setState(() {
+            membershipType = membership['subscription'];
+            membershipId = membership['membershipId'];
+            hasSubscription = membership['subscription'] != null &&
+                membership['subscription'].toString().toLowerCase() !=
+                    'basic' &&
+                membership['subscription'].toString().toLowerCase() != 'free' &&
+                !membership['subscription']
+                    .toString()
+                    .toLowerCase()
+                    .contains('basic / free');
+            log("membershipId membershipId $membershipId");
+            status = membership['status'] == 1 ? 'Active' : 'Inactive';
+
+            if (membership['startDate'] != null) {
+              final date = DateTime.parse(membership['startDate']);
+              joinDate =
+                  '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+            }
+
+            if (membership['endDate'] != null) {
+              final date = DateTime.parse(membership['endDate']);
+              renewDate =
+                  '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+            }
+
+            isLoading = false;
+          });
+        } else {
+          // Default if membership is null
+          setState(() {
+            membershipType = "Basic / Free";
+            status = "Active";
+            hasSubscription = false;
+            isLoading = false;
+          });
+        }
+      });
+    } catch (e) {
+      debugPrint('Error fetching subscription data: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DirectionalityRtl(
-        child: Scaffold(
-            body: Stack(children: [
-      Column(children: [
+    return Consumer<ProfileDetailProvider>(
+        builder: (context, profileDetailPvr, child) {
+      return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios,
+                    color: Colors.black, size: 20),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            title: const Text(
+              'My Membership',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            centerTitle: true,
+          ),
+          body: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+              child: Column(children: [
+                isLoading
+                    ? _buildShimmerCard()
+                    : _buildMembershipCard(
+                        image: profileDetailPvr.profileImageUrl,
+                        name:
+                            "${profileDetailPvr.txtFName.text} ${profileDetailPvr.txtLName.text}"),
+                const SizedBox(height: 28),
+                ButtonCommon(
+                    title: hasSubscription
+                        ? 'Cancel Subscription'
+                        : 'Upgrade Membership',
+                    onTap: isLoading
+                        ? () {}
+                        : () {
+                            if (hasSubscription) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => CancelMembershipDialog(
+                                  hasSubscription,
+                                  membershipId,
+                                  isLoading,
+                                  onCancelled: fetchSubscriptionData,
+
+                                ),
+                              );
+                            } else {
+                              route.pushNamed(
+                                  context, routeName.payPalSubscriptionPage);
+                            }
+                          })
+              ])));
+    });
+  }
+
+  Widget _buildShimmerCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Column(
+          children: [
+            // Profile Image Shimmer
+            Container(
+              width: 80,
+              height: 80,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Name Shimmer
+            Container(
+              width: 120,
+              height: 16,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const SizedBox(height: 32),
+            // Info Rows Shimmer
+            _buildShimmerRow(),
+            const SizedBox(height: 20),
+            _buildShimmerRow(),
+            const SizedBox(height: 20),
+            _buildShimmerRow(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShimmerRow() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 80,
+              height: 14,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const Spacer(),
+            Container(
+              width: 100,
+              height: 14,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
         Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+          height: 1,
+          color: const Color(0xFFE0E0E0),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMembershipCard({String? image, name}) {
+    log("status status $image");
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(15, 11, 15, 26),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF5F6F7),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          if (image != null && image.isNotEmpty)
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 3),
                 image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/subscription.png"))),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  VSpace(MediaQuery.of(context).size.height * (70 / 800)),
-                  Image.asset(eImageAssets.appLogo,
-                      height: MediaQuery.of(context).size.height * 0.25),
-                  VSpace(MediaQuery.of(context).size.height * (65 / 800)),
-                  Text('GOSALAMINA MEMBERSHIP',
-                      style: appCss.dmDenseBold20
-                          .textColor(appColor(context).whiteBg)),
-                  RichText(
-                      text: TextSpan(
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                          children: [
-                        TextSpan(
-                            text: 'FOR JUST ',
-                            style: appCss.dmDenseRegular14.textColor(
-                                appColor(context)
-                                    .whiteBg
-                                    .withValues(alpha: 0.7))),
-                        TextSpan(
-                            text: '€1 PER MONTH',
-                            style: appCss.dmDenseBold14.textColor(
-                                appColor(context)
-                                    .whiteBg
-                                    .withValues(alpha: 0.7))),
-                        TextSpan(
-                            text: ' (BILLED ANNUALLY)',
-                            style: appCss.dmDenseRegular14.textColor(
-                                appColor(context)
-                                    .whiteBg
-                                    .withValues(alpha: 0.7)))
-                      ])),
-                  VSpace(MediaQuery.of(context).size.height * (17 / 800)),
-                  Text(
-                          textAlign: TextAlign.center,
-                          ' Join now and enjoy instant access to exclusive deals and discounts  from top businesses.By joining you support local businesses and experience a more rewarding way to shop!',
-                          style: appCss.dmDenseMedium14.textColor(
-                              appColor(context).whiteBg.withValues(alpha: 0.8)))
-                      .marginSymmetric(horizontal: 18),
-                  VSpace(MediaQuery.of(context).size.height * (30 / 800)),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(children: [
-                          SvgPicture.asset("assets/svg/shield.svg"),
-                          HSpace(Insets.i10),
-                          Text('Redeem as many offers as you want',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg))
-                        ]),
-                        VSpace(MediaQuery.of(context).size.height * (15 / 800)),
-                        Row(children: [
-                          SvgPicture.asset("assets/svg/shield.svg"),
-                          HSpace(Insets.i10),
-                          Text('Save hundreds of euros over the year',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg))
-                        ]),
-                        VSpace(MediaQuery.of(context).size.height * (15 / 800)),
-                        Row(children: [
-                          SvgPicture.asset("assets/svg/shield.svg"),
-                          HSpace(Insets.i10),
-                          Text('Wide variety of local business offers',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg))
-                        ]),
-                        VSpace(MediaQuery.of(context).size.height * (15 / 800)),
-                        Row(children: [
-                          SvgPicture.asset("assets/svg/shield.svg"),
-                          HSpace(Insets.i10),
-                          Text('Real-Time Alerts and News',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg))
-                        ]),
-                        VSpace(MediaQuery.of(context).size.height * (15 / 800)),
-                        Row(children: [
-                          SvgPicture.asset("assets/svg/shield.svg"),
-                          HSpace(Insets.i10),
-                          Text('Limited-time offer for Summer 2025',
-                              style: appCss.dmDenseMedium15
-                                  .textColor(appColor(context).whiteBg))
-                        ])
-                      ]).marginOnly(
-                      left: MediaQuery.of(context).size.width * (25 / 360)),
-                  VSpace(MediaQuery.of(context).size.height * (20 / 800)),
-                  Container(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width *
-                                  (60 / 800)),
-                          alignment: Alignment.centerLeft,
-                          height: 68,
-                          width:
-                              MediaQuery.of(context).size.width * (300 / 360),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/subscriptionLayout.png"))),
-                          child: Text("Unlock Your Full Potential",
-                              style: appCss.dmDenseBold16
-                                  .textColor(appColor(context).darkText)))
-                      .inkWell(onTap: () {
-                    route.pushNamed(context, routeName.payPalSubscriptionPage);
-                  })
-                ]))
-      ]),
-      Positioned(
-          left: MediaQuery.of(context).size.height * (10 / 360),
-          top: MediaQuery.of(context).size.height * (60 / 800),
-          child: CommonArrow(
-              onTap: () {
-                route.pop(context);
+                  image: NetworkImage(image),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          else
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 3),
+                color: Colors.grey[300],
+              ),
+              child: const Icon(Icons.person, size: 40, color: Colors.grey),
+            ),
+          SizedBox(height: Sizes.s5),
+
+          // if (userName != null)
+          Text(
+            name,
+            style: appCss.dmDenseMedium14.textColor(appColor(context).darkText),
+          ),
+          const SizedBox(height: 32),
+          if (membershipType != null)
+            _buildInfoRow(
+              'Membership',
+              membershipType!,
+              showIcon: true,
+            ),
+          const SizedBox(height: 20),
+          if (status != null)
+            _buildInfoRow(
+              'Status',
+              status!,
+              valueColor: status == 'Active'
+                  ? const Color(0xFF4CAF50)
+                  : const Color(0xFFF44336),
+            ),
+          const SizedBox(height: 20),
+          if (joinDate != null)
+            _buildInfoRow(
+              'Join Date',
+              joinDate!,
+            ),
+          const SizedBox(height: 20),
+          if (renewDate != null)
+            _buildInfoRow(
+              'Renew Date',
+              renewDate!,
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUpgradeButton() {
+    return Container(
+      width: double.infinity,
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ElevatedButton(
+        onPressed: isLoading
+            ? null
+            : () {
+                if (hasSubscription) {
+                } else {}
               },
-              svgColor: appColor(context).whiteBg,
-              arrow: eSvgAssets.arrowLeft,
-              color: appColor(context).primary))
-    ])));
+        style: ElevatedButton.styleFrom(
+          backgroundColor: appColor(context).primary,
+          disabledBackgroundColor: Colors.grey[400],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          elevation: 0,
+          shadowColor: Colors.transparent,
+        ),
+        child: Text(
+          hasSubscription ? 'Cancel Subscription' : 'Upgrade Membership',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+            letterSpacing: 0.3,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value,
+      {Color? valueColor, bool showIcon = false}) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style:
+                  appCss.dmDenseRegular12.textColor(appColor(context).darkText),
+            ),
+            if (showIcon) ...[
+              SvgPicture.asset("assets/svg/crown.svg"),
+            ],
+            Text(
+              value,
+              style: appCss.dmDenseMedium13
+                  .textColor(valueColor ?? appColor(context).darkText),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Container(
+          height: 1,
+          color: const Color(0xFF000000),
+        ),
+      ],
+    );
   }
 }
 
-// Column(children: [
-//   ClipRRect(
-//       borderRadius:
-//           BorderRadius.vertical(top: Radius.circular(8)),
-//       child: Image.asset("assets/images/sale.png",
-//           width: MediaQuery.of(context).size.width,
-//           height: Insets.i154,
-//           fit: BoxFit.cover)),
-//   VSpace(Insets.i30),
-//   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-//     Text("User Subscription Plan Details",
-//         style: appCss.dmDenseBold14
-//             .textColor(appColor(context).darkText)),
-//     DottedLine(dashColor: Color(0xffE5E8EA))
-//         .paddingDirectional(top: 15, bottom: 15),
-//     Text(
-//         style: appCss.dmDenseRegular14
-//             .textColor(appColor(context).darkText),
-//         'This business was founded in 2021 by Kurt. Working well together, he and his staff. This business was founded in 2021 by Kurt. Working well together, he and his staff.')
-//   ]).marginOnly(
-//       left: Insets.i15, right: Insets.i15, bottom: Insets.i30)
-// ])
-//     .boxBorderExtension(context, isShadow: true)
-//     .paddingDirectional(horizontal: Insets.i20),
-// VSpace(Insets.i27),
-// Container(
-//     width: 255,
-//     decoration: BoxDecoration(
-//         image: DecorationImage(
-//             fit: BoxFit.fill,
-//             image: AssetImage("assets/images/subsImage.png"))),
-//     child: Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           VSpace(Insets.i30),
-//           Text("\$12",
-//               style: appCss.dmDenseBold22
-//                   .textColor(appColor(context).darkText)),
-//           Text("/Year",
-//               style: appCss.dmDenseMedium12
-//                   .textColor(appColor(context).lightText)),
-//           VSpace(Insets.i34),
-//           Text("ELITE CLUB",
-//               style: appCss.dmDenseBold20
-//                   .textColor(appColor(context).whiteBg)),
-//           VSpace(Insets.i20),
-//           ...sss.asMap().entries.map((e) => Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     SvgPicture.asset(e.value['icon']),
-//                     HSpace(Insets.i8),
-//                     Expanded(
-//                         child: Text(e.value['title'],
-//                             style: appCss.dmDenseMedium14
-//                                 .textColor(
-//                                     appColor(context).whiteBg),
-//                             overflow: TextOverflow.fade)),
-//                   ]).paddingOnly(bottom: Insets.i15)),
-//           VSpace(Insets.i5),
-//           Image.asset('assets/images/dotted_line.png'),
-//           VSpace(Insets.i15),
-//           Text(
-//               textAlign: TextAlign.center,
-//               "Take your service business to the next level by choosing this.",
-//               style: appCss.dmDenseRegular12
-//                   .textColor(appColor(context).whiteBg)),
-//           VSpace(Insets.i25),
-//           ButtonCommon(
-//               onTap: () {
-//                 showDialog(
-//                   context: context,
-//                   builder: (context) {
-//                     return DirectionalityRtl(
-//                       child: AlertDialog(
-//                         contentPadding: EdgeInsets.zero,
-//                         insetPadding: const EdgeInsets.symmetric(
-//                             horizontal: 20),
-//                         shape: RoundedRectangleBorder(
-//                             borderRadius:
-//                                 BorderRadius.circular(15)),
-//                         content: SingleChildScrollView(
-//                           child: Padding(
-//                             padding: const EdgeInsets.all(20),
-//                             child: Column(
-//                               mainAxisSize: MainAxisSize.min,
-//                               children: [
-//                                 Row(
-//                                     mainAxisAlignment:
-//                                         MainAxisAlignment
-//                                             .spaceBetween,
-//                                     children: [
-//                                       Text("PayPal Payment",
-//                                           style: appCss
-//                                               .dmDenseMedium18),
-//                                       Icon(CupertinoIcons
-//                                               .multiply)
-//                                           .inkWell(
-//                                               onTap: () => route
-//                                                   .pop(context))
-//                                     ]),
-//                                 VSpace(Insets.i15),
-//                                 Text(
-//                                     "Please select your top-up amount",
-//                                     style:
-//                                         appCss.dmDenseRegular14),
-//                                 VSpace(Insets.i10),
-//                                 DropdownButton<String>(
-//                                   value: "10 USD",
-//                                   items: [
-//                                     "10 USD",
-//                                     "20 USD",
-//                                     "50 USD"
-//                                   ]
-//                                       .map((e) =>
-//                                           DropdownMenuItem(
-//                                               value: e,
-//                                               child: Text(e)))
-//                                       .toList(),
-//                                   onChanged: (_) {},
-//                                 ),
-//                                 VSpace(Insets.i20),
-//                                 // Debit or Credit Card button
-//                                 ButtonCommon(
-//                                     isRightIcon: true,
-//                                     rightIcon: Icon(
-//                                         color: Colors.white,
-//                                         CupertinoIcons
-//                                             .creditcard),
-//                                     color: appColor(context)
-//                                         .darkText,
-//                                     title: "Debit or Credit Card",
-//                                     onTap: () {}),
-//                                 VSpace(Insets.i20),
-//                                 Row(
-//                                     mainAxisAlignment:
-//                                         MainAxisAlignment.end,
-//                                     children: [
-//                                       Icon(CupertinoIcons
-//                                               .multiply)
-//                                           .inkWell(onTap: () {})
-//                                     ]),
-//                                 VSpace(Insets.i20),
-//
-//                                 // Card Info
-//                                 // TextFormField(
-//                                 //     decoration: const InputDecoration(
-//                                 //         labelText: "Card number")),
-//                                 TextFieldCommon1(
-//                                     hintText: 'Card number'),
-//                                 VSpace(Insets.i12),
-//                                 Row(children: [
-//                                   Expanded(
-//                                     child: TextFieldCommon1(
-//                                         hintText: 'Expires'),
-//                                   ),
-//                                   const SizedBox(width: 10),
-//                                   Expanded(
-//                                     child: TextFieldCommon1(
-//                                         hintText: 'CSC'),
-//                                   )
-//                                 ]),
-//                                 VSpace(Insets.i25),
-//                                 // Billing Address Title
-//                                 Row(children: const [
-//                                   Text("Billing address",
-//                                       style: TextStyle(
-//                                           fontWeight:
-//                                               FontWeight.bold)),
-//                                   Spacer(),
-//                                   Icon(Icons.flag),
-//                                   // Could be replaced with a country picker
-//                                 ]),
-//                                 VSpace(Insets.i17),
-//
-//                                 // Name fields
-//                                 Row(children: [
-//                                   Expanded(
-//                                       child: TextFieldCommon1(
-//                                           hintText:
-//                                               'First Name')),
-//                                   const SizedBox(width: 10),
-//                                   Expanded(
-//                                       child: TextFieldCommon1(
-//                                           hintText: 'Last Name'))
-//                                 ]),
-//                                 VSpace(Insets.i12),
-//                                 TextFieldCommon1(
-//                                   hintText: 'ZIP code',
-//                                 ),
-//                                 VSpace(Insets.i12),
-//                                 TextFieldCommon1(
-//                                   hintText: 'Mobile Number',
-//                                 ),
-//                                 VSpace(Insets.i12),
-//                                 TextFieldCommon1(
-//                                   hintText: 'Email',
-//                                 ),
-//
-//                                 const SizedBox(height: 20),
-//
-//                                 // Pay Now button
-//                                 ButtonCommon(
-//                                     isRightIcon: true,
-//                                     rightIcon: Icon(
-//                                         color: appColor(context)
-//                                             .primary,
-//                                         CupertinoIcons
-//                                             .creditcard),
-//                                     color: appColor(context)
-//                                         .darkText,
-//                                     title: "Pay Now",
-//                                     onTap: () {}),
-//
-//                                 const SizedBox(height: 10),
-//
-//                                 // Powered by PayPal
-//                                 Row(
-//                                   mainAxisAlignment:
-//                                       MainAxisAlignment.center,
-//                                   children: [
-//                                     Text("Powered by "),
-//                                     Image.network(
-//                                         fit: BoxFit.fill,
-//                                         "https://www.paypalobjects.com/webstatic/en_US/i/buttons/pp-acceptance-small.png",
-//                                         height: 40),
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     );
-//                   },
-//                 );
-//               },
-//               title: 'Select plan',
-//               fontColor: appColor(context).primary,
-//               width: 145,
-//               color: appColor(context).whiteBg),
-//           VSpace(Insets.i25),
-//         ]).marginSymmetric(horizontal: Insets.i15)),
-// VSpace(Insets.i27),
-// RichText(
-//     text: TextSpan(
-//         style: appCss.dmDenseRegular14
-//             .textColor(appColor(context).darkText),
-//         children: [
-//       TextSpan(
-//           text: "Are you a business owner? ",
-//           style: appCss.dmDenseMedium14
-//               .textColor(appColor(context).darkText)),
-//       TextSpan(
-//           text: "click here.",
-//           style: appCss.dmDenseMedium14.copyWith(
-//               decoration: TextDecoration.underline,
-//               color: appColor(context).darkText),
-//           recognizer: TapGestureRecognizer()..onTap = () {})
-//     ])),
-// VSpace(Insets.i30),
-// Container(
-//     height: Insets.i76,
-//     alignment: Alignment.center,
-//     color: appColor(context).fieldCardBg,
-//     child: Text(
-//         style: appCss.dmDenseRegular14
-//             .textColor(appColor(context).darkText),
-//         textAlign: TextAlign.center,
-//         "Note : You can update your plan at any time from your account setting."))
+class CancelMembershipDialog extends StatefulWidget {
+  bool? hasSubscription;
+  final dynamic membershipId;
+  bool? isLoading;
+  final VoidCallback onCancelled;
 
-/*
-List sss = [
-  {
-    "icon": "assets/svg/shieldTick.svg",
-    "title": "Add up to 10 service",
-  },
-  {
-    "icon": "assets/svg/shieldTick.svg",
-    "title": "Add up to 10 servicemen",
-  },
-  {
-    "icon": "assets/svg/shieldTick.svg",
-    "title": "Add up to 6 service location",
-  },
-  {
-    "icon": "assets/svg/shieldTick.svg",
-    "title": "Add up to 6 service in packages",
+  CancelMembershipDialog(
+    this.hasSubscription,
+    this.membershipId,
+    this.isLoading, {
+    super.key, required this.onCancelled,
+  });
+
+  @override
+  State<CancelMembershipDialog> createState() => _CancelMembershipDialogState();
+}
+
+class _CancelMembershipDialogState extends State<CancelMembershipDialog> {
+  Future<void> cancelSubscription() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final int? userId = pref.getInt(session.id);
+
+    try {
+      await apiServices
+          .commonApi(
+              "${api.subscriptions}$userId/subscription/${widget.membershipId}",
+              [],
+              ApiType.delete,
+              isToken: true)
+          .then((value) async {
+        log("value value ${value.data}");
+        route.pop(context);
+        widget.onCancelled();
+        showMessage(context, "Subscription Cancelled Successfully");
+        // if (value.data != null) {
+        //   // setState(() {
+        //   //   widget.hasSubscription = false;
+        //   //   widget.isLoading = false;
+        //   //
+        //   //   Navigator.pop(context);
+        //   // });
+        // }
+      });
+    } catch (e, s) {
+      debugPrint('Error Cancel Subscription data: $e ------- $s');
+    }
   }
-];*/
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                'Cancel Membership',
+                style: appCss.dmDenseMedium18
+                    .textColor(appColor(context).darkText),
+              ),
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(Icons.close, color: appColor(context).darkText))
+            ]).padding(horizontal: 15, top: 20),
+            const SizedBox(height: 30),
+            Column(
+              children: [
+                Text(
+                  'Are you sure you want to cancel your membership?',
+                  textAlign: TextAlign.center,
+                  style: appCss.dmDenseBold16.textColor(Color(0xff000000)),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Your membership will be still active until the renew date.',
+                  textAlign: TextAlign.center,
+                  style: appCss.dmDenseRegular14
+                      .textColor(appColor(context).lightText),
+                ),
+                const SizedBox(height: 32),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: BorderSide(
+                            color: Colors.grey[300]!,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          cancelSubscription();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1565C0),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ).padding(horizontal: 20, bottom: 20),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,4 +1,3 @@
-import 'package:goapp/models/api_model/home_feed_model.dart';
 
 import '../../../../config.dart';
 import '../../../../widgets/DirectionalityRtl.dart';

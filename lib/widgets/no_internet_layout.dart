@@ -25,7 +25,7 @@ class _NoInternetLayoutState extends State<NoInternetLayout> {
     super.initState();
   }
 
-  fetchNetwork() async {
+  Future<void> fetchNetwork() async {
     isInternet = await isNetworkConnection();
     setState(() {});
   }

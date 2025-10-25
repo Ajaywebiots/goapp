@@ -20,7 +20,7 @@ class ApiServices {
   Future<APIDataClass> commonApi(endPoint, dynamic body, ApiType apiType,
       {bool isToken = false}) async {
     APIDataClass apiData =
-        APIDataClass(message: 'No data', isSuccess: false, data: '0');
+    APIDataClass(message: 'No data', isSuccess: false, data: '0');
 
     bool isInternet = await isNetworkConnection();
     if (!isInternet) {
@@ -28,69 +28,72 @@ class ApiServices {
       apiData.isSuccess = false;
       apiData.data = 0;
       return apiData;
-    } else {
-      try {
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        String? token = pref.getString(session.accessToken);
-        String apiName = "${apiClass.baseUrl}$endPoint";
-        log("APINAME ssss $apiName");
+    }
 
-        Response response;
-        Map<String, String> headers = await ApiClass.getHeaders();
-        Map<String, String> headersToken = await ApiClass.headersToken(token);
-        Options options = Options(headers: isToken ? headersToken : headers);
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      String? token = pref.getString(session.accessToken);
+      String apiName = "${apiClass.baseUrl}$endPoint";
+      log("APINAME ssss $apiName");
+      log("TOKEN -- $token");
 
-        // Making the API call based on the provided ApiType
-        switch (apiType) {
-          case ApiType.post:
-            response = await dio.post(apiName, data: body, options: options);
-            break;
-          case ApiType.get:
-            response = await dio.get(apiName, data: body, options: options);
-            break;
-          case ApiType.put:
-            response = await dio.put(apiName, data: body, options: options);
-            break;
-          case ApiType.delete:
-            response = await dio.delete(apiName, data: body, options: options);
-            break;
-          case ApiType.patch:
-            response = await dio.patch(apiName, data: body, options: options);
-            break;
-        }
+      Response response;
+      Map<String, String> headers = await ApiClass.getHeaders();
+      Map<String, String> headersToken = await ApiClass.headersToken(token);
+      Options options = Options(headers: isToken ? headersToken : headers);
 
-        var responseData = response.data;
-        if (responseData is Map<String, dynamic>) {
-          apiData.message = responseData['message'] ?? '';
-          apiData.isSuccess = responseData['success'] ?? true;
-          apiData.data = responseData['data'] ?? responseData;
-        } else if (responseData is List) {
-          apiData.message = "Unexpected list response";
-          apiData.isSuccess = true;
-          apiData.data = responseData;
-        } else {
-          var isToken = pref.getString(session.accessToken);
-          log("isToken::${isToken}");
-          apiData.message = "Unexpected response format";
-          apiData.isSuccess = false;
-        }
-        return apiData;
-      } on SocketException catch (e) {
-        log("SocketException occurred: $e");
-        apiData = await dioException(e);
-        return apiData;
-      } on DioException catch (e) {
-        log("DioException occurred: $e");
-        apiData = await dioException(e);
-        return apiData;
-      } catch (e) {
-        log("Unexpected error occurred: $e");
-        apiData.message = "Something went wrong";
-        apiData.isSuccess = false;
-        return apiData;
+      // Making the API call based on ApiType
+      switch (apiType) {
+        case ApiType.post:
+          response = await dio.post(apiName, data: body, options: options);
+          break;
+        case ApiType.get:
+          response = await dio.get(apiName, data: body, options: options);
+          break;
+        case ApiType.put:
+          response = await dio.put(apiName, data: body, options: options);
+          break;
+        case ApiType.delete:
+          response = await dio.delete(apiName, data: body, options: options);
+          break;
+        case ApiType.patch:
+          response = await dio.patch(apiName, data: body, options: options);
+          break;
       }
+
+      var responseData = response.data;
+
+      if (responseData is Map<String, dynamic>) {
+        apiData.message = responseData['message'] ?? '';
+        apiData.isSuccess = responseData['success'] ?? true;
+        apiData.data = responseData['data'] ?? responseData;
+      } else if (responseData is List) {
+        apiData.message = "Unexpected list response";
+        apiData.isSuccess = true;
+        apiData.data = responseData;
+      } else {
+        var isToken = pref.getString(session.accessToken);
+        log("isToken::$isToken");
+        apiData.message = "Unexpected response format";
+        apiData.isSuccess = false;
+      }
+      return apiData;
+    } on SocketException catch (e) {
+      log("SocketException occurred: $e");
+      apiData = await dioException(e);
+      return apiData;
+    } on DioException catch (e) {
+      log("DioException occurred: $e");
+      apiData = await dioException(e);
+      return apiData;
+    } catch (e) {
+      log("Unexpected error occurred: $e");
+      apiData.message = "Something went wrong";
+      apiData.isSuccess = false;
+      return apiData;
     }
   }
+
 
   Future<APIDataClass> dioException(e) async {
     APIDataClass apiData =

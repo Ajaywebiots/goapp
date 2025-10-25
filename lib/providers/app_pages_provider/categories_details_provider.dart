@@ -1,11 +1,6 @@
 import 'dart:developer';
-import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
-import '../../common_tap.dart';
 import '../../config.dart';
-import '../../models/category_model.dart';
-import '../../models/provider_model.dart';
-import '../../models/service_model.dart';
 
 class CategoriesDetailsProvider with ChangeNotifier {
   TextEditingController searchCtrl = TextEditingController();
@@ -25,7 +20,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
   // List<ProviderModel> providerList = [];
   List selectedProvider = [];
 
-  onSwitch(value) {
+  void onSwitch(value) {
     val = value;
     notifyListeners();
   }
@@ -116,7 +111,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
   //   }
   // }
 
-  onCategoryChange(index) {
+  void onCategoryChange(index) {
     if (!selectedProvider.contains(index)) {
       selectedProvider.add(index);
     } else {
@@ -125,7 +120,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onSubCategories(context, index, id) {
+  void onSubCategories(context, index, id) {
     selectedIndex = index;
     notifyListeners();
     log("idid:$id");
@@ -134,7 +129,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
 
   int selectIndex = 0;
 
-  onFilter(index) {
+  void onFilter(index) {
     selectIndex = index;
     notifyListeners();
   }
@@ -143,13 +138,13 @@ class CategoriesDetailsProvider with ChangeNotifier {
   bool? isSelect;
   int ratingIndex = 0;
 
-  onSliderChange(handlerIndex, lowerValue, upperValue) {
+  void onSliderChange(handlerIndex, lowerValue, upperValue) {
     lowerVal = lowerValue;
     upperVal = upperValue;
     notifyListeners();
   }
 
-  onTapRating(id) {
+  void onTapRating(id) {
     if (!selectedRates.contains(id)) {
       selectedRates.add(id);
     } else {
@@ -159,19 +154,19 @@ class CategoriesDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onChange() {
+  void onChange() {
     isSelect = false;
     notifyListeners();
   }
 
-  onChange1() {
+  void onChange1() {
     isSelect = true;
     notifyListeners();
   }
 
   double sliderValue = 0.0;
 
-  onChangeSlider(sVal) {
+  void onChangeSlider(sVal) {
     notifyListeners();
     sliderValue = sVal;
     notifyListeners();
@@ -202,7 +197,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
   //       });
   // }
 
-  onReady(context) {
+  void onReady(context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     // categoryModel = data;
     notifyListeners();
@@ -262,7 +257,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
   // }
 
   //clear filter
-  clearFilter(context) {
+  void clearFilter(context) {
     selectedProvider = [];
     selectedRates = [];
     lowerVal = 00.0;

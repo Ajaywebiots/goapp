@@ -1,8 +1,6 @@
 import 'package:intl/intl.dart';
 
 import '../../../../config.dart';
-import '../../../../models/api_model/home_feed_model.dart';
-import '../../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../../widgets/DirectionalityRtl.dart';
 
 class BusinessOfferLayout extends StatelessWidget {

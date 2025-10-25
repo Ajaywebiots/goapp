@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
+
 
 class OfferDetailsScreen extends StatefulWidget {
   const OfferDetailsScreen({super.key});
@@ -84,34 +83,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                           margin: 20,
                           title: 'Activate Offer Now',
                           onTap: () async {
-                            route.pushNamed(context, routeName.subscriptionPlanScreen);
-                            // SharedPreferences pref =
-                            //     await SharedPreferences.getInstance();
-                            // log("${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}");
-                            // try {
-                            //   final dio = Dio();
-                            //   Response response = await dio.get(
-                            //     '${apiClass.baseUrl}${api.qrGenerate}${pref.getInt(session.id)}/QR/${offers?.id}',
-                            //     options: Options(headers: {
-                            //       'X-GoApp-Api-Key':
-                            //           'ba16106c-2d7b-4a13-bdb2-b15b19691280',
-                            //       'Authorization':
-                            //           'Bearer ${pref.getString(session.accessToken)}',
-                            //       'Content-Type': 'application/json'
-                            //     }),
-                            //   );
-                            //
-                            //   // ✅ Save QR data
-                            //   setState(() {
-                            //     qrBase64 = response.data[
-                            //         'qr']; // assuming API returns base64 string in "qr"
-                            //     isActive = true;
-                            //   });
-                            //
-                            //   log("QR Saved: $qrBase64");
-                            // } catch (e, s) {
-                            //   log("Search error: $e $s");
-                            // }
+                            showDialog(
+                                context: context,
+                                builder: (_) => const MembershipDialog());
                           }),
                   VSpace(20),
                   Column(children: [
@@ -269,7 +243,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                             offers?.appObject!.appObjectType,
                             offers?.appObject!.appObjectId,
                             onSuccess: () async {
-                      await Provider.of<OfferProvider>(context, listen: false)
+                      Provider.of<OfferProvider>(context, listen: false)
                           .offerDetailsAPI(context, offers?.id,
                               isNotRouting: true);
                       await Provider.of<HomeScreenProvider>(context,
@@ -287,5 +261,52 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     } catch (e) {
       return "Invalid Date";
     }
+  }
+}
+
+class MembershipDialog extends StatelessWidget {
+  const MembershipDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(insetPadding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text('Membership',
+                    style: appCss.dmDenseMedium16
+                        .textColor(appColor(context).darkText)),
+                Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                        icon: Icon(Icons.close,
+                            color: appColor(context).darkText),
+                        onPressed: () => Navigator.pop(context)))
+              ]),
+              const SizedBox(height: 20),
+              Text(
+                  'UNLOCK EXCLUSIVE DEALS\nAND HUNDREDS OF EUROS\nWORTH OF VALUE!',
+                  textAlign: TextAlign.center,
+                  style: appCss.dmDenseBold15
+                      .textColor(appColor(context).primary)),
+              const SizedBox(height: 14),
+              const Image(
+                  height: 135,
+                  image: AssetImage('assets/images/subscribe.png')),
+              const SizedBox(height: 14),
+              Text(
+                  'Join our membership today to enjoy\namazing discounts, special offers,\nand full access to app benefits.',
+                  textAlign: TextAlign.center,
+                  style: appCss.dmDenseRegular13
+                      .textColor(appColor(context).lightText)),
+              const SizedBox(height: 20),
+              ButtonCommon(margin: 40,
+                  title: 'Choose Your Plan',
+                  onTap: () {
+                    Navigator.pop(context);
+                  })
+            ])));
   }
 }

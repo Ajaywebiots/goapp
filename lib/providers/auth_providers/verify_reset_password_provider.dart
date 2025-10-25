@@ -8,7 +8,7 @@ class VerifyResetPasswordProvider extends ChangeNotifier {
   String? phone, dialCode, verificationCode, min, sec, phoneNum;
   GlobalKey<FormState> otpKey = GlobalKey<FormState>();
 
-  getArgument(context) {
+  void getArgument(context) {
     otpKey = GlobalKey<FormState>();
     dynamic data = ModalRoute.of(context)!.settings.arguments;
 
@@ -19,7 +19,7 @@ class VerifyResetPasswordProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  onTapVerify(context) {
+  void onTapVerify(context) {
     if (otpKey.currentState!.validate()) {
       try {
         apiServices
@@ -42,7 +42,7 @@ class VerifyResetPasswordProvider extends ChangeNotifier {
     }
   }
 
-  defaultTheme(context) {
+  PinTheme defaultTheme(context) {
     final defaultPinTheme = PinTheme(
         textStyle:
             appCss.dmDenseSemiBold18.textColor(appColor(context).darkText),
@@ -56,5 +56,5 @@ class VerifyResetPasswordProvider extends ChangeNotifier {
   }
 
   //send Otp api
-  resendOtp(context) async {}
+  Future<void> resendOtp(context) async {}
 }

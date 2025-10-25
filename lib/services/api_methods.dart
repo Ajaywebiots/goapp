@@ -46,7 +46,7 @@ class ApiMethods {
 
   String favList = "/user/";
   String profile = "/user/";
-  String appPages = "/app/page/";
+  String appPages = "/app/page";
   String deleteReview = "/user/";
   String editReview = "/user/";
 
@@ -56,6 +56,7 @@ class ApiMethods {
   String businessLocation = "/user/";
   String myBusinessList = "/user/";
   String getBusiness = "/user/";
+  String subscriptions = "/user/";
 
 // //
 // String homeFeed = '/api/App/home/feed';

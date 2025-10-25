@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import '../../config.dart';
 import '../../models/api_model/review_list_model.dart';
-import '../../models/review_model.dart';
-import '../../models/service_model.dart';
 import '../../services/api_service.dart';
 
 class ServiceReviewProvider with ChangeNotifier {
@@ -11,14 +9,14 @@ class ServiceReviewProvider with ChangeNotifier {
   // Services? services;
   List<Review> reviewList = [];
 
-  onReview(val) {
+  void onReview(val) {
     exValue = val;
 
     notifyListeners();
     // getReviewByServiceId(services?.id);
   }
 
-  onReady(context) async {
+  Future<void> onReady(context) async {
     // dynamic data = ModalRoute.of(context)!.settings.arguments;
     // log("DATA : $data");
     // services = data;
@@ -37,7 +35,7 @@ class ServiceReviewProvider with ChangeNotifier {
   // List businessReviewList = [];
 
   ReviewListModel? reviewListData;
-  businessReviewListAPI({int? id}) {
+  void businessReviewListAPI({int? id}) {
     notifyListeners();
     apiServices
         .commonApi("${api.businessReviewsList}$id/reviews", [], ApiType.get)
@@ -50,7 +48,7 @@ class ServiceReviewProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  attractionsReviewListAPI({int? id}) {
+  void attractionsReviewListAPI({int? id}) {
     log("message $id");
     notifyListeners();
     apiServices

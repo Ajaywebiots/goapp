@@ -19,7 +19,7 @@ class ContactUsProvider with ChangeNotifier {
   String? selectedValue;
   int selectedIndex = 0;
 
-  getInit(context) {
+  void getInit(context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     rate = data['rate'];
 
@@ -37,12 +37,12 @@ class ContactUsProvider with ChangeNotifier {
         .then((value) {
       final supportModel = SupportSubjectModel.fromJson(value.data);
       subjects = supportModel.supportSubjects;
-      route.pushNamed(context, routeName.contactUs);
+      // route.pushNamed(context, routeName.contactUs);
       notifyListeners();
     });
   }
 
-  submitSupportAPI(context) async {
+  Future<void> submitSupportAPI(context) async {
     final subjectId = subjects[selectedIndex].id;
 
     final body = {

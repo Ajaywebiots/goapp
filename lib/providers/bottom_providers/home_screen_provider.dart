@@ -180,7 +180,7 @@ class HomeScreenProvider with ChangeNotifier {
   List<model.Article> firstTwoBlogList = [];
   bool isLoading = false;
 
-  homeFeed(context) async {
+  Future<void> homeFeed(context) async {
     // showLoading(context);
     isLoading = true;
     Position position = await getCurrentLocation();
@@ -231,7 +231,7 @@ class HomeScreenProvider with ChangeNotifier {
     }
   }
 
-  onCategoryChange(context, id) {
+  void onCategoryChange(context, id) {
     log("id ddd $id");
     log("selectedCategory.length ${1 + selectedCategory.length}");
     if (!selectedCategory.contains(id)) {
@@ -251,7 +251,7 @@ class HomeScreenProvider with ChangeNotifier {
         Tween<double>(begin: 1, end: 0).animate(animationController!);
   }
 
-  setState() {
+  void setState() {
     notifyListeners();
   }
 
@@ -318,12 +318,12 @@ class HomeScreenProvider with ChangeNotifier {
 
 */
 
-  onBannerTap(context, id) {
+  void onBannerTap(context, id) {
     // final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
     // commonApi.getCategoryById(context, id);
   }
 
-  onSlideBanner(index) {
+  void onSlideBanner(index) {
     selectIndex = index;
     notifyListeners();
   }
@@ -364,7 +364,7 @@ class HomeScreenProvider with ChangeNotifier {
 //   }
 
   //notification tap
-  notificationTap(context) async {
+  Future<void> notificationTap(context) async {
     // SharedPreferences pref = await SharedPreferences.getInstance();
     // pref = await SharedPreferences.getInstance();
     // bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
@@ -383,7 +383,7 @@ class HomeScreenProvider with ChangeNotifier {
     super.dispose();
   }
 
-  viewAllOnTap(context) {
+  void viewAllOnTap(context) {
     final dash = Provider.of<DashboardProvider>(context, listen: false);
     dash.selectIndex = 2;
     notifyListeners();

@@ -1,10 +1,8 @@
 import 'package:goapp/config.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../providers/app_pages_provider/business_details_provider.dart';
 import '../../../../widgets/dark_drop_down_layout.dart';
 import '../../../../widgets/dotted_line.dart';
-import '../../business_register/layouts/company_logo_layout.dart';
 
 class BusinessOfferDetails extends StatelessWidget {
   const BusinessOfferDetails({super.key});

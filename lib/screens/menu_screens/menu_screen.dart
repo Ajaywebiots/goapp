@@ -15,7 +15,7 @@ class MenuScreen extends StatelessWidget {
           child: SafeArea(
               child: Scaffold(
                   appBar: AppBarCommon(
-                      title: "Settings",
+                      title: language(context,appFonts.settings),
                       onTap: () {
                         profilePvr.isProfileBack == false;
                         if (isHomeScreen) {

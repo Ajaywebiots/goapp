@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:goapp/config.dart';
-import 'package:goapp/models/profile_model.dart';
 
 import '../../models/api_model/app_pages_model.dart';
 import '../../services/api_service.dart';
@@ -18,11 +17,11 @@ class ProfileProvider with ChangeNotifier {
   bool isPositionedRight = false;
   bool isAnimateOver = false;
 
-  onFloatImage() {
+  void onFloatImage() {
     notifyListeners();
   }
 
-  logOut(context) async {
+  Future<void> logOut(context) async {
     final prefs = await SharedPreferences.getInstance();
 
     await Future.wait([
@@ -42,7 +41,7 @@ class ProfileProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  animateDesign(TickerProvider sync) {
+  void animateDesign(TickerProvider sync) {
     Future.delayed(DurationClass.s1).then((value) {
       isPositionedRight = true;
       notifyListeners();
@@ -65,13 +64,13 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onTapSettingTap(context) {
+  void onTapSettingTap(context) {
     route.pushNamed(context, routeName.appSetting);
     notifyListeners();
   }
 
   //delete account
-  deleteAccount(context) async {
+  Future<void> deleteAccount(context) async {
     preferences = await SharedPreferences.getInstance();
     preferences!.remove(session.isContinueAsGuest);
     preferences!.remove(session.isLogin);
@@ -87,27 +86,28 @@ class ProfileProvider with ChangeNotifier {
 
   AppPagesModel? appPagesData;
 
-  appPagesAPI(context, slugValue) {
+  void appPagesAPI(context, slugValue) {
     notifyListeners();
     try {
       apiServices
-          .commonApi("${api.appPages}$slugValue", [], ApiType.get,
+          .commonApi("${api.appPages}?urlSlug=/$slugValue", [], ApiType.get,
               isToken: true)
           .then((value) {
         notifyListeners();
+        log("appPagesAPI => ${value.data}");
         if (value.isSuccess == true) {
           notifyListeners();
-          if (value.data['responseStatus'] == 1) {
+
+          // if (value.data['responseStatus'] == 1) {
             notifyListeners();
             AppPagesModel appPagesModel = AppPagesModel.fromJson(value.data);
+            log("appPagesAPI => $appPagesModel");
             appPagesData = appPagesModel;
             route.pushNamed(context, routeName.commonGeneralInfoLayout);
             notifyListeners();
-          }
+          // }
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
-          notifyListeners();
+          log("appPagesAPI => else ${value.data}");
         }
       });
     } catch (e,s) {

@@ -1,13 +1,9 @@
 import 'dart:developer';
 
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
-import 'package:goapp/providers/app_pages_provider/search_provider.dart';
-import 'package:goapp/providers/app_pages_provider/service_review_provider.dart';
 import 'package:goapp/services/api_service.dart';
 // import 'package:in_app_review/in_app_review.dart';
 
 import '../../config.dart';
-import '../../models/review_model.dart';
 
 class RateAppProvider with ChangeNotifier {
   int selectedIndex = 3;
@@ -28,12 +24,12 @@ class RateAppProvider with ChangeNotifier {
       remindLaunches: 5
   );
 */
-  onTapEmoji(index) async {
+  Future<void> onTapEmoji(index) async {
     selectedIndex = index;
     notifyListeners();
   }
 
-  onSubmit(BuildContext context,
+  Future<void> onSubmit(BuildContext context,
       {required bool isBusiness,
       int? id,
       int? appObjectId,
@@ -73,7 +69,7 @@ class RateAppProvider with ChangeNotifier {
     });
   }
 
-  clearAll(context) {
+  void clearAll(context) {
     route.pop(context);
   }
 
@@ -88,7 +84,7 @@ class RateAppProvider with ChangeNotifier {
   //   );
   // }
 
-  rateApp(context, {data}) async {}
+  Future<void> rateApp(context, {data}) async {}
 
   // onReady(context) {
   //   dynamic data = ModalRoute.of(context)!.settings.arguments;
@@ -107,7 +103,7 @@ class RateAppProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  rateService(context) async {
+  Future<void> rateService(context) async {
     showDialog(
         context: context,
         builder: (context1) {

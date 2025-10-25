@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import '../../config.dart';
-import '../app_pages_provider/profile_detail_provider.dart';
 
 class DashboardProvider with ChangeNotifier {
   static const pageSize = 1;
@@ -42,7 +41,7 @@ class DashboardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onInit(context) {
+  void onInit(context) {
     Provider.of<ProfileDetailProvider>(context, listen: false)
         .getProfileDetailDataAPI(context);
     // final login = Provider.of<LoginProvider>(context, listen: false);
@@ -85,7 +84,7 @@ class DashboardProvider with ChangeNotifier {
       selectIndex = index;
       if (index == 1) {
         isBack = true;
-        log("message=-=-=-=-=-=-=-=-=-${isBack}");
+        log("message=-=-=-=-=-=-=-=-=-$isBack");
         notifyListeners();
       }
       notifyListeners();
@@ -289,7 +288,7 @@ class DashboardProvider with ChangeNotifier {
   // }
 
   //provider list
-  getProvider() async {
+  Future<void> getProvider() async {
     /*  providerList = [];
     try {
       await apiServices.getApi(api.provider, []).then((value) {
@@ -379,7 +378,7 @@ class DashboardProvider with ChangeNotifier {
   //   // booking.notifyListeners();
   // }
 
-  cartTap(context) async {
+  Future<void> cartTap(context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
     if (isGuest == false) {

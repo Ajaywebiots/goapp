@@ -63,7 +63,18 @@ class AppFonts {
   final enterPhoneNumber = "enterPhoneNumber";
   final skip = "skip";
   final firstName = "firstName";
-  final birthday = "Birthday";
+  final birthday = "birthday";
+  final offerList = "offerList";
+  final businessList = "businessList";
+  final pointsOfInterestList = "pointsOfInterestList";
+  final articleList = "articleList";
+  final attractionList = "attractionList";
+  final blogList = "blogList";
+  final latestBlog = "latestBlog";
+
+
+
+
   final lastName = "lastName";
   final username = "username";
   final enterFName = "enterFName";
@@ -352,16 +363,26 @@ class AppFonts {
   final howToJoin = "howToJoin";
   final explorePointsOfInterest = "explorePointsOfInterest";
   final travelInformation = "travelInformation";
+  final travelBlog = "travelBlog";
   final municipalityMessages = "municipalityMessages";
   final theMayorOfSalamina = "theMayorOfSalamina";
   final emergencyNumbers = "emergencyNumbers";
   final favouriteLists = "favouriteLists";
-
   final selectLanguage = "selectLanguage";
   final myMembership = "myMembership";
   final termsConditions = "termsConditions";
-
   final business = "business";
+  var company = "company";
+  final settings = "settings";
+  final editReview = "editReview";
+
+  final selectSubject = "selectSubject";
+  final message = "message";
+  final searchForThingsToDo = "searchForThingsToDo";
+  final searchForOffers = "searchForOffers";
+  final searchBusiness = "searchBusiness";
+
+
 
 // final openingHours = "openingHours";
 

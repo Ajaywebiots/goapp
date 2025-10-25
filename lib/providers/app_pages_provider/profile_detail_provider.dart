@@ -64,7 +64,7 @@ class ProfileDetailProvider with ChangeNotifier {
     }
   }
 
-  onReady(context) {
+  void onReady(context) {
     originalPhone = txtPhone.text;
 
     getProfileDetailDataAPI(context);
@@ -94,7 +94,7 @@ class ProfileDetailProvider with ChangeNotifier {
     });
   }
 
-  showLayout(context) async {
+  Future<void> showLayout(context) async {
     showDialog(
         context: context,
         builder: (context1) {
@@ -134,7 +134,7 @@ class ProfileDetailProvider with ChangeNotifier {
         });
   }
 
-  getProfileDetailDataAPI(context) async {
+  Future<void> getProfileDetailDataAPI(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final int? userId = pref.getInt(session.id);
 
@@ -160,7 +160,7 @@ class ProfileDetailProvider with ChangeNotifier {
 
   bool isCountDown = true;
 
-  changeDialCode(country) {
+  void changeDialCode(country) {
     dialCode = country.dialCode!;
     notifyListeners();
   }
@@ -199,7 +199,7 @@ class ProfileDetailProvider with ChangeNotifier {
   String? originalPhone;
   final GlobalKey<FormState> verify = GlobalKey<FormState>();
 
-  updateProfileDetailDataAPI(context) async {
+  Future<void> updateProfileDetailDataAPI(context) async {
     if (originalPhone != null && txtPhone.text != originalPhone) {
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => const UpdatePhoneVerifyLayout()));

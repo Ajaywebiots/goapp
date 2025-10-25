@@ -37,7 +37,7 @@ class RouteName {
   final String favScreenList = '/favScreenList';
   final String reviewScreen = '/reviewScreen';
   final String subscriptionPlanScreen = '/subscriptionPlanScreen';
-
+  //
   final String payPalSubscriptionPage = '/payPalSubscriptionPage';
 
   // final String changePassInApp = '/changePassInApp';

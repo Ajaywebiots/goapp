@@ -3,7 +3,7 @@ import 'dart:developer';
 import '../../config.dart';
 
 class SplashProvider extends ChangeNotifier {
-  onReady(TickerProvider sync, context) async {
+  Future<void> onReady(TickerProvider sync, context) async {
     bool isAvailable = await isNetworkConnection();
     if (isAvailable) {
      await Provider.of<OnBoardingProvider>(context, listen: false)
@@ -11,7 +11,7 @@ class SplashProvider extends ChangeNotifier {
       SharedPreferences pref = await SharedPreferences.getInstance();
 
       Timer(const Duration(seconds: 3), () async {
-        await onChangeSize();
+        onChangeSize();
         await Future.delayed(const Duration(seconds: 1)).then((value) {
           bool? isIntro = pref.getBool(session.isIntro) ?? false;
           String? token = pref.getString(session.accessToken);
@@ -69,7 +69,7 @@ class SplashProvider extends ChangeNotifier {
     }
   }
 
-  onDispose() async {
+  Future<void> onDispose() async {
     bool isAvailable = await isNetworkConnection();
     if (!isAvailable) {}
   }
@@ -78,7 +78,7 @@ class SplashProvider extends ChangeNotifier {
   String logo = eImageAssets.appLogoWhite;
   Color backgroundColor = Color(0xff2362A8);
 
-  onChangeSize() {
+  void onChangeSize() {
     logoSize = 300;
     notifyListeners();
 

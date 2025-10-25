@@ -14,6 +14,12 @@ final greek = {
   "goSalamina": "GoSalamina",
   "login": "ΣΥΝΔΕΣΗ",
   "email": "E-mail",
+  "birthday": "Γενέθλια",
+  "offerList": "Λίστα Προσφορών",
+  "businessList": "Λίστα Επιχειρήσεων",
+  "pointsOfInterestList": "Λίστα Σημείων Ενδιαφέροντος",
+  "attractionList": "Λίστα Αξιοθέατων",
+  "blogList": "Λίστα Ιστολογίων",
   "enterUsername": "Εισαγάγετε όνομα χρήστη",
   "password": "Σύνθημα",
   "enterPassword": "Εισαγάγετε τον κωδικό πρόσβασης",
@@ -254,5 +260,25 @@ final greek = {
   "selectLanguage": "Επιλογή Γλώσσας",
   "myMembership": "Η Συνδρομή μου",
   "termsConditions": "Όροι & Προϋποθέσεις",
+  "company": "Εταιρεία",
   "business": "επιχείρηση",
+  "settings":"Ρυθμίσεις",
+  "favouriteList": "Λίστα Αγαπημένων",
+  "latestBlog": "Τελευταίο Ιστολόγιο",
+  "editReview": "Επεξεργασία κριτικής",
+  "travelBlog": "Ταξιδιωτικό ιστολόγιο",
+  "articleList": "Λίστα άρθρων",
+  "more":"Περισσότερο",
+  "selectSubject": "Επιλέξτε Θέμα",
+  "message": "Μήνυμα",
+  "enterEmail": "Εισαγάγετε Email",
+  "searchForThingsToDo": "Αναζητήστε πράγματα για να κάνετε",
+  "searchForOffers": "Αναζητήστε προσφορές",
+  "searchBusiness": "Αναζήτηση επιχείρησης"
+
+
+
+
+
+
 };

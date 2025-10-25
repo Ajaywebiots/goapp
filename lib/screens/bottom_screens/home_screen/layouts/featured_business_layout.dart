@@ -18,40 +18,38 @@ class FeaturedBusinessLayout extends StatelessWidget {
       return SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        CachedNetworkImage(
-                            imageUrl: data.logo!.source,
-                            height: Sizes.s30,
-                            width: Sizes.s30,
-                            imageBuilder: (context, imageProvider) => Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover))),
-                            placeholder: (context, url) => Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            eImageAssets.noImageFound2),
-                                        fit: BoxFit.cover))),
-                            errorWidget: (context, url, error) => Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            eImageAssets.noImageFound2),
-                                        fit: BoxFit.cover)))),
-                        const HSpace(Sizes.s10),
-                        Text(language(context, data.name),
-                            style: appCss.dmDenseMedium15
-                                .textColor(appColor(context).darkText))
-                      ])
-                    ]).paddingAll(Insets.i15),
+                Row(children: [
+                  CachedNetworkImage(
+                      imageUrl: data.logo!.source,
+                      height: Sizes.s30,
+                      width: Sizes.s30,
+                      imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover))),
+                      placeholder: (context, url) => Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      eImageAssets.noImageFound2),
+                                  fit: BoxFit.cover))),
+                      errorWidget: (context, url, error) => Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      eImageAssets.noImageFound2),
+                                  fit: BoxFit.cover)))),
+                  const HSpace(Sizes.s10),
+                  Expanded(
+                    child: Text(language(context, data.name),
+                        style: appCss.dmDenseMedium15
+                            .textColor(appColor(context).darkText)),
+                  )
+                ]).paddingAll(Insets.i15),
                 Stack(alignment: Alignment.topRight, children: [
                   CachedNetworkImage(
                       imageUrl: data.image!.source,

@@ -89,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen>
               child: DirectionalityRtl(
                   child: Scaffold(
                       appBar: AppBarCommon(
-                          title: language(context, "Business Listings"),
+                          title: language(context, appFonts.businessListings),
                           onTap: () {
                             final dashPvr = Provider.of<DashboardProvider>(
                                 context,
@@ -133,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen>
                                         CrossAxisAlignment.start,
                                     children: [
                                   SearchTextFieldCommon(
-                                      hintText: "Search business",
+                                      hintText: language(context, appFonts.searchBusiness),
                                       focusNode: searchPvr.searchFocus,
                                       controller: searchPvr.searchCtrl,
                                       onChanged: (v) {

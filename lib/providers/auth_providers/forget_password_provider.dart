@@ -7,7 +7,7 @@ class ForgetPasswordProvider with ChangeNotifier {
   final FocusNode emailFocus = FocusNode();
   final GlobalKey<FormState> forgetKey = GlobalKey<FormState>();
 
-  onTapSendOtp(context) {
+  void onTapSendOtp(context) {
     FocusManager.instance.primaryFocus?.unfocus();
     var body = {"phoneNumber": forgetController.text};
     if (forgetKey.currentState!.validate()) {

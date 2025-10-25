@@ -26,14 +26,16 @@ class VerifyOtpProvider with ChangeNotifier {
               isToken: false)
           .then((value) async {
         if (value.isSuccess == true) {
+
+          log("value = > data ${value.data}");
           hideLoading(context);
           final SharedPreferences pref = await SharedPreferences.getInstance();
           token = value.data['token'];
 
           await pref.setInt(session.id, value.data['user']['id']);
           await pref.setString(session.accessToken, value.data['token']);
-          await pref.setString(
-              session.tokenExpiration, value.data['expiration']);
+          await pref.setString(session.tokenExpiration, value.data['expiration']);
+          // await pref.setString(session.loginSession, value.data['loginSession']);
 
           final homePvr =
               Provider.of<HomeScreenProvider>(context, listen: false);
@@ -56,20 +58,21 @@ class VerifyOtpProvider with ChangeNotifier {
           route.pushNamedAndRemoveUntil(context, routeName.dashboard);
           sss.email.text = "";
           sss.numberController.text = "";
+          log("onTapVerification success ${value.message}");
         } else {
           hideLoading(context);
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (route) => false);
+          log("onTapVerification failed ${value.message}");
+          showMessage(context, value.message);
         }
       });
-    } catch (e) {
+    } catch (e,s) {
       hideLoading(context);
-      log("Error verifying OTP: $e");
+      log("Error verifying OTP: $e----$s");
       showMessage(context, 'An unexpected error occurred.');
     }
   }
 
-  defaultTheme(context) {
+  PinTheme defaultTheme(context) {
     final defaultPinTheme = PinTheme(
         textStyle:
             appCss.dmDenseSemiBold18.textColor(appColor(context).darkText),
@@ -118,7 +121,7 @@ class VerifyOtpProvider with ChangeNotifier {
 
   //resend code
   //send Otp api
-  resendOtp(context) async {
+  Future<void> resendOtp(context) async {
     final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
     try {
       showLoading(context);
@@ -129,7 +132,7 @@ class VerifyOtpProvider with ChangeNotifier {
               "phoneNumberPrefix": sss.dialCode
             };
 
-      log("body ${body}");
+      log("body $body");
       apiServices
           .commonApi(api.otp, body, ApiType.post, isToken: false)
           .then((value) async {

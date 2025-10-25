@@ -33,11 +33,11 @@ class CountryStateModel {
 
   ///this method will prevent the override of toString
   String userAsString() {
-    return '#${id} ${name}';
+    return '#$id $name';
   }
 
   ///this method will prevent the override of toString
-   userAsStringById() {
+   String userAsStringById() {
     return id.toString();
   }
 

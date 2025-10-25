@@ -15,7 +15,7 @@ class OnBoardingProvider with ChangeNotifier {
   int selectIndex = 0;
   PageController? pageController;
 
-  onChanged(newValue) {
+  void onChanged(newValue) {
     notifyListeners();
     selectedLanguage = newValue;
     log("sss # # $selectedLanguage");
@@ -31,14 +31,14 @@ class OnBoardingProvider with ChangeNotifier {
 
   bool val = false;
 
-  onSkip(context) async {
+  Future<void> onSkip(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     // pageController!.jumpToPage(3);
     route.pushNamedAndRemoveUntil(context, routeName.login);
     pref.setBool(session.isIntro, true);
   }
 
-  newImageSmall() async {
+  Future<void> newImageSmall() async {
     Future.delayed(const Duration(milliseconds: 20)).then((value) {
       sizeA = true;
       sizeB = true;
@@ -49,7 +49,7 @@ class OnBoardingProvider with ChangeNotifier {
 
   List<Item> onBoardingList = [];
 
-  onReady(context) async {
+  Future<void> onReady(context) async {
     // languageSupport(context);
     notifyListeners();
     // onBoardingDetails();
@@ -64,7 +64,7 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  onPageSlide(context) async {
+  Future<void> onPageSlide(context) async {
     if (selectIndex == 3) {
       selectIndex = -1;
     }
@@ -91,7 +91,7 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  onPageBack() {
+  void onPageBack() {
     isDisplay = false;
     selectIndex--;
     pageController!.previousPage(
@@ -111,7 +111,7 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  onPageChange(index) {
+  void onPageChange(index) {
     selectIndex = index;
     notifyListeners();
   }
@@ -119,7 +119,7 @@ class OnBoardingProvider with ChangeNotifier {
   SupportedLangModel? langModel;
   String? selectedLanguage;
 
-  languageSupport(context) {
+  void languageSupport(context) {
     try {
       apiServices
           .commonApi(api.supportLang, [], ApiType.get, isToken: false)
@@ -141,7 +141,7 @@ class OnBoardingProvider with ChangeNotifier {
     }
   }
 
-  onBoardingDetails() async {
+  Future<void> onBoardingDetails() async {
     try {
       apiServices.commonApi(api.splashScreen, [], ApiType.get).then((value) {
         if (value.isSuccess!) {

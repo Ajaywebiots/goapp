@@ -4,7 +4,7 @@ import '../config.dart';
 import '../screens/app_pages_screen/profile_detail_screen/layouts/selection_option_layout.dart'
     show SelectOptionLayout;
 
-showLayout(context, {Function(int)? onTap}) async {
+Future<void> showLayout(context, {Function(int)? onTap}) async {
   showDialog(
     context: context,
     builder: (context1) {

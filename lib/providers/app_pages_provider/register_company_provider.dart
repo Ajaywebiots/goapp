@@ -253,8 +253,8 @@ class SignUpCompanyProvider with ChangeNotifier {
     List<XFile> images = [];
 
     if (source == ImageSource.gallery) {
-      final List<XFile>? picked = await picker.pickMultiImage(imageQuality: 70);
-      if (picked != null && picked.isNotEmpty) {
+      final List<XFile> picked = await picker.pickMultiImage(imageQuality: 70);
+      if (picked.isNotEmpty) {
         images = picked;
       }
     } else {
@@ -275,7 +275,7 @@ class SignUpCompanyProvider with ChangeNotifier {
   }
 
   //image picker option
-  onImagePick(context, {isLogo = true}) {
+  void onImagePick(context, {isLogo = true}) {
     showLayout(context, onTap: (index) {
       if (index == 0) {
         getImage(context, ImageSource.gallery, isLogo: isLogo);
@@ -295,7 +295,7 @@ class SignUpCompanyProvider with ChangeNotifier {
     }
   }
 
-  translateTap(context) {
+  void translateTap(context) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -478,7 +478,7 @@ class SignUpCompanyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getAddressFromLatLng(context) async {
+  Future<void> getAddressFromLatLng(context) async {
     await placemarkFromCoordinates(position!.latitude, position!.longitude)
         .then((List<Placemark> placeMarks) async {
       Placemark? place = placeMarks[0];
@@ -515,32 +515,32 @@ class SignUpCompanyProvider with ChangeNotifier {
   }
 
   //phone dial code selection
-  changeDialCode(CountryCodeCustom country) {
+  void changeDialCode(CountryCodeCustom country) {
     dialCode = country.dialCode!;
     notifyListeners();
   }
 
   //provider phone dial code selection
 
-  changeProviderDialCode(CountryCodeCustom country) {
+  void changeProviderDialCode(CountryCodeCustom country) {
     providerDialCode = country.dialCode!;
     notifyListeners();
   }
 
   //Business Categories select
-  onDropDownChange(choseVal) {
+  void onDropDownChange(choseVal) {
     chosenValue = choseVal;
     notifyListeners();
   }
 
-  onRangeDropDownChange(choseVal) {
+  void onRangeDropDownChange(choseVal) {
     chosenRange = choseVal;
     notifyListeners();
   }
 
   int? businessId;
 
-  onNext(BuildContext context) async {
+  Future<void> onNext(BuildContext context) async {
     log("INDEX :$pageIndex");
 
     if (pageIndex == 0) {
@@ -621,7 +621,7 @@ class SignUpCompanyProvider with ChangeNotifier {
   //   }
   // }
 
-  businessLocationAPI(businessID) async {
+  Future businessLocationAPI(businessID) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       final int? userId = pref.getInt(session.id);
@@ -669,7 +669,7 @@ class SignUpCompanyProvider with ChangeNotifier {
     }
   }
 
-  businessContactAPI(businessID) async {
+  Future businessContactAPI(businessID) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       final int? userId = pref.getInt(session.id);
@@ -717,7 +717,7 @@ class SignUpCompanyProvider with ChangeNotifier {
     }
   }
 
-  signUpBusinessAPI() async {
+  Future signUpBusinessAPI() async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       final int? userId = pref.getInt(session.id);

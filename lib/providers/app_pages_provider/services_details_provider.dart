@@ -1,8 +1,5 @@
-import 'dart:developer';
 
-import '../../common_tap.dart';
 import '../../config.dart';
-import '../../models/service_model.dart';
 
 class ServicesDetailsProvider with ChangeNotifier {
   int selectedIndex = 0;
@@ -10,7 +7,7 @@ class ServicesDetailsProvider with ChangeNotifier {
 
   // Services? service;
 
-  onImageChange(index) {
+  void onImageChange(index) {
     selectedIndex = index;
     notifyListeners();
   }

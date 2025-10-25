@@ -210,7 +210,7 @@ class SelectionListState extends State<SelectionList> {
     );
   }
 
-  _getAlphabetItem(int index) {
+  Expanded _getAlphabetItem(int index) {
     return Expanded(
       child: InkWell(
         onTap: () {
@@ -300,7 +300,7 @@ class SelectionListState extends State<SelectionList> {
     _offsetContainer = details.globalPosition.dy - diff;
   }
 
-  _scrollListener() {
+  void _scrollListener() {
     int scrollPosition =
         (_controllerScroll!.position.pixels / itemSizeHeight).round();
     if (scrollPosition < countries.length) {

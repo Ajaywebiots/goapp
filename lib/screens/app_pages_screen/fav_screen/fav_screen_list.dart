@@ -16,12 +16,12 @@ class FavScreenList extends StatefulWidget {
 
 class _FavScreenListState extends State<FavScreenList> {
   bool isExpanded = false;
-
-  // String selectedOption = "Offer List";
+  String? selectedOption;
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final favPvr = Provider.of<FavouriteListProvider>(context, listen: false);
       favPvr.favOfferListDataAPI(context);
@@ -32,22 +32,39 @@ class _FavScreenListState extends State<FavScreenList> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    selectedOption ??= language(context, appFonts.offerList);
+  }
+
+
+
+
+  @override
   Widget build(BuildContext context) {
+
+    final List<String> options = [
+      language(context, appFonts.offerList),
+      language(context, appFonts.businessList),
+      language(context, appFonts.pointsOfInterestList),
+      language(context, appFonts.articleList),
+    ];
+
     return Consumer<FavouriteListProvider>(builder: (context, favPvr, child) {
       return DirectionalityRtl(
           child: Scaffold(
-              appBar: AppBarCommon(title: "Favourite list"),
+              appBar: AppBarCommon(title: language(context,appFonts.favouriteList)),
               body: SafeArea(
                   child: SingleChildScrollView(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                     DropdownButtonFormField2<String>(
-                            value: favPvr.selectedOption,
+                            value: selectedOption,
                             onChanged: (String? newValue) {
                               if (newValue != null) {
                                 setState(() {
-                                  favPvr.selectedOption = newValue;
+                                  selectedOption = newValue;
                                 });
                               }
                             },
@@ -75,7 +92,7 @@ class _FavScreenListState extends State<FavScreenList> {
                                         appColor(context).darkText,
                                         BlendMode.srcIn))),
                             selectedItemBuilder: (BuildContext context) {
-                              return favPvr.options.map<Widget>((option) {
+                              return options.map<Widget>((option) {
                                 return Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -89,7 +106,7 @@ class _FavScreenListState extends State<FavScreenList> {
                                               color: Colors.white,
                                               size: Insets.i12)),
                                       SizedBox(width: 10),
-                                      Text(option,
+                                      Text(language(context, option),
                                           style: appCss.dmDenseRegular14
                                               .textColor(
                                                   appColor(context).darkText))
@@ -98,11 +115,11 @@ class _FavScreenListState extends State<FavScreenList> {
                             },
                             dropdownStyleData:
                                 DropdownStyleData(padding: EdgeInsets.zero),
-                            items: favPvr.options
+                            items: options
                                 .map<DropdownMenuItem<String>>((option) {
                               return DropdownMenuItem<String>(
                                   value: option,
-                                  child: Text(option,
+                                  child: Text(language(context, option),
                                       style: appCss.dmDenseRegular14.textColor(
                                           appColor(context).darkText)));
                             }).toList())
@@ -112,19 +129,19 @@ class _FavScreenListState extends State<FavScreenList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              favPvr.selectedOption == "Offer List"
-                                  ? "Offer list"
-                                  : favPvr.selectedOption == "Business List"
-                                      ? "Business list"
-                                      : favPvr.selectedOption ==
-                                              "Points of Interest List"
-                                          ? "Attraction list"
-                                          : "Blog list",
+                              selectedOption == language(context, appFonts.offerList)
+                                  ? language(context, appFonts.offerList)
+                                  : selectedOption == language(context, appFonts.businessList)
+                                      ? language(context, appFonts.businessList)
+                                      : selectedOption ==
+                                  language(context, appFonts.pointsOfInterestList)
+                                          ? language(context, appFonts.attractionList)
+                                          : language(context,appFonts.blogList),
                               style: appCss.dmDenseRegular14
                                   .textColor(appColor(context).lightText)),
                           VSpace(Insets.i22),
                           // Offer List
-                          if (favPvr.selectedOption == "Offer List")
+                          if (selectedOption == language(context, appFonts.offerList))
                             favPvr.offerList.isEmpty
                                 ? EmptyLayout(
                                     isButtonShow: false,
@@ -191,7 +208,7 @@ class _FavScreenListState extends State<FavScreenList> {
                                             });
                                           });
                                     })
-                          else if (favPvr.selectedOption == "Business List")
+                          else if (selectedOption == language(context, appFonts.businessList))
                             favPvr.businessList.isEmpty
                                 ? EmptyLayout(
                                     isButtonShow: false,
@@ -276,19 +293,18 @@ class _FavScreenListState extends State<FavScreenList> {
                                                 });
                                           });
                                     },
-                                    selector: (context, favPvr) => favPvr
-                                                .selectedOption ==
-                                            "Offer List"
+                                    selector: (context, favPvr) => selectedOption ==
+                                        language(context, appFonts.offerList)
                                         ? favPvr.offerList
-                                        : favPvr.selectedOption ==
-                                                "Business List"
+                                        : selectedOption ==
+                                        language(context, appFonts.businessList)
                                             ? favPvr.businessList
-                                            : favPvr.selectedOption ==
-                                                    "Points of Interest List"
+                                            : selectedOption ==
+                                        language(context, appFonts.pointsOfInterestList)
                                                 ? favPvr.attractionList
                                                 : favPvr.blogList)
-                          else if (favPvr.selectedOption ==
-                              "Points of Interest List")
+                          else if (selectedOption ==
+                                language(context, appFonts.pointsOfInterestList))
                             favPvr.attractionList.isEmpty
                                 ? EmptyLayout(
                                     isButtonShow: false,
@@ -299,16 +315,18 @@ class _FavScreenListState extends State<FavScreenList> {
                                         height: Sizes.s200))
                                 : Selector<FavouriteListProvider,
                                     List<dynamic>>(selector: (context, favPvr) {
-                                    switch (favPvr.selectedOption) {
-                                      case "Offer List":
-                                        return favPvr.offerList;
-                                      case "Business List":
-                                        return favPvr.businessList;
-                                      case "Points of Interest List":
-                                        return favPvr.attractionList;
-                                      default:
-                                        return favPvr.blogList;
-                                    }
+                              switch (selectedOption) {
+                                case var option when option == language(context, appFonts.offerList):
+                                  return favPvr.offerList;
+                                case var option when option == language(context, appFonts.businessList):
+                                  return favPvr.businessList;
+                                case var option when option == language(context, appFonts.pointsOfInterestList):
+                                  return favPvr.attractionList;
+                                case var option when option == language(context, appFonts.attractionList):
+                                  return favPvr.attractionList;
+                                default:
+                                  return favPvr.blogList;
+                              }
                                   }, builder: (BuildContext context,
                                     List<dynamic> selectedList, Widget? child) {
                                     return ListView.builder(

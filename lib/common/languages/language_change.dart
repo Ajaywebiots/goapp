@@ -28,19 +28,29 @@ class LanguageProvider with ChangeNotifier {
 
     if (selectedLocale != null) {
       locale = Locale(selectedLocale);
+      setVal(selectedLocale);
       loadSelectedLanguage();
     } else {
       selectedLocale = "en";
       locale = const Locale("en");
+      setVal(selectedLocale);
     }
-    setVal(selectedLocale);
   }
 
   Future<void> loadSelectedLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     selectedIndex = prefs.getInt('selectedLanguageIndex') ?? 0;
+
+    // Update currentLanguage based on selectedIndex
+    if (selectedIndex < appArray.languageList.length) {
+      String title = appArray.languageList[selectedIndex]["title"].toString();
+      currentLanguage = title;
+    }
+
+    log("Selected Index: $selectedIndex, Language: $currentLanguage");
     notifyListeners();
   }
+
 
   LanguageHelper languageHelper = LanguageHelper();
 
@@ -55,11 +65,18 @@ class LanguageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setIndex(index) {
+  void setIndex(index) {
     selectedIndex = index;
-    changeLocale(appArray.languageList[selectedIndex]["title"].toString());
+    String languageTitle = appArray.languageList[selectedIndex]["title"].toString();
+
+    // Save the language title
+    sharedPreferences.setString('selectedLanguage', languageTitle);
+    sharedPreferences.setInt('selectedLanguageIndex', index);
+
+    changeLocale(languageTitle);
     notifyListeners();
   }
+
 
   String? getLocal() {
     return sharedPreferences.getString("selectedLocale");

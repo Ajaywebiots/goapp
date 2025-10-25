@@ -28,7 +28,6 @@ class ListTileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // log("data!.categoryId::${selectedCategory!.contains(data!.categoryId)}");
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       IntrinsicHeight(
           child: Row(children: [

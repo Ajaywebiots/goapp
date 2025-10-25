@@ -1,12 +1,5 @@
-import 'dart:developer';
 
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/categories_details_provider.dart';
-import '../../../../widgets/search_text_filed_common.dart';
-import '../../add_new_location/drop_down_layout.dart';
-import '../../search_screen/second_filter.dart';
-import '../../search_screen/third_filter.dart';
-import 'experience_layout.dart';
 
 class FiltersBody extends StatelessWidget {
   const FiltersBody({super.key});

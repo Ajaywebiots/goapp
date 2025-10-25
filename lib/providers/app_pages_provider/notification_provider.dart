@@ -15,11 +15,11 @@ class NotificationProvider with ChangeNotifier {
   AnimationController? controller;
   Animation<Offset>? offsetAnimation;
 
-  onRefresh(context) {
+  void onRefresh(context) {
     getNotificationList(context);
   }
 
-  onAnimate(TickerProvider sync, context) {
+  void onAnimate(TickerProvider sync, context) {
     getNotificationList(context);
     animationController = AnimationController(
         vsync: sync, duration: const Duration(milliseconds: 1200));
@@ -34,7 +34,7 @@ class NotificationProvider with ChangeNotifier {
     }
   }
 
-  getNotificationList(context) async {
+  Future<void> getNotificationList(context) async {
     try {
       notificationList = appArray.notificationList
           .map((e) => NotificationModel.fromJson(e))
@@ -45,7 +45,7 @@ class NotificationProvider with ChangeNotifier {
     }
   }
 
-  readAll(context) async {
+  Future<void> readAll(context) async {
     /* showLoading(context);
     notifyListeners();
     try {
@@ -67,12 +67,12 @@ class NotificationProvider with ChangeNotifier {
   }
 
   //delete
-  deleteNotification(context) async {
+  Future<void> deleteNotification(context) async {
     route.pop(context);
     completeSuccess(context);
   }
 
-  completeSuccess(context) {
+  void completeSuccess(context) {
     showCupertinoDialog(
       context: context,
       builder: (context1) {
@@ -90,7 +90,7 @@ class NotificationProvider with ChangeNotifier {
     );
   }
 
-  deleteNotificationConfirmation(
+  void deleteNotificationConfirmation(
     context,
     sync,
   ) {
@@ -211,7 +211,7 @@ class NotificationProvider with ChangeNotifier {
     });
   }
 
-  animateDesign(TickerProvider sync) {
+  void animateDesign(TickerProvider sync) {
     Future.delayed(DurationClass.s1).then((value) {
       isPositionedRight = true;
       notifyListeners();
@@ -234,7 +234,7 @@ class NotificationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  totalCount() {
+  int totalCount() {
     int count = 0;
     for (var data in notificationList) {
       if (data.readAt == null) {
@@ -244,12 +244,12 @@ class NotificationProvider with ChangeNotifier {
     return count;
   }
 
-  onBack() {
+  void onBack() {
     animationController!.dispose();
     notifyListeners();
   }
 
-  onTap(NotificationModel model, context) {
+  void onTap(NotificationModel model, context) {
     log("TY{PE : ${model.data!.type}");
     if (model.data!.type == "provider") {
       // route.pushNamed(context, routeName.providerDetailsScreen,

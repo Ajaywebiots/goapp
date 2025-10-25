@@ -10,7 +10,7 @@ class DeleteDialogProvider with ChangeNotifier {
   double width = 6;
 
   //alert dialog open animation start
-  onAnimate() {
+  void onAnimate() {
     height = 6;
     width = 6;
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -28,7 +28,7 @@ class DeleteDialogProvider with ChangeNotifier {
   }
 
   //on rest password dialog
-  onResetPass(context, subtext, buttonText, onTap, {title}) {
+  void onResetPass(context, subtext, buttonText, onTap, {title}) {
     onAnimate();
     showDialog(
         context: context,
@@ -70,7 +70,7 @@ class DeleteDialogProvider with ChangeNotifier {
   }
 
   //animate design
-  animateDesign(TickerProvider sync) {
+  void animateDesign(TickerProvider sync) {
     Future.delayed(const Duration(seconds: 1)).then((value) {
       isPositionedRight = true;
       notifyListeners();

@@ -1,6 +1,6 @@
 import '../config.dart';
 
-snackBarMessengers(context, {message, color, isDuration = false}) {
+void snackBarMessengers(context, {message, color, isDuration = false}) {
   ScaffoldMessenger.of(context).showSnackBar(isDuration
       ? SnackBar(
           duration: const Duration(milliseconds: 600),

@@ -1,38 +1,34 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:goapp/providers/app_pages_provider/attractions_provider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import 'package:goapp/screens/app_pages_screen/services_details_screen/layouts/read_more_layout.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
 import '../../../../../models/api_model/attractions_details_model.dart';
 import '../../../../../models/api_model/business_details_model.dart';
-import '../../../../../models/app_model/contact_vcf_file_model.dart';
-import '../../../../../providers/app_pages_provider/time_slot_provider.dart';
-import '../../../../../providers/bottom_providers/home_screen_provider.dart';
-import '../../../../../providers/common_providers/common_api_provider.dart';
 import '../../../../../widgets/common_gallery_screen.dart';
 import '../../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescriptions extends StatefulWidget {
   final Attraction? attractionData;
 
-  ServiceDescriptions({super.key, this.attractionData});
+  const ServiceDescriptions({super.key, this.attractionData});
 
   @override
   State<ServiceDescriptions> createState() => _ServiceDescriptionsState();
 }
 
 class _ServiceDescriptionsState extends State<ServiceDescriptions> {
+
   @override
   Widget build(BuildContext context) {
-    final Contact? contact = widget.attractionData?.contact;
+    final contact = widget.attractionData;
+
     Future<void> launchURL(String url) async {
       final Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
@@ -172,51 +168,51 @@ class _ServiceDescriptionsState extends State<ServiceDescriptions> {
     List<Map<String, dynamic>> contactItems() => [
           {
             'icon': eSvgAssets.calling,
-            'label': contact?.phoneNumber ?? "",
-            'action': () => launchURL("tel:${contact?.phoneNumber}"),
-            'contactAction': contact?.phoneNumber ?? "",
+            'label': contact?.contact?.phoneNumber ?? "",
+            'action': () => launchURL("tel:${contact?.contact?.phoneNumber}"),
+            'contactAction': contact?.contact?.phoneNumber ?? "",
           },
           {
             'icon': eSvgAssets.mail,
-            'label': contact?.email ?? "",
-            'action': () => launchEmail(contact?.email ?? ""),
-            'contactAction': contact?.email ?? "",
+            'label': contact?.contact?.email ?? "",
+            'action': () => launchEmail(contact?.contact?.email ?? ""),
+            'contactAction': contact?.contact?.email ?? "",
           },
           {
             'icon': eSvgAssets.locationOut1,
-            'label': contact?.address ?? "",
-            'action': () => launchGoogleMaps(contact?.address ?? ""),
-            'contactAction': contact?.address ?? "",
+            'label': contact?.contact?.address ?? "",
+            'action': () => launchGoogleMaps(contact?.contact?.address ?? ""),
+            'contactAction': contact?.contact?.address ?? "",
           },
           {
             'icon': eSvgAssets.global,
-            'label': contact?.website ?? "",
-            'action': () => launchWebsite(contact?.website ?? ""),
-            'contactAction': contact?.website ?? "",
+            'label': contact?.contact?.website ?? "",
+            'action': () => launchWebsite(contact?.contact?.website ?? ""),
+            'contactAction': contact?.contact?.website ?? "",
           },
           {
             'icon': eImageAssets.fbIcon,
             'label': "Facebook",
-            'action': () => launchFacebook(contact?.facebookPage ?? ""),
-            'contactAction': contact?.facebookPage ?? "",
+            'action': () => launchFacebook(contact?.contact?.facebookPage ?? ""),
+            'contactAction': contact?.contact?.facebookPage ?? "",
           },
           {
             'icon': eImageAssets.insta,
             'label': "Instagram",
-            'action': () => launchInstagram(contact?.instagramPage ?? ""),
-            'contactAction': contact?.instagramPage ?? "",
+            'action': () => launchInstagram(contact?.contact?.instagramPage ?? ""),
+            'contactAction': contact?.contact?.instagramPage ?? "",
           },
           {
             'icon': eImageAssets.tiktok,
             'label': "TikTok",
-            'action': () => launchTikTok(contact?.tiktokPage ?? ""),
-            'contactAction': contact?.tiktokPage ?? "",
+            'action': () => launchTikTok(contact?.contact?.tiktokPage ?? ""),
+            'contactAction': contact?.contact?.tiktokPage ?? "",
           },
           {
             'icon': eImageAssets.ytIcon,
             'label': "YouTube",
-            'action': () => launchYouTube(contact?.youtubePage ?? ""),
-            'contactAction': contact?.youtubePage ?? "",
+            'action': () => launchYouTube(contact?.contact?.youtubePage ?? ""),
+            'contactAction': contact?.contact?.youtubePage ?? "",
           }
         ]
             .where((item) =>
@@ -455,22 +451,21 @@ END:VCARD
                                                   })
                                             ])),
                                         VSpace(Insets.i10),
-                                        BottomSheetButtonCommon(
+                                            BottomSheetButtonCommon(
                                                 textOne: appFonts.cancel,
                                                 textTwo: appFonts.addToContacts,
                                                 applyTap: () async {
                                                   String? businessName = widget
                                                       .attractionData?.name;
-                                                  final vcfData = generateVCF(
-                                                      contactItems(),
-                                                      businessName!);
+                                                  final vcfData = generateFullVCard(
+                                                      widget.attractionData?.contact);
                                                   final directory =
-                                                      await getTemporaryDirectory();
+                                                  await getTemporaryDirectory();
                                                   final safeName = businessName
-                                                      .toLowerCase()
+                                                      ?.toLowerCase()
                                                       .replaceAll(
-                                                          RegExp(r'[^a-z0-9]+'),
-                                                          '_');
+                                                      RegExp(r'[^a-z0-9]+'),
+                                                      '_') ?? 'contact';
                                                   final filePath =
                                                       '${directory.path}/${safeName}_contact.vcf';
 
@@ -491,24 +486,26 @@ END:VCARD
                                       ]).bottomSheetExtension(context));
                                 });
                           } else if (item['label'] == appFonts.gallery) {
+                            final imageCount = widget.attractionData?.gallery.length ?? 0;
+                            final initialSize = imageCount <= 1 ? 0.4 : 0.8;
+
                             showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(20))),
-                                builder: (context) => DraggableScrollableSheet(
-                                    expand: false,
-                                    initialChildSize: 0.8,
-                                    minChildSize: 0.4,
-                                    maxChildSize: 0.95,
-                                    builder: (_, controller) =>
-                                        SingleChildScrollView(
-                                          controller: controller,
-                                          child: CommonAttractionGalleryContent(
-                                              galleryUrls:
-                                                  widget.attractionData),
-                                        )));
+                              context: context,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                              ),
+                              builder: (context) => DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: initialSize,
+                                minChildSize: 0.4,
+                                maxChildSize: 0.95,
+                                builder: (_, controller) => CommonAttractionGalleryContent(
+                                  galleryUrls: widget.attractionData,
+                                ),
+                              ),
+                            );
+
                           } else if (item['label'] == appFonts.save) {
                             // item;
                             Provider.of<CommonApiProvider>(context,
@@ -568,7 +565,7 @@ END:VCARD
           isShadow: true, bColor: appColor(context).fieldCardBg);
     });
   }
-
+  
   Future<void> makePhoneCall(phoneNumber) async {
     log("phoneNumber:::$phoneNumber");
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);

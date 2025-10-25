@@ -1,13 +1,8 @@
 import 'dart:developer';
 
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
-import 'package:goapp/providers/bottom_providers/profile_provider.dart';
 import 'package:goapp/screens/menu_screens/layouts/options_selection_screen_layout/option_screen_layout.dart';
 
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/attractions_provider.dart';
-import '../../../providers/bottom_providers/dashboard_provider.dart';
-import '../../../providers/common_providers/common_api_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/filter_icon_common.dart';
 import '../../../widgets/search_text_filed_common.dart';
@@ -102,7 +97,7 @@ class _AttractionScreenState extends State<AttractionScreen>
                       : SafeArea(
                           child: ListView(children: [
                           SearchTextFieldCommon(
-                              hintText: "Search for things to do",
+                              hintText: language(context, appFonts.searchForThingsToDo),
                               focusNode: attraction.searchFocus,
                               controller: attraction.searchCtrl,
                               onChanged: (v) {

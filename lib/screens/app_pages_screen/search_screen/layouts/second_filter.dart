@@ -1,13 +1,9 @@
 import 'dart:developer';
-import 'dart:ui';
 import 'dart:ui' as ui;
 
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:goapp/screens/app_pages_screen/search_screen/layouts/rating_bar_layout.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/categories_details_provider.dart';
-import '../../../../providers/app_pages_provider/search_provider.dart';
 
 class SecondFilter extends StatefulWidget {
   final int? selectIndex;
@@ -70,7 +66,7 @@ class CustomThumbShapes extends SfThumbShape {
         _textPainter = TextPainter();
 
   final SfRangeValues values;
-  TextPainter _textPainter;
+  final TextPainter _textPainter;
   TextSpan _textSpan;
   final double verticalSpacing = 1.0;
 

@@ -1,4 +1,3 @@
-import 'business_search_model.dart';
 import 'home_feed_model.dart';
 
 class BusinessSearchModel {

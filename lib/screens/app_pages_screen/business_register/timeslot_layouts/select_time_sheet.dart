@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:goapp/screens/app_pages_screen/business_register/timeslot_layouts/select_time_wheel_layout.dart';
 
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/business_time_slot_provider.dart';
 import '../../time_slot_screen/layouts/am_pm_layout.dart';
 import '../../time_slot_screen/layouts/hour_layout.dart';
 import '../../time_slot_screen/layouts/min_layout.dart';

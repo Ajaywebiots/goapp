@@ -1,4 +1,4 @@
-library textstyle_extensions;
+library;
 
 import 'package:goapp/config.dart';
 import 'package:flutter/cupertino.dart';

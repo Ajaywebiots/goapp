@@ -41,11 +41,11 @@ class Attraction {
   });
 
   final String? description;
-  final List<dynamic> gallery;
+  final List<Logo> gallery;
   final List<WorkingHour> workingHours;
   final List<Review> reviews;
   final dynamic offers;
-  final dynamic contact;
+  final Contact? contact;
   final int? id;
   final String? name;
   final Rating? rating;
@@ -60,7 +60,7 @@ class Attraction {
       description: json["description"],
       gallery: json["gallery"] == null
           ? []
-          : List<dynamic>.from(json["gallery"]!.map((x) => x)),
+          : List<Logo>.from(json["gallery"]!.map((x) => Logo.fromJson(x))),
       workingHours: json["workingHours"] == null
           ? []
           : List<WorkingHour>.from(
@@ -69,7 +69,7 @@ class Attraction {
           ? []
           : List<Review>.from(json["reviews"]!.map((x) => Review.fromJson(x))),
       offers: json["offers"],
-      contact: json["contact"],
+      contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
       id: json["id"],
       name: json["name"],
       rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),

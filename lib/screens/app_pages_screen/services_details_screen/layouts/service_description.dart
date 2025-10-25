@@ -693,26 +693,27 @@ END:VCARD
   }
 
   List<String> weekDays = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday",
-    "Sunday"
+    "Saturday"
   ];
 
   List<Map<String, dynamic>> generateTimeSlotList(
       List<WorkingHour> workingHours) {
     return List.generate(7, (index) {
-      final hour = workingHours.firstWhere((w) => w.weekDay == index + 1,
+      final hour = workingHours.firstWhere(
+              (w) => w.weekDay == index + 1,
           orElse: () => WorkingHour(
-                weekDay: index + 1,
-                openTime: "00:00",
-                closeTime: "00:00",
-                remark: "",
-                isClosed: true,
-              ));
+            weekDay: index + 1,
+            openTime: "00:00",
+            closeTime: "00:00",
+            remark: "",
+            isClosed: true,
+          ));
 
       return {
         "days": weekDays[index],

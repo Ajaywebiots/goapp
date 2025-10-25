@@ -4,7 +4,7 @@ class ServiceImageLayout extends StatelessWidget {
   final String? image;
   final bool isAttraction;
 
-  ServiceImageLayout({super.key, this.image, this.isAttraction = false});
+  const ServiceImageLayout({super.key, this.image, this.isAttraction = false});
 
   @override
   Widget build(BuildContext context) {

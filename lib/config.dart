@@ -69,11 +69,11 @@ bool rtl(BuildContext context) {
   return languageProvider.locale?.languageCode == 'he';
 }
 
-showLoading(context) async {
+Future<void> showLoading(context) async {
   Provider.of<LoadingProvider>(context, listen: false).showLoading();
 }
 
-hideLoading(context) async {
+Future<void> hideLoading(context) async {
   Provider.of<LoadingProvider>(context, listen: false).hideLoading();
 }
 

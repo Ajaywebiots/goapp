@@ -17,7 +17,7 @@ class MyReviewProvider extends ChangeNotifier {
 
   GlobalKey<FormState> rateKey = GlobalKey<FormState>();
 
-  onSubmit(context) {
+  void onSubmit(context) {
     route.pop(context);
     // FocusScope.of(context).requestFocus(FocusNode());
     // // if (rateKey.currentState!.validate()) {
@@ -72,7 +72,7 @@ class MyReviewProvider extends ChangeNotifier {
 
   List<Review> reviewList = [];
 
-  getMyReviewListData() async {
+  Future<void> getMyReviewListData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final int? userId = pref.getInt(session.id);
 
@@ -94,12 +94,12 @@ class MyReviewProvider extends ChangeNotifier {
     }
   }
 
-  onTapEmoji(index) {
+  void onTapEmoji(index) {
     selectedIndex = index;
     notifyListeners();
   }
 
-  animateDesign(TickerProvider sync) {
+  void animateDesign(TickerProvider sync) {
     Future.delayed(DurationClass.s1).then((value) {
       isPositionedRight = true;
       notifyListeners();
@@ -122,14 +122,14 @@ class MyReviewProvider extends ChangeNotifier {
   }
 
   //delete review
-  deleteReview(context, id, {isBack = false}) async {
+  Future<void> deleteReview(context, id, {isBack = false}) async {
     showLoading(context);
     route.pop(context);
 
     completeSuccess(context, isBack);
   }
 
-  completeSuccess(context, isBack) {
+  void completeSuccess(context, isBack) {
     showCupertinoDialog(
         context: context,
         builder: (context1) {

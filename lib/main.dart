@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:goapp/services/user_services.dart';
@@ -7,6 +8,7 @@ import 'config.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  debugPaintSizeEnabled = false;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -93,7 +95,7 @@ class _MyAppState extends State<MyApp> {
 
   //completed login api integration and call
 
-  lockScreenPortrait() {
+  void lockScreenPortrait() {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }

@@ -3,12 +3,7 @@ import 'dart:developer';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 import '../../../config.dart';
-import '../../../providers/app_pages_provider/categories_list_provider.dart';
-import '../../../providers/app_pages_provider/search_provider.dart';
-import '../../../providers/bottom_providers/dashboard_provider.dart';
 import '../../../widgets/DirectionalityRtl.dart';
-import '../../bottom_screens/home_screen/layouts/top_categories_layout.dart';
-import '../search_screen/search_screen.dart';
 import 'layouts/categories_list_layout.dart';
 
 class CategoriesListScreen extends StatefulWidget {

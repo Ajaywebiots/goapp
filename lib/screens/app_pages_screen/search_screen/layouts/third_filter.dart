@@ -1,7 +1,5 @@
 import 'package:flutter_xlider/flutter_xlider.dart';
 import '../../../../config.dart';
-import '../../../../providers/app_pages_provider/search_provider.dart';
-import 'filter_radio.dart';
 
 class ThirdFilter extends StatelessWidget {
   const ThirdFilter({super.key});

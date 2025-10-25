@@ -28,12 +28,12 @@ class BusinessDetailsProvider extends ChangeNotifier {
   final FocusNode transTagFocus = FocusNode();
 
   //Business Categories select
-  onDropDownChange(choseVal) {
+  void onDropDownChange(choseVal) {
     chosenValue = choseVal;
     notifyListeners();
   }
 
-  translateTap(context) {
+  void translateTap(context) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,

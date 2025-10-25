@@ -10,7 +10,7 @@ class OfferCategoriesModel {
     if (json['categories'] != null) {
       categories = <Categories>[];
       json['categories'].forEach((v) {
-        categories!.add(new Categories.fromJson(v));
+        categories!.add(Categories.fromJson(v));
       });
     }
     responseStatus = json['responseStatus'];
@@ -18,12 +18,12 @@ class OfferCategoriesModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.categories != null) {
-      data['categories'] = this.categories!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (categories != null) {
+      data['categories'] = categories!.map((v) => v.toJson()).toList();
     }
-    data['responseStatus'] = this.responseStatus;
-    data['responseMessage'] = this.responseMessage;
+    data['responseStatus'] = responseStatus;
+    data['responseMessage'] = responseMessage;
     return data;
   }
 }
@@ -51,12 +51,12 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['categoryId'] = this.categoryId;
-    data['icon'] = this.icon;
-    data['name'] = this.name;
-    data['translatedValue'] = this.translatedValue;
-    data['language'] = this.language;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['categoryId'] = categoryId;
+    data['icon'] = icon;
+    data['name'] = name;
+    data['translatedValue'] = translatedValue;
+    data['language'] = language;
     return data;
   }
 }

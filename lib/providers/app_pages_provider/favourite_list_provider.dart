@@ -8,12 +8,11 @@ import 'package:goapp/services/api_service.dart';
 
 import '../../config.dart';
 import '../../models/api_model/home_feed_model.dart';
-import '../bottom_providers/home_screen_provider.dart';
 
 class FavouriteListProvider with ChangeNotifier {
   int selectIndex = 0;
 
-  onFilter(index) {
+  void onFilter(index) {
     selectIndex = index;
     notifyListeners();
   }
@@ -24,7 +23,7 @@ class FavouriteListProvider with ChangeNotifier {
   final List<Attraction> attractionList = [];
   final List<Article> blogList = [];
 
-  favOfferListDataAPI(context) async {
+  Future<void> favOfferListDataAPI(context) async {
     notifyListeners();
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
@@ -52,8 +51,8 @@ class FavouriteListProvider with ChangeNotifier {
           notifyListeners();
           log("offerList $offerList");
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -62,13 +61,13 @@ class FavouriteListProvider with ChangeNotifier {
   }
 
   bool isExpanded = false;
-  String selectedOption = 'Offer List';
-  final List options = [
-    'Offer List',
-    'Business List',
-    'Points of Interest List',
-    'Article List'
-  ];
+  // String selectedOption = 'Offer List';
+  // final List options = [
+  //   'Offer List',
+  //   'Business List',
+  //   'Points of Interest List',
+  //   'Article List'
+  // ];
 
   void toggleDropdown() {
     isExpanded = !isExpanded;
@@ -88,11 +87,11 @@ class FavouriteListProvider with ChangeNotifier {
   //   }
   // }
 
-  void selectOption(String option) {
-    selectedOption = option;
-    isExpanded = false;
-    notifyListeners();
-  }
+  // void selectOption(String option) {
+  //   selectedOption = option;
+  //   isExpanded = false;
+  //   notifyListeners();
+  // }
 
   Future<void> fetchAllFavData(BuildContext context) async {
     await favOfferListDataAPI(context);
@@ -105,7 +104,7 @@ class FavouriteListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  favBusinessListDataAPI(context) async {
+  Future<void> favBusinessListDataAPI(context) async {
     notifyListeners();
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
@@ -135,8 +134,8 @@ class FavouriteListProvider with ChangeNotifier {
           notifyListeners();
           log("businessList businessList $businessList");
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -144,7 +143,7 @@ class FavouriteListProvider with ChangeNotifier {
     }
   }
 
-  favAttractionsListDataAPI(context) async {
+  Future<void> favAttractionsListDataAPI(context) async {
     notifyListeners();
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
@@ -173,8 +172,9 @@ class FavouriteListProvider with ChangeNotifier {
           notifyListeners();
           log("offerList $attractionList");
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
+          log("asdjkhasdjkahdkajd ${value.data}");
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
@@ -182,7 +182,7 @@ class FavouriteListProvider with ChangeNotifier {
     }
   }
 
-  favBlogListDataAPI(context) async {
+  Future<void> favBlogListDataAPI(context) async {
     notifyListeners();
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
@@ -211,8 +211,8 @@ class FavouriteListProvider with ChangeNotifier {
           notifyListeners();
           log("offerList $blogList");
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {

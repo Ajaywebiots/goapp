@@ -35,9 +35,11 @@ class _ReviewLayoutState extends State<ReviewLayout> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(widget.data!.name!,
-                    style: appCss.dmDenseMedium14
-                        .textColor(appColor(context).darkText)),
+                Expanded(
+                    child: Text(widget.data!.name!,
+                        style: appCss.dmDenseMedium14
+                            .textColor(appColor(context).darkText),
+                        overflow: TextOverflow.ellipsis)),
                 Row(children: [
                   SvgPicture.asset(eSvgAssets.star),
                   HSpace(Sizes.s2),

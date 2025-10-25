@@ -4,7 +4,7 @@ class NoInternetProvider with ChangeNotifier {
   AnimationController? animationController;
   Position? position;
 
-  onAnimate(TickerProvider sync) async {
+  Future<void> onAnimate(TickerProvider sync) async {
     animationController = AnimationController(
         vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
@@ -18,7 +18,7 @@ class NoInternetProvider with ChangeNotifier {
     }
   }
 
-  isAvailable() async {
+  Future<bool> isAvailable() async {
     bool isAvailable = await isNetworkConnection();notifyListeners();
     return isAvailable;
   }

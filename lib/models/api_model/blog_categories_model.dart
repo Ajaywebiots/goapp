@@ -10,7 +10,7 @@ class BlogCategoriesModel {
     if (json['blogCategories'] != null) {
       blogCategories = <BlogCategories>[];
       json['blogCategories'].forEach((v) {
-        blogCategories!.add(new BlogCategories.fromJson(v));
+        blogCategories!.add(BlogCategories.fromJson(v));
       });
     }
     responseStatus = json['responseStatus'];
@@ -18,13 +18,13 @@ class BlogCategoriesModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.blogCategories != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (blogCategories != null) {
       data['blogCategories'] =
-          this.blogCategories!.map((v) => v.toJson()).toList();
+          blogCategories!.map((v) => v.toJson()).toList();
     }
-    data['responseStatus'] = this.responseStatus;
-    data['responseMessage'] = this.responseMessage;
+    data['responseStatus'] = responseStatus;
+    data['responseMessage'] = responseMessage;
     return data;
   }
 }
@@ -55,13 +55,13 @@ class BlogCategories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['categoryId'] = this.categoryId;
-    data['icon'] = this.icon;
-    data['name'] = this.name;
-    data['translatedValue'] = this.translatedValue;
-    data['language'] = this.language;
-    data['articleCategoryType'] = this.articleCategoryType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['categoryId'] = categoryId;
+    data['icon'] = icon;
+    data['name'] = name;
+    data['translatedValue'] = translatedValue;
+    data['language'] = language;
+    data['articleCategoryType'] = articleCategoryType;
     return data;
   }
 }

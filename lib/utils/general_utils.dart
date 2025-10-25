@@ -104,7 +104,7 @@ String getTime(String timeString) {
   }
 }
 
-slots(start, end, gap) {
+ slots(start, end, gap) {
   String startTime = start;
   String space = gap;
   DateTime date = DateFormat.jm().parse(end);
@@ -161,7 +161,7 @@ String _getTimeInStringForMinutesSinceMidnight(int time) {
   return "${formatTime(hours)}:${formatTime(minutes)}";
 }
 
-getDate(date) {
+String getDate(date) {
   DateTime now = DateTime.now();
   String when;
   DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(date));

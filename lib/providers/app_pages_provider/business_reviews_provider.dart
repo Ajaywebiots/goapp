@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import '../../config.dart';
 
 class BusinessReviewsProvider extends ChangeNotifier {
@@ -19,7 +18,7 @@ class BusinessReviewsProvider extends ChangeNotifier {
 
   List<Map<String, dynamic>> reviews = [];
 
-  onReview(val) {
+  void onReview(val) {
     exValue = val;
 
     notifyListeners();

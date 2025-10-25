@@ -68,7 +68,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
                       child: SingleChildScrollView(
                           child: Column(children: [
                     SearchTextFieldCommon(
-                        hintText: "Search for offers",
+                        hintText: language(context, appFonts.searchForOffers),
                         controller: offerPvr.searchCtrl,
                         focusNode: offerPvr.searchFocus,
                         suffixIcon: FilterIconCommon(
@@ -147,7 +147,7 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  applyFilters() async {
+  Future<void> applyFilters() async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     final offerPvr = Provider.of<OfferProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();

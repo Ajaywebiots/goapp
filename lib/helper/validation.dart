@@ -9,7 +9,7 @@ class Validation {
   RegExp zipRegex = RegExp("^d{5}(?:[-s]d{4})?\$");
 
   // Zip Code Validation
-  zipCodeValidation(context, zipCode) {
+  String? zipCodeValidation(context, zipCode) {
     if (zipCode.isEmpty) {
       return language(context, appFonts.enterZip);
     }
@@ -17,7 +17,7 @@ class Validation {
   }
 
 // City validation
-  cityValidation(context, name) {
+  String? cityValidation(context, name) {
     if (name.isEmpty) {
       return language(context, appFonts.pleaseCity);
     }
@@ -25,7 +25,7 @@ class Validation {
   }
 
   // address validation
-  addressValidation(context, name) {
+  String? addressValidation(context, name) {
     if (name.isEmpty) {
       return language(context, appFonts.pleaseAddress);
     }
@@ -33,7 +33,7 @@ class Validation {
   }
 
   // Email Validation
-  emailValidation(context, userName) {
+  String? emailValidation(context, userName) {
     if (userName.isEmpty) {
       return language(context, "Please Enter Email");
     } /*else if (!digitRegex.hasMatch(email)) {
@@ -43,7 +43,7 @@ class Validation {
   }
 
   // Password Validation
-  passValidation(context, password) {
+  String? passValidation(context, password) {
     if (password.isEmpty) {
       return language(context, appFonts.pleaseEnterPassword);
     }
@@ -52,7 +52,7 @@ class Validation {
   }
 
 //confirm Password Validation
-  confirmPassValidation(context, password, pass) {
+  String? confirmPassValidation(context, password, pass) {
     if (password.isEmpty) {
       return language(context, appFonts.pleaseEnterPassword);
     }
@@ -64,7 +64,7 @@ class Validation {
   }
 
   // name validation
-  nameValidation(context, name) {
+  String? nameValidation(context, name) {
     if (name.isEmpty) {
       return language(context, appFonts.pleaseEnterName);
     }
@@ -72,7 +72,7 @@ class Validation {
   }
 
   // phone validation
-  phoneValidation(context, phone) {
+  String? phoneValidation(context, phone) {
     if (phone.isEmpty) {
       return language(context, appFonts.pleaseEnterNumber);
     }
@@ -83,7 +83,7 @@ class Validation {
   }
 
   // Otp Validation
-  otpValidation(context, value) {
+  String? otpValidation(context, value) {
     if (value!.isEmpty) {
       return language(context, appFonts.enterOtp);
     }
@@ -96,12 +96,18 @@ class Validation {
   // Common field validation
   commonValidation(context, value) {
     if (value!.isEmpty) {
-      return language(context, appFonts.pleaseEnterValue);
+      return language(context, "Please enter email");
+    }
+  }
+
+  commonMessageValidation(context, value) {
+    if (value!.isEmpty) {
+      return language(context, "Please enter message");
     }
   }
 
 //focus node change
-  fieldFocusChange(
+  void fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);

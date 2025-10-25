@@ -4,17 +4,14 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:goapp/models/api_model/attractions_details_model.dart';
-import 'package:goapp/providers/bottom_providers/home_screen_provider.dart';
 
 import '../../config.dart';
 import '../../models/api_model/attraction_categories_model.dart';
 import '../../models/api_model/attractions_search_model.dart';
-import '../../models/provider_model.dart';
 import '../../screens/app_pages_screen/search_screen/filter_tap_layout.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/list_tile_common.dart';
 import '../../screens/app_pages_screen/search_screen/layouts/rating_bar_layout.dart';
 import '../../services/api_service.dart';
-import '../bottom_providers/dashboard_provider.dart';
 
 class AttractionProvider with ChangeNotifier {
   final FocusNode searchFocus = FocusNode();
@@ -23,7 +20,7 @@ class AttractionProvider with ChangeNotifier {
   AnimationController? animationController;
   TextEditingController txtFeaturedSearch = TextEditingController();
 
-  onReady(context) async {
+  Future<void> onReady(context) async {
     log("lllllll");
 
     notifyListeners();
@@ -37,7 +34,7 @@ class AttractionProvider with ChangeNotifier {
 
   bool isLoading = false;
 
-  getAttractionSearchAPI(context) async {
+  Future<void> getAttractionSearchAPI(context) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     isLoading = true;
     Position position = await homePvr.getCurrentLocation();
@@ -80,7 +77,7 @@ class AttractionProvider with ChangeNotifier {
 
   bool isNavigatingAttraction = false;
 
-  attractionsDetailsAPI(context, id, {bool isNotRoute = false}) async {
+  Future<void> attractionsDetailsAPI(context, id, {bool isNotRoute = false}) async {
     if (isNavigatingAttraction) return;
     isNavigatingAttraction = true;
     notifyListeners();
@@ -117,7 +114,7 @@ class AttractionProvider with ChangeNotifier {
     }
   }
 
-  getCategoriesData(context) {
+  void getCategoriesData(context) {
     // showLoading(context);
     notifyListeners();
     try {
@@ -157,7 +154,7 @@ class AttractionProvider with ChangeNotifier {
     searchCtrl.addListener(() => onSearchChange(context));
   }
 
-  onSearchChange(context) {
+  void onSearchChange(context) {
     print("onSearchChange triggered");
 
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
@@ -173,7 +170,7 @@ class AttractionProvider with ChangeNotifier {
     });
   }
 
-  fetchSearchResults(query, context) async {
+  Future<void> fetchSearchResults(query, context) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     isLoading = true;
     Position position = await homePvr.getCurrentLocation();
@@ -229,7 +226,7 @@ class AttractionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onCategoryChange(context, id) {
+  void onCategoryChange(context, id) {
     if (!selectedCategory.contains(id)) {
       notifyListeners();
       selectedCategory.add(id);
@@ -244,13 +241,13 @@ class AttractionProvider with ChangeNotifier {
 
   int ratingIndex = 0;
 
-  onSliderChange(handlerIndex, lowerValue, upperValue) {
+  void onSliderChange(handlerIndex, lowerValue, upperValue) {
     lowerVal = lowerValue;
     upperVal = upperValue;
     notifyListeners();
   }
 
-  clearFilter(context) {
+  void clearFilter(context) {
     selectedCategory = [];
 
     selectedRates = [];
@@ -268,7 +265,7 @@ class AttractionProvider with ChangeNotifier {
   List selectedCategory = [];
   List selectedRates = [];
 
-  searchService(BuildContext context, {bool isPop = false}) async {
+  Future<void> searchService(BuildContext context, {bool isPop = false}) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
@@ -335,7 +332,7 @@ class AttractionProvider with ChangeNotifier {
     return Uri.parse('$baseUrl?${queryParts.join('&')}');
   }
 
-  onBottomSheet(context, value1) {
+  void onBottomSheet(context, value1) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -673,7 +670,7 @@ class AttractionProvider with ChangeNotifier {
     });
   }
 
-  onTapRating(id) {
+  void onTapRating(id) {
     if (!selectedRates.contains(id)) {
       selectedRates.add(id);
       log("mmmm $selectedRates");
@@ -684,7 +681,7 @@ class AttractionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  slidingValue(newValue) {
+  void slidingValue(newValue) {
     log("slide $slider");
     log("slidnewValuee $newValue");
     slider = newValue;
