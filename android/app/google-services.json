@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1023162809872-v35oasfara8iu5iu2keup50eghaooa08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goventures.app",
+            "certificate_hash": "e50d49ca16fe493554e8259763b1a2eb01272313"
+          }
+        },
+        {
           "client_id": "1023162809872-esihpuusk6jds3nungq6n6598unoobud.apps.googleusercontent.com",
           "client_type": 3
         }

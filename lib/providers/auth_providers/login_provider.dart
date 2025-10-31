@@ -107,7 +107,7 @@ class LoginProvider with ChangeNotifier {
       log("userCredential ${userCredential.user?.displayName}");
       log("userCredential ${userCredential.user?.phoneNumber}");
 
-      route.pushNamed(context, routeName.socialRegister, arg: userCredential);
+      route.pushNamed(context, routeName.dashboard, arg: userCredential);
     } catch (e) {
       log("Error in Google Sign-In: $e");
     }
@@ -198,8 +198,12 @@ class LoginProvider with ChangeNotifier {
         final AccessToken accessToken = loginResult.accessToken!;
         final OAuthCredential credential =
             FacebookAuthProvider.credential(accessToken.tokenString);
+        log("userCredential ${credential.appleFullPersonName?.familyName}");
+        log("userCredential ${credential.appleFullPersonName?.givenName}");
+        log("userCredential ${credential.appleFullPersonName?.middleName}");
+        log("userCredential ${credential.appleFullPersonName?.namePrefix}");
+        log("userCredential ${credential.appleFullPersonName?.nameSuffix}");
         log("userCredential ${credential.appleFullPersonName?.nickname}");
-        log("userCredential $credential");
         route.pushNamed(context, routeName.dashboard);
         return await FirebaseAuth.instance.signInWithCredential(credential);
       } else {

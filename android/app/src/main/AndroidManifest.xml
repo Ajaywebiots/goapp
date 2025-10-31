@@ -60,10 +60,10 @@
             android:value="true" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="1754660718425463" />
+            android:value="1354302585585380" />
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
-            android:value="97c2db78f0c6ebecbb2a51b26db89303" />
+            android:value="db847b2314a4b0cd9c426e15169c5c74" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
