@@ -16,20 +16,33 @@ class BusinessReviewsProvider extends ChangeNotifier {
   int? editingReviewId;
   int? exValue = appArray.reviewLowHighList[0]["id"];
 
-  List<Map<String, dynamic>> reviews = [];
+  List<Map<String, dynamic>> allReviews = [];
+  List<Map<String, dynamic>> filteredReviews = [];
 
-  void onReview(val) {
-    exValue = val;
-
+  void loadInitialReviews(List<Map<String, dynamic>> list) {
+    allReviews = List<Map<String, dynamic>>.from(list);
+    filteredReviews = List<Map<String, dynamic>>.from(list);
     notifyListeners();
   }
 
-  void updateReviewShowStatus(int? index, bool value) {
-    if (index != null && index < reviews.length) {
-      reviews[index]['showReview'] = value;
-      notifyListeners();
+  void onReview(int val) {
+    exValue = val;
+    if (val == 0) {
+      // lowest to highest
+      filteredReviews.sort((a, b) => (a['rating'] ?? 0).compareTo(b['rating'] ?? 0));
+    } else {
+      // highest to lowest
+      filteredReviews.sort((a, b) => (b['rating'] ?? 0).compareTo(a['rating'] ?? 0));
     }
+    notifyListeners();
   }
+
+  // void updateReviewShowStatus(int? index, bool value) {
+  //   if (index != null && index < reviews.length) {
+  //     reviews[index]['showReview'] = value;
+  //     notifyListeners();
+  //   }
+  // }
 
   void loadReviewForEditing(String reviewText, int ratingIndex, int reviewId) {
     rateController.text = reviewText;

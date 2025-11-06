@@ -642,19 +642,37 @@ END:VCARD
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
-                                children: timeSlotStartAtList
-                                    .asMap()
-                                    .entries
-                                    .map((e) => Text(language(context, e.value),
-                                            style: appCss.dmDenseMedium12
-                                                .textColor(appColor(context)
-                                                    .lightText))
-                                        .paddingOnly(
-                                            left: e.key == 0 ? Insets.i5 : 30,
-                                            right:
-                                                e.key == 0 ? Insets.i50 : 20))
-                                    .toList())
-                            .paddingSymmetric(horizontal: Insets.i15),
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: Text(
+                                language(context, appFonts.days),
+                                style: appCss.dmDenseMedium12
+                                    .textColor(appColor(context).lightText),
+                                textAlign: TextAlign.left,
+                              ).padding(left: 20),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                language(context, "Start at"),
+                                style: appCss.dmDenseMedium12
+                                    .textColor(appColor(context).lightText),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                language(context, "End at"),
+                                style: appCss.dmDenseMedium12
+                                    .textColor(appColor(context).lightText),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        )
+,
                         const VSpace(Sizes.s15),
                         ...timeSlotList
                             .asMap()
@@ -705,15 +723,14 @@ END:VCARD
   List<Map<String, dynamic>> generateTimeSlotList(
       List<WorkingHour> workingHours) {
     return List.generate(7, (index) {
-      final hour = workingHours.firstWhere(
-              (w) => w.weekDay == index + 1,
+      final hour = workingHours.firstWhere((w) => w.weekDay == index + 1,
           orElse: () => WorkingHour(
-            weekDay: index + 1,
-            openTime: "00:00",
-            closeTime: "00:00",
-            remark: "",
-            isClosed: true,
-          ));
+                weekDay: index + 1,
+                openTime: "00:00",
+                closeTime: "00:00",
+                remark: "",
+                isClosed: true,
+              ));
 
       return {
         "days": weekDays[index],

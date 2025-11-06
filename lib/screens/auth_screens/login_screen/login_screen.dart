@@ -38,40 +38,40 @@ class LoginScreen extends StatelessWidget {
                       const VSpace(Sizes.s15),
                       const LoginLayout(),
                       const VSpace(Sizes.s26),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const ContinueWithContainer(),
-                            Text(language(context, appFonts.orContinue),
-                                    style: appCss.dmDenseMedium14
-                                        .textColor(appColor(context).lightText))
-                                .paddingSymmetric(horizontal: Insets.i10),
-                            const ContinueWithContainer()
-                          ]),
+                      // Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       const ContinueWithContainer(),
+                      //       Text(language(context, appFonts.orContinue),
+                      //               style: appCss.dmDenseMedium14
+                      //                   .textColor(appColor(context).lightText))
+                      //           .paddingSymmetric(horizontal: Insets.i10),
+                      //       const ContinueWithContainer()
+                      //     ]),
                       const VSpace(Sizes.s35),
-                      ButtonCommon(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              onTap: () {
-                                value.signInWithFacebook(context);
-                              },
-                              isRightIcon: true,
-                              rightIcon: Image.asset(eImageAssets.fbLogo,
-                                  height: 30, fit: BoxFit.contain),
-                              title: 'Login with Facebook',
-                              color: Color(0xff4D66FF))
-                          .paddingSymmetric(horizontal: Insets.i20),
-                      const VSpace(Sizes.s15),
-                      ButtonCommon(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              onTap: () {
-                                value.signInWithGoogle(context);
-                              },
-                              isRightIcon: true,
-                              rightIcon: Image.asset(eImageAssets.google,
-                                  height: 25, fit: BoxFit.contain),
-                              title: 'Login with Google',
-                              color: appColor(context).darkText)
-                          .paddingSymmetric(horizontal: Insets.i20),
+                      // ButtonCommon(
+                      //         mainAxisAlignment: MainAxisAlignment.start,
+                      //         onTap: () {
+                      //           value.signInWithFacebook(context);
+                      //         },
+                      //         isRightIcon: true,
+                      //         rightIcon: Image.asset(eImageAssets.fbLogo,
+                      //             height: 30, fit: BoxFit.contain),
+                      //         title: 'Login with Facebook',
+                      //         color: Color(0xff4D66FF))
+                      //     .paddingSymmetric(horizontal: Insets.i20),
+                      // const VSpace(Sizes.s15),
+                      // ButtonCommon(
+                      //         mainAxisAlignment: MainAxisAlignment.start,
+                      //         onTap: () {
+                      //           value.signInWithGoogle(context);
+                      //         },
+                      //         isRightIcon: true,
+                      //         rightIcon: Image.asset(eImageAssets.google,
+                      //             height: 25, fit: BoxFit.contain),
+                      //         title: 'Login with Google',
+                      //         color: appColor(context).darkText)
+                      //     .paddingSymmetric(horizontal: Insets.i20),
                       /*  Row(
                       spacing: Insets.i15,
                       mainAxisAlignment: MainAxisAlignment.center,

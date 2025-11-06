@@ -29,7 +29,7 @@ class BusinessDetailsScreen extends StatelessWidget {
                 children: [
               ServiceImageLayout(
                   image: business?.image?.source, logo: business?.logo?.source),
-              VSpace(Insets.i12),
+                  VSpace(Insets.i50),
               Text(business?.name.toString() ?? "",
                   style: appCss.dmDenseBold14
                       .textColor(appColor(context).darkText)),

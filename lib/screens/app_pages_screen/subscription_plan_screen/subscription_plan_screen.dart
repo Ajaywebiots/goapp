@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../config.dart';
 import '../../../models/api_model/profile_detail_model.dart';
 import '../../../services/api_service.dart';
@@ -120,23 +121,42 @@ class _SubscriptionPlanScreenState extends State<SubscriptionPlanScreen> {
                             "${profileDetailPvr.txtFName.text} ${profileDetailPvr.txtLName.text}"),
                 const SizedBox(height: 28),
                 ButtonCommon(
-                    title: hasSubscription
+                    title: /*hasSubscription
                         ? 'Cancel Subscription'
-                        : 'Upgrade Membership',
+                        :*/
+                        'Choose Membership',
                     onTap: isLoading
                         ? () {}
-                        : () {
+                        : () async {
                             if (hasSubscription) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => CancelMembershipDialog(
-                                  hasSubscription,
-                                  membershipId,
-                                  isLoading,
-                                  onCancelled: fetchSubscriptionData,
+                              final SharedPreferences pref =
+                                  await SharedPreferences.getInstance();
 
-                                ),
-                              );
+                              String? loginSession =
+                                  pref.getString(session.loginSession);
+
+                              final Uri url = Uri.parse(
+                                  'https://dev.gosalamina.com/pricing?loginToken=$loginSession');
+                              log("kasjhdkashdjksa $url");
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.inAppBrowserView,
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (context) => CancelMembershipDialog(
+                              //     hasSubscription,
+                              //     membershipId,
+                              //     isLoading,
+                              //     onCancelled: fetchSubscriptionData,
+                              //
+                              //   ),
+                              // );
                             } else {
                               route.pushNamed(
                                   context, routeName.payPalSubscriptionPage);
@@ -377,7 +397,8 @@ class CancelMembershipDialog extends StatefulWidget {
     this.hasSubscription,
     this.membershipId,
     this.isLoading, {
-    super.key, required this.onCancelled,
+    super.key,
+    required this.onCancelled,
   });
 
   @override

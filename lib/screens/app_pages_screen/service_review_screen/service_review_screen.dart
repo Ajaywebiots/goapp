@@ -14,132 +14,136 @@ class ServiceReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ServiceReviewProvider>(
         builder: (context1, serviceCtrl, child) {
-      final value = Provider.of<RateAppProvider>(context, listen: false);
-      final review = serviceCtrl.reviewListData;
-      final args =
+          final value = Provider.of<RateAppProvider>(context, listen: false);
+          final review = serviceCtrl.reviewListData;
+          final args =
           ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
-      String type = args?["type"] ?? "Default";
-      log("Type: $type");
-      return StatefulWrapper(
-          onInit: () => Future.delayed(DurationClass.ms50)
-              .then((s) => serviceCtrl.onReady(context)),
-          child: DirectionalityRtl(
-              child: Scaffold(
-                  appBar:
+          String type = args?["type"] ?? "Default";
+          log("Type: $type");
+          return StatefulWrapper(
+              onInit: () => Future.delayed(DurationClass.ms50)
+                  .then((s) => serviceCtrl.onReady(context)),
+              child: DirectionalityRtl(
+                  child: Scaffold(
+                      appBar:
                       AppBarCommon(title: language(context, appFonts.review)),
-                  body: SafeArea(
-                      child: SingleChildScrollView(
-                          child: Column(children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          RatingBar(
-                              glow: false,
-                              initialRating: double.parse((review?.avarageRate ?? 0.0)
-                                  .toStringAsFixed(1)),
-                              minRating: 1,
-                              ignoreGestures: true,
-                              itemSize: 15,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 1.0),
-                              unratedColor: appColor(context).whiteBg,
-                              updateOnDrag: true,
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                              ratingWidget: RatingWidget(
-                                  full: SvgPicture.asset(eSvgAssets.star,
-                                      colorFilter: ColorFilter.mode(
-                                          appColor(context).primary,
-                                          BlendMode.srcIn)),
-                                  half: SvgPicture.asset(
-                                      colorFilter: ColorFilter.mode(
-                                          appColor(context).primary,
-                                          BlendMode.srcIn),
-                                      "assets/svg/halfStar.svg"),
-                                  empty: SvgPicture.asset(
-                                      colorFilter:
-                                          ColorFilter.mode(appColor(context).primary, BlendMode.srcIn),
-                                      'assets/svg/starWithout.svg'))),
-                          // RatingLayout(
-                          //     initialRating: (review!.avarageRate)?.toDouble()),
-                          const HSpace(Sizes.s15),
-                          Row(children: [
-                            Text(language(context, appFonts.averageRate),
-                                style: appCss.dmDenseMedium12
-                                    .textColor(appColor(context).primary)),
-                            const HSpace(Sizes.s4),
-                            Text("${review?.avarageRate}/5",
-                                style: appCss.dmDenseSemiBold12
-                                    .textColor(appColor(context).primary))
-                          ])
-                        ]).paddingAll(Insets.i12).decorated(
-                        color: appColor(context).primary.withValues(alpha: 0.1),
-                        border: Border.all(color: appColor(context).primary),
-                        borderRadius: BorderRadius.circular(AppRadius.r20)),
-                    const VSpace(Sizes.s15),
-                    Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(5, (i) {
-                              int star = 5 - i;
-                              var matchingStar = review?.ratesSummary
-                                  .firstWhere(
-                                      (element) => element.stars == star,
-                                      orElse: () => RatesSummary(
-                                          stars: star, percentage: 0));
+                      body: SafeArea(
+                          child: SingleChildScrollView(
+                              child: Column(children: [
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      RatingBar(
+                                          glow: false,
+                                          initialRating: double.parse((review?.avarageRate ?? 0.0)
+                                              .toStringAsFixed(1)),
+                                          minRating: 1,
+                                          ignoreGestures: true,
+                                          itemSize: 15,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                          unratedColor: appColor(context).whiteBg,
+                                          updateOnDrag: true,
+                                          onRatingUpdate: (rating) {
+                                            print(rating);
+                                          },
+                                          ratingWidget: RatingWidget(
+                                              full: SvgPicture.asset(eSvgAssets.star,
+                                                  colorFilter: ColorFilter.mode(
+                                                      appColor(context).primary,
+                                                      BlendMode.srcIn)),
+                                              half: SvgPicture.asset(
+                                                  colorFilter: ColorFilter.mode(
+                                                      appColor(context).primary,
+                                                      BlendMode.srcIn),
+                                                  "assets/svg/halfStar.svg"),
+                                              empty: SvgPicture.asset(
+                                                  colorFilter:
+                                                  ColorFilter.mode(appColor(context).primary, BlendMode.srcIn),
+                                                  'assets/svg/starWithout.svg'))),
+                                      // RatingLayout(
+                                      //     initialRating: (review!.avarageRate)?.toDouble()),
+                                      const HSpace(Sizes.s15),
+                                      Row(children: [
+                                        Text(language(context, appFonts.averageRate),
+                                            style: appCss.dmDenseMedium12
+                                                .textColor(appColor(context).primary)),
+                                        const HSpace(Sizes.s4),
+                                        Text("${review?.avarageRate}/5",
+                                            style: appCss.dmDenseSemiBold12
+                                                .textColor(appColor(context).primary))
+                                      ])
+                                    ]).paddingAll(Insets.i12).decorated(
+                                    color: appColor(context).primary.withValues(alpha: 0.1),
+                                    border: Border.all(color: appColor(context).primary),
+                                    borderRadius: BorderRadius.circular(AppRadius.r20)),
+                                const VSpace(Sizes.s15),
+                                Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: List.generate(5, (i) {
+                                      int star = 5 - i;
+                                      var matchingStar = review?.ratesSummary
+                                          .firstWhere(
+                                              (element) => element.stars == star,
+                                          orElse: () => RatesSummary(
+                                              stars: star, percentage: 0));
 
-                              return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: ProgressBarLayout(
-                                      data: matchingStar?.percentage ?? 0,
-                                      index: i,
-                                      list: []));
-                            }))
-                        .paddingSymmetric(
-                            vertical: Insets.i15, horizontal: Insets.i20)
-                        .boxBorderExtension(context, isShadow: true),
-                    const VSpace(Sizes.s25),
-                    ButtonCommon(
-                        title: 'Add Review',
-                        onTap: () {
-                          Provider.of<SearchProvider>(context, listen: false)
-                              .addReviewTap(context, value,
-                                  isBusiness:
-                                      type == "Attraction" ? false : true);
-                        }).paddingOnly(bottom: Insets.i25),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(language(context, "Reviews"),
-                              style: appCss.dmDenseMedium16
-                                  .textColor(appColor(context).darkText)),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              child: DropDownLayout(
-                                  isIcon: false,
-                                  val: serviceCtrl.exValue,
-                                  categoryList: appArray.reviewLowHighList,
-                                  onChanged: (val) =>
-                                      serviceCtrl.onReview(val)))
-                        ]),
-                    const VSpace(Sizes.s15),
-                    ...?serviceCtrl.reviewListData?.reviews
-                        .asMap()
-                        .entries
-                        .toList()
-                        .reversed
-                        .map((e) => ServiceReviewLayout(
-                            data: e.value,
-                            index: e.key,
-                            list: serviceCtrl.reviewList))
-                  ]).paddingSymmetric(horizontal: Insets.i20))))));
-    });
+                                      return Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(vertical: 4),
+                                          child: ProgressBarLayout(
+                                              data: matchingStar?.percentage ?? 0,
+                                              index: i,
+                                              list: []));
+                                    }))
+                                    .paddingSymmetric(
+                                    vertical: Insets.i15, horizontal: Insets.i20)
+                                    .boxBorderExtension(context, isShadow: true),
+                                const VSpace(Sizes.s25),
+                                ButtonCommon(
+                                    title: 'Add Review',
+                                    onTap: () {
+                                      Provider.of<SearchProvider>(context, listen: false)
+                                          .addReviewTap(context, value,
+                                          isBusiness:
+                                          type == "Attraction" ? false : true);
+                                    }).paddingOnly(bottom: Insets.i25),
+                                Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(language(context, "Reviews"),
+                                          style: appCss.dmDenseMedium16
+                                              .textColor(appColor(context).darkText)),
+                                      SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.4,
+                                          child: DropDownLayout(
+                                              isIcon: false,
+                                              val: serviceCtrl.exValue,
+                                              categoryList: appArray.reviewLowHighList,
+                                              onChanged: (val) {
+                                                log("Asdadasdadasdad ");
+                                                serviceCtrl.onReview(val);
+                                              }))
+                                    ]),
+                                const VSpace(Sizes.s15),
+                                ...?(serviceCtrl.filteredReviews.isEmpty
+                                    ? serviceCtrl.reviewListData?.reviews
+                                    : serviceCtrl.filteredReviews)
+                                    ?.asMap()
+                                    .entries
+                                    .toList()
+                                    .reversed
+                                    .map((e) => ServiceReviewLayout(
+                                    data: e.value,
+                                    index: e.key,
+                                    list: serviceCtrl.reviewList))
+                              ]).paddingSymmetric(horizontal: Insets.i20))))));
+        });
   }
 }
