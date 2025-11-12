@@ -46,6 +46,7 @@ class ApiMethods {
 
   String favList = "/user/";
   String profile = "/user/";
+  String deleteAccount = "/user/";
   String appPages = "/app/page";
   String deleteReview = "/user/";
   String editReview = "/user/";

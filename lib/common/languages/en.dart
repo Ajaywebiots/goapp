@@ -210,6 +210,8 @@ final english = {
   "appSettings": "Select Language",
   "subscriptionPlans": "My Membership",
   "registerYourBusiness": "Register your business",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account?",
   "generalInfo": "General",
   "aboutUs": "About Us",
   "privacyPolicy": "Privacy Policy",

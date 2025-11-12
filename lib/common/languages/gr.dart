@@ -15,6 +15,8 @@ final greek = {
   "login": "ΣΥΝΔΕΣΗ",
   "email": "E-mail",
   "birthday": "Γενέθλια",
+  "deleteAccount": "Διαγραφή λογαριασμού",
+  "deleteAccountConfirmation": "Είστε σίγουροι ότι θέλετε να διαγράψετε τον λογαριασμό σας;",
   "offerList": "Λίστα Προσφορών",
   "businessList": "Λίστα Επιχειρήσεων",
   "pointsOfInterestList": "Λίστα Σημείων Ενδιαφέροντος",

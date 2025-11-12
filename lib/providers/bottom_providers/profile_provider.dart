@@ -70,19 +70,27 @@ class ProfileProvider with ChangeNotifier {
   }
 
   //delete account
-  Future<void> deleteAccount(context) async {
-    preferences = await SharedPreferences.getInstance();
-    preferences!.remove(session.isContinueAsGuest);
-    preferences!.remove(session.isLogin);
-
-    notifyListeners();
-    route.pop(context);
-    route.pushAndRemoveUntil(context);
-    final dash = Provider.of<DashboardProvider>(context, listen: false);
-
-    dash.selectIndex = 0;
-    dash.notifyListeners();
-  }
+  // Future<void> deleteAccount(context) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //
+  //   await Future.wait([
+  //     prefs.remove(session.id),
+  //     prefs.remove(session.locale),
+  //     prefs.remove(session.accessToken),
+  //     prefs.remove(session.isLogin)
+  //   ]).then((value) {
+  //     log("prefs.remove(session.id) ${prefs.remove(session.id)}");
+  //     route.pushReplacementNamed(context, routeName.login);
+  //   });
+  //
+  //   notifyListeners();
+  //   route.pop(context);
+  //   route.pushAndRemoveUntil(context);
+  //   final dash = Provider.of<DashboardProvider>(context, listen: false);
+  //
+  //   dash.selectIndex = 0;
+  //   dash.notifyListeners();
+  // }
 
   AppPagesModel? appPagesData;
 

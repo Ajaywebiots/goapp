@@ -203,6 +203,7 @@ class AppFonts {
   final becomeProvider = "becomeProvider";
   final alertZone = "alertZone";
   final deleteAccount = "deleteAccount";
+  final deleteAccountConfirmation = "deleteAccountConfirmation";
   final profileSetting = "profileSetting";
   final zainDorwart = "zainDorwart";
   final zainDorwartMail = "zainDorwartMail";

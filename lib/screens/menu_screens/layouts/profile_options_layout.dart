@@ -4,6 +4,7 @@ import 'package:goapp/screens/menu_screens/layouts/profile_option_layout.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../config.dart';
 import '../../../models/profile_model.dart';
+import '../../../services/api_service.dart';
 import 'options_selection_screen_layout/option_screen_layout.dart';
 
 class ProfileOptionsLayout extends StatelessWidget {
@@ -116,14 +117,17 @@ class ProfileOptionsLayout extends StatelessWidget {
                                                   routeName.changeLanguage);
                                             } else if (s.value.title ==
                                                 appFonts.subscriptionPlans) {
-                                              route.pushNamed(context, routeName.subscriptionPlanScreen);
-                                            } else if (s.value.title ==
-                                                appFonts.contactUs) {
                                               route.pushNamed(
                                                   context,
                                                   routeName
-                                                      .contactUs);
-                                              Provider.of<ContactUsProvider>(context, listen: false)
+                                                      .subscriptionPlanScreen);
+                                            } else if (s.value.title ==
+                                                appFonts.contactUs) {
+                                              route.pushNamed(
+                                                  context, routeName.contactUs);
+                                              Provider.of<ContactUsProvider>(
+                                                      context,
+                                                      listen: false)
                                                   .getSubjectData(context);
                                             } else {
                                               Navigator.push(context,
@@ -139,6 +143,8 @@ class ProfileOptionsLayout extends StatelessWidget {
                         ])),
             VSpace(Insets.i30),
             registerBusinessCard(context),
+            VSpace(Insets.i20),
+            deleteAccountCard(context),
             VSpace(Insets.i20),
             logoutButton(context, profilePvr)
           ]);
@@ -262,6 +268,7 @@ Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {
 //       });
 // }
 //
+
 Widget registerBusinessCard(BuildContext context) {
   return InkWell(
     onTap: () async {
@@ -291,17 +298,111 @@ Widget registerBusinessCard(BuildContext context) {
               children: [
                 Expanded(
                   child: Text(
-                    language(context, appFonts.registerYourBusiness)
-                        .toString(),
+                    language(context, appFonts.registerYourBusiness).toString(),
                     overflow: TextOverflow.fade,
                     style: appCss.dmDenseMedium16
                         .textColor(appColor(context).darkText),
                   ),
                 ),
                 SvgPicture.asset(
-                  rtl(context)
-                      ? eSvgAssets.arrowLeft
-                      : eSvgAssets.arrowRight,
+                  rtl(context) ? eSvgAssets.arrowLeft : eSvgAssets.arrowRight,
+                  colorFilter: ColorFilter.mode(
+                    appColor(context).darkText,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget deleteAccountCard(BuildContext context) {
+  return InkWell(
+    onTap: () async {
+      showCupertinoDialog(
+          context: context,
+          builder: (context1) {
+            return AlertDialogCommon(
+                title: language(context, appFonts.deleteAccount),
+                fit: BoxFit.contain,
+                vertical: 0,
+                subtextVSpace: 28,
+                bottomPadding: 0,
+                horizontal: 0,
+                height: Sizes.s200,
+                isTwoButton: true,
+                image: 'assets/images/logout.png',
+                subtext: language(context, appFonts.deleteAccountConfirmation),
+                secondBText: language(context, appFonts.yes),
+                firstBText: language(context, appFonts.cancel),
+                firstBTap: () {
+                  route.pop(context);
+                },
+                secondBTap: () async {
+                  final profilePvr =
+                      Provider.of<ProfileProvider>(context, listen: false);
+
+                  SharedPreferences pref =
+                      await SharedPreferences.getInstance();
+                  final int? userId = pref.getInt(session.id);
+                  apiServices
+                      .commonApi(
+                          "${api.deleteAccount}$userId", [], ApiType.delete,
+                          isToken: true)
+                      .then((value) async {
+                    log("prefs.remove(session.id) ${value.data}");
+                    final prefs = await SharedPreferences.getInstance();
+
+                    await Future.wait([
+                      prefs.remove(session.id),
+                      prefs.remove(session.locale),
+                      prefs.remove(session.accessToken),
+                      prefs.remove(session.isLogin)
+                    ]).then((value) {
+                      log("prefs.remove(session.id) ${prefs.remove(session.id)}");
+                      route.pushReplacementNamed(context, routeName.login);
+                      final dash = Provider.of<DashboardProvider>(context, listen: false);
+                      dash.notifyListeners();
+
+                      dash.selectIndex = 0;
+                      dash.notifyListeners();
+                    });
+
+                  });
+                });
+          });
+    },
+    child: Container(
+      padding: const EdgeInsets.all(Sizes.s15),
+      decoration: BoxDecoration(
+        color: Colors.red.withOpacity(0.2),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+      ),
+      child: Row(
+        children: [
+          CommonArrow(
+            arrow: "assets/svg/delete.svg",
+            svgColor: Colors.red,
+          ),
+          const HSpace(Sizes.s15),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    language(context, appFonts.deleteAccount).toString(),
+                    overflow: TextOverflow.fade,
+                    style: appCss.dmDenseMedium16
+                        .textColor(appColor(context).darkText),
+                  ),
+                ),
+                SvgPicture.asset(
+                  rtl(context) ? eSvgAssets.arrowLeft : eSvgAssets.arrowRight,
                   colorFilter: ColorFilter.mode(
                     appColor(context).darkText,
                     BlendMode.srcIn,
