@@ -21,6 +21,29 @@ class LoginProvider with ChangeNotifier {
     }*/
   }
 
+
+  void guestLogin(context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(session.isContinueAsGuest, true);
+    route.pushReplacementNamed(context, routeName.dashboard);
+
+    final homePvr =
+    Provider.of<HomeScreenProvider>(context, listen: false);
+    homePvr.homeFeed(context);
+    Provider.of<LatestBLogDetailsProvider>(context, listen: false)
+        .getArticlesSearchAPI(context);
+    final attractionPvr =
+    Provider.of<AttractionProvider>(context, listen: false);
+
+    attractionPvr.getAttractionSearchAPI(context);
+    final searchPvr =
+    Provider.of<SearchProvider>(context, listen: false);
+    searchPvr.getBusinessSearchAPI(context, isFilter: false);
+    final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+    offerPvr.getViewAllOfferAPI();
+  }
+
+
   // autoFetch() {
   //   userName.text = "apptest123";
   //   passwordController.text = "123456";

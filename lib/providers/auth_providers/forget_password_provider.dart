@@ -26,7 +26,7 @@ class ForgetPasswordProvider with ChangeNotifier {
             });
           } else {
             hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
+            showMessage( value.data['responseMessage']);
           }
         });
       } on Exception catch (e) {

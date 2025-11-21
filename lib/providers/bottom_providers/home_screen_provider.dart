@@ -186,6 +186,8 @@ class HomeScreenProvider with ChangeNotifier {
     Position position = await getCurrentLocation();
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? token = pref.getString(session.accessToken);
+    bool? isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
+
     log("SSSSS::$token");
     try {
       apiServices
@@ -193,7 +195,7 @@ class HomeScreenProvider with ChangeNotifier {
               "${api.homeFeed}?currentLongitude=${position.longitude}&currentLatitude=${position.latitude}",
               [],
               ApiType.get,
-              isToken: true)
+              isToken: isGuest ? false : true)
           .then((value) {
         log("isToken::");
         if (value.isSuccess == true) {

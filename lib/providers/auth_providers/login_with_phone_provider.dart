@@ -68,7 +68,7 @@ class LoginWithPhoneProvider with ChangeNotifier {
     currentLatitude = position.latitude;
     currentLongitude = position.longitude;
     log("Updated Location: Lat: $currentLatitude, Long: $currentLongitude");
-    }
+  }
 
   TextEditingController email = TextEditingController();
   final FocusNode userNameFocus = FocusNode();
@@ -100,12 +100,17 @@ class LoginWithPhoneProvider with ChangeNotifier {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('authToken', token.toString());
         } else {
-          showMessage(context, 'Invalid credentials');
+          showMessage('Invalid credentials',
+              backgroundColor: Color(0xfff8d7da), textColor: Colors.red);
         }
       } catch (e) {
         hideLoading(context);
         log("Error in onTapEmailOtp: $e");
-        showMessage(context, 'Something went wrong');
+        showMessage(
+          'Something went wrong',
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+        );
       }
     }
   }
@@ -132,23 +137,21 @@ class LoginWithPhoneProvider with ChangeNotifier {
 
         hideLoading(context);
 
-        // ✅ Check response before navigating
         if (value.data['responseStatus'] == 1 &&
             value.data['code'] != null &&
             value.data['code'].toString().isNotEmpty) {
-          // Success → navigate
           route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('authToken', token.toString());
         } else {
-          // Failure → show message
-          showMessage(context, "Invalid credentials");
+          showMessage('Invalid credentials',
+              backgroundColor: Color(0xfff8d7da), textColor: Colors.red);
         }
       } catch (e) {
         hideLoading(context);
         log("Error in onTapOtp: $e");
-        showMessage(context, 'Something went wrong');
+        showMessage('Something went wrong');
       }
     }
   }

@@ -38,6 +38,11 @@ class LoginScreen extends StatelessWidget {
                       const VSpace(Sizes.s15),
                       const LoginLayout(),
                       const VSpace(Sizes.s26),
+
+                      Text("Guest Login",style: appCss.dmDenseMedium14
+                          .textColor(appColor(context).darkText)).center().inkWell(onTap: () {
+                            value.guestLogin(context);
+                          }),
                       // Row(
                       //     mainAxisAlignment: MainAxisAlignment.center,
                       //     children: [

@@ -13,20 +13,20 @@ class BlogDetailsLayout extends StatelessWidget {
       final article = latestBlogPvr.articleDetail?.article;
       final isFav = article?.isFavourite ?? false;
 
-      if (article == null) {
+      /*if (article == null) {
         return Container(
             color: appColor(context).darkText.withValues(alpha: 0.2),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Center(
                 child: Image.asset(eGifAssets.loader, height: Sizes.s50)));
-      }
+      }*/
       return Column(children: [
         // if (article.media?.source != null)
           ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
               child: CachedNetworkImage(
-                  imageUrl: article.media?.source ?? "",
+                  imageUrl: article?.media?.source ?? "",
                   placeholder: (context, url) => Image.asset(
                       eImageAssets.noImageFound2,
                       fit: BoxFit.fill,
@@ -40,23 +40,23 @@ class BlogDetailsLayout extends StatelessWidget {
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(language(context, article.title),
+              Text(language(context, article?.title),
                   overflow: TextOverflow.clip,
                   style: appCss.dmDenseMedium16
                       .textColor(appColor(context).darkText)),
               SvgPicture.asset(
                       isFav ? "assets/svg/fav.svg" : "assets/svg/dislike.svg")
                   .inkWell(onTap: () {
-                article.isFavourite = !isFav;
+                article?.isFavourite = !isFav;
                 latestBlogPvr.notifyListeners();
                 Provider.of<CommonApiProvider>(context, listen: false)
                     .toggleFavAPI(
                         context,
                         isFav,
-                        article.appObject!.appObjectType,
-                        article.appObject!.appObjectId, onSuccess: () {
+                        article?.appObject!.appObjectType,
+                        article?.appObject!.appObjectId, onSuccess: () {
                   Provider.of<LatestBLogDetailsProvider>(context, listen: false)
-                      .detailsDataAPI(context, article.id, isNotRouting: true);
+                      .detailsDataAPI(context, article?.id, isNotRouting: true);
                   Provider.of<LatestBLogDetailsProvider>(context, listen: false)
                       .getArticlesSearchAPI(context);
                   Provider.of<HomeScreenProvider>(context, listen: false)
@@ -78,7 +78,7 @@ class BlogDetailsLayout extends StatelessWidget {
                 children: [
                   Text(
                       DateFormat("dd MMM, yyyy").format(
-                          DateTime.parse(article.createdDate.toString())),
+                          DateTime.parse(article!.createdDate.toString())),
                       style: appCss.dmDenseRegular12
                           .textColor(appColor(context).lightText)),
                   SizedBox(

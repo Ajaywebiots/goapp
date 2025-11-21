@@ -2,7 +2,7 @@ class Session {
   String id = 'id';
   String user = 'user';
   //for language change
-  String isIntro = 'isIntro';
+  static const String isIntro = 'isIntro';
   String isLogin = 'isLogin';
   String isDarkMode = 'isDarkMode';
   String themeIndex = 'themeIndex';

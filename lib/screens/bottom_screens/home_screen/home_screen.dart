@@ -19,25 +19,7 @@ import 'layouts/home_app_bar.dart';
 import 'layouts/home_body.dart';
 import 'layouts/latest_blog_layout.dart';
 
-// Shimmer helper widget
-Widget shimmerBox({
-  double height = 100,
-  double width = double.infinity,
-  double radius = 8,
-}) {
-  return Shimmer.fromColors(
-    baseColor: Colors.grey.shade100,
-    highlightColor: Colors.grey.shade100,
-    child: Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(radius),
-      ),
-    ),
-  );
-}
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -65,9 +47,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ListView(
                     children: [
                       // Banner Section
-                      dash.bannerList.isEmpty
-                          ? shimmerBox(height: 150)
-                          : Consumer<DashboardProvider>(
+                       Consumer<DashboardProvider>(
                         builder: (context, dashboard, child) {
                           return BannerLayout(
                             bannerList: dash.bannerList,
@@ -85,9 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       if (dash.bannerList.length > 1) const VSpace(Sizes.s12),
                       if (dash.bannerList.length > 1)
-                        dash.bannerList.isEmpty
-                            ? shimmerBox(height: 10, width: 100, radius: 4)
-                            : DotIndicator(
+                        DotIndicator(
                           list: dash.bannerList,
                           selectedIndex: dash.selectIndex,
                         ),
@@ -95,18 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       const VSpace(Sizes.s20),
 
                       // Coupon Offers Section
-                      dash.couponOfferList.isEmpty
-                          ? Column(
-                        children: List.generate(
-                          3,
-                              (_) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
-                            child: shimmerBox(height: 120),
-                          ),
-                        ),
-                      )
-                          : Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Consumer<DashboardProvider>(
@@ -184,33 +151,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       const VSpace(Sizes.s33),
 
                       // Blog Section
-                      dash.firstTwoBlogList.isEmpty
-                          ? Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            shimmerBox(height: 20, width: 150),
-                            const VSpace(Sizes.s10),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                  2,
-                                      (_) => Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 12),
-                                    child: shimmerBox(
-                                        height: 160, width: 250),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                          : Column(
+                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           HeadingRowCommon(

@@ -421,7 +421,7 @@ class _CancelMembershipDialogState extends State<CancelMembershipDialog> {
         log("value value ${value.data}");
         route.pop(context);
         widget.onCancelled();
-        showMessage(context, "Subscription Cancelled Successfully");
+        showMessage( "Subscription Cancelled Successfully");
         // if (value.data != null) {
         //   // setState(() {
         //   //   widget.hasSubscription = false;

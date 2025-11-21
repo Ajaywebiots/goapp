@@ -32,10 +32,7 @@ class OnBoardingProvider with ChangeNotifier {
   bool val = false;
 
   Future<void> onSkip(context) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    // pageController!.jumpToPage(3);
-    route.pushNamedAndRemoveUntil(context, routeName.login);
-    pref.setBool(session.isIntro, true);
+    Provider.of<SplashProvider>(context, listen: false).completeOnboarding(context);
   }
 
   Future<void> newImageSmall() async {
@@ -83,11 +80,12 @@ class OnBoardingProvider with ChangeNotifier {
     } else if (selectIndex == 3) {
       notifyListeners();
     } else if (selectIndex == -1) {
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      // final login = Provider.of<LoginProvider>(context, listen: false);
-      // login.continueAsGuestTap(context);
-      route.pushReplacementNamed(context, routeName.login);
-      pref.setBool(session.isIntro, true);
+      Provider.of<SplashProvider>(context, listen: false).completeOnboarding(context);
+      // SharedPreferences pref = await SharedPreferences.getInstance();
+      // // final login = Provider.of<LoginProvider>(context, listen: false);
+      // // login.continueAsGuestTap(context);
+      // route.pushReplacementNamed(context, routeName.login);
+      // pref.setBool(session.isIntro, true);
     }
   }
 

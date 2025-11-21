@@ -25,9 +25,7 @@ class _HomeBodyState extends State<HomeBody> {
             /*dash.categoryList.isEmpty
                 ? Container()
                 :*/
-            value.categoryList.isEmpty
-                ? SizedBox.shrink()
-                : HeadingRowCommon(
+          HeadingRowCommon(
                     title: appFonts.topCategories,
                     isTextSize: true,
                     onTap: () {
@@ -35,12 +33,8 @@ class _HomeBodyState extends State<HomeBody> {
                           .isInCategoryListing = true;
                       route.pushNamed(context, routeName.categoriesListScreen);
                     }).paddingSymmetric(horizontal: Insets.i20),
-            value.categoryList.isEmpty
-                ? SizedBox.shrink()
-                : const VSpace(Sizes.s15),
-            value.categoryList.isEmpty
-                ? SizedBox.shrink()
-                : Consumer<DashboardProvider>(builder: (context, sss, child) {
+            const VSpace(Sizes.s15),
+          Consumer<DashboardProvider>(builder: (context, sss, child) {
                     return Wrap(
                         alignment: WrapAlignment.center,
                         direction: Axis.horizontal,
@@ -77,12 +71,8 @@ class _HomeBodyState extends State<HomeBody> {
                                       MediaQuery.of(context).size.width / 35);
                         }).toList());
                   }),
-            value.firstTwoFeaturedServiceList.isEmpty
-                ? Container()
-                : const VSpace(Sizes.s25),
-            value.firstTwoFeaturedServiceList.isEmpty
-                ? Container()
-                : Consumer<DashboardProvider>(builder: (context, sss, child) {
+            const VSpace(Sizes.s25),
+           Consumer<DashboardProvider>(builder: (context, sss, child) {
                     return HeadingRowCommon(
                         title: appFonts.featuredService,
                         isTextSize: true,
@@ -94,9 +84,7 @@ class _HomeBodyState extends State<HomeBody> {
                           // route.pushNamed(context, routeName.search);
                         }).paddingSymmetric(horizontal: Insets.i20);
                   }),
-            value.firstTwoFeaturedServiceList.isEmpty
-                ? Container()
-                : const VSpace(Sizes.s15),
+             const VSpace(Sizes.s15),
             if (value.firstTwoFeaturedServiceList.isNotEmpty)
               ...value.firstTwoFeaturedServiceList
                   .asMap()
@@ -132,9 +120,7 @@ class _HomeBodyState extends State<HomeBody> {
                             searchPvr.businessDetailsAPI(context, e.value.id);
                           }).paddingSymmetric(horizontal: Insets.i20))
           ]),
-          value.firstTwoHighRateList.isEmpty
-              ? Container()
-              : Column(children: [
+         Column(children: [
                   Consumer<DashboardProvider>(builder: (context, sss, child) {
                     return HeadingRowCommon(
                         title: language(context, appFonts.pointOfInterests),

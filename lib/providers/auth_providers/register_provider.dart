@@ -81,13 +81,13 @@ class RegisterProvider extends ChangeNotifier {
         } else {
           log("Registration failed: ${value.data}");
           showMessage(
-              context, value.data['responseMessage'] ?? 'Registration failed');
+               value.data['responseMessage'] ?? 'Registration failed');
         }
       }
     } catch (e) {
       hideLoading(context);
       log("Error in signUp: $e");
-      showMessage(context, 'Something went wrong');
+      showMessage( 'Something went wrong');
     }
   }
 

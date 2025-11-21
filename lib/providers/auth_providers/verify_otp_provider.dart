@@ -62,13 +62,13 @@ class VerifyOtpProvider with ChangeNotifier {
         } else {
           hideLoading(context);
           log("onTapVerification failed ${value.message}");
-          showMessage(context, value.message);
+          showMessage( value.message);
         }
       });
     } catch (e,s) {
       hideLoading(context);
       log("Error verifying OTP: $e----$s");
-      showMessage(context, 'An unexpected error occurred.');
+      showMessage( 'An unexpected error occurred.');
     }
   }
 

@@ -36,7 +36,7 @@ class AttractionProvider with ChangeNotifier {
 
   Future<void> getAttractionSearchAPI(context) async {
     final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
-    isLoading = true;
+    // isLoading = true;
     Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
     double lon = position.longitude;
@@ -54,7 +54,7 @@ class AttractionProvider with ChangeNotifier {
         log("value.data ${value.data}");
         if (value.isSuccess == true) {
           notifyListeners();
-          isLoading = false;
+          // isLoading = false;
           attractionsSearchList.clear();
           AttractionsSearchModel attractionsSearchModel =
               AttractionsSearchModel.fromJson(value.data);
@@ -62,13 +62,13 @@ class AttractionProvider with ChangeNotifier {
           attractionsSearchList.addAll(attractionsSearchModel.attractions);
           log("attractionsSearchList $attractionsSearchList");
         } else {
-          isLoading = false;
+          // isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
-      isLoading = false;
+      // isLoading = false;
       log("getAttractionSearchAPI :::");
     }
   }
@@ -135,7 +135,7 @@ class AttractionProvider with ChangeNotifier {
           // hideLoading(context);
           notifyListeners();
         } else {
-          isLoading = false;
+          // isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
               context, routeName.login, (Route<dynamic> route) => false);
         }

@@ -93,7 +93,7 @@ class _LoginLayoutState extends State<LoginLayout> {
                         style: appCss.dmDenseMedium14
                             .textColor(appColor(context).primary))
                   ])).alignment(Alignment.center),
-            ]).paddingSymmetric(vertical: Insets.i20)
+            ]).paddingSymmetric(vertical: Insets.i20),
       ]);
     });
   }

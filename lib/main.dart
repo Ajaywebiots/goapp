@@ -93,8 +93,6 @@ class _MyAppState extends State<MyApp> {
         });
   }
 
-  //completed login api integration and call
-
   void lockScreenPortrait() {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

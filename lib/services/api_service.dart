@@ -1,18 +1,30 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/services/environment.dart';
 import 'api_data_class.dart';
 
 enum ApiType { post, get, put, delete, patch }
 
-void showMessage(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message,
-          style:
-              AppCss().dmDenseMedium12.textColor(appColor(context).darkText))));
+void showMessage(
+    String message, {
+      Color? backgroundColor,
+      Color? textColor,
+      ToastGravity gravity = ToastGravity.BOTTOM,
+    }) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: gravity,
+    backgroundColor: backgroundColor ?? Colors.grey[800],
+    textColor: textColor ?? Colors.white,
+    fontSize: 14.0,
+  );
 }
+
+
 
 class ApiServices {
   final dio = Dio();
@@ -29,7 +41,6 @@ class ApiServices {
       apiData.data = 0;
       return apiData;
     }
-
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String? token = pref.getString(session.accessToken);

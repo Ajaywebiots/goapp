@@ -82,7 +82,7 @@ class _AttractionScreenState extends State<AttractionScreen>
                           // attraction.onBack(homePvr, context);
                         }
                       }),
-                  body: attraction.isLoading
+                  body: /*attraction.isLoading
                       ? Container(
                           color: isDark(context)
                               ? Colors.black.withValues(alpha: .3)
@@ -94,7 +94,7 @@ class _AttractionScreenState extends State<AttractionScreen>
                           child: Center(
                               child: Image.asset(eGifAssets.loader,
                                   height: Sizes.s100)))
-                      : SafeArea(
+                      :*/ SafeArea(
                           child: ListView(children: [
                           SearchTextFieldCommon(
                               hintText: language(context, appFonts.searchForThingsToDo),

@@ -335,7 +335,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                       }))
                                               .toList())
                                 ]).paddingSymmetric(horizontal: Insets.i20)),
-                            if (searchPvr.isLoading)
+                           /* if (searchPvr.isLoading)
                               Container(
                                   color: isDark(context)
                                       ? Colors.black.withOpacity(0.3)
@@ -346,7 +346,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   height: MediaQuery.of(context).size.height,
                                   child: Center(
                                       child: Image.asset(eGifAssets.loader,
-                                          height: Sizes.s100)))
+                                          height: Sizes.s100)))*/
                           ]))))));
     });
   }

@@ -49,4 +49,6 @@ class RouteName {
   final String businessOfferScreen = '/businessOfferScreen';
   final String businessOfferDetails = '/businessOfferDetails';
   final String offerBookings = '/offerBookings';
+  final String webView = '/webView';
+
 }

@@ -47,7 +47,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                   Expanded(
                     child: Text(language(context, data.name),
                         style: appCss.dmDenseMedium15
-                            .textColor(appColor(context).darkText)),
+                            .textColor(appColor(context).darkText))
                   )
                 ]).paddingAll(Insets.i15),
                 Stack(alignment: Alignment.topRight, children: [
@@ -133,8 +133,10 @@ class FeaturedBusinessLayout extends StatelessWidget {
                                 : "assets/svg/dislike.svg")
                             .inkWell(onTap: addOrRemoveTap)
                       ]),
-                  const VSpace(Sizes.s8),
-                  IntrinsicHeight(
+                  if (data.contact?.phoneNumber != null && data.contact!.phoneNumber.isNotEmpty)  const VSpace(Sizes.s8),
+
+                  if (data.contact?.phoneNumber != null && data.contact!.phoneNumber.isNotEmpty)
+                    IntrinsicHeight(
                       child: Row(children: [
                     SvgPicture.asset(eSvgAssets.phone,
                         colorFilter: ColorFilter.mode(
@@ -154,7 +156,7 @@ class FeaturedBusinessLayout extends StatelessWidget {
                       throw 'Could not launch ${"tel:${data.contact?.phoneNumber}"}';
                     }
                   }),
-                  const VSpace(Sizes.s6),
+                  if (data.contact?.phoneNumber != null && data.contact!.phoneNumber.isNotEmpty)  const VSpace(Sizes.s6),
                   IntrinsicHeight(
                       child: Row(children: [
                     SvgPicture.asset(eSvgAssets.locationOut,

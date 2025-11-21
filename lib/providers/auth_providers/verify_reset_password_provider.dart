@@ -33,7 +33,7 @@ class VerifyResetPasswordProvider extends ChangeNotifier {
             route.pushNamed(context, routeName.resetPass);
           } else {
             hideLoading(context);
-            showMessage(context, value.data['responseMessage']);
+            showMessage( value.data['responseMessage']);
           }
         });
       } catch (e) {
