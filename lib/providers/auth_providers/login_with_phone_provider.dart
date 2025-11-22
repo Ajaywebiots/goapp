@@ -13,6 +13,7 @@ class LoginWithPhoneProvider with ChangeNotifier {
   double? currentLatitude;
   double? currentLongitude;
 
+
   ContactMethod selectedMethod = ContactMethod.email;
 
   void changeDialCode(CountryCodeCustom country) {
@@ -53,17 +54,20 @@ class LoginWithPhoneProvider with ChangeNotifier {
     if (lastPosition != null) {
       currentLatitude = lastPosition.latitude;
       currentLongitude = lastPosition.longitude;
-      log("Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude");
+      log(
+        "Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude",
+      );
     }
 
     // Fetch fresh location in background
-    Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.medium,
-            timeLimit: Duration(seconds: 5))
-        .catchError((e) {
-      log("Failed to fetch fresh location: $e");
-      return lastPosition;
-    });
+    Position position =
+        await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.medium,
+          timeLimit: Duration(seconds: 5),
+        ).catchError((e) {
+          log("Failed to fetch fresh location: $e");
+          return lastPosition;
+        });
 
     currentLatitude = position.latitude;
     currentLongitude = position.longitude;
@@ -85,8 +89,12 @@ class LoginWithPhoneProvider with ChangeNotifier {
         var body = {"email": email.text};
         log("Request body: $body");
 
-        final value = await apiServices.commonApi(api.otp, body, ApiType.post,
-            isToken: false);
+        final value = await apiServices.commonApi(
+          api.otp,
+          body,
+          ApiType.post,
+          isToken: false,
+        );
 
         log("API Response: ${value.data}");
 
@@ -100,8 +108,11 @@ class LoginWithPhoneProvider with ChangeNotifier {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('authToken', token.toString());
         } else {
-          showMessage('Invalid credentials',
-              backgroundColor: Color(0xfff8d7da), textColor: Colors.red);
+          showMessage(
+            'Invalid credentials',
+            backgroundColor: Color(0xfff8d7da),
+            textColor: Colors.red,
+          );
         }
       } catch (e) {
         hideLoading(context);
@@ -126,12 +137,16 @@ class LoginWithPhoneProvider with ChangeNotifier {
         showLoading(context);
         var body = {
           "phoneNumberPrefix": dialCode,
-          "phoneNumber": numberController.text
+          "phoneNumber": numberController.text,
         };
         log("Request body: $body");
 
-        final value = await apiServices.commonApi(api.otp, body, ApiType.post,
-            isToken: false);
+        final value = await apiServices.commonApi(
+          api.otp,
+          body,
+          ApiType.post,
+          isToken: false,
+        );
 
         log("API Response: ${value.data}");
 
@@ -145,8 +160,11 @@ class LoginWithPhoneProvider with ChangeNotifier {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('authToken', token.toString());
         } else {
-          showMessage('Invalid credentials',
-              backgroundColor: Color(0xfff8d7da), textColor: Colors.red);
+          showMessage(
+            'Invalid credentials',
+            backgroundColor: Color(0xfff8d7da),
+            textColor: Colors.red,
+          );
         }
       } catch (e) {
         hideLoading(context);
@@ -155,4 +173,5 @@ class LoginWithPhoneProvider with ChangeNotifier {
       }
     }
   }
+
 }

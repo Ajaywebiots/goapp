@@ -12,6 +12,7 @@ import '../../../../../config.dart';
 import '../../../../../models/api_model/attractions_details_model.dart';
 import '../../../../../models/api_model/business_details_model.dart';
 import '../../../../../widgets/common_gallery_screen.dart';
+import '../../../../bottom_screens/home_screen/layouts/guest_login_sheet.dart';
 import '../../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescriptions extends StatefulWidget {
@@ -25,8 +26,31 @@ class ServiceDescriptions extends StatefulWidget {
 
 class _ServiceDescriptionsState extends State<ServiceDescriptions> {
 
+  bool isGuest = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadGuestStatus();
+  }
+
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+
+
+
     final contact = widget.attractionData;
 
     Future<void> launchURL(String url) async {
@@ -507,30 +531,40 @@ END:VCARD
                             );
 
                           } else if (item['label'] == appFonts.save) {
-                            // item;
-                            Provider.of<CommonApiProvider>(context,
-                                    listen: false)
-                                .toggleFavAPI(
-                                    context,
-                                    widget.attractionData!.isFavourite,
-                                    widget.attractionData?.appObject!
-                                        .appObjectType,
-                                    widget.attractionData?.appObject!
-                                        .appObjectId, onSuccess: () {
-                              Provider.of<AttractionProvider>(context,
-                                      listen: false)
-                                  .attractionsDetailsAPI(
-                                      context, widget.attractionData?.id,
-                                      isNotRoute: true);
+                            if (isGuest == true) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) =>
+                                    GuestLoginSheet(
 
-                              Provider.of<AttractionProvider>(context,
-                                      listen: false)
-                                  .getAttractionSearchAPI(context);
-                              Provider.of<HomeScreenProvider>(context,
-                                      listen: false)
-                                  .homeFeed(context);
-                            });
-                            attraction.notifyListeners();
+                                    ),
+                              );
+                            } else {
+                              // item;
+                              Provider.of<CommonApiProvider>(context,
+                                  listen: false)
+                                  .toggleFavAPI(
+                                  context,
+                                  widget.attractionData!.isFavourite,
+                                  widget.attractionData?.appObject!
+                                      .appObjectType,
+                                  widget.attractionData?.appObject!
+                                      .appObjectId, onSuccess: () {
+                                Provider.of<AttractionProvider>(context,
+                                    listen: false)
+                                    .attractionsDetailsAPI(
+                                    context, widget.attractionData?.id,
+                                    isNotRoute: true);
+
+                                Provider.of<AttractionProvider>(context,
+                                    listen: false)
+                                    .getAttractionSearchAPI(context);
+                                Provider.of<HomeScreenProvider>(context,
+                                    listen: false)
+                                    .homeFeed(context);
+                              });
+                              attraction.notifyListeners();
+                            }
                           }
                         },
                         child: Container(

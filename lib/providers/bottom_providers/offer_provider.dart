@@ -254,7 +254,7 @@ class OfferProvider extends ChangeNotifier {
           .commonApi("${api.offersDetails}$id/details", [], ApiType.get,
               isToken: true)
           .then((value) {
-        if (value.isSuccess! && value.data['responseStatus'] == 1) {
+        if (value.isSuccess!) {
           OfferDetailsModel offersDetailsModel =
               OfferDetailsModel.fromJson(value.data);
           offersDetails = offersDetailsModel;

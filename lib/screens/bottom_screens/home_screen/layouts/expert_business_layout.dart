@@ -1,7 +1,9 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../config.dart';
 import '../../../../widgets/dotted_line.dart';
+import 'guest_login_sheet.dart';
 
 class FeatureAttractionLayout extends StatelessWidget {
   final data;

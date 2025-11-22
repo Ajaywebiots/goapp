@@ -1,25 +1,17 @@
+import 'dart:developer';
+
 import 'package:goapp/config.dart';
 import 'package:goapp/screens/app_pages_screen/coupon_list_screen/layouts/coupon_layout.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../../widgets/heading_row_common.dart';
 import 'layouts/banner_layout.dart';
+import 'layouts/guest_login_sheet.dart';
 import 'layouts/home_app_bar.dart';
 import 'layouts/home_body.dart';
 import 'layouts/latest_blog_layout.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:goapp/config.dart';
-import 'package:goapp/screens/app_pages_screen/coupon_list_screen/layouts/coupon_layout.dart';
-import '../../../widgets/DirectionalityRtl.dart';
-import '../../../widgets/heading_row_common.dart';
-import 'layouts/banner_layout.dart';
-import 'layouts/home_app_bar.dart';
-import 'layouts/home_body.dart';
-import 'layouts/latest_blog_layout.dart';
-
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,6 +21,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  bool isGuest = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadGuestStatus();
+  }
+
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeScreenProvider>(
@@ -47,19 +58,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ListView(
                     children: [
                       // Banner Section
-                       Consumer<DashboardProvider>(
+                      Consumer<DashboardProvider>(
                         builder: (context, dashboard, child) {
                           return BannerLayout(
                             bannerList: dash.bannerList,
                             onPageChanged: (index, reason) =>
                                 dash.onSlideBanner(index),
-                            onTap: () => Provider.of<HomeScreenProvider>(
-                                context,
-                                listen: false)
-                                .handleBannerTap(
-                                dash.bannerList[dash.selectIndex]
-                                    .appObject,
-                                context),
+                            onTap: () =>
+                                Provider.of<HomeScreenProvider>(
+                                  context,
+                                  listen: false,
+                                ).handleBannerTap(
+                                  dash.bannerList[dash.selectIndex].appObject,
+                                  context,
+                                ),
                           );
                         },
                       ),
@@ -80,14 +92,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             builder: (context, sss, child) {
                               return HeadingRowCommon(
                                 title: language(
-                                    context, appFonts.popularOffers),
+                                  context,
+                                  appFonts.popularOffers,
+                                ),
                                 isTextSize: true,
                                 onTap: () {
                                   sss.selectIndex = 2;
                                   sss.notifyListeners();
                                 },
-                              ).paddingSymmetric(
-                                  horizontal: Insets.i20);
+                              ).paddingSymmetric(horizontal: Insets.i20);
                             },
                           ),
                           const VSpace(Sizes.s10),
@@ -95,75 +108,87 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             children: dash.couponOfferList
                                 .asMap()
                                 .entries
-                                .map((e) => CouponLayout(
-                              data: e.value,
-                              addOrRemoveTap: () {
-                                final previousFavourite =
-                                    e.value.isFavourite;
-                                e.value.isFavourite =
-                                !previousFavourite;
-                                dash.notifyListeners();
+                                .map(
+                                  (e) => CouponLayout(
+                                    data: e.value,
+                                    addOrRemoveTap: isGuest == true
+                                        ? () {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  GuestLoginSheet(
 
-                                final common = Provider.of<
-                                    CommonApiProvider>(
-                                    context,
-                                    listen: false);
-                                common.toggleFavAPI(
-                                  onSuccess: () {
-                                    Provider.of<
-                                        HomeScreenProvider>(
-                                        context,
-                                        listen: false)
-                                        .homeFeed(context);
-                                    Provider.of<OfferProvider>(
-                                        context,
-                                        listen: false)
-                                        .getViewAllOfferAPI();
-                                    Provider.of<OfferProvider>(
-                                        context,
-                                        listen: false)
-                                        .offerDetailsAPI(
-                                        context, e.value.id,
-                                        isNotRouting: true);
-                                  },
-                                  context,
-                                  previousFavourite,
-                                  e.value.appObject!
-                                      .appObjectType,
-                                  e.value.appObject!
-                                      .appObjectId,
-                                );
-                              },
-                              onTap: () =>
-                                  Provider.of<OfferProvider>(
+                                                  ),
+                                            );
+                                          }
+                                        : () {
+                                            final previousFavourite =
+                                                e.value.isFavourite;
+                                            e.value.isFavourite =
+                                                !previousFavourite;
+                                            dash.notifyListeners();
+
+                                            final common =
+                                                Provider.of<CommonApiProvider>(
+                                                  context,
+                                                  listen: false,
+                                                );
+                                            common.toggleFavAPI(
+                                              onSuccess: () {
+                                                Provider.of<HomeScreenProvider>(
+                                                  context,
+                                                  listen: false,
+                                                ).homeFeed(context);
+                                                Provider.of<OfferProvider>(
+                                                  context,
+                                                  listen: false,
+                                                ).getViewAllOfferAPI();
+                                                Provider.of<OfferProvider>(
+                                                  context,
+                                                  listen: false,
+                                                ).offerDetailsAPI(
+                                                  context,
+                                                  e.value.id,
+                                                  isNotRouting: true,
+                                                );
+                                              },
+                                              context,
+                                              previousFavourite,
+                                              e.value.appObject!.appObjectType,
+                                              e.value.appObject!.appObjectId,
+                                            );
+                                          },
+                                    onTap: () => Provider.of<OfferProvider>(
                                       context,
-                                      listen: false)
-                                      .offerDetailsAPI(context,
-                                      e.value.id),
-                            ))
+                                      listen: false,
+                                    ).offerDetailsAPI(context, e.value.id),
+                                  ),
+                                )
                                 .toList(),
                           ).paddingSymmetric(horizontal: Insets.i20),
                         ],
                       ),
 
                       const VSpace(Sizes.s20),
-                      const HomeBody(),
+                      HomeBody(isGuest: isGuest),
                       const VSpace(Sizes.s33),
 
                       // Blog Section
-                       Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           HeadingRowCommon(
-                            title: language(
-                                context, appFonts.latestArticles),
+                            title: language(context, appFonts.latestArticles),
                             isTextSize: true,
                             onTap: () {
-                              Provider.of<DashboardProvider>(context,
-                                  listen: false)
-                                  .isInCategoryListing = true;
-                              route.pushNamed(context,
-                                  routeName.latestBlogViewAll);
+                              Provider.of<DashboardProvider>(
+                                context,
+                                listen: false,
+                              ).isInCategoryListing = true;
+                              route.pushNamed(
+                                context,
+                                routeName.latestBlogViewAll,
+                              );
                             },
                           ).paddingSymmetric(horizontal: Insets.i20),
                           const VSpace(Sizes.s10),
@@ -174,59 +199,65 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: dash.firstTwoBlogList
                                   .asMap()
                                   .entries
-                                  .map((e) => LatestBlogLayout(
-                                height: Insets.i160,
-                                onTap: () {
-                                  Provider.of<
-                                      LatestBLogDetailsProvider>(
-                                      context,
-                                      listen: false)
-                                      .detailsDataAPI(
-                                      context, e.value.id);
-                                },
-                                data: e.value,
-                                addOrRemoveTap: () {
-                                  final previousFavourite =
-                                      e.value.isFavourite;
-                                  e.value.isFavourite =
-                                  !previousFavourite;
-                                  dash.notifyListeners();
+                                  .map(
+                                    (e) => LatestBlogLayout(
+                                      height: Insets.i160,
+                                      onTap: () {
+                                        Provider.of<LatestBLogDetailsProvider>(
+                                          context,
+                                          listen: false,
+                                        ).detailsDataAPI(context, e.value.id);
+                                      },
+                                      data: e.value,
+                                      addOrRemoveTap: isGuest == true
+                                          ? () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) =>
+                                              GuestLoginSheet(
 
-                                  final common = Provider.of<
-                                      CommonApiProvider>(
-                                      context,
-                                      listen: false);
-                                  common.toggleFavAPI(
-                                    onSuccess: () {
-                                      Provider.of<
-                                          LatestBLogDetailsProvider>(
+                                              ),
+                                        );
+                                      }
+                                          :() {
+                                        final previousFavourite =
+                                            e.value.isFavourite;
+                                        e.value.isFavourite =
+                                            !previousFavourite;
+                                        dash.notifyListeners();
+
+                                        final common =
+                                            Provider.of<CommonApiProvider>(
+                                              context,
+                                              listen: false,
+                                            );
+                                        common.toggleFavAPI(
+                                          onSuccess: () {
+                                            Provider.of<
+                                                  LatestBLogDetailsProvider
+                                                >(context, listen: false)
+                                                .detailsDataAPI(
+                                                  context,
+                                                  e.value.id,
+                                                  isNotRouting: true,
+                                                );
+                                            Provider.of<
+                                                  LatestBLogDetailsProvider
+                                                >(context, listen: false)
+                                                .getArticlesSearchAPI(context);
+                                            Provider.of<HomeScreenProvider>(
+                                              context,
+                                              listen: false,
+                                            ).homeFeed(context);
+                                          },
                                           context,
-                                          listen: false)
-                                          .detailsDataAPI(
-                                          context,
-                                          e.value.id,
-                                          isNotRouting: true);
-                                      Provider.of<
-                                          LatestBLogDetailsProvider>(
-                                          context,
-                                          listen: false)
-                                          .getArticlesSearchAPI(
-                                          context);
-                                      Provider.of<
-                                          HomeScreenProvider>(
-                                          context,
-                                          listen: false)
-                                          .homeFeed(context);
-                                    },
-                                    context,
-                                    previousFavourite,
-                                    e.value.appObject!
-                                        .appObjectType,
-                                    e.value.appObject!
-                                        .appObjectId,
-                                  );
-                                },
-                              ))
+                                          previousFavourite,
+                                          e.value.appObject!.appObjectType,
+                                          e.value.appObject!.appObjectId,
+                                        );
+                                      },
+                                    ),
+                                  )
                                   .toList(),
                             ).paddingOnly(left: Insets.i20),
                           ),

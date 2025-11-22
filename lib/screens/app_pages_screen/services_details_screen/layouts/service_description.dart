@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../config.dart';
 import '../../../../models/app_model/contact_vcf_file_model.dart';
 import '../../../../widgets/common_gallery_screen.dart';
+import '../../../bottom_screens/home_screen/layouts/guest_login_sheet.dart';
 import '../../time_slot_screen/layouts/all_time_slot_layout.dart';
 
 class ServiceDescription extends StatefulWidget {
@@ -24,13 +25,28 @@ class ServiceDescription extends StatefulWidget {
 
 class _ServiceDescriptionState extends State<ServiceDescription> {
   bool? isFavLocal;
+  bool isGuest = false;
 
   @override
   void initState() {
     super.initState();
+    loadGuestStatus();
     isFavLocal = widget.businessData?.isFavourite;
   }
 
+
+
+
+
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final Contact? contact = widget.businessData?.contact;
@@ -530,31 +546,38 @@ END:VCARD
                                                       widget.businessData)
                                             ]))));
                           } else if (item['label'] == appFonts.save) {
-                            search.notifyListeners();
-                            Provider.of<CommonApiProvider>(context,
-                                    listen: false)
-                                .toggleFavAPI(
-                                    context,
-                                    widget.businessData?.isFavourite,
-                                    widget
-                                        .businessData?.appObject!.appObjectType,
-                                    widget.businessData?.appObject!.appObjectId,
-                                    onSuccess: () {
-                              Provider.of<SearchProvider>(context,
-                                      listen: false)
-                                  .businessDetailsAPI(
-                                      context, widget.businessData?.id,
-                                      isNotRouting: true);
+                            if (isGuest == true) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => GuestLoginSheet(
 
-                              Provider.of<SearchProvider>(context,
-                                      listen: false)
-                                  .getBusinessSearchAPI(context);
-                              Provider.of<HomeScreenProvider>(context,
-                                      listen: false)
-                                  .homeFeed(context);
-                            });
-                            search.notifyListeners();
+                                ),
+                              );
+                            } else {
+                              search.notifyListeners();
+                              Provider.of<CommonApiProvider>(context, listen: false).toggleFavAPI(
+                                context,
+                                widget.businessData?.isFavourite,
+                                widget.businessData?.appObject!.appObjectType,
+                                widget.businessData?.appObject!.appObjectId,
+                                onSuccess: () {
+                                  Provider.of<SearchProvider>(context, listen: false).businessDetailsAPI(
+                                    context,
+                                    widget.businessData?.id,
+                                    isNotRouting: true,
+                                  );
+
+                                  Provider.of<SearchProvider>(context, listen: false)
+                                      .getBusinessSearchAPI(context);
+
+                                  Provider.of<HomeScreenProvider>(context, listen: false)
+                                      .homeFeed(context);
+                                },
+                              );
+                              search.notifyListeners();
+                            }
                           }
+
                         },
                         child: Container(
                             height: 46,

@@ -12,8 +12,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -29,15 +31,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     lockScreenPortrait();
     return FutureBuilder(
-        future: SharedPreferences.getInstance(),
-        builder: (context1, AsyncSnapshot<SharedPreferences> snapData) {
-          if (snapData.hasData) {
-            return MultiProvider(providers: [
+      future: SharedPreferences.getInstance(),
+      builder: (context1, AsyncSnapshot<SharedPreferences> snapData) {
+        if (snapData.hasData) {
+          return MultiProvider(
+            providers: [
               ChangeNotifierProvider(
-                  create: (_) => ThemeService(snapData.data!, context)),
+                create: (_) => ThemeService(snapData.data!, context),
+              ),
               ChangeNotifierProvider(create: (_) => SplashProvider()),
               ChangeNotifierProvider(
-                  create: (_) => LanguageProvider(snapData.data!)),
+                create: (_) => LanguageProvider(snapData.data!),
+              ),
               ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
               ChangeNotifierProvider(create: (_) => ServicesDetailsProvider()),
               ChangeNotifierProvider(create: (_) => LoginProvider()),
@@ -57,7 +62,8 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => CommonApiProvider()),
               ChangeNotifierProvider(create: (_) => BusinessReviewsProvider()),
               ChangeNotifierProvider(
-                  create: (_) => LatestBLogDetailsProvider()),
+                create: (_) => LatestBLogDetailsProvider(),
+              ),
               ChangeNotifierProvider(create: (_) => LoadingProvider()),
               ChangeNotifierProvider(create: (_) => InAppForgotPassProvider()),
               ChangeNotifierProvider(create: (_) => DeleteDialogProvider()),
@@ -65,11 +71,13 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => FavouriteListProvider()),
               ChangeNotifierProvider(create: (_) => NoInternetProvider()),
               ChangeNotifierProvider(
-                  create: (_) => VerifyResetPasswordProvider()),
+                create: (_) => VerifyResetPasswordProvider(),
+              ),
               ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
               ChangeNotifierProvider(create: (_) => CommonPermissionProvider()),
               ChangeNotifierProvider(
-                  create: (_) => CategoriesDetailsProvider()),
+                create: (_) => CategoriesDetailsProvider(),
+              ),
               ChangeNotifierProvider(create: (_) => CategoriesListProvider()),
               ChangeNotifierProvider(create: (_) => NotificationProvider()),
               ChangeNotifierProvider(create: (_) => RateAppProvider()),
@@ -79,23 +87,30 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => BusinessTimeSlotProvider()),
               ChangeNotifierProvider(create: (_) => ProfileDetailProvider()),
               ChangeNotifierProvider(
-                  create: (_) => AppSettingProvider(snapData.data!)),
+                create: (_) => AppSettingProvider(snapData.data!),
+              ),
               ChangeNotifierProvider(create: (_) => ServiceReviewProvider()),
-            ], child: const RouteToPage());
-          } else {
-            return MaterialApp(
-                theme: AppTheme.fromType(ThemeType.light).themeData,
-                darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
-                themeMode: ThemeMode.light,
-                debugShowCheckedModeBanner: false,
-                home: const SplashLayout());
-          }
-        });
+            ],
+            child: const RouteToPage(),
+          );
+        } else {
+          return MaterialApp(
+            theme: AppTheme.fromType(ThemeType.light).themeData,
+            darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
+            themeMode: ThemeMode.light,
+            debugShowCheckedModeBanner: false,
+            home: const SplashLayout(),
+          );
+        }
+      },
+    );
   }
 
   void lockScreenPortrait() {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 }
 
@@ -109,36 +124,42 @@ class RouteToPage extends StatefulWidget {
 class _RouteToPageState extends State<RouteToPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeService>(builder: (context, theme, child) {
-      return Consumer<LanguageProvider>(builder: (context, lang, child) {
-        return MaterialApp(
-            title: 'Go App',
-            navigatorKey: navigatorKey,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.fromType(ThemeType.light).themeData,
-            darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
-            locale: lang.locale,
-            supportedLocales: appArray.localList,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              AppLocalizationDelagate(),
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate
-            ],
-            // Add the supported locales if needed
-            themeMode: theme.theme,
-            initialRoute: "/",
-            routes: appRoute.route,
-            // Wrap MaterialApp with Directionality
-            builder: (context, child) {
-              return Directionality(
+    return Consumer<ThemeService>(
+      builder: (context, theme, child) {
+        return Consumer<LanguageProvider>(
+          builder: (context, lang, child) {
+            return MaterialApp(
+              title: 'Go App',
+              navigatorKey: navigatorKey,
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.fromType(ThemeType.light).themeData,
+              darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
+              locale: lang.locale,
+              supportedLocales: appArray.localList,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                AppLocalizationDelagate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              // Add the supported locales if needed
+              themeMode: theme.theme,
+              initialRoute: "/",
+              routes: appRoute.route,
+              // Wrap MaterialApp with Directionality
+              builder: (context, child) {
+                return Directionality(
                   textDirection: locale?.languageCode == 'he'
                       ? TextDirection.rtl
                       : TextDirection.ltr,
-                  child: child!);
-            });
-      });
-    });
+                  child: child!,
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }

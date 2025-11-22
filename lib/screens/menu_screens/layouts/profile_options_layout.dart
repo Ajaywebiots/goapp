@@ -5,10 +5,24 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../config.dart';
 import '../../../models/profile_model.dart';
 import '../../../services/api_service.dart';
+import '../../bottom_screens/home_screen/layouts/guest_login_sheet.dart';
 import 'options_selection_screen_layout/option_screen_layout.dart';
 
-class ProfileOptionsLayout extends StatelessWidget {
+class ProfileOptionsLayout extends StatefulWidget {
   const ProfileOptionsLayout({super.key});
+
+  @override
+  State<ProfileOptionsLayout> createState() => _ProfileOptionsLayoutState();
+}
+
+class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
+  bool isGuest = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadGuestStatus();
+  }
 
   getIconFromString(iconName) {
     switch (iconName) {
@@ -43,11 +57,23 @@ class ProfileOptionsLayout extends StatelessWidget {
     }
   }
 
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log(
+        "Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}",
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<SignUpCompanyProvider, ProfileProvider>(
-        builder: (context, value, profilePvr, child) {
-      return ListView(
+      builder: (context, value, profilePvr, child) {
+        return ListView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           children: [
@@ -57,151 +83,286 @@ class ProfileOptionsLayout extends StatelessWidget {
                 .toList()
                 .asMap()
                 .entries
-                .map((e) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                                  language(context, e.value.title)
-                                      .toString()
-                                      .toUpperCase(),
-                                  style: appCss.dmDenseBold14
-                                      .textColor(appColor(context).primary))
-                              .paddingSymmetric(vertical: Insets.i15),
-                          if (e.value.data != null)
-                            Container(
-                                decoration: ShapeDecoration(
-                                    color: appColor(context).whiteColor,
-                                    shadows: [
-                                      BoxShadow(
-                                          color: appColor(context)
-                                              .darkText
-                                              .withAlpha(15),
-                                          spreadRadius: 1,
-                                          blurRadius: 2)
-                                    ],
-                                    shape: SmoothRectangleBorder(
-                                        side: BorderSide(
-                                            color:
-                                                appColor(context).fieldCardBg),
-                                        borderRadius: SmoothBorderRadius(
-                                            cornerRadius: AppRadius.r12,
-                                            cornerSmoothing: 1))),
-                                child: Column(children: [
-                                  ...e.value.data!
-                                      .asMap()
-                                      .entries
-                                      .map((s) => ProfileOptionLayout(
-                                          indexMain: e.key,
-                                          data: s.value,
-                                          index: s.key,
-                                          list: e.value.data,
-                                          icon: getIconFromString(s.value.icon),
-                                          onTap: () async {
-                                            log("klhdfjkldsnfd dsfndfsmvf ${s.value.title}");
-                                            if (s.value.title ==
-                                                appFonts.myProfile) {
-                                              log("jkdfgadjksfgas ${appFonts.myProfile}");
-                                              route.pushNamed(context,
-                                                  routeName.profileDetails);
-                                            } else if (s.value.title ==
-                                                appFonts.favouriteList) {
-                                              route.pushNamed(context,
-                                                  routeName.favScreenList);
-                                            } else if (s.value.title ==
-                                                appFonts.myReviews) {
-                                              route.pushNamed(context,
-                                                  routeName.reviewScreen);
-                                            } else if (s.value.title ==
-                                                appFonts.appSettings) {
-                                              route.pushNamed(context,
-                                                  routeName.changeLanguage);
-                                            } else if (s.value.title ==
-                                                appFonts.subscriptionPlans) {
-                                              route.pushNamed(
-                                                  context,
-                                                  routeName
-                                                      .subscriptionPlanScreen);
-                                            } else if (s.value.title ==
-                                                appFonts.contactUs) {
-                                              route.pushNamed(
-                                                  context, routeName.contactUs);
-                                              Provider.of<ContactUsProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .getSubjectData(context);
-                                            } else {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return OptionScreenLayout(
-                                                    title: language(context,
-                                                        s.value.title));
-                                              }));
-                                            }
-                                          }))
-                                ]).paddingAll(Insets.i15))
-                        ])),
+                .map(
+                  (e) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        language(
+                          context,
+                          e.value.title,
+                        ).toString().toUpperCase(),
+                        style: appCss.dmDenseBold14.textColor(
+                          appColor(context).primary,
+                        ),
+                      ).paddingSymmetric(vertical: Insets.i15),
+                      if (e.value.data != null)
+                        Container(
+                          decoration: ShapeDecoration(
+                            color: appColor(context).whiteColor,
+                            shadows: [
+                              BoxShadow(
+                                color: appColor(context).darkText.withAlpha(15),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                              ),
+                            ],
+                            shape: SmoothRectangleBorder(
+                              side: BorderSide(
+                                color: appColor(context).fieldCardBg,
+                              ),
+                              borderRadius: SmoothBorderRadius(
+                                cornerRadius: AppRadius.r12,
+                                cornerSmoothing: 1,
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              ...e.value.data!.asMap().entries.map(
+                                (s) => ProfileOptionLayout(
+                                  indexMain: e.key,
+                                  data: s.value,
+                                  index: s.key,
+                                  list: e.value.data,
+                                  icon: getIconFromString(s.value.icon),
+                                  onTap: () async {
+                                    log(
+                                      "klhdfjkldsnfd dsfndfsmvf ${s.value.title}",
+                                    );
+                                    if (s.value.title == appFonts.myProfile) {
+                                      if (isGuest == true) {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => GuestLoginSheet(
+
+                                          ),
+                                        );
+                                      } else {
+                                        log(
+                                          "jkdfgadjksfgas ${appFonts.myProfile}",
+                                        );
+                                        route.pushNamed(
+                                          context,
+                                          routeName.profileDetails,
+                                        );
+                                      }
+                                    } else if (s.value.title ==
+                                        appFonts.favouriteList) {
+                                      if (isGuest == true) {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => GuestLoginSheet(
+
+                                          ),
+                                        );
+                                      } else {
+                                        route.pushNamed(
+                                          context,
+                                          routeName.favScreenList,
+                                        );
+                                      }
+                                    } else if (s.value.title ==
+                                        appFonts.myReviews) {
+                                      if (isGuest == true) {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => GuestLoginSheet(
+
+                                          ),
+                                        );
+                                      } else {
+                                        route.pushNamed(
+                                          context,
+                                          routeName.reviewScreen,
+                                        );
+                                      }
+                                    } else if (s.value.title ==
+                                        appFonts.appSettings) {
+                                      route.pushNamed(
+                                        context,
+                                        routeName.changeLanguage,
+                                      );
+                                    } else if (s.value.title ==
+                                        appFonts.subscriptionPlans) {
+                                      if (isGuest == true) {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => GuestLoginSheet(
+
+                                          ),
+                                        );
+                                      } else {
+                                        route.pushNamed(
+                                          context,
+                                          routeName.subscriptionPlanScreen,
+                                        );
+                                      }
+                                    } else if (s.value.title ==
+                                        appFonts.contactUs) {
+                                      if (isGuest == true) {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => GuestLoginSheet(
+
+                                          ),
+                                        );
+                                      } else {
+                                        route.pushNamed(
+                                          context,
+                                          routeName.contactUs,
+                                        );
+                                        Provider.of<ContactUsProvider>(
+                                          context,
+                                          listen: false,
+                                        ).getSubjectData(context);
+                                      }
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return OptionScreenLayout(
+                                              title: language(
+                                                context,
+                                                s.value.title,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ).paddingAll(Insets.i15),
+                        ),
+                    ],
+                  ),
+                ),
             VSpace(Insets.i30),
             registerBusinessCard(context),
             VSpace(Insets.i20),
-            deleteAccountCard(context),
-            VSpace(Insets.i20),
-            logoutButton(context, profilePvr)
-          ]);
-    });
+            if (!isGuest) deleteAccountCard(context),
+
+            if (!isGuest) VSpace(Insets.i20),
+            if (isGuest) loginButton(context),
+
+            if (!isGuest) logoutButton(context, profilePvr),
+          ],
+        );
+      },
+    );
   }
+}
+
+Widget loginButton(context) {
+  return Container(
+    margin: const EdgeInsets.only(top: 0),
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+    decoration: ShapeDecoration(
+      color: const Color(0xffF0F0F0),
+      shape: SmoothRectangleBorder(
+        side: BorderSide(color: appColor(context).fieldCardBg),
+        borderRadius: SmoothBorderRadius(
+          cornerRadius: AppRadius.r12,
+          cornerSmoothing: 1,
+        ),
+      ),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            CommonArrow(
+              arrow: eSvgAssets.logout,
+              color: appColor(context).whiteBg,
+              svgColor: appColor(context).darkText,
+            ),
+            const HSpace(Sizes.s15),
+            Text(
+              language(context, appFonts.loginUp),
+              style: appCss.dmDenseMedium14.textColor(
+                appColor(context).darkText,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ).inkWell(onTap: () => route.pushNamed(context, routeName.login));
 }
 
 Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {
   return Container(
-      margin: const EdgeInsets.only(top: 0),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      decoration: ShapeDecoration(
-          color: const Color(0xffF0F0F0),
-          // shadows: [
-          //   BoxShadow(
-          //       color: appColor(context).darkText.withOpacity(0.06),
-          //       spreadRadius: 1,
-          //       blurRadius: 4)
-          // ],
-          shape: SmoothRectangleBorder(
-              side: BorderSide(color: appColor(context).fieldCardBg),
-              borderRadius: SmoothBorderRadius(
-                  cornerRadius: AppRadius.r12, cornerSmoothing: 1))),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Row(children: [
-          CommonArrow(
+    margin: const EdgeInsets.only(top: 0),
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+    decoration: ShapeDecoration(
+      color: const Color(0xffF0F0F0),
+      // shadows: [
+      //   BoxShadow(
+      //       color: appColor(context).darkText.withOpacity(0.06),
+      //       spreadRadius: 1,
+      //       blurRadius: 4)
+      // ],
+      shape: SmoothRectangleBorder(
+        side: BorderSide(color: appColor(context).fieldCardBg),
+        borderRadius: SmoothBorderRadius(
+          cornerRadius: AppRadius.r12,
+          cornerSmoothing: 1,
+        ),
+      ),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            CommonArrow(
               arrow: eSvgAssets.logout,
               color: appColor(context).whiteBg,
-              svgColor: appColor(context).darkText),
-          const HSpace(Sizes.s15),
-          Text(language(context, appFonts.logout),
-              style:
-                  appCss.dmDenseMedium14.textColor(appColor(context).darkText))
-        ])
-      ])).inkWell(onTap: () {
-    showCupertinoDialog(
+              svgColor: appColor(context).darkText,
+            ),
+            const HSpace(Sizes.s15),
+            Text(
+              language(context, appFonts.logout),
+              style: appCss.dmDenseMedium14.textColor(
+                appColor(context).darkText,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ).inkWell(
+    onTap: () {
+      showCupertinoDialog(
         context: context,
         builder: (context1) {
           return AlertDialogCommon(
-              title: language(context, appFonts.logout),
-              fit: BoxFit.contain,
-              vertical: 0,
-              subtextVSpace: 28,
-              bottomPadding: 0,
-              horizontal: 0,
-              height: Sizes.s200,
-              isTwoButton: true,
-              image: 'assets/images/logout.png',
-              subtext: language(context, appFonts.logoutConfirmation),
-              secondBText: language(context, appFonts.yes),
-              firstBText: language(context, appFonts.cancel),
-              firstBTap: () {
-                route.pop(context);
-              },
-              secondBTap: () => profilePvr.logOut(context));
-        });
-  });
+            title: language(context, appFonts.logout),
+            fit: BoxFit.contain,
+            vertical: 0,
+            subtextVSpace: 28,
+            bottomPadding: 0,
+            horizontal: 0,
+            height: Sizes.s200,
+            isTwoButton: true,
+            image: 'assets/images/logout.png',
+            subtext: language(context, appFonts.logoutConfirmation),
+            secondBText: language(context, appFonts.yes),
+            firstBText: language(context, appFonts.cancel),
+            firstBTap: () {
+              route.pop(context);
+            },
+            secondBTap: () => profilePvr.logOut(context),
+          );
+        },
+      );
+    },
+  );
 }
 
 // Widget buildGridLayout(BuildContext context) {
@@ -274,10 +435,7 @@ Widget registerBusinessCard(BuildContext context) {
     onTap: () async {
       final Uri url = Uri.parse('https://dev.gosalamina.com/app');
       if (await canLaunchUrl(url)) {
-        await launchUrl(
-          url,
-          mode: LaunchMode.inAppBrowserView,
-        );
+        await launchUrl(url, mode: LaunchMode.inAppBrowserView);
       } else {
         throw 'Could not launch $url';
       }
@@ -300,8 +458,9 @@ Widget registerBusinessCard(BuildContext context) {
                   child: Text(
                     language(context, appFonts.registerYourBusiness).toString(),
                     overflow: TextOverflow.fade,
-                    style: appCss.dmDenseMedium16
-                        .textColor(appColor(context).darkText),
+                    style: appCss.dmDenseMedium16.textColor(
+                      appColor(context).darkText,
+                    ),
                   ),
                 ),
                 SvgPicture.asset(
@@ -324,36 +483,40 @@ Widget deleteAccountCard(BuildContext context) {
   return InkWell(
     onTap: () async {
       showCupertinoDialog(
-          context: context,
-          builder: (context1) {
-            return AlertDialogCommon(
-                title: language(context, appFonts.deleteAccount),
-                fit: BoxFit.contain,
-                vertical: 0,
-                subtextVSpace: 28,
-                bottomPadding: 0,
-                horizontal: 0,
-                height: Sizes.s200,
-                isTwoButton: true,
-                image: 'assets/images/logout.png',
-                subtext: language(context, appFonts.deleteAccountConfirmation),
-                secondBText: language(context, appFonts.yes),
-                firstBText: language(context, appFonts.cancel),
-                firstBTap: () {
-                  route.pop(context);
-                },
-                secondBTap: () async {
-                  final profilePvr =
-                      Provider.of<ProfileProvider>(context, listen: false);
+        context: context,
+        builder: (context1) {
+          return AlertDialogCommon(
+            title: language(context, appFonts.deleteAccount),
+            fit: BoxFit.contain,
+            vertical: 0,
+            subtextVSpace: 28,
+            bottomPadding: 0,
+            horizontal: 0,
+            height: Sizes.s200,
+            isTwoButton: true,
+            image: 'assets/images/logout.png',
+            subtext: language(context, appFonts.deleteAccountConfirmation),
+            secondBText: language(context, appFonts.yes),
+            firstBText: language(context, appFonts.cancel),
+            firstBTap: () {
+              route.pop(context);
+            },
+            secondBTap: () async {
+              final profilePvr = Provider.of<ProfileProvider>(
+                context,
+                listen: false,
+              );
 
-                  SharedPreferences pref =
-                      await SharedPreferences.getInstance();
-                  final int? userId = pref.getInt(session.id);
-                  apiServices
-                      .commonApi(
-                          "${api.deleteAccount}$userId", [], ApiType.delete,
-                          isToken: true)
-                      .then((value) async {
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              final int? userId = pref.getInt(session.id);
+              apiServices
+                  .commonApi(
+                    "${api.deleteAccount}$userId",
+                    [],
+                    ApiType.delete,
+                    isToken: true,
+                  )
+                  .then((value) async {
                     log("prefs.remove(session.id) ${value.data}");
                     final prefs = await SharedPreferences.getInstance();
 
@@ -361,20 +524,26 @@ Widget deleteAccountCard(BuildContext context) {
                       prefs.remove(session.id),
                       prefs.remove(session.locale),
                       prefs.remove(session.accessToken),
-                      prefs.remove(session.isLogin)
+                      prefs.remove(session.isLogin),
                     ]).then((value) {
-                      log("prefs.remove(session.id) ${prefs.remove(session.id)}");
+                      log(
+                        "prefs.remove(session.id) ${prefs.remove(session.id)}",
+                      );
                       route.pushReplacementNamed(context, routeName.login);
-                      final dash = Provider.of<DashboardProvider>(context, listen: false);
+                      final dash = Provider.of<DashboardProvider>(
+                        context,
+                        listen: false,
+                      );
                       dash.notifyListeners();
 
                       dash.selectIndex = 0;
                       dash.notifyListeners();
                     });
-
                   });
-                });
-          });
+            },
+          );
+        },
+      );
     },
     child: Container(
       padding: const EdgeInsets.all(Sizes.s15),
@@ -384,10 +553,7 @@ Widget deleteAccountCard(BuildContext context) {
       ),
       child: Row(
         children: [
-          CommonArrow(
-            arrow: "assets/svg/delete.svg",
-            svgColor: Colors.red,
-          ),
+          CommonArrow(arrow: "assets/svg/delete.svg", svgColor: Colors.red),
           const HSpace(Sizes.s15),
           Expanded(
             child: Row(
@@ -397,8 +563,9 @@ Widget deleteAccountCard(BuildContext context) {
                   child: Text(
                     language(context, appFonts.deleteAccount).toString(),
                     overflow: TextOverflow.fade,
-                    style: appCss.dmDenseMedium16
-                        .textColor(appColor(context).darkText),
+                    style: appCss.dmDenseMedium16.textColor(
+                      appColor(context).darkText,
+                    ),
                   ),
                 ),
                 SvgPicture.asset(

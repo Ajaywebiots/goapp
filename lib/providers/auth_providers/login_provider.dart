@@ -4,6 +4,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:goapp/config.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../common/session.dart';
+
 class LoginProvider with ChangeNotifier {
   TextEditingController email = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -21,28 +23,35 @@ class LoginProvider with ChangeNotifier {
     }*/
   }
 
-
   void guestLogin(context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(session.isContinueAsGuest, true);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
+    await prefs.setBool(Session.isIntro, true);
+
     route.pushReplacementNamed(context, routeName.dashboard);
 
-    final homePvr =
-    Provider.of<HomeScreenProvider>(context, listen: false);
+    final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     homePvr.homeFeed(context);
-    Provider.of<LatestBLogDetailsProvider>(context, listen: false)
-        .getArticlesSearchAPI(context);
-    final attractionPvr =
-    Provider.of<AttractionProvider>(context, listen: false);
-
+    Provider.of<LatestBLogDetailsProvider>(
+      context,
+      listen: false,
+    ).getArticlesSearchAPI(context);
+    final attractionPvr = Provider.of<AttractionProvider>(
+      context,
+      listen: false,
+    );
+    final catListPvr = Provider.of<CategoriesListProvider>(
+      context,
+      listen: false,
+    );
+    catListPvr.getCategoriesData(context);
     attractionPvr.getAttractionSearchAPI(context);
-    final searchPvr =
-    Provider.of<SearchProvider>(context, listen: false);
+    final searchPvr = Provider.of<SearchProvider>(context, listen: false);
     searchPvr.getBusinessSearchAPI(context, isFilter: false);
     final offerPvr = Provider.of<OfferProvider>(context, listen: false);
     offerPvr.getViewAllOfferAPI();
   }
-
 
   // autoFetch() {
   //   userName.text = "apptest123";
@@ -95,16 +104,19 @@ class LoginProvider with ChangeNotifier {
     if (lastPosition != null) {
       currentLatitude = lastPosition.latitude;
       currentLongitude = lastPosition.longitude;
-      log("Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude");
+      log(
+        "Using Last Known Location: Lat: $currentLatitude, Long: $currentLongitude",
+      );
     }
 
-    Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high,
-            timeLimit: Duration(seconds: 5))
-        .catchError((e) {
-      log("Failed to fetch fresh location: $e");
-      return lastPosition!;
-    });
+    Position position =
+        await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 5),
+        ).catchError((e) {
+          log("Failed to fetch fresh location: $e");
+          return lastPosition!;
+        });
 
     currentLatitude = position.latitude;
     currentLongitude = position.longitude;
@@ -121,10 +133,13 @@ class LoginProvider with ChangeNotifier {
           await googleUser.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-      final UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+      final UserCredential userCredential = await auth.signInWithCredential(
+        credential,
+      );
 
       log("userCredential ${userCredential.user?.email}");
       log("userCredential ${userCredential.user?.displayName}");
@@ -219,8 +234,9 @@ class LoginProvider with ChangeNotifier {
 
       if (loginResult.status == LoginStatus.success) {
         final AccessToken accessToken = loginResult.accessToken!;
-        final OAuthCredential credential =
-            FacebookAuthProvider.credential(accessToken.tokenString);
+        final OAuthCredential credential = FacebookAuthProvider.credential(
+          accessToken.tokenString,
+        );
         log("userCredential ${credential.appleFullPersonName?.familyName}");
         log("userCredential ${credential.appleFullPersonName?.givenName}");
         log("userCredential ${credential.appleFullPersonName?.middleName}");
@@ -246,33 +262,32 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  
-// Future<void> loginWithFacebook() async {
-//   final LoginResult result = await FacebookAuth.instance
-//       .login(permissions: ['email', 'public_profile']);
-//
-//   if (result.status == LoginStatus.success) {
-//     final AccessToken accessToken = result.accessToken!;
-//
-//     try {
-//       Response response = await dio.post(
-//         "https://go-1-api.azurewebsites.net/api/authentication/facebook",
-//         data: jsonEncode({"access_token": accessToken.tokenString}),
-//         options: Options(headers: {"Content-Type": "application/json"}),
-//       );
-//
-//       if (response.statusCode == 200) {
-//         notifyListeners();
-//         userData = response.data;
-//         notifyListeners();
-//       } else {
-//         log("Backend authentication failed: ${response.data}");
-//       }
-//     } catch (e) {
-//       log("API Error: $e");
-//     }
-//   } else {
-//     print("Facebook Login Failed: ${result.status}");
-//   }
-// }
+  // Future<void> loginWithFacebook() async {
+  //   final LoginResult result = await FacebookAuth.instance
+  //       .login(permissions: ['email', 'public_profile']);
+  //
+  //   if (result.status == LoginStatus.success) {
+  //     final AccessToken accessToken = result.accessToken!;
+  //
+  //     try {
+  //       Response response = await dio.post(
+  //         "https://go-1-api.azurewebsites.net/api/authentication/facebook",
+  //         data: jsonEncode({"access_token": accessToken.tokenString}),
+  //         options: Options(headers: {"Content-Type": "application/json"}),
+  //       );
+  //
+  //       if (response.statusCode == 200) {
+  //         notifyListeners();
+  //         userData = response.data;
+  //         notifyListeners();
+  //       } else {
+  //         log("Backend authentication failed: ${response.data}");
+  //       }
+  //     } catch (e) {
+  //       log("API Error: $e");
+  //     }
+  //   } else {
+  //     print("Facebook Login Failed: ${result.status}");
+  //   }
+  // }
 }

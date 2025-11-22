@@ -12,6 +12,5 @@ class Session {
   // String accountType = 'accountType';
   // String accountRole = 'accountRole';
   String locale = 'locale';
-  String isContinueAsGuest = 'isContinueAsGuest';
-
+  // String isContinueAsGuest = 'isContinueAsGuest';
 }

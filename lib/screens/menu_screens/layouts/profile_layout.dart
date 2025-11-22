@@ -1,10 +1,41 @@
+import 'dart:developer';
+
 import '../../../../config.dart';
 import '../../../../widgets/profile_pic_common.dart';
 
-class ProfileLayout extends StatelessWidget {
+class ProfileLayout extends StatefulWidget {
   final GestureTapCallback? onTap;
 
   const ProfileLayout({super.key, this.onTap});
+
+  @override
+  State<ProfileLayout> createState() => _ProfileLayoutState();
+}
+
+class _ProfileLayoutState extends State<ProfileLayout> {
+  bool isGuest = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadGuestStatus();
+  }
+
+
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log(
+        "Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}",
+      );
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +49,8 @@ class ProfileLayout extends StatelessWidget {
                   ProfilePicCommon(
                       imageUrl: profilePvr.profileImageUrl, isProfile: true),
                   const VSpace(Sizes.s5),
-                  RichText(
+                  isGuest ? Text("Guest",style: appCss.dmDenseSemiBold14
+                      .textColor(appColor(context).darkText)) :  RichText(
                       text: TextSpan(children: [
                     TextSpan(
                         text: language(context, profilePvr.txtFName.text),
@@ -31,7 +63,7 @@ class ProfileLayout extends StatelessWidget {
                             .textColor(appColor(context).darkText))
                   ])),
                   const VSpace(Sizes.s3),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  if (!isGuest) Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     SvgPicture.asset(eSvgAssets.email),
                     const HSpace(Sizes.s5),
                     Text(language(context, profilePvr.txtEmail.text),
@@ -48,7 +80,7 @@ class ProfileLayout extends StatelessWidget {
                     appColor(context).primary, BlendMode.srcIn),
                 height: Insets.i24)
             .paddingOnly(top: Insets.i15, right: Insets.i15)
-            .inkWell(onTap: onTap)
+            .inkWell(onTap: widget.onTap)
       ]);
     });
   }

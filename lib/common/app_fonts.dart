@@ -159,7 +159,10 @@ class AppFonts {
   final review = "review";
   final latestReviews = "latestReviews";
   final activeOffers = "activeOffers";
+  final activeOfferNow = "activeOfferNow";
   final latestArticles = "latestArticles";
+  final loginRequired = "loginRequired";
+  final pleaseLogin = "pleaseLogin";
   final whatDoYouThink = "whatDoYouThink";
   final bad = "bad";
   final okay = "okay";

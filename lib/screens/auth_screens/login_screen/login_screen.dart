@@ -1,8 +1,15 @@
 import 'package:goapp/config.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  final bool? isFromGuest;
+  const LoginScreen({super.key, this.isFromGuest});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {

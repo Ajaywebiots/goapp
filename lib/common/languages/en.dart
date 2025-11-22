@@ -84,6 +84,9 @@ final english = {
   "restart": "Restart",
   "startAgain": "Start-Again",
   "requested": "Requested",
+  "activeOfferNow": "Activate Offer Now",
+  "loginRequired": "Login Required",
+  "pleaseLogin": "Please login to use this feature",
   "cancel": "Cancel",
   "assigned": "Assigned",
   "added": "Added",
@@ -261,22 +264,17 @@ final english = {
   "termsConditions": "Terms & Conditions",
   "company": "Company",
   "business": "Business",
-  "settings":"Settings",
-  "birthday" : "Birthday",
+  "settings": "Settings",
+  "birthday": "Birthday",
   "offerList": "Offer List",
   "latestBlog": "Latest Blog",
   "articleList": "Article List",
-  "more":"More",
+  "more": "More",
   "selectSubject": "Select Subject",
   "message": "Message",
   "searchForThingsToDo": "Search for things to do",
   "searchForOffers": "Search for offers",
-  "searchBusiness": "Search business"
-
-
-
-
-
+  "searchBusiness": "Search business",
 
   // "openingHours": "Opening Hours"
 };

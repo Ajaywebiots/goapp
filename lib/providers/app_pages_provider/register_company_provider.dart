@@ -540,59 +540,59 @@ class SignUpCompanyProvider with ChangeNotifier {
 
   int? businessId;
 
-  Future<void> onNext(BuildContext context) async {
-    log("INDEX :$pageIndex");
-
-    if (pageIndex == 0) {
-      final id = await signUpBusinessAPI();
-      if (id != null) {
-        businessId = id;
-        pageIndex++;
-      } else {
-        log("Business signup failed, cannot proceed.");
-        return;
-      }
-    } else if (pageIndex == 1) {
-      // Step 2: Business location
-      // final success = await businessLocationAPI(businessId!);
-      // log("Business Location API success: $success");
-      pageIndex++;
-      /*if (success ?? false) {
-        pageIndex++;
-      } else {
-        return;
-      }*/
-    } else if (pageIndex == 2) {
-      // Step 2: Business location
-      // final success = await businessContactAPI(businessId!);
-      // log("Business Location API success: $success");
-      pageIndex++;
-      // if (success == true) {
-      //   pageIndex++;
-      // } else {
-      //   return;
-      // }
-    } else if (pageIndex == 3) {
-      pageIndex++;
-    } else if (pageIndex == 4) {
-      pageIndex++;
-    }
-
-    log("INDEXEPAGE $pageIndex");
-
-    if (pageIndex == 5) {
-      // isBusiness = true;
-      pageIndex = 0;
-      notifyListeners();
-
-      // ✅ Use Future.micro task to allow state changes before navigation
-      Future.microtask(() {
-        route.pushNamedAndRemoveUntil(context, routeName.dashboard);
-      });
-    } else {
-      notifyListeners();
-    }
-  }
+  // Future<void> onNext(BuildContext context) async {
+  //   log("INDEX :$pageIndex");
+  //
+  //   if (pageIndex == 0) {
+  //     final id = await signUpBusinessAPI();
+  //     if (id != null) {
+  //       businessId = id;
+  //       pageIndex++;
+  //     } else {
+  //       log("Business signup failed, cannot proceed.");
+  //       return;
+  //     }
+  //   } else if (pageIndex == 1) {
+  //     // Step 2: Business location
+  //     // final success = await businessLocationAPI(businessId!);
+  //     // log("Business Location API success: $success");
+  //     pageIndex++;
+  //     /*if (success ?? false) {
+  //       pageIndex++;
+  //     } else {
+  //       return;
+  //     }*/
+  //   } else if (pageIndex == 2) {
+  //     // Step 2: Business location
+  //     // final success = await businessContactAPI(businessId!);
+  //     // log("Business Location API success: $success");
+  //     pageIndex++;
+  //     // if (success == true) {
+  //     //   pageIndex++;
+  //     // } else {
+  //     //   return;
+  //     // }
+  //   } else if (pageIndex == 3) {
+  //     pageIndex++;
+  //   } else if (pageIndex == 4) {
+  //     pageIndex++;
+  //   }
+  //
+  //   log("INDEXEPAGE $pageIndex");
+  //
+  //   if (pageIndex == 5) {
+  //     // isBusiness = true;
+  //     pageIndex = 0;
+  //     notifyListeners();
+  //
+  //     // ✅ Use Future.micro task to allow state changes before navigation
+  //     Future.microtask(() {
+  //       route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+  //     });
+  //   } else {
+  //     notifyListeners();
+  //   }
+  // }
 
   // void onBusinessOnTap(context, data, index) {
   //   log("data.title::${data.title}///}");

@@ -4,6 +4,7 @@ import '../../../config.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import '../../bottom_screens/home_screen/layouts/expert_business_layout.dart';
 import '../../bottom_screens/home_screen/layouts/featured_business_layout.dart';
+import '../../bottom_screens/home_screen/layouts/guest_login_sheet.dart';
 import '../../bottom_screens/home_screen/layouts/latest_blog_layout.dart';
 import '../coupon_list_screen/layouts/coupon_layout.dart';
 
@@ -18,10 +19,14 @@ class _FavScreenListState extends State<FavScreenList> {
   bool isExpanded = false;
   String? selectedOption;
 
+  bool isGuest = false;
+
+
+
   @override
   void initState() {
     super.initState();
-
+    loadGuestStatus();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final favPvr = Provider.of<FavouriteListProvider>(context, listen: false);
       favPvr.favOfferListDataAPI(context);
@@ -30,6 +35,17 @@ class _FavScreenListState extends State<FavScreenList> {
       favPvr.favBlogListDataAPI(context);
     });
   }
+
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+    });
+  }
+
 
   @override
   void didChangeDependencies() {
@@ -163,7 +179,17 @@ class _FavScreenListState extends State<FavScreenList> {
                                                     listen: false)
                                                 .offerDetailsAPI(context, e.id);
                                           },
-                                          addOrRemoveTap: () {
+                                          addOrRemoveTap:  isGuest == true
+                                          ? () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) =>
+                                              GuestLoginSheet(
+
+                                              ),
+                                        );
+                                      }
+                                          : () {
                                             final previousFavourite =
                                                 e.isFavourite;
 
@@ -241,7 +267,17 @@ class _FavScreenListState extends State<FavScreenList> {
                                                   searchPvr.businessDetailsAPI(
                                                       context, e.id);
                                                 },
-                                                addOrRemoveTap: () {
+                                                addOrRemoveTap: isGuest == true
+                                                ? () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) =>
+                                                    GuestLoginSheet(
+
+                                                    ),
+                                              );
+                                            }
+                                                : () {
                                                   final previousFavourite =
                                                       e.isFavourite;
 
@@ -349,7 +385,17 @@ class _FavScreenListState extends State<FavScreenList> {
                                                     .attractionsDetailsAPI(
                                                         context, e.id);
                                               },
-                                              addOrRemoveTap: () {
+                                              addOrRemoveTap: isGuest == true
+                                              ? () {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  GuestLoginSheet(
+
+                                                  ),
+                                            );
+                                          }
+                                              : () {
                                                 final previousFavourite =
                                                     e.isFavourite;
 
@@ -423,7 +469,17 @@ class _FavScreenListState extends State<FavScreenList> {
                                                       context, e.id);
                                                 },
                                                 data: e,
-                                                addOrRemoveTap: () {
+                                                addOrRemoveTap: isGuest == true
+                                                ? () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) =>
+                                                    GuestLoginSheet(
+
+                                                    ),
+                                              );
+                                            }
+                                                : () {
                                                   final previousFavourite =
                                                       e.isFavourite;
 

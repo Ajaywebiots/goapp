@@ -67,7 +67,9 @@ class HomeScreenProvider with ChangeNotifier {
           break;
         case 5: // Blog Listing
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => LatestBlogViewAll()));
+            context,
+            MaterialPageRoute(builder: (_) => LatestBlogViewAll()),
+          );
           break;
         default:
           log("No listing screen defined for appObjectType: $type");
@@ -76,20 +78,28 @@ class HomeScreenProvider with ChangeNotifier {
       // Navigate to detail via provider
       switch (type) {
         case 2: // Business
-          Provider.of<SearchProvider>(context, listen: false)
-              .businessDetailsAPI(context, id, isNotRouting: false);
+          Provider.of<SearchProvider>(
+            context,
+            listen: false,
+          ).businessDetailsAPI(context, id, isNotRouting: false);
           break;
         case 3: // Offer
-          Provider.of<OfferProvider>(context, listen: false)
-              .offerDetailsAPI(context, id, isNotRouting: false);
+          Provider.of<OfferProvider>(
+            context,
+            listen: false,
+          ).offerDetailsAPI(context, id, isNotRouting: false);
           break;
         case 4: // Attraction
-          Provider.of<AttractionProvider>(context, listen: false)
-              .attractionsDetailsAPI(context, id, isNotRoute: false);
+          Provider.of<AttractionProvider>(
+            context,
+            listen: false,
+          ).attractionsDetailsAPI(context, id, isNotRoute: false);
           break;
         case 5: // Blog
-          Provider.of<LatestBLogDetailsProvider>(context, listen: false)
-              .detailsDataAPI(context, id, isNotRouting: false);
+          Provider.of<LatestBLogDetailsProvider>(
+            context,
+            listen: false,
+          ).detailsDataAPI(context, id, isNotRouting: false);
           break;
         default:
           log("Unknown appObjectType: $type");
@@ -156,9 +166,11 @@ class HomeScreenProvider with ChangeNotifier {
 
     // Fallback to full location fetching
     return await Geolocator.getCurrentPosition(
-        locationSettings: LocationSettings(
-            accuracy: LocationAccuracy.high,
-            timeLimit: Duration(milliseconds: 150)));
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.high,
+        timeLimit: Duration(milliseconds: 150),
+      ),
+    );
   }
 
   List<model.Banner> bannerList = [];
@@ -186,46 +198,52 @@ class HomeScreenProvider with ChangeNotifier {
     Position position = await getCurrentLocation();
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? token = pref.getString(session.accessToken);
-    bool? isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
+
 
     log("SSSSS::$token");
     try {
       apiServices
           .commonApi(
-              "${api.homeFeed}?currentLongitude=${position.longitude}&currentLatitude=${position.latitude}",
-              [],
-              ApiType.get,
-              isToken: isGuest ? false : true)
+            "${api.homeFeed}?currentLongitude=${position.longitude}&currentLatitude=${position.latitude}",
+            [],
+            ApiType.get,
+            isToken: token == null ? false : true,
+          )
           .then((value) {
-        log("isToken::");
-        if (value.isSuccess == true) {
-          isLoading = false;
-          // hideLoading(context);
-          log("ajay hariyani ${value.data}");
-          isLoading = false;
-          HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
-          bannerList = [];
-          couponOfferList = [];
-          categoryList = [];
-          firstTwoFeaturedServiceList = [];
-          firstTwoHighRateList = [];
-          // businessCategories = [];
-          firstTwoBlogList = [];
-          bannerList.addAll(homeFeedModel.banners as Iterable<model.Banner>);
-          couponOfferList.addAll(homeFeedModel.offers);
-          categoryList.addAll(homeFeedModel.categories);
-          firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
-          firstTwoBlogList.addAll(homeFeedModel.articles);
-          firstTwoHighRateList.addAll(homeFeedModel.attractions);
-          log("Updated bannerList: ${bannerList.length} items");
+            log("isToken::");
+            if (value.isSuccess == true) {
+              isLoading = false;
+              // hideLoading(context);
+              log("ajay hariyani ${value.data}");
+              isLoading = false;
+              HomeFeedModel homeFeedModel = HomeFeedModel.fromJson(value.data);
+              bannerList = [];
+              couponOfferList = [];
+              categoryList = [];
+              firstTwoFeaturedServiceList = [];
+              firstTwoHighRateList = [];
+              // businessCategories = [];
+              firstTwoBlogList = [];
+              bannerList.addAll(
+                homeFeedModel.banners as Iterable<model.Banner>,
+              );
+              couponOfferList.addAll(homeFeedModel.offers);
+              categoryList.addAll(homeFeedModel.categories);
+              firstTwoFeaturedServiceList.addAll(homeFeedModel.businesses);
+              firstTwoBlogList.addAll(homeFeedModel.articles);
+              firstTwoHighRateList.addAll(homeFeedModel.attractions);
+              log("Updated bannerList: ${bannerList.length} items");
 
-          notifyListeners();
-        } else {
-          isLoading = false;
-          Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
-        }
-      });
+              notifyListeners();
+            } else {
+              isLoading = false;
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                routeName.login,
+                (Route<dynamic> route) => false,
+              );
+            }
+          });
     } catch (e) {
       isLoading = false;
       // hideLoading(context);
@@ -247,10 +265,13 @@ class HomeScreenProvider with ChangeNotifier {
 
   HomeScreenProvider() {
     animationController = AnimationController(
-        vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
-      ..repeat();
-    rotationAnimation =
-        Tween<double>(begin: 1, end: 0).animate(animationController!);
+      vsync: _TickerProvider(this),
+      duration: const Duration(seconds: 10),
+    )..repeat();
+    rotationAnimation = Tween<double>(
+      begin: 1,
+      end: 0,
+    ).animate(animationController!);
   }
 
   void setState() {
@@ -334,36 +355,36 @@ class HomeScreenProvider with ChangeNotifier {
     return currentAddress ?? "";
   }
 
-//location tap
-//   locationTap(context) async {
-//     SharedPreferences pref = await SharedPreferences.getInstance();
-//     pref = await SharedPreferences.getInstance();
-//     bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
-//
-//     if (isGuest == false) {
-//       animationController!.stop();
-//       notifyListeners();
-//       // final location = Provider.of<LocationProvider>(context, listen: false);
-//       // if (location.addressList.isEmpty) {
-//       //   route.pushNamed(context, routeName.location).then((e) {
-//       //     animationController!.reset();
-//       //     notifyListeners();
-//       //   });
-//     } else {
-//       // route.pushNamed(context, routeName.myLocation).then((e) {
-//       //   animationController!.reset();
-//       //   notifyListeners();
-//       // });
-//     }
-//     // } else {
-//     //   final dash = Provider.of<DashboardProvider>(context, listen: false);
-//     //
-//     //
-//     //   dash.selectIndex =0;
-//     //   dash.notifyListeners();
-//     //   route.pushAndRemoveUntil(context);
-//     // }
-//   }
+  //location tap
+  //   locationTap(context) async {
+  //     SharedPreferences pref = await SharedPreferences.getInstance();
+  //     pref = await SharedPreferences.getInstance();
+  //     bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
+  //
+  //     if (isGuest == false) {
+  //       animationController!.stop();
+  //       notifyListeners();
+  //       // final location = Provider.of<LocationProvider>(context, listen: false);
+  //       // if (location.addressList.isEmpty) {
+  //       //   route.pushNamed(context, routeName.location).then((e) {
+  //       //     animationController!.reset();
+  //       //     notifyListeners();
+  //       //   });
+  //     } else {
+  //       // route.pushNamed(context, routeName.myLocation).then((e) {
+  //       //   animationController!.reset();
+  //       //   notifyListeners();
+  //       // });
+  //     }
+  //     // } else {
+  //     //   final dash = Provider.of<DashboardProvider>(context, listen: false);
+  //     //
+  //     //
+  //     //   dash.selectIndex =0;
+  //     //   dash.notifyListeners();
+  //     //   route.pushAndRemoveUntil(context);
+  //     // }
+  //   }
 
   //notification tap
   Future<void> notificationTap(context) async {
@@ -371,7 +392,7 @@ class HomeScreenProvider with ChangeNotifier {
     // pref = await SharedPreferences.getInstance();
     // bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
     // if (isGuest == false) {
-      route.pushNamed(context, routeName.notifications);
+    route.pushNamed(context, routeName.notifications);
     // } else {
     //   route.pushAndRemoveUntil(context);
     // }
