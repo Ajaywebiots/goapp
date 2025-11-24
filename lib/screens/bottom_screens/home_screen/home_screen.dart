@@ -40,6 +40,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
+  void showGuestLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {"redirectTo": routeName.dashboard, "selectIndex": 0},
+          );
+          log("Redirecting to login from dashboard screen");
+          log("Guest login ${routeName.dashboard} ----- 0");
+        },
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeScreenProvider>(
@@ -112,15 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   (e) => CouponLayout(
                                     data: e.value,
                                     addOrRemoveTap: isGuest == true
-                                        ? () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              builder: (context) =>
-                                                  GuestLoginSheet(
-
-                                                  ),
-                                            );
-                                          }
+                                        ? showGuestLoginSheet
                                         : () {
                                             final previousFavourite =
                                                 e.value.isFavourite;
@@ -210,15 +221,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       },
                                       data: e.value,
                                       addOrRemoveTap: isGuest == true
-                                          ? () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) =>
-                                              GuestLoginSheet(
-
-                                              ),
-                                        );
-                                      }
+                                          ? showGuestLoginSheet
                                           :() {
                                         final previousFavourite =
                                             e.value.isFavourite;

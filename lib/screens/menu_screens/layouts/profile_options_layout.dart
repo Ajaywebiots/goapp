@@ -57,6 +57,24 @@ class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
     }
   }
 
+  void showGuestLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {"redirectTo": routeName.dashboard, "selectIndex": 4},
+          );
+          log("Redirecting to login from profile screen");
+          log("Guest login ${routeName.dashboard} ----- 4");
+        },
+      ),
+    );
+  }
+
   loadGuestStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString(session.accessToken);
@@ -128,20 +146,12 @@ class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
                                   icon: getIconFromString(s.value.icon),
                                   onTap: () async {
                                     log(
-                                      "klhdfjkldsnfd dsfndfsmvf ${s.value.title}",
+                                      "Profile option tapped: ${s.value.title}",
                                     );
                                     if (s.value.title == appFonts.myProfile) {
                                       if (isGuest == true) {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                          ),
-                                        );
+                                        showGuestLoginSheet();
                                       } else {
-                                        log(
-                                          "jkdfgadjksfgas ${appFonts.myProfile}",
-                                        );
                                         route.pushNamed(
                                           context,
                                           routeName.profileDetails,
@@ -150,12 +160,7 @@ class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
                                     } else if (s.value.title ==
                                         appFonts.favouriteList) {
                                       if (isGuest == true) {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                          ),
-                                        );
+                                        showGuestLoginSheet();
                                       } else {
                                         route.pushNamed(
                                           context,
@@ -165,12 +170,7 @@ class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
                                     } else if (s.value.title ==
                                         appFonts.myReviews) {
                                       if (isGuest == true) {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                          ),
-                                        );
+                                        showGuestLoginSheet();
                                       } else {
                                         route.pushNamed(
                                           context,
@@ -186,12 +186,7 @@ class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
                                     } else if (s.value.title ==
                                         appFonts.subscriptionPlans) {
                                       if (isGuest == true) {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                          ),
-                                        );
+                                        showGuestLoginSheet();
                                       } else {
                                         route.pushNamed(
                                           context,
@@ -201,12 +196,7 @@ class _ProfileOptionsLayoutState extends State<ProfileOptionsLayout> {
                                     } else if (s.value.title ==
                                         appFonts.contactUs) {
                                       if (isGuest == true) {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                          ),
-                                        );
+                                        showGuestLoginSheet();
                                       } else {
                                         route.pushNamed(
                                           context,
@@ -292,7 +282,16 @@ Widget loginButton(context) {
         ),
       ],
     ),
-  ).inkWell(onTap: () => route.pushNamed(context, routeName.login));
+  ).inkWell(
+    onTap: () {
+      log("Login button tapped from profile screen");
+      route.pushNamed(
+        context,
+        routeName.login,
+        arg: {"redirectTo": routeName.dashboard, "selectIndex": 4},
+      );
+    },
+  );
 }
 
 Widget logoutButton(BuildContext context, ProfileProvider profilePvr) {

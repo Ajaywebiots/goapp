@@ -96,7 +96,18 @@ class _BlogDetailsLayoutState extends State<BlogDetailsLayout> {
                                   showModalBottomSheet(
                                     context: context,
                                     builder: (context) => GuestLoginSheet(
-
+                                      onLoginSuccess: () {
+                                        Navigator.pop(context);
+                                        route.pushNamed(
+                                          context,
+                                          routeName.login,
+                                          arg: {
+                                            "redirectTo":
+                                                routeName.latestBlogDetails,
+                                            "blogId": article?.id,
+                                          },
+                                        );
+                                      },
                                     ),
                                   );
                                 }

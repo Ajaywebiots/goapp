@@ -1,9 +1,21 @@
+import 'dart:developer';
+
 import '../../../config.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import 'layouts/common_otp_layout.dart';
 
-class VerifyOtpScreen extends StatelessWidget {
+class VerifyOtpScreen extends StatefulWidget {
   const VerifyOtpScreen({super.key});
+
+  @override
+  State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
+}
+
+class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
+
+
+
+
 
   @override
   Widget build(BuildContext context) {

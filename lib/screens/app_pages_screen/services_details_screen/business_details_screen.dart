@@ -18,7 +18,6 @@ class BusinessDetailsScreen extends StatefulWidget {
 }
 
 class _BusinessDetailsScreenState extends State<BusinessDetailsScreen> {
-
   bool isGuest = false;
 
   @override
@@ -33,11 +32,43 @@ class _BusinessDetailsScreenState extends State<BusinessDetailsScreen> {
     setState(() {
       // If accessToken is null or empty, user is a guest
       isGuest = accessToken == null || accessToken.isEmpty;
-      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+      log(
+        "Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}",
+      );
     });
   }
 
+  String? businessId;
 
+  void _handleGuestAction(BuildContext context) {
+    final searchPvr = Provider.of<SearchProvider>(context, listen: false);
+    final business = searchPvr.businessDetail?.business;
+
+    final currentBusinessId = businessId ?? business?.id?.toString() ?? '';
+
+    if (currentBusinessId.isEmpty) {
+      log("ERROR: No businessId available!");
+      return;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {
+              "redirectTo": routeName.businessDetailsScreen,
+              "businessId": currentBusinessId,
+            },
+          );
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,16 +220,18 @@ class _BusinessDetailsScreenState extends State<BusinessDetailsScreen> {
                             appColor(context).darkText,
                           ),
                           title: language(context, appFonts.latestReviews),
-                          onTap: () => {
-                            route.pushNamed(
-                              context,
-                              routeName.serviceReviewScreen,
-                            ),
-                            Provider.of<ServiceReviewProvider>(
-                              context,
-                              listen: false,
-                            ).businessReviewListAPI(id: business?.id),
-                          },
+                          onTap: isGuest
+                              ? () => _handleGuestAction(context)
+                              : () => {
+                                  route.pushNamed(
+                                    context,
+                                    routeName.serviceReviewScreen,
+                                  ),
+                                  Provider.of<ServiceReviewProvider>(
+                                    context,
+                                    listen: false,
+                                  ).businessReviewListAPI(id: business?.id),
+                                },
                         ).padding(
                           horizontal: Insets.i20,
                           top: Insets.i20,
@@ -223,14 +256,7 @@ class _BusinessDetailsScreenState extends State<BusinessDetailsScreen> {
                           margin: Insets.i20,
                           title: language(context, appFonts.addReview),
                           onTap: isGuest
-                              ? () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => GuestLoginSheet(
-
-                                    ),
-                                  );
-                                }
+                              ? () => _handleGuestAction(context)
                               : () => searchPvr.addReviewTap(
                                   context,
                                   value,

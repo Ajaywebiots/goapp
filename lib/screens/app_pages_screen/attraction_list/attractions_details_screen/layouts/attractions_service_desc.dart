@@ -536,7 +536,18 @@ END:VCARD
                                 context: context,
                                 builder: (context) =>
                                     GuestLoginSheet(
-
+                                      onLoginSuccess: () {
+                                        Navigator.pop(context);
+                                        route.pushNamed(
+                                          context,
+                                          routeName.login,
+                                          arg: {
+                                            "redirectTo": routeName
+                                                .attractionDetailScreen,
+                                            "attractionId": widget.attractionData?.id,
+                                          },
+                                        );
+                                      },
                                     ),
                               );
                             } else {

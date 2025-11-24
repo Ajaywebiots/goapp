@@ -71,7 +71,17 @@ class _LatestBlogViewAllState extends State<LatestBlogViewAll> {
                               showModalBottomSheet(
                                 context: context,
                                 builder: (context) => GuestLoginSheet(
-
+                                  onLoginSuccess: () {
+                                    Navigator.pop(context);
+                                    route.pushNamed(
+                                      context,
+                                      routeName.login,
+                                      arg: {
+                                        "redirectTo":
+                                            routeName.latestBlogViewAll,
+                                      },
+                                    );
+                                  },
                                 ),
                               );
                             }
@@ -113,7 +123,17 @@ class _LatestBlogViewAllState extends State<LatestBlogViewAll> {
                                         showModalBottomSheet(
                                           context: context,
                                           builder: (context) => GuestLoginSheet(
-
+                                            onLoginSuccess: () {
+                                              Navigator.pop(context);
+                                              route.pushNamed(
+                                                context,
+                                                routeName.login,
+                                                arg: {
+                                                  "redirectTo": routeName
+                                                      .latestBlogViewAll,
+                                                },
+                                              );
+                                            },
                                           ),
                                         );
                                       }

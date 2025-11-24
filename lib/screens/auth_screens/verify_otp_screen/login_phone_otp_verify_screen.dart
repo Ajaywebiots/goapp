@@ -1,9 +1,32 @@
+import 'dart:developer';
+
 import '../../../config.dart';
 import '../../../widgets/DirectionalityRtl.dart';
 import 'layouts/phone_otp_.dart';
 
-class LoginPhoneOtpVerifyScreen extends StatelessWidget {
+class LoginPhoneOtpVerifyScreen extends StatefulWidget {
   const LoginPhoneOtpVerifyScreen({super.key});
+
+  @override
+  State<LoginPhoneOtpVerifyScreen> createState() => _LoginPhoneOtpVerifyScreenState();
+}
+
+class _LoginPhoneOtpVerifyScreenState extends State<LoginPhoneOtpVerifyScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    // Log arguments when screen initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+      log("VerifyOtpScreen received arguments: $args");
+      log("redirectTo: ${args?["redirectTo"]}");
+      log("offerId: ${args?["offerId"]}");
+      log("selectIndex: ${args?["selectIndex"]}");
+      log("businessID: ${args?["businessId"]}");
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

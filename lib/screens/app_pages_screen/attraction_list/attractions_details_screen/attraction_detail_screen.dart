@@ -147,7 +147,26 @@ class _AttractionDetailScreenState extends State<AttractionDetailScreen> {
                                 appColor(context).darkText,
                               ),
                               title: language(context, appFonts.reviews),
-                              onTap: () => {
+                              onTap: isGuest
+                                  ? () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => GuestLoginSheet(
+                                    onLoginSuccess: () {
+                                      Navigator.pop(context);
+                                      route.pushNamed(
+                                        context,
+                                        routeName.login,
+                                        arg: {
+                                          "redirectTo": routeName
+                                              .attractionDetailScreen,
+                                          "attractionId": attractions?.id,
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              } : () => {
                                 route.pushNamed(
                                   context,
                                   routeName.serviceReviewScreen,
@@ -187,7 +206,18 @@ class _AttractionDetailScreenState extends State<AttractionDetailScreen> {
                                       showModalBottomSheet(
                                         context: context,
                                         builder: (context) => GuestLoginSheet(
-
+                                          onLoginSuccess: () {
+                                            Navigator.pop(context);
+                                            route.pushNamed(
+                                              context,
+                                              routeName.login,
+                                              arg: {
+                                                "redirectTo": routeName
+                                                    .attractionDetailScreen,
+                                                "attractionId": attractions?.id,
+                                              },
+                                            );
+                                          },
                                         ),
                                       );
                                     }

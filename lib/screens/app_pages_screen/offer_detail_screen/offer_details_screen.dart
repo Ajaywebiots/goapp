@@ -5,6 +5,7 @@ import 'package:goapp/config.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../services/api_service.dart';
 import '../../bottom_screens/home_screen/layouts/guest_login_sheet.dart';
 
 class OfferDetailsScreen extends StatefulWidget {
@@ -15,9 +16,8 @@ class OfferDetailsScreen extends StatefulWidget {
 }
 
 class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
-  // bool isActive = false;
   bool isLike = false;
-
+  String? offerId;
   bool isGuest = false;
 
   @override
@@ -26,15 +26,85 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     loadGuestStatus();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Get the offer ID from route arguments
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    // Try to get offerId from arguments
+    final routeOfferId = args?["offerId"];
+
+    log("=== OFFER DETAILS SCREEN DEBUG ===");
+    log("Route arguments: $args");
+    log("routeOfferId value: $routeOfferId");
+    log("routeOfferId type: ${routeOfferId.runtimeType}");
+
+    // Convert to string if it's an int, otherwise use toString()
+    if (routeOfferId != null) {
+      offerId = routeOfferId.toString();
+      log("Converted offerId to: $offerId");
+    }
+
+    // Load offer details
+    if (offerId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        log("Loading offer details for offerId: $offerId");
+        Provider.of<OfferProvider>(context, listen: false)
+            .offerDetailsAPI(context, offerId);
+      });
+    }
+  }
+
+  void _handleGuestAction(BuildContext context) {
+    final offerPvr = Provider.of<OfferProvider>(context, listen: false);
+    final offers = offerPvr.offersDetails?.offer;
+
+    // Get offerId from multiple sources (priority order)
+    final currentOfferId = offerId ?? // From route arguments
+        offers?.id?.toString() ?? // From loaded offer
+        '';
+
+    log("=== GUEST ACTION DEBUG ===");
+    log("offerId from state: $offerId");
+    log("offers?.id from provider: ${offers?.id}");
+    log("Final currentOfferId: $currentOfferId");
+
+    if (currentOfferId.isEmpty) {
+      log("ERROR: No offerId available!");
+      showMessage("Unable to proceed. Please try again.");
+      return;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+
+          log("=== NAVIGATING TO LOGIN ===");
+          log("Passing offerId: $currentOfferId");
+          log("Passing redirectTo: ${routeName.offerDetailsScreen}");
+
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {
+              "redirectTo": routeName.offerDetailsScreen,
+              "offerId": currentOfferId,
+            },
+          );
+        },
+      ),
+    );
+  }
+
   loadGuestStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString(session.accessToken);
     setState(() {
-      // If accessToken is null or empty, user is a guest
       isGuest = accessToken == null || accessToken.isEmpty;
-      log(
-        "Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}",
-      );
+      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
     });
   }
 
@@ -43,7 +113,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     final offerPvr = Provider.of<OfferProvider>(context);
     final offers = offerPvr.offersDetails?.offer;
 
-    // log("offers?.isFavourite ${offers?.isFavourite}");
     return DirectionalityRtl(
       child: Scaffold(
         appBar: AppBarCommon(
@@ -112,11 +181,11 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                             offers?.categoty == ""
                                 ? Container()
                                 : Text(
-                                    "${offers?.categoty}  |",
-                                    style: appCss.dmDenseRegular13.textColor(
-                                      appColor(context).darkText,
-                                    ),
-                                  ),
+                              "${offers?.categoty}  |",
+                              style: appCss.dmDenseRegular13.textColor(
+                                appColor(context).darkText,
+                              ),
+                            ),
                             HSpace(5),
                             SvgPicture.asset('assets/svg/receipt.svg'),
                             HSpace(3),
@@ -133,33 +202,27 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                         ).paddingDirectional(top: 15, bottom: 20),
                         offers?.qrCode != null
                             ? Image.memory(
-                                base64Decode(offers?.qrCode ?? ""),
-                                height: 140,
-                                width: 140,
-                                fit: BoxFit.contain,
-                              )
+                          base64Decode(offers?.qrCode ?? ""),
+                          height: 140,
+                          width: 140,
+                          fit: BoxFit.contain,
+                        )
                             : ButtonCommon(
-                                margin: 20,
-                                title: language(
-                                  context,
-                                  appFonts.activeOfferNow,
-                                ),
-                                onTap: isGuest
-                                    ? () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                        ));
-                                      }
-                                    : () async {
-                                        showDialog(
-                                          context: context,
-                                          builder: (_) =>
-                                              const MembershipDialog(),
-                                        );
-                                      },
-                              ),
+                          margin: 20,
+                          title: language(
+                            context,
+                            appFonts.activeOfferNow,
+                          ),
+                          onTap: isGuest
+                              ? () => _handleGuestAction(context)
+                              : () async {
+                            showDialog(
+                              context: context,
+                              builder: (_) =>
+                              const MembershipDialog(),
+                            );
+                          },
+                        ),
                         VSpace(20),
                         Column(
                           children: [
@@ -273,54 +336,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                       bColor: Color(0xffF2F3F4),
                     ),
                     VSpace(15),
-                    // Container(
-                    //         padding: EdgeInsets.symmetric(vertical: Insets.i20),
-                    //         child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //             children: [
-                    //               Column(
-                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Text("Start date:",
-                    //                         style: appCss.dmDenseRegular12
-                    //                             .textColor(
-                    //                                 appColor(context).lightText)),
-                    //                     Text(
-                    //                         formatDate(
-                    //                             offers?.activationDate.toString() ??
-                    //                                 ""),
-                    //                         style: appCss.dmDenseMedium12.textColor(
-                    //                             appColor(context).darkText))
-                    //                   ]),
-                    //               SvgPicture.asset('assets/svg/line.svg'),
-                    //               Column(
-                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Text("End date",
-                    //                         style: appCss.dmDenseRegular12
-                    //                             .textColor(
-                    //                                 appColor(context).lightText)),
-                    //                     Text(
-                    //                         formatDate(
-                    //                             offers?.expirationDate.toString() ??
-                    //                                 ""),
-                    //                         style: appCss.dmDenseMedium12.textColor(
-                    //                             appColor(context).darkText))
-                    //                   ]),
-                    //               SvgPicture.asset('assets/svg/line.svg'),
-                    //               Column(
-                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Text("Status",
-                    //                         style: appCss.dmDenseRegular12
-                    //                             .textColor(
-                    //                                 appColor(context).lightText)),
-                    //                     Text("Active",
-                    //                         style: appCss.dmDenseMedium12.textColor(
-                    //                             appColor(context).greenColor))
-                    //                   ])
-                    //             ]).paddingDirectional(horizontal: Insets.i40))
-                    //     .boxBorderExtension(context, isShadow: true),
                     VSpace(Insets.i40),
                   ],
                 ).paddingSymmetric(horizontal: Insets.i20),
@@ -345,54 +360,46 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                 Positioned(
                   top: MediaQuery.of(context).size.height * 0.18,
                   right: MediaQuery.of(context).size.width * 0.08,
-                  child:
-                      Container(
-                        padding: EdgeInsets.all(Insets.i2),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          shape: BoxShape.circle,
-                        ),
-                        child: SvgPicture.asset(
-                          offers?.isFavourite == true
-                              ? "assets/svg/fav.svg"
-                              : "assets/svg/dislike.svg",
-                        ),
-                      ).inkWell(
-                        onTap: isGuest == true
-                            ? () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => GuestLoginSheet(
-
-                                ));
-                              }
-                            : () {
-                                // log("offers?.appObject!.appObjectType ${offers?.id} ${offers?.appObject!.appObjectType} ${offers?.appObject!.appObjectId}");
-                                Provider.of<CommonApiProvider>(
-                                  context,
-                                  listen: false,
-                                ).toggleFavAPI(
-                                  context,
-                                  offers?.isFavourite,
-                                  offers?.appObject!.appObjectType,
-                                  offers?.appObject!.appObjectId,
-                                  onSuccess: () async {
-                                    Provider.of<OfferProvider>(
-                                      context,
-                                      listen: false,
-                                    ).offerDetailsAPI(
-                                      context,
-                                      offers?.id,
-                                      isNotRouting: true,
-                                    );
-                                    await Provider.of<HomeScreenProvider>(
-                                      context,
-                                      listen: false,
-                                    ).homeFeed(context);
-                                  },
-                                );
-                              },
-                      ),
+                  child: Container(
+                    padding: EdgeInsets.all(Insets.i2),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      shape: BoxShape.circle,
+                    ),
+                    child: SvgPicture.asset(
+                      offers?.isFavourite == true
+                          ? "assets/svg/fav.svg"
+                          : "assets/svg/dislike.svg",
+                    ),
+                  ).inkWell(
+                    onTap: isGuest == true
+                        ? () => _handleGuestAction(context)
+                        : () {
+                      Provider.of<CommonApiProvider>(
+                        context,
+                        listen: false,
+                      ).toggleFavAPI(
+                        context,
+                        offers?.isFavourite,
+                        offers?.appObject!.appObjectType,
+                        offers?.appObject!.appObjectId,
+                        onSuccess: () async {
+                          Provider.of<OfferProvider>(
+                            context,
+                            listen: false,
+                          ).offerDetailsAPI(
+                            context,
+                            offers?.id,
+                            isNotRouting: true,
+                          );
+                          await Provider.of<HomeScreenProvider>(
+                            context,
+                            listen: false,
+                          ).homeFeed(context);
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -468,7 +475,7 @@ class MembershipDialog extends StatelessWidget {
               title: 'Choose Your Plan',
               onTap: () async {
                 final SharedPreferences pref =
-                    await SharedPreferences.getInstance();
+                await SharedPreferences.getInstance();
 
                 String? loginSession = pref.getString(session.loginSession);
 

@@ -35,6 +35,26 @@ class _ProfileSettingTopLayoutState extends State<ProfileSettingTopLayout> {
     });
   }
 
+
+  void showGuestLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {"redirectTo": routeName.dashboard, "selectIndex": 4},
+          );
+          log("Redirecting to login from profile screen");
+          log("Guest login ${routeName.dashboard} ----- 4");
+        },
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return DirectionalityRtl(
@@ -44,14 +64,7 @@ class _ProfileSettingTopLayoutState extends State<ProfileSettingTopLayout> {
             children: [
               ProfileLayout(
                 onTap: isGuest == true
-                    ? () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) => GuestLoginSheet(
-
-                          ),
-                        );
-                      }
+                    ? ()=> showGuestLoginSheet
                     : () => route.pushNamed(context, routeName.profileDetails),
               ),
               Stack(

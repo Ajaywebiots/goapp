@@ -51,6 +51,24 @@ class _AttractionScreenState extends State<AttractionScreen>
     });
   }
 
+  void showGuestLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {"redirectTo": routeName.dashboard, "selectIndex": 3},
+          );
+          log("Redirecting to login from attraction screen");
+          log("Guest login ${routeName.dashboard} ----- 3");
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final dash = Provider.of<DashboardProvider>(context, listen: true);
@@ -147,14 +165,7 @@ class _AttractionScreenState extends State<AttractionScreen>
                             .totalCountFilter()
                             .toString(),
                         onTap: isGuest
-                            ? () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => GuestLoginSheet(
-
-                                  ),
-                                );
-                              }
+                            ? showGuestLoginSheet
                             : () =>
                                   attraction.onBottomSheet(context, attraction),
                       ),
@@ -199,15 +210,7 @@ class _AttractionScreenState extends State<AttractionScreen>
                                     data: e.value,
                                     isHome: true,
                                     addOrRemoveTap: isGuest == true
-                                        ? () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              builder: (context) =>
-                                                  GuestLoginSheet(
-
-                                                  ),
-                                            );
-                                          }
+                                        ? showGuestLoginSheet
                                         : () {
                                             final previousFavourite =
                                                 e.value.isFavourite;

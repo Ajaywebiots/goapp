@@ -123,12 +123,21 @@ class _HomeBodyState extends State<HomeBody> {
                                 data: e.value,
                                 addOrRemoveTap: widget.isGuest == true
                                     ? () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => GuestLoginSheet(
-
-                                          ),
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => GuestLoginSheet(
+                                      onLoginSuccess: () {
+                                        Navigator.pop(context);
+                                        route.pushNamed(
+                                          context,
+                                          routeName.login,
+                                          arg: {"redirectTo": routeName.dashboard, "selectIndex": 0},
                                         );
+                                        log("Redirecting to login from dashboard screen");
+                                        log("Guest login ${routeName.dashboard} ----- 0");
+                                      },
+                                    ),
+                                  );
                                       }
                                     : () {
                                         final previousFavourite =
@@ -194,12 +203,21 @@ class _HomeBodyState extends State<HomeBody> {
                             data: e.value,
                             addOrRemoveTap: widget.isGuest == true
                                 ? () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => GuestLoginSheet(
-
-                                      ),
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => GuestLoginSheet(
+                                  onLoginSuccess: () {
+                                    Navigator.pop(context);
+                                    route.pushNamed(
+                                      context,
+                                      routeName.login,
+                                      arg: {"redirectTo": routeName.dashboard, "selectIndex": 0},
                                     );
+                                    log("Redirecting to login from dashboard screen");
+                                    log("Guest login ${routeName.dashboard} ----- 0");
+                                  },
+                                ),
+                              );
                                   }
                                 : () {
                                     final previousFavourite =

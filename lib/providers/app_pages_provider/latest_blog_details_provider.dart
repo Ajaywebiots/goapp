@@ -28,7 +28,7 @@ class LatestBLogDetailsProvider with ChangeNotifier {
 
   bool isNavigating = false;
 
-  void detailsDataAPI(context, value, {isNotRouting = false}) {
+  detailsDataAPI(context, value, {isNotRouting = false}) {
     if (isNavigating) return;
     isNavigating = true;
 

@@ -12,6 +12,12 @@ class VerifyOtpProvider with ChangeNotifier {
   Timer? countdownTimer;
   final FocusNode phoneFocus = FocusNode();
   Duration myDuration = const Duration(seconds: 60);
+  String? redirectTo;
+  String? offerId;
+  int? selectIndex;
+  int? businessID;
+  int? attractionId;
+  int? blogId;
 
   Future<void> onTapVerification(context) async {
     final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
@@ -71,6 +77,14 @@ class VerifyOtpProvider with ChangeNotifier {
                 context,
                 listen: false,
               );
+              final blogPvr = Provider.of<LatestBLogDetailsProvider>(
+                context,
+                listen: false,
+              );
+              final profileDetailsPvr = Provider.of<ProfileDetailProvider>(
+                context,
+                listen: false,
+              );
 
               homePvr.homeFeed(context);
               searchPvr.getBusinessSearchAPI(context, isFilter: false);
@@ -78,9 +92,134 @@ class VerifyOtpProvider with ChangeNotifier {
               offerPvr.getViewAllOfferAPI();
               catListPvr.getCategoriesData(context);
               offerPvr.getCategoriesData(context);
+              blogPvr.getArticlesSearchAPI(context);
+              profileDetailsPvr.getProfileDetailDataAPI(context);
 
-              dash.selectIndex = 0;
-              route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+              final args =
+                  ModalRoute.of(context)?.settings.arguments
+                      as Map<String, dynamic>?;
+              redirectTo = args?["redirectTo"];
+              offerId = args?["offerId"];
+              if (args?["selectIndex"] != null) {
+                selectIndex = int.tryParse(args!["selectIndex"].toString());
+              }
+              if (args?["businessId"] != null) {
+                businessID = int.tryParse(args!["businessId"].toString());
+              }
+              if (args?["attractionId"] != null) {
+                attractionId = int.tryParse(args!["attractionId"].toString());
+              }
+              if (args?["blogId"] != null) {
+                blogId = int.tryParse(args!["blogId"].toString());
+              }
+
+              log(
+                "Asdadadadddddd $redirectTo ----- $offerId =----- $selectIndex ---- $businessID",
+              );
+
+              // Handle redirect
+              if (redirectTo != null &&
+                  redirectTo == routeName.offerDetailsScreen &&
+                  offerId != null) {
+                log("akjsdklasdjakls ");
+                // Load offer details first
+                await offerPvr.offerDetailsAPI(context, offerId);
+
+                // Navigate to dashboard, then to offer details
+                route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+
+                Future.delayed(Duration(milliseconds: 100), () {
+                  route.pushNamed(
+                    context,
+                    routeName.offerDetailsScreen,
+                    arg: {"offerId": offerId},
+                  );
+                });
+              } else if (redirectTo == routeName.businessDetailsScreen &&
+                  businessID != null) {
+                log("=== REDIRECTING TO BUSINESS DETAILS ===");
+                log("With businessId: $businessID");
+
+                // Fetch business details and navigate
+                await Provider.of<SearchProvider>(
+                  context,
+                  listen: false,
+                ).getBusinessSearchAPI(
+                  context,
+                  id: int.parse(businessID.toString()),
+                );
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  routeName.businessDetailsScreen,
+                  (route) => route.settings.name == routeName.dashboard,
+                  arguments: {"businessId": businessID},
+                );
+              } else if (redirectTo == routeName.attractionDetailScreen &&
+                  attractionId != null) {
+                log("=== REDIRECTING TO ATTRACTION DETAILS ===");
+                log("With attractionId: $attractionId");
+
+                await Provider.of<AttractionProvider>(
+                  context,
+                  listen: false,
+                ).getAttractionSearchAPI(context);
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  routeName.attractionDetailScreen,
+                  (route) => route.settings.name == routeName.dashboard,
+                  arguments: {"attractionId": attractionId},
+                );
+              } else if (redirectTo == routeName.latestBlogDetails &&
+                  blogId != null) {
+                log("=== REDIRECTING TO BLOG DETAILS ===");
+                log("With blogId: $blogId");
+
+                await Provider.of<LatestBLogDetailsProvider>(
+                  context,
+                  listen: false,
+                ).detailsDataAPI(context, blogId);
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  routeName.latestBlogDetails,
+                  (route) => route.settings.name == routeName.latestBlogViewAll,
+                  arguments: {"blogId": blogId},
+                );
+              } else if (redirectTo == routeName.latestBlogViewAll) {
+                log("=== REDIRECTING TO BLOG VIEW ALL ===");
+
+                await Provider.of<LatestBLogDetailsProvider>(
+                  context,
+                  listen: false,
+                ).getArticlesSearchAPI(context);
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  routeName.latestBlogViewAll,
+                  (route) => route.settings.name == routeName.dashboard,
+                );
+              } else if (redirectTo == routeName.dashboard &&
+                  selectIndex != null) {
+                log("message ---selectIndex");
+                final dash = Provider.of<DashboardProvider>(
+                  context,
+                  listen: false,
+                );
+                dash.selectIndex = selectIndex!;
+                dash.notifyListeners();
+                route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+              } else {
+                log("message ---routeName.dashboard");
+                dash.selectIndex = 0;
+                dash.notifyListeners();
+                route.pushNamedAndRemoveUntil(context, routeName.dashboard);
+              }
+
+              redirectTo = null;
+              offerId = null;
+              selectIndex = null;
 
               sss.email.text = "";
               sss.numberController.text = "";

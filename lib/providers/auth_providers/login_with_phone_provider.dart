@@ -12,7 +12,8 @@ class LoginWithPhoneProvider with ChangeNotifier {
   String? verificationCode;
   double? currentLatitude;
   double? currentLongitude;
-
+  String? redirectTo;
+  String? offerId;
 
   ContactMethod selectedMethod = ContactMethod.email;
 
@@ -77,7 +78,15 @@ class LoginWithPhoneProvider with ChangeNotifier {
   TextEditingController email = TextEditingController();
   final FocusNode userNameFocus = FocusNode();
 
-  Future<void> onTapEmailOtp(BuildContext context) async {
+  Future<void> onTapEmailOtp(
+    context, {
+    String? redirectTo,
+    String? offerId,
+    selectIndex,
+    String? businessId,
+    String? attractionId,
+    String? blogId,
+  }) async {
     verificationCode = "";
     final verifyOtp = Provider.of<VerifyOtpProvider>(context, listen: false);
     verifyOtp.otpController.text = "";
@@ -103,7 +112,19 @@ class LoginWithPhoneProvider with ChangeNotifier {
         if (value.data['responseStatus'] == 1 &&
             value.data['code'] != null &&
             value.data['code'].toString().isNotEmpty) {
-          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
+          route.pushNamed(
+            context,
+            routeName.loginPhoneOtpVerifyScreen,
+            arg: {
+              "email": email.text,
+              "redirectTo": redirectTo,
+              "offerId": offerId,
+              "selectIndex": selectIndex,
+              "businessId": businessId,
+              "attractionId": attractionId,
+              "blogId": blogId,
+            },
+          );
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('authToken', token.toString());
@@ -126,7 +147,15 @@ class LoginWithPhoneProvider with ChangeNotifier {
     }
   }
 
-  Future<void> onTapOtp(BuildContext context) async {
+  Future<void> onTapOtp(
+    context, {
+    String? redirectTo,
+    String? offerId,
+    selectIndex,
+    String? businessId,
+    String? attractionId,
+    String? blogId,
+  }) async {
     verificationCode = "";
     final verifyOtp = Provider.of<VerifyOtpProvider>(context, listen: false);
     verifyOtp.otpController.text = "";
@@ -155,7 +184,19 @@ class LoginWithPhoneProvider with ChangeNotifier {
         if (value.data['responseStatus'] == 1 &&
             value.data['code'] != null &&
             value.data['code'].toString().isNotEmpty) {
-          route.pushNamed(context, routeName.loginPhoneOtpVerifyScreen);
+          route.pushNamed(
+            context,
+            routeName.loginPhoneOtpVerifyScreen,
+            arg: {
+              "email": email.text,
+              "redirectTo": redirectTo,
+              "offerId": offerId,
+              "selectIndex": selectIndex,
+              "businessId": businessId,
+              "attractionId": attractionId,
+              "blogId": blogId,
+            },
+          );
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('authToken', token.toString());
@@ -173,5 +214,4 @@ class LoginWithPhoneProvider with ChangeNotifier {
       }
     }
   }
-
 }

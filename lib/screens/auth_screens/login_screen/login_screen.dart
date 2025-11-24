@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:goapp/config.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
 
@@ -13,6 +15,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final redirectTo = args?["redirectTo"] as String?;
+    final offerId = args?["offerId"]?.toString();
+    final selectIndex = args?["selectIndex"];
+    log("LoginScreen received: redirectTo=$redirectTo, offerId=$offerId ---- selectIndex=$selectIndex");
+
     return Consumer<LoginProvider>(builder: (loginContext, value, child) {
       final sss = Provider.of<LoginWithPhoneProvider>(context, listen: false);
       return StatefulWrapper(

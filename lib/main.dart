@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) => MyBusinessProvider()),
               ChangeNotifierProvider(create: (_) => LoginWithPhoneProvider()),
               ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
-              ChangeNotifierProvider(create: (_) => ForgetPasswordProvider()),
+              // ChangeNotifierProvider(create: (_) => ForgetPasswordProvider()),
               ChangeNotifierProvider(create: (_) => RegisterProvider()),
               ChangeNotifierProvider(create: (_) => SocialRegProvider()),
               ChangeNotifierProvider(create: (_) => SearchProvider()),

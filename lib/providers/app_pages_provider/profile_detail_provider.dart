@@ -49,7 +49,6 @@ class ProfileDetailProvider with ChangeNotifier {
     accountType = userProfile.accountType?.accountTypeName ?? "";
     memberStatus = userProfile.accountRole?.accountRoleName ?? "";
     birthday.text = DateFormat('dd/MM/yyyy').format(userProfile.birthday!);
-
     notifyListeners();
   }
 

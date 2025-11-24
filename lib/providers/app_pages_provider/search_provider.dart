@@ -137,7 +137,13 @@ Future<void> businessDetailsAPI(context, id, {bool isNotRouting = false}) async 
         notifyListeners();
 
         if (!isNotRouting) {
-          route.pushNamed(context, routeName.businessDetailsScreen);
+          route.pushNamed(
+            context,
+            routeName.businessDetailsScreen,
+            arg: {
+              "businessId": id,
+            },
+          );
         }
       } else {
         Navigator.pushNamedAndRemoveUntil(

@@ -23,6 +23,7 @@ class TopCategoriesLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SearchProvider>(builder: (context, searchPvr, child) {
+
       return Column(children: [
         Container(
             height: Sizes.s60,

@@ -1,7 +1,7 @@
 import 'package:goapp/config.dart';
 
 class GuestLoginSheet extends StatelessWidget {
-  final VoidCallback? onLoginSuccess;
+  final onLoginSuccess;
 
   const GuestLoginSheet({super.key, this.onLoginSuccess});
 
@@ -74,10 +74,7 @@ class GuestLoginSheet extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      route.pushNamed(context, routeName.login);
-                    },
+                    onPressed:onLoginSuccess,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: appColor(context).primary,
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -102,5 +99,3 @@ class GuestLoginSheet extends StatelessWidget {
     );
   }
 }
-
-

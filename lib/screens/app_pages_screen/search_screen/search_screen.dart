@@ -92,6 +92,24 @@ class _SearchScreenState extends State<SearchScreen>
     });
   }
 
+  void showGuestLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {"redirectTo": routeName.dashboard, "selectIndex": 1},
+          );
+          log("Redirecting to login from business screen");
+          log("Guest login ${routeName.dashboard} ----- 1");
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer3<ProfileProvider, CategoriesListProvider, SearchProvider>(
@@ -174,14 +192,7 @@ class _SearchScreenState extends State<SearchScreen>
                               focusNode: searchPvr.searchFocus,
                               controller: searchPvr.searchCtrl,
                               onChanged: isGuest
-                                  ? (v) {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => GuestLoginSheet(
-
-                                  ),
-                                );
-                              }
+                                  ? (v) =>showGuestLoginSheet()
                                   :(v) {
                                 searchPvr.onSearchChange(
                                   context,
@@ -201,14 +212,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     .totalCountFilter()
                                     .toString(),
                                 onTap:isGuest
-                                    ? () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => GuestLoginSheet(
-
-                                    ),
-                                  );
-                                }
+                                    ? showGuestLoginSheet
                                     : () => searchPvr.onBottomSheet(
                                   context,
                                   categoryListPvr,
@@ -316,12 +320,15 @@ class _SearchScreenState extends State<SearchScreen>
                                           .asMap()
                                           .entries
                                           .map((e) {
+
                                             return TopCategoriesLayout(
                                               index: e.key,
                                               data: e.value,
                                               selectedIndex:
                                                   selectedCategoryIndex,
                                               onTap: () {
+                                                log("ajkhdsajksd $selectedCategoryIndex");
+                                                log("ajkhdsajksd ${e.key}");
                                                 setState(() {
                                                   selectedCategoryIndex = e.key;
                                                 });
@@ -368,15 +375,7 @@ class _SearchScreenState extends State<SearchScreen>
                                         .map(
                                           (e) => FeaturedBusinessLayout(
                                             addOrRemoveTap: isGuest == true
-                                                ? () {
-                                                    showModalBottomSheet(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          GuestLoginSheet(
-
-                                                          ),
-                                                    );
-                                                  }
+                                                ? showGuestLoginSheet
                                                 : () {
                                                     final previousFavourite =
                                                         e.value.isFavourite;

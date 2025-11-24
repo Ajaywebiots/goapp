@@ -244,7 +244,7 @@ class OfferProvider extends ChangeNotifier {
 
   OfferDetailsModel? offersDetails;
 
-  void offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
+  offerDetailsAPI(context, id, {bool? isNotRouting = false}) {
     if (isNavigating) return;
     isNavigating = true;
 

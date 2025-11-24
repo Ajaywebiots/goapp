@@ -45,6 +45,24 @@ class _CouponListScreenState extends State<CouponListScreen> {
     });
   }
 
+  void showGuestLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => GuestLoginSheet(
+        onLoginSuccess: () {
+          Navigator.pop(context);
+          route.pushNamed(
+            context,
+            routeName.login,
+            arg: {"redirectTo": routeName.dashboard, "selectIndex": 2},
+          );
+          log("Redirecting to login from coupon screen");
+          log("Guest login ${routeName.dashboard} ----- 2");
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<OfferProvider>(
@@ -110,14 +128,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
                               .totalCountFilter()
                               .toString(),
                           onTap: isGuest
-                              ? () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => GuestLoginSheet(
-
-                                    ),
-                                  );
-                                }
+                              ? showGuestLoginSheet
                               : () {
                                   openFilterModal(context);
                                 },
@@ -139,14 +150,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
                       ...offerPvr.offerViewAllList.asMap().entries.map(
                         (e) => CouponLayout(
                           addOrRemoveTap: isGuest == true
-                              ? () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => GuestLoginSheet(
-
-                                    ),
-                                  );
-                                }
+                              ? showGuestLoginSheet
                               : () {
                                   final previousFavourite = e.value.isFavourite;
                                   e.value.isFavourite = !previousFavourite;
