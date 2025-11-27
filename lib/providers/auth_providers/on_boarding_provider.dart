@@ -31,8 +31,11 @@ class OnBoardingProvider with ChangeNotifier {
 
   bool val = false;
 
-  Future<void> onSkip(context) async {
-    Provider.of<SplashProvider>(context, listen: false).completeOnboarding(context);
+  onSkip(context) async {
+    Provider.of<SplashProvider>(
+      context,
+      listen: false,
+    ).completeOnboarding(context);
   }
 
   Future<void> newImageSmall() async {
@@ -51,12 +54,16 @@ class OnBoardingProvider with ChangeNotifier {
     notifyListeners();
     // onBoardingDetails();
     notifyListeners();
-
+    final loginPvr = Provider.of<LoginProvider>(context, listen: false);
+    loginPvr.locationPermission();
     pageController = PageController(initialPage: 0);
     notifyListeners();
     if (pageController!.hasClients) {
-      pageController!.animateToPage(selectIndex,
-          duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
+      pageController!.animateToPage(
+        selectIndex,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeIn,
+      );
       notifyListeners();
     }
   }
@@ -67,7 +74,9 @@ class OnBoardingProvider with ChangeNotifier {
     }
 
     pageController!.nextPage(
-        duration: const Duration(milliseconds: 100), curve: Curves.linear);
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.linear,
+    );
     await Future.delayed(const Duration(milliseconds: 100));
 
     isDisplay = false;
@@ -80,7 +89,10 @@ class OnBoardingProvider with ChangeNotifier {
     } else if (selectIndex == 3) {
       notifyListeners();
     } else if (selectIndex == -1) {
-      Provider.of<SplashProvider>(context, listen: false).completeOnboarding(context);
+      Provider.of<SplashProvider>(
+        context,
+        listen: false,
+      ).completeOnboarding(context);
       // SharedPreferences pref = await SharedPreferences.getInstance();
       // // final login = Provider.of<LoginProvider>(context, listen: false);
       // // login.continueAsGuestTap(context);
@@ -93,7 +105,9 @@ class OnBoardingProvider with ChangeNotifier {
     isDisplay = false;
     selectIndex--;
     pageController!.previousPage(
-        duration: const Duration(milliseconds: 100), curve: Curves.linear);
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.linear,
+    );
     notifyListeners();
 
     if (selectIndex != 2) {
@@ -122,18 +136,18 @@ class OnBoardingProvider with ChangeNotifier {
       apiServices
           .commonApi(api.supportLang, [], ApiType.get, isToken: false)
           .then((value) {
-        if (value.isSuccess!) {
-          hideLoading(context);
-          notifyListeners();
-          langModel = SupportedLangModel.fromJson(value.data);
-          if (langModel?.supportedLanguages != null &&
-              langModel!.supportedLanguages!.isNotEmpty) {
-            notifyListeners();
-            selectedLanguage = langModel!.supportedLanguages!.first;
-            notifyListeners();
-          }
-        }
-      });
+            if (value.isSuccess!) {
+              hideLoading(context);
+              notifyListeners();
+              langModel = SupportedLangModel.fromJson(value.data);
+              if (langModel?.supportedLanguages != null &&
+                  langModel!.supportedLanguages!.isNotEmpty) {
+                notifyListeners();
+                selectedLanguage = langModel!.supportedLanguages!.first;
+                notifyListeners();
+              }
+            }
+          });
     } catch (e) {
       log("EEEE : languageSupport $e");
     }

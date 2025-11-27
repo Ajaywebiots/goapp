@@ -32,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   loadGuestStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString(session.accessToken);
+    var isIntro = prefs.getBool("isIntro");
+    log("isIntro::$isIntro");
+    prefs.setBool("isGuest", true);
     setState(() {
       // If accessToken is null or empty, user is a guest
       isGuest = accessToken == null || accessToken.isEmpty;

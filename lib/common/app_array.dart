@@ -306,11 +306,11 @@ class AppArray {
           "title": appFonts.appSettings,
           "isArrow": true
         },
-        {
-          "icon": "assets/svg/crown.svg",
-          "title": appFonts.subscriptionPlans,
-          "isArrow": true
-        }
+        // {
+        //   "icon": "assets/svg/crown.svg",
+        //   "title": appFonts.subscriptionPlans,
+        //   "isArrow": true
+        // }
       ]
     },
     {

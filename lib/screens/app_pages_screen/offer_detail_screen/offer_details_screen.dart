@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:goapp/config.dart';
 import 'package:goapp/widgets/DirectionalityRtl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../services/api_service.dart';
 import '../../bottom_screens/home_screen/layouts/guest_login_sheet.dart';
@@ -19,6 +18,8 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   bool isLike = false;
   String? offerId;
   bool isGuest = false;
+  // Tracks whether the current offer has been activated in this screen
+  bool isOfferActivated = false;
 
   @override
   void initState() {
@@ -30,7 +31,8 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Get the offer ID from route arguments
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     // Try to get offerId from arguments
     final routeOfferId = args?["offerId"];
@@ -42,16 +44,24 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
 
     // Convert to string if it's an int, otherwise use toString()
     if (routeOfferId != null) {
-      offerId = routeOfferId.toString();
-      log("Converted offerId to: $offerId");
+      final newOfferId = routeOfferId.toString();
+      if (newOfferId != offerId) {
+        setState(() {
+          offerId = newOfferId;
+          isOfferActivated = false; // Reset activation state for new offer
+        });
+        log("Converted offerId to: $offerId and reset activation flag");
+      }
     }
 
     // Load offer details
     if (offerId != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         log("Loading offer details for offerId: $offerId");
-        Provider.of<OfferProvider>(context, listen: false)
-            .offerDetailsAPI(context, offerId);
+        Provider.of<OfferProvider>(
+          context,
+          listen: false,
+        ).offerDetailsAPI(context, offerId);
       });
     }
   }
@@ -61,7 +71,8 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     final offers = offerPvr.offersDetails?.offer;
 
     // Get offerId from multiple sources (priority order)
-    final currentOfferId = offerId ?? // From route arguments
+    final currentOfferId =
+        offerId ?? // From route arguments
         offers?.id?.toString() ?? // From loaded offer
         '';
 
@@ -104,7 +115,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     final accessToken = prefs.getString(session.accessToken);
     setState(() {
       isGuest = accessToken == null || accessToken.isEmpty;
-      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+      log(
+        "Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}",
+      );
     });
   }
 
@@ -181,11 +194,11 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                             offers?.categoty == ""
                                 ? Container()
                                 : Text(
-                              "${offers?.categoty}  |",
-                              style: appCss.dmDenseRegular13.textColor(
-                                appColor(context).darkText,
-                              ),
-                            ),
+                                    "${offers?.categoty}  |",
+                                    style: appCss.dmDenseRegular13.textColor(
+                                      appColor(context).darkText,
+                                    ),
+                                  ),
                             HSpace(5),
                             SvgPicture.asset('assets/svg/receipt.svg'),
                             HSpace(3),
@@ -200,29 +213,42 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                         DottedLine(
                           dashColor: Color(0xffE5E8EA),
                         ).paddingDirectional(top: 15, bottom: 20),
-                        offers?.qrCode != null
+                        // Show QR code only if this offer has been activated and QR data is available
+                        (isOfferActivated && offers?.qrCode != null)
                             ? Image.memory(
-                          base64Decode(offers?.qrCode ?? ""),
-                          height: 140,
-                          width: 140,
-                          fit: BoxFit.contain,
-                        )
+                                base64Decode(offers?.qrCode ?? ""),
+                                height: 140,
+                                width: 140,
+                                fit: BoxFit.contain,
+                              )
                             : ButtonCommon(
-                          margin: 20,
-                          title: language(
-                            context,
-                            appFonts.activeOfferNow,
-                          ),
-                          onTap: isGuest
-                              ? () => _handleGuestAction(context)
-                              : () async {
+                                margin: 20,
+                                title: language(
+                                  context,
+                                  appFonts.activeOfferNow,
+                                ),
+                                onTap: isGuest
+                                    ? () => _handleGuestAction(context)
+                                    : () async {
+                                        // Activate offer and show QR code for this offer only
+                                        await Provider.of<OfferProvider>(
+                                          context,
+                                          listen: false,
+                                        ).activateOfferAPI(context, offerId);
+                                        // Mark this offer as activated so UI updates to show QR
+                                        setState(() {
+                                          isOfferActivated = true;
+                                        });
+
+                                        /* COMMENTED OUT: Membership purchase flow
                             showDialog(
                               context: context,
                               builder: (_) =>
                               const MembershipDialog(),
                             );
-                          },
-                        ),
+                            */
+                                      },
+                              ),
                         VSpace(20),
                         Column(
                           children: [
@@ -358,48 +384,49 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.18,
+                  top: MediaQuery.of(context).size.height * 0.21,
                   right: MediaQuery.of(context).size.width * 0.08,
-                  child: Container(
-                    padding: EdgeInsets.all(Insets.i2),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.asset(
-                      offers?.isFavourite == true
-                          ? "assets/svg/fav.svg"
-                          : "assets/svg/dislike.svg",
-                    ),
-                  ).inkWell(
-                    onTap: isGuest == true
-                        ? () => _handleGuestAction(context)
-                        : () {
-                      Provider.of<CommonApiProvider>(
-                        context,
-                        listen: false,
-                      ).toggleFavAPI(
-                        context,
-                        offers?.isFavourite,
-                        offers?.appObject!.appObjectType,
-                        offers?.appObject!.appObjectId,
-                        onSuccess: () async {
-                          Provider.of<OfferProvider>(
-                            context,
-                            listen: false,
-                          ).offerDetailsAPI(
-                            context,
-                            offers?.id,
-                            isNotRouting: true,
-                          );
-                          await Provider.of<HomeScreenProvider>(
-                            context,
-                            listen: false,
-                          ).homeFeed(context);
-                        },
-                      );
-                    },
-                  ),
+                  child:
+                      Container(
+                        padding: EdgeInsets.all(Insets.i2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset(
+                          offers?.isFavourite == true
+                              ? "assets/svg/fav.svg"
+                              : "assets/svg/dislike.svg",
+                        ),
+                      ).inkWell(
+                        onTap: isGuest == true
+                            ? () => _handleGuestAction(context)
+                            : () {
+                                Provider.of<CommonApiProvider>(
+                                  context,
+                                  listen: false,
+                                ).toggleFavAPI(
+                                  context,
+                                  offers?.isFavourite,
+                                  offers?.appObject!.appObjectType,
+                                  offers?.appObject!.appObjectId,
+                                  onSuccess: () async {
+                                    Provider.of<OfferProvider>(
+                                      context,
+                                      listen: false,
+                                    ).offerDetailsAPI(
+                                      context,
+                                      offers?.id,
+                                      isNotRouting: true,
+                                    );
+                                    await Provider.of<HomeScreenProvider>(
+                                      context,
+                                      listen: false,
+                                    ).homeFeed(context);
+                                  },
+                                );
+                              },
+                      ),
                 ),
               ],
             ),
@@ -419,6 +446,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   }
 }
 
+/* COMMENTED OUT: Membership purchase dialog - no longer needed
 class MembershipDialog extends StatelessWidget {
   const MembershipDialog({super.key});
 
@@ -475,7 +503,7 @@ class MembershipDialog extends StatelessWidget {
               title: 'Choose Your Plan',
               onTap: () async {
                 final SharedPreferences pref =
-                await SharedPreferences.getInstance();
+                    await SharedPreferences.getInstance();
 
                 String? loginSession = pref.getString(session.loginSession);
 
@@ -497,3 +525,4 @@ class MembershipDialog extends StatelessWidget {
     );
   }
 }
+*/

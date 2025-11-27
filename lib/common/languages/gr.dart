@@ -78,7 +78,7 @@ final greek = {
   "enterYourRegisterPhone": "Εισαγάγετε τον καταχωρημένο αριθμό τηλεφώνου σας",
   "phoneNo": "Τηλέφωνο",
   "enterPhoneNumber": "Εισαγάγετε τον αριθμό τηλεφώνου",
-  "skip": "ΠΑΡΑΛΕΙΠΩ",
+  "skip": "Συνέχεια ως επισκέπτης",
   "firstName": "Ονομα",
   "lastName": "Επώνυμο",
   "username": "Όνομα χρήστη",

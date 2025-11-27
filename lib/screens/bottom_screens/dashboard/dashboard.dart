@@ -13,10 +13,27 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
+  bool isGuest = false;
+
+
+  loadGuestStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString(session.accessToken);
+    var isIntro = prefs.getBool("isIntro");
+    log("isIntro::$isIntro");
+
+    setState(() {
+      // If accessToken is null or empty, user is a guest
+      isGuest = accessToken == null || accessToken.isEmpty;
+      log("Guest status: $isGuest, AccessToken: ${accessToken != null ? 'exists' : 'null'}");
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance.addObserver(this);
+    loadGuestStatus();
     super.initState();
   }
 
@@ -38,10 +55,12 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
                   }
                 });
               });
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              if(pref.getBool("isGuest")==false){
               Provider.of<ProfileDetailProvider>(context, listen: false)
                   .getProfileDetailDataAPI(context);
               Provider.of<MyReviewProvider>(context, listen: false)
-                  .getMyReviewListData();
+                  .getMyReviewListData();}
             },
             child: DirectionalityRtl(
                 child: Scaffold(

@@ -39,8 +39,9 @@ class OfferProvider extends ChangeNotifier {
           notifyListeners();
 
           log("API Response: attractionCategories ${value.data}");
-          OfferCategoriesModel categoryModel =
-              OfferCategoriesModel.fromJson(value.data);
+          OfferCategoriesModel categoryModel = OfferCategoriesModel.fromJson(
+            value.data,
+          );
 
           // Clear old list and add new parsed categories
 
@@ -52,7 +53,10 @@ class OfferProvider extends ChangeNotifier {
           notifyListeners();
         } else {
           Navigator.pushNamedAndRemoveUntil(
-              context, routeName.login, (Route<dynamic> route) => false);
+            context,
+            routeName.login,
+            (Route<dynamic> route) => false,
+          );
         }
       });
     } catch (e) {
@@ -80,7 +84,7 @@ class OfferProvider extends ChangeNotifier {
 
   List<Categories> categoryList = [];
 
-/*  searchService(BuildContext context, {bool isPop = false}) async {
+  /*  searchService(BuildContext context, {bool isPop = false}) async {
     */ /* final homePvr = Provider.of<HomeScreenProvider>(context, listen: false);
     Position position = await homePvr.getCurrentLocation();
     double lat = position.latitude;
@@ -170,15 +174,20 @@ class OfferProvider extends ChangeNotifier {
   void fetchSearchResults(String query) {
     try {
       apiServices
-          .commonApi("${api.offerSearch}?name=$query", [], ApiType.get,
-              isToken: true)
+          .commonApi(
+            "${api.offerSearch}?name=$query",
+            [],
+            ApiType.get,
+            isToken: true,
+          )
           .then((value) {
-        offerViewAllList.clear();
-        OfferSearchModel offerSearchModel =
-            OfferSearchModel.fromJson(value.data);
-        offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
-        notifyListeners();
-      });
+            offerViewAllList.clear();
+            OfferSearchModel offerSearchModel = OfferSearchModel.fromJson(
+              value.data,
+            );
+            offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
+            notifyListeners();
+          });
     } catch (e) {
       log("Search error: $e");
     }
@@ -206,19 +215,20 @@ class OfferProvider extends ChangeNotifier {
       apiServices
           .commonApi(api.offerSearch, [], ApiType.get, isToken: true)
           .then((value) {
-        notifyListeners();
-        if (value.isSuccess == true) {
-          offerViewAllList.clear();
-          if (value.data['responseStatus'] == 1) {
-            OfferSearchModel offerSearchModel =
-                OfferSearchModel.fromJson(value.data);
             notifyListeners();
-            offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
-            fetchOfferTypes();
-            notifyListeners();
-          }
-        }
-      });
+            if (value.isSuccess == true) {
+              offerViewAllList.clear();
+              if (value.data['responseStatus'] == 1) {
+                OfferSearchModel offerSearchModel = OfferSearchModel.fromJson(
+                  value.data,
+                );
+                notifyListeners();
+                offerViewAllList.addAll(offerSearchModel.offers as List<Offer>);
+                fetchOfferTypes();
+                notifyListeners();
+              }
+            }
+          });
     } catch (e) {
       log("getViewAllOfferAPI :: $e");
     }
@@ -232,8 +242,11 @@ class OfferProvider extends ChangeNotifier {
     notifyListeners();
     isLoading = true;
 
-    final response =
-        await apiServices.commonApi(api.offerType, [], ApiType.get);
+    final response = await apiServices.commonApi(
+      api.offerType,
+      [],
+      ApiType.get,
+    );
     if (response.data['responseStatus'] == 1) {
       final offerCategoryModel = OfferCategoryModel.fromJson(response.data);
       offerTypes = offerCategoryModel.offerTypes;
@@ -251,29 +264,101 @@ class OfferProvider extends ChangeNotifier {
     notifyListeners();
     try {
       apiServices
-          .commonApi("${api.offersDetails}$id/details", [], ApiType.get,
-              isToken: true)
+          .commonApi(
+            "${api.offersDetails}$id/details",
+            [],
+            ApiType.get,
+            isToken: true,
+          )
           .then((value) {
-        if (value.isSuccess!) {
-          OfferDetailsModel offersDetailsModel =
-              OfferDetailsModel.fromJson(value.data);
-          offersDetails = offersDetailsModel;
+            if (value.isSuccess!) {
+              OfferDetailsModel offersDetailsModel = OfferDetailsModel.fromJson(
+                value.data,
+              );
+              offersDetails = offersDetailsModel;
 
-          log("Offer full data: ${value.data}");
-          notifyListeners();
+              log("Offer full data: ${value.data}");
+              notifyListeners();
 
-          if (isNotRouting != true) {
-            route.pushNamed(context, routeName.offerDetailsScreen);
-          }
-        }
-        isNavigating = false;
-      }).catchError((error) {
-        isNavigating = false;
-        log("API Error: $error");
-      });
+              if (isNotRouting != true) {
+                route.pushNamed(context, routeName.offerDetailsScreen);
+              }
+            }
+            isNavigating = false;
+          })
+          .catchError((error) {
+            isNavigating = false;
+            log("API Error: $error");
+          });
     } catch (e) {
       isNavigating = false;
       log("Search error: $e");
+    }
+  }
+
+  Future<void> activateOfferAPI(BuildContext context, String? offerId) async {
+    if (offerId == null) return;
+
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final int? userId = pref.getInt(session.id);
+
+      if (userId == null) {
+        // Handle not logged in case if needed, though UI should prevent this
+        return;
+      }
+
+      // Construct URL: /user/{userId}/offer/{offerId}/activate
+      // Assuming api.qrGenerate is "/user/"
+      final String url = "${api.qrGenerate}$userId/offer/$offerId/activate";
+
+      log("Activating offer: $url");
+
+      final response = await apiServices.commonApi(
+        url,
+        [],
+        ApiType.post,
+        isToken: true,
+      );
+
+      if (response.isSuccess ?? false) {
+        log("Offer activated successfully: ${response.data}");
+
+        // Refresh offer details to get the QR code
+        await offerDetailsAPI(context, offerId, isNotRouting: true);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Offer activated successfully!",
+              style: appCss.dmDenseRegular14.textColor(Colors.white),
+            ),
+            backgroundColor: appColor(context).greenColor,
+          ),
+        );
+      } else {
+        log("Failed to activate offer: ${response.message}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response.message,
+              style: appCss.dmDenseRegular14.textColor(Colors.white),
+            ),
+            backgroundColor: appColor(context).red,
+          ),
+        );
+      }
+    } catch (e) {
+      log("Error activating offer: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Something went wrong",
+            style: appCss.dmDenseRegular14.textColor(Colors.white),
+          ),
+          backgroundColor: appColor(context).red,
+        ),
+      );
     }
   }
 
@@ -285,3 +370,4 @@ class OfferProvider extends ChangeNotifier {
     super.dispose();
   }
 }
+

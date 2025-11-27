@@ -24,10 +24,7 @@ class LoginProvider with ChangeNotifier {
   }
 
   void guestLogin(context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
 
-    await prefs.setBool(Session.isIntro, true);
 
     route.pushReplacementNamed(context, routeName.dashboard);
 
@@ -41,16 +38,19 @@ class LoginProvider with ChangeNotifier {
       context,
       listen: false,
     );
+    notifyListeners();
     final catListPvr = Provider.of<CategoriesListProvider>(
       context,
       listen: false,
-    );
+    );notifyListeners();
+
     catListPvr.getCategoriesData(context);
     attractionPvr.getAttractionSearchAPI(context);
     final searchPvr = Provider.of<SearchProvider>(context, listen: false);
     searchPvr.getBusinessSearchAPI(context, isFilter: false);
     final offerPvr = Provider.of<OfferProvider>(context, listen: false);
     offerPvr.getViewAllOfferAPI();
+    notifyListeners();
   }
 
   // autoFetch() {
@@ -291,3 +291,4 @@ class LoginProvider with ChangeNotifier {
   //   }
   // }
 }
+

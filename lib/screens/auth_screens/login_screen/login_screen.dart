@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const LoginLayout(),
                       const VSpace(Sizes.s26),
 
-                      Text("Guest Login",style: appCss.dmDenseMedium14
+                      Text(language(context, appFonts.skip),style: appCss.dmDenseMedium14
                           .textColor(appColor(context).darkText)).center().inkWell(onTap: () {
                             value.guestLogin(context);
                           }),

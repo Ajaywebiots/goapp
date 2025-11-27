@@ -21,8 +21,8 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logOut(context) async {
-    final profilePvr = Provider.of<ProfileDetailProvider>(context);
+  logOut(context) async {
+    final profilePvr = Provider.of<ProfileDetailProvider>(context,listen: false);
 
     profilePvr.profileImageUrl = "";
     profilePvr.txtFName.text = "";
@@ -34,8 +34,6 @@ class ProfileProvider with ChangeNotifier {
     profilePvr.notifyListeners();
 
 
-
-
     final prefs = await SharedPreferences.getInstance();
 
     await Future.wait([
@@ -43,8 +41,6 @@ class ProfileProvider with ChangeNotifier {
       prefs.remove(session.locale),
       prefs.remove(session.accessToken),
       prefs.remove(session.isLogin),
-
-
     ]).then((value) {
       log("prefs.remove(session.id) ${prefs.remove(session.id)}");
       route.pushReplacementNamed(context, routeName.login);

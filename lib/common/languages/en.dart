@@ -64,7 +64,7 @@ final english = {
   "enterYourRegisterPhone": "Enter your registered phone number",
   "phoneNo": "Phone no.",
   "enterPhoneNumber": "Enter phone number",
-  "skip": "SKIP",
+  "skip": "Continue as Guest",
   "firstName": "First Name",
   "lastName": "Last Name",
   "username": "Username",

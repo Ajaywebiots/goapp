@@ -19,14 +19,15 @@ class SplashProvider extends ChangeNotifier {
       listen: false,
     ).onBoardingDetails();
 
-    final pref = await SharedPreferences.getInstance();
+    final SharedPreferences pref = await SharedPreferences.getInstance();
 
     // Read onboarding & token data
-    final bool isIntro = pref.getBool(Session.isIntro) ?? false;
+    var isIntro = pref.getBool("isIntro");
     final String? token = pref.getString(session.accessToken);
     final String? expirationString = pref.getString(session.tokenExpiration);
-
-    log("expirationString $expirationString");
+    var isGuest = pref.getBool("isGuest");
+    log("expirationString $isIntro");
+    log("isGuest::: $isGuest");
 
     // Check token validity
     bool isTokenValid = false;
@@ -45,9 +46,13 @@ class SplashProvider extends ChangeNotifier {
       await Future.delayed(const Duration(seconds: 1));
 
       // Navigate based on intro + token
-      if (!isIntro) {
+      if (isIntro == false || isIntro == null) {
         route.pushReplacementNamed(context, routeName.onBoarding);
         return;
+      }
+      if (isGuest == true) {
+        final loginPvr = Provider.of<LoginProvider>(context, listen: false);
+        loginPvr.guestLogin(context);
       }
 
       if (isTokenValid) {
@@ -82,8 +87,8 @@ class SplashProvider extends ChangeNotifier {
 
         route.pushReplacementNamed(context, routeName.dashboard);
       } else {
-        route.pushReplacementNamed(context, routeName.login);
-        showMessage("Session expired. Please login again.");
+        route.pushReplacementNamed(context, routeName.dashboard);
+        // showMessage("Session expired. Please login again.");
         pref.remove(session.id);
         pref.remove(session.locale);
         pref.remove(session.accessToken);
@@ -98,10 +103,11 @@ class SplashProvider extends ChangeNotifier {
   // After onboarding complete → set intro true
   void completeOnboarding(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(Session.isIntro, true);
+    await prefs.setBool("isIntro", true);
     log("Onboarding completed → isIntro = true");
+    final loginPvr = Provider.of<LoginProvider>(context, listen: false);
 
-    route.pushReplacementNamed(context, routeName.login);
+    loginPvr.guestLogin(context);
   }
 
   // Animation logic (unchanged)

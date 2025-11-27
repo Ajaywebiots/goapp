@@ -116,7 +116,7 @@ class ApiServices {
 
       if (response?.statusCode == 401) {
         SharedPreferences pref = await SharedPreferences.getInstance();
-        await pref.clear();
+
         log("Session expired. Please login again ");
         apiData.message = "Session expired. Please login again.";
         apiData.isSuccess = false;
